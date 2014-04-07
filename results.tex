@@ -1,0 +1,29 @@
+\documentclass[a4page,notitlepage]{article}
+\usepackage{color,soul,amsmath,graphicx}
+\usepackage[outercaption]{sidecap}
+\usepackage[citestyle=authoryear]{biblatex}
+\usepackage[font=small,labelfont=bf]{caption}
+\sidecaptionvpos{figure}{c}
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\norm}[1]{\lVert#1\rVert}
+
+\title{Proteome Analysis Results Section}
+\author{Uri Barenholz}
+\date{April 2014}
+
+\begin{document}
+\maketitle
+\section{Results}
+\begin{itemize}
+\item 
+A significant fraction of the proteins have positive correlation with the growth rate.
+figure - covariance distribution.
+\item A large fraction of the variability of these proteins between conditions can be explained by the growth rate.
+figure - r^2 of positively correlated proteins.
+\item These proteins have the same response.
+figure - distribution of slopes/intercepts, correlation/r^2 with global sum vs. individually with the growth rate, covariance between the clusters, pca. if possible - confidence intervals.
+\item These are not only ribosomal proteins (show counts by gene functions, includeing/excluding unmapped proteins).
+\item This happens in multiple organisms and datasets (show yeast, two datasets of coli). Possibly add mRNA measurements.
+\end{itemize}
+\end{document}
+
