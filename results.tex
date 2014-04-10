@@ -14,15 +14,53 @@
 \begin{document}
 \maketitle
 \section{Results}
-\begin{itemize}
-\item 
+
+\begin{figure}[h]
+\centering
+\includegraphics{GrowthRateCorrelation.pdf}
+\caption{
 A significant fraction of the proteins have positive correlation with the growth rate.
-figure - covariance distribution.
-\item A large fraction of the variability of these proteins between conditions can be explained by the growth rate.
-figure - r^2 of positively correlated proteins.
+These proteins span all the functional groups.
+Proteins with unknown function show less correlation with growth rate (as well as proteins with low levels of expression, data not shown).
+}
+\label{growth-corr}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics{GlobalClusterCorr.pdf}
+\caption{
+Proteins that have a high corrleation (0.4-0.8) with growth rate mostly have even higher correlation to the sum of these proteins (both weighted sum and normalized sum are presented).
+Weighted sum means the concentrations of all proteins in the group are summed.
+Normalized sum means every protein is first normalized to have an average concentration of 1 across the different growth conditions, and then all proteins in the group are summed.
+The higher correlation indicates that their response is coordinated (they scale by the same factor between conditions).
+}
+\label{global-corr}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics{GlobalClusterRSquare.pdf}
+\caption{
+Plotting the $r^2$ distribution shows that a large fraction of the variability of these proteins is captured by the global response.
+}
+\label{global-rsq}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics{GlobalClusterGRFit.pdf}
+\caption{
+The global cluster is reasonably correlated with growth rate.
+Some of the unexplained variability of the global cluster by the growth rate can indicate errors in growth rate measurements and/or differences in degredation rates across conditions.
+}
+\label{global-grcorr}
+\end{figure}
+
+\begin{itemize}
+ 
 \item These proteins have the same response.
-figure - distribution of slopes/intercepts, correlation/r^2 with global sum vs. individually with the growth rate, covariance between the clusters, pca. if possible - confidence intervals.
-\item These are not only ribosomal proteins (show counts by gene functions, includeing/excluding unmapped proteins).
+figure - distribution of slopes/intercepts, correlation/$r^2$ with global sum vs. individually with the growth rate, covariance between the clusters, pca. if possible - confidence intervals.
 \item This happens in multiple organisms and datasets (show yeast, two datasets of coli). Possibly add mRNA measurements.
 \end{itemize}
 \end{document}

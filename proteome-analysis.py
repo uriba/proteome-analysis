@@ -3,8 +3,10 @@ import pandas as pd
 import scipy.odr as od
 from pandas.io.parsers import read_csv
 from scipy.stats import gaussian_kde,linregress
-from Bio import SeqIO
-from matplotlib.pyplot import hist, savefig, figure
+#from Bio import SeqIO
+from matplotlib.pyplot import hist, savefig, figure,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params
+from numpy import linspace,ndarray,arange
+from numpy.random import randn
 
 
 #Initialization of basic data containers, gene annotation data, growth rates and cell volumes and selection of conditions to analyze.
@@ -159,7 +161,8 @@ def get_coli_data(use_weight):
     ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data_weight[cond_list].sum() #volumes[cond_list]
     return ecoli_data
 
-########################### Analysis of correlation of proteins to growth rate.
+### Results generation#####
+### Figure 1 - Correlation to growth rate by functional group histogram.
 uni_to_annot = uniprot_to_desc_dict()
 ecoli_data = get_coli_data(use_weight=True)
 
@@ -169,6 +172,115 @@ conc_data['gr_cov']=conc_data[cond_list].apply(lambda x: x.corr(gr[cond_list]),a
 conc_data['rsq']=conc_data['gr_cov']**2
 conc_data['group']=conc_data.apply(lambda x: (uni_to_annot[x['UP_AC']])[0],axis=1)
 
-hist((conc_data[conc_data['group']!='NotMapped'])['gr_cov'],20)
-savefig('AnnotatedCorrWithGr.png')
-figure()
+categories = set(conc_data['group'].values)
+# Remove the unmapped proteins first and add them at the end so that they are stacked last in the histogram.
+categories.remove("NotMapped")
+bins = linspace(-1,1,20)
+covs = ndarray(shape=(len(categories),len(bins)-1))
+sets = [] 
+figure(figsize=(5,3))
+for x in categories:
+    sets.append(conc_data[conc_data['group']==x].gr_cov)
+    #sets.append(hist(conc_data[conc_data['group']==x].gr_cov,bins)[0])
+sets.append(conc_data[conc_data['group']=="NotMapped"].gr_cov)
+cats = list(categories)
+cats.append("NotMapped")
+
+hist(sets,bins = bins, stacked = True,label=cats)
+
+tick_params(axis='both', which='major', labelsize=8)
+tick_params(axis='both', which='minor', labelsize=8)
+xlabel('Pearson correlation with growth rate',fontsize=10)
+ylabel('Number of proteins',fontsize=10)
+
+legend(loc=2,prop={'size':8})
+tight_layout()
+savefig('GrowthRateCorrelation.pdf')
+
+
+### Global cluster analysis:
+## The proteins that show a high correlation with growth rate have significant R^2 values.
+## They change by xx fold across conditions measured.
+## The correlation of each of the proteins with the global cluster is higher than with the GR (meaning it compensates for errors in GR measurements or degredation rates).
+figure(figsize=(5,3))
+
+high_corr_prots = conc_data[conc_data['gr_cov']>0.4]
+high_corr_prots = high_corr_prots[high_corr_prots['gr_cov']<0.8]
+high_corr_normed = high_corr_prots.copy()
+high_corr_normed = high_corr_normed[cond_list].apply(lambda x: x/x.mean(),axis=1)
+
+def cluster_corr(cluster):
+    cluster_global = cluster.sum()
+    cluster_global = cluster_global/cluster_global.mean()
+
+    def lin(B,x):
+        return B[0]*x+B[1]
+
+    linodr = od.ODR(od.RealData(gr,cluster_global,gr.var(),cluster_global.var()),od.Model(lin),beta0=[0.5,0.2]).run()
+    alpha = linodr.beta[0]
+    beta = linodr.beta[1]
+    return (cluster_global,alpha,beta)
+
+global_weighted,alpha,beta = cluster_corr(high_corr_prots[cond_list])
+
+plot(gr.values,global_weighted.values,'o',label="Weighted")
+plot(gr.values,alpha*gr.values+beta,color='blue',label=("Weighted Trend,$R^2$=%f" % (gr.corr(global_weighted)**2)))
+
+global_normed,alpha,beta = cluster_corr(high_corr_normed[cond_list])
+
+plot(gr.values,global_normed.values,'o',label="Normalized")
+plot(gr.values,alpha*gr.values+beta,color='green',label=("Normalized Trend,$R^2$=%f" % (gr.corr(global_normed)**2)))
+
+xlim(0,0.7)
+ylim(0,2)
+xlabel('Growth rate',fontsize=10)
+ylabel('Protein level (normalized)',fontsize=10)
+legend(loc=2, prop={'size':8})
+tick_params(axis='both', which='major', labelsize=8)
+tick_params(axis='both', which='minor', labelsize=8)
+tight_layout()
+savefig('GlobalClusterGRFit.pdf')
+
+## Figure 2, correlation inside global cluster
+figure(figsize=(5,3))
+
+global_weighted = high_corr_prots[cond_list].sum()
+global_normed = high_corr_normed[cond_list].sum()
+
+high_corr_prots['weighted_cov']=high_corr_prots[cond_list].apply(lambda x: x.corr(global_weighted[cond_list]),axis=1)
+high_corr_prots['normed_cov']=high_corr_prots[cond_list].apply(lambda x: x.corr(global_normed[cond_list]),axis=1)
+sets = [high_corr_prots['weighted_cov'].values,high_corr_prots['normed_cov'].values]
+hist(sets,bins = bins, stacked = False,label=['Weighted','Normalized'])
+legend(loc=2, prop={'size':8})
+xlabel('Pearson correlation with global cluster',fontsize=10)
+ylabel('Number of proteins',fontsize=10)
+tick_params(axis='both', which='major', labelsize=8)
+tick_params(axis='both', which='minor', labelsize=8)
+tight_layout()
+savefig('GlobalClusterCorr.pdf')
+
+figure(figsize=(5,3))
+sets = [(high_corr_prots['weighted_cov']**2).values,(high_corr_prots['normed_cov']**2).values]
+hist(sets, stacked = False,label=['Weighted','Normalized'],bins=20)
+legend(loc=2, prop={'size':8})
+xlabel('R-square of protein with global cluster',fontsize=10)
+ylabel('Number of proteins',fontsize=10)
+tick_params(axis='both', which='major', labelsize=8)
+tick_params(axis='both', which='minor', labelsize=8)
+tight_layout()
+savefig('GlobalClusterRSquare.pdf')
+
+####################################### reference figure or R^2 distribution of random series
+figure(figsize=(5,3))
+xs = pd.DataFrame(randn(1000,10),columns=arange(0,10),index=arange(0,1000))
+ys = pd.Series(arange(0,10))
+cors = xs.apply(lambda x: x.corr(ys),axis=1)**2
+hist(cors,bins=20)
+
+tick_params(axis='both', which='major', labelsize=8)
+tick_params(axis='both', which='minor', labelsize=8)
+xlabel('R-square of random series with arbitrary series',fontsize=10)
+ylabel('Number of proteins',fontsize=10)
+tight_layout()
+savefig('RandomRSquare.pdf')
+#############################################################################################
