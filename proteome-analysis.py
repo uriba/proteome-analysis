@@ -221,15 +221,15 @@ def cluster_corr(cluster):
     beta = linodr.beta[1]
     return (cluster_global,alpha,beta)
 
-global_weighted,alpha,beta = cluster_corr(high_corr_prots[cond_list])
+global_cluster = {}
+global_weighted=cluster_corr(high_corr_prots[cond_list])
+global_normed=cluster_corr(high_corr_normed[cond_list])
 
-plot(gr.values,global_weighted.values,'o',label="Weighted")
-plot(gr.values,alpha*gr.values+beta,color='blue',label=("Weighted Trend,$R^2$=%f" % (gr.corr(global_weighted)**2)))
+plot(gr.values,global_weighted[0].values,'o',label="Weighted")
+plot(gr.values,global_weighted[1]*gr.values+global_weighted[2],color='blue',label=("Weighted Trend,$R^2$=%f" % (gr.corr(global_weighted[0])**2)))
 
-global_normed,alpha,beta = cluster_corr(high_corr_normed[cond_list])
-
-plot(gr.values,global_normed.values,'o',label="Normalized")
-plot(gr.values,alpha*gr.values+beta,color='green',label=("Normalized Trend,$R^2$=%f" % (gr.corr(global_normed)**2)))
+plot(gr.values,global_normed[0].values,'o',label="Normalized")
+plot(gr.values,global_normed[1]*gr.values+global_normed[2],color='green',label=("Normalized Trend,$R^2$=%f" % (gr.corr(global_normed[0])**2)))
 
 xlim(0,0.7)
 ylim(0,2)
@@ -244,11 +244,8 @@ savefig('GlobalClusterGRFit.pdf')
 ## Figure 2, correlation inside global cluster
 figure(figsize=(5,3))
 
-global_weighted = high_corr_prots[cond_list].sum()
-global_normed = high_corr_normed[cond_list].sum()
-
-high_corr_prots['weighted_cov']=high_corr_prots[cond_list].apply(lambda x: x.corr(global_weighted[cond_list]),axis=1)
-high_corr_prots['normed_cov']=high_corr_prots[cond_list].apply(lambda x: x.corr(global_normed[cond_list]),axis=1)
+high_corr_prots['weighted_cov']=high_corr_prots[cond_list].apply(lambda x: x.corr(global_weighted[0]),axis=1)
+high_corr_prots['normed_cov']=high_corr_prots[cond_list].apply(lambda x: x.corr(global_normed[0]),axis=1)
 sets = [high_corr_prots['weighted_cov'].values,high_corr_prots['normed_cov'].values]
 hist(sets,bins = bins, stacked = False,label=['Weighted','Normalized'])
 legend(loc=2, prop={'size':8})
@@ -259,6 +256,7 @@ tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
 savefig('GlobalClusterCorr.pdf')
 
+## Figure 3, R^2 of proteins with global cluster
 figure(figsize=(5,3))
 sets = [(high_corr_prots['weighted_cov']**2).values,(high_corr_prots['normed_cov']**2).values]
 hist(sets, stacked = False,label=['Weighted','Normalized'],bins=20)
@@ -269,6 +267,16 @@ tick_params(axis='both', which='major', labelsize=8)
 tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
 savefig('GlobalClusterRSquare.pdf')
+
+## Figure 4, coherent scaling of proteins in the global cluster - R^2 comparison between global cluster and specific slope.
+def rsq(ys,xs,alpha,beta):
+        ((ys-(alpha*xs + beta))**2).mean()/ys.var()
+
+def rsq_self(xs):
+    ##############???????????
+
+rsq_global = high_corr_prots[cond_list].apply(lambda x: rsq(x,global_weighted[0],global_weighted[1],global_weighted[2]))
+## other figures: abundance vs, correlation, gene location vs. correlation, amount at two adjacent conditions with trendlines at equal amounts and global scaling amounts.
 
 ####################################### reference figure or R^2 distribution of random series
 figure(figsize=(5,3))
