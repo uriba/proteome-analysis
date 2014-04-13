@@ -1,10 +1,9 @@
 import csv
 import pandas as pd
-import scipy.odr as od
 from pandas.io.parsers import read_csv
 from scipy.stats import gaussian_kde,linregress
 #from Bio import SeqIO
-from matplotlib.pyplot import hist, savefig, figure,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params
+from matplotlib.pyplot import hist, savefig, figure,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot
 from numpy import linspace,ndarray,arange
 from numpy.random import randn
 
@@ -213,12 +212,7 @@ def cluster_corr(cluster):
     cluster_global = cluster.sum()
     cluster_global = cluster_global/cluster_global.mean()
 
-    def lin(B,x):
-        return B[0]*x+B[1]
-
-    linodr = od.ODR(od.RealData(gr,cluster_global,gr.var(),cluster_global.var()),od.Model(lin),beta0=[0.5,0.2]).run()
-    alpha = linodr.beta[0]
-    beta = linodr.beta[1]
+    alpha,beta,r_val,p_val,std_err = linregress(gr,cluster_global)
     return (cluster_global,alpha,beta)
 
 global_cluster = {}
@@ -268,14 +262,50 @@ tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
 savefig('GlobalClusterRSquare.pdf')
 
-## Figure 4, coherent scaling of proteins in the global cluster - R^2 comparison between global cluster and specific slope.
+## Figure 4, coherent scaling of proteins in the global cluster - R^2 comparison between global cluster and specific fits.
 def rsq(ys,xs,alpha,beta):
-        ((ys-(alpha*xs + beta))**2).mean()/ys.var()
+    n = len(xs)
+    return 1.0-((ys-(alpha*xs + beta))**2).sum()/((n-1)*ys.var())
 
-def rsq_self(xs):
-    ##############???????????
+def rsq_self(ys,xs):
+    alpha,beta,r_val,p_val,std_err = linregress(xs,ys)
+    return rsq(ys,xs,alpha,beta)
 
-rsq_global = high_corr_prots[cond_list].apply(lambda x: rsq(x,global_weighted[0],global_weighted[1],global_weighted[2]))
+rsq_global = high_corr_normed[cond_list].apply(lambda x: rsq(x,global_normed[0],1,0),axis=1)
+rsq_selfs = high_corr_normed[cond_list].apply(lambda x: rsq_self(x,global_normed[0]),axis=1)
+#alphas = high_corr_normed[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[0],axis=1)
+
+high_conc = (conc_data[cond_list])[conc_data[cond_list]>conc_data[cond_list].median()].dropna()
+#high_conc = (high_corr_prots[cond_list])[high_corr_prots[cond_list]>conc_data[cond_list].median()].dropna()
+#high_conc = (conc_data[cond_list])[conc_data[cond_list]>conc_data[cond_list].median()].dropna()
+
+high_conc['alpha'] = high_conc[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[0],axis=1)
+linear_cluster = high_conc[high_conc['alpha']>0.9]
+linear_cluster = linear_cluster[linear_cluster['alpha']<1.1]
+#alphas = conc_data[cond_list].apply(lambda x: linregress((x/x.mean()),gr/gr.mean())[0],axis=1)
+
+figure(figsize=(7,3))
+p1 = subplot(121)
+linsum = linear_cluster[cond_list].sum()
+p1.plot(gr,linsum,'.')
+#p1.set_xlim(0,0.7)
+#p1.set_ylim(0,0.02)
+p2=subplot(122)
+p2.hist(high_conc['alpha'],bins=arange(-2,2,0.1))
+p2.set_xlim(-2,2)
+#p2.set_ylim(0,50)
+#plot(rsq_global,rsq_selfs,'.',markersize=1)
+#hist(rsq_selfs-rsq_global,30)
+#xlim(-4,1)
+
+#xlabel('$R^2$ of global cluster as predictor for normalized protein',fontsize=10)
+#ylabel('$R^2$ of normalized protein with global cluster',fontsize=10)
+#xlabel('$\Delta R^2$ between best fit and fit to global cluster',fontsize=10)
+tick_params(axis='both', which='major', labelsize=8)
+tick_params(axis='both', which='minor', labelsize=8)
+tight_layout()
+savefig('globalSlope.pdf')
+
 ## other figures: abundance vs, correlation, gene location vs. correlation, amount at two adjacent conditions with trendlines at equal amounts and global scaling amounts.
 
 ####################################### reference figure or R^2 distribution of random series
