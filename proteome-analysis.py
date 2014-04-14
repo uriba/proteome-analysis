@@ -2,12 +2,12 @@ import csv
 import pandas as pd
 from pandas.io.parsers import read_csv
 from scipy.stats import gaussian_kde,linregress
-#from Bio import SeqIO
+from Bio import SeqIO
 from matplotlib.pyplot import hist, savefig, figure,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot
 from numpy import linspace,ndarray,arange
 from numpy.random import randn
 
-
+remove_unmapped = False
 #Initialization of basic data containers, gene annotation data, growth rates and cell volumes and selection of conditions to analyze.
 def uniprot_to_desc_dict():
     uni_konum_dict = {}
@@ -56,6 +56,8 @@ def uniprot_to_offset():
     for uni in uniprot_to_locus.keys():
         if uniprot_to_locus[uni] in locus_to_offset.keys():
             uniprot_to_location[uni]= locus_to_offset[uniprot_to_locus[uni]]
+        else:
+            uniprot_to_location[uni]= 0
     return uniprot_to_location
 
 # Define the list of conditions that will be relevant for the analysis, (and the description column):
@@ -163,6 +165,7 @@ def get_coli_data(use_weight):
 ### Results generation#####
 ### Figure 1 - Correlation to growth rate by functional group histogram.
 uni_to_annot = uniprot_to_desc_dict()
+uni_to_loc = uniprot_to_offset()
 ecoli_data = get_coli_data(use_weight=True)
 
 conc_data = ecoli_data
@@ -170,10 +173,15 @@ conc_data = conc_data.dropna()
 conc_data['gr_cov']=conc_data[cond_list].apply(lambda x: x.corr(gr[cond_list]),axis=1)
 conc_data['rsq']=conc_data['gr_cov']**2
 conc_data['group']=conc_data.apply(lambda x: (uni_to_annot[x['UP_AC']])[0],axis=1)
+conc_data['loc']=conc_data.apply(lambda x: 0 if x['UP_AC'] not in uni_to_loc else uni_to_loc[x['UP_AC']],axis=1)
+
+if remove_unmapped:
+    conc_data = conc_data[conc_data['group'] != 'NotMapped']
 
 categories = set(conc_data['group'].values)
 # Remove the unmapped proteins first and add them at the end so that they are stacked last in the histogram.
-categories.remove("NotMapped")
+if not remove_unmapped:
+    categories.remove("NotMapped")
 bins = linspace(-1,1,20)
 covs = ndarray(shape=(len(categories),len(bins)-1))
 sets = [] 
@@ -181,7 +189,9 @@ figure(figsize=(5,3))
 for x in categories:
     sets.append(conc_data[conc_data['group']==x].gr_cov)
     #sets.append(hist(conc_data[conc_data['group']==x].gr_cov,bins)[0])
-sets.append(conc_data[conc_data['group']=="NotMapped"].gr_cov)
+
+if not remove_unmapped:
+    sets.append(conc_data[conc_data['group']=="NotMapped"].gr_cov)
 cats = list(categories)
 cats.append("NotMapped")
 
@@ -282,16 +292,16 @@ high_conc = conc_data[cond_list] #(conc_data[cond_list])[conc_data[cond_list]>co
 high_conc['alpha'] = high_conc[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[0],axis=1)
 high_conc['inverse'] = high_conc[cond_list].apply(lambda x: linregress(x/x.mean(),gr/gr.mean())[0],axis=1)
 high_conc['rsq'] = high_conc[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[2]**2,axis=1)
-linear_cluster = high_conc[high_conc['alpha']>0.9]
-linear_cluster = linear_cluster[linear_cluster['alpha']<1.1]
-#alphas = conc_data[cond_list].apply(lambda x: linregress((x/x.mean()),gr/gr.mean())[0],axis=1)
 
 figure(figsize=(7,6))
 p1 = subplot(221)
-linsum = linear_cluster[cond_list].sum()
-p1.plot(gr,linsum,'.')
-#p1.set_xlim(0,0.7)
-#p1.set_ylim(0,0.02)
+p1.hist(high_conc['alpha'],bins=arange(-3,3,0.1))
+p1.set_xlabel('alpha')
+p1.axvline(x=0,ymin=0,ymax=100)
+p1.axvline(x=0.5,ymin=0,ymax=100)
+p1.axvline(x=1,ymin=0,ymax=100)
+p1.tick_params(axis='both', which='major', labelsize=8)
+p1.tick_params(axis='both', which='minor', labelsize=8)
 p2=subplot(222)
 p2.plot(high_conc[cond_list].mean(axis=1),high_conc['alpha'],'.',markersize=1)
 p2.axhline(y=0,xmin=0,xmax=1)
@@ -299,17 +309,25 @@ p2.axhline(y=0.5,xmin=0,xmax=1)
 p2.axhline(y=1,xmin=0,xmax=1)
 #p2.axvline(x=0,ymin=0,ymax=100,color='r')
 p2.set_xscale('log')
+p2.set_xlabel('mean')
+p2.set_ylabel('alpha')
+p2.tick_params(axis='both', which='major', labelsize=8)
+p2.tick_params(axis='both', which='minor', labelsize=8)
 #p2.set_ylim(0,50)
 #plot(rsq_global,rsq_selfs,'.',markersize=1)
 #hist(rsq_selfs-rsq_global,30)
 #xlim(-4,1)
 m = high_conc['rsq'].median()
+mm = high_conc[cond_list].mean(axis=1).median()
 p3=subplot(223)
 p3.plot(high_conc[cond_list].mean(axis=1),high_conc['rsq'],'.',markersize=1)
 p3.set_xlabel('mean')
 p3.set_ylabel('rsq')
 p3.set_xscale('log')
 p3.axhline(y=m,xmin=0,xmax=1)
+p3.axvline(x=mm,ymin=0,ymax=1)
+p3.tick_params(axis='both', which='major', labelsize=8)
+p3.tick_params(axis='both', which='minor', labelsize=8)
 
 p4=subplot(224)
 p4.plot(high_conc['rsq'],high_conc['alpha'],'.',markersize=1)
@@ -318,13 +336,40 @@ p4.set_ylabel('alpha')
 #xlabel('$R^2$ of global cluster as predictor for normalized protein',fontsize=10)
 #ylabel('$R^2$ of normalized protein with global cluster',fontsize=10)
 #xlabel('$\Delta R^2$ between best fit and fit to global cluster',fontsize=10)
-tick_params(axis='both', which='major', labelsize=8)
-tick_params(axis='both', which='minor', labelsize=8)
+p4.tick_params(axis='both', which='major', labelsize=8)
+p4.tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
 savefig('globalSlope.pdf')
 
 ## other figures: abundance vs, correlation, gene location vs. correlation, amount at two adjacent conditions with trendlines at equal amounts and global scaling amounts.
+## plot scaling factor across every two conditions.
+cond_set = set(cond_list)
+conds_mapped = set([])
+figure(figsize=(7,7))
+i=1
+page=0
+for x in cond_set:
+    conds_mapped.add(x)
+    for y in cond_set - conds_mapped:
+        p=subplot(4,4,i)
+        p.plot(conc_data[x],conc_data[y],'.',markersize=1)
+        p.plot(conc_data[x],conc_data[x],'-g')
+        p.set_xscale('log')
+        p.set_yscale('log')
+        p.set_xlabel(x,fontsize=6)
+        p.set_ylabel(y,fontsize=6)
+        p.tick_params(axis='both', which='major', labelsize=6)
+        p.tick_params(axis='both', which='minor', labelsize=6)
+        p.set_title('gr-change:%f' % (gr[x]/gr[y]),fontsize=6)
+        i+=1
+        if i == 17:
+            i = 1
+            tight_layout()
+            savefig('xvsy%d.pdf' % page)
+            page +=1
+            figure(figsize=(7,7))
 
+        
 ####################################### reference figure or R^2 distribution of random series
 figure(figsize=(5,3))
 xs = pd.DataFrame(randn(1000,10),columns=arange(0,10),index=arange(0,1000))
