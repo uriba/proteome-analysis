@@ -9,8 +9,10 @@ from numpy.random import randn
 
 remove_unmapped = False
 just_ribosomes = False
-use_LB = False
-conf_fname_mod = '%s%s%s' % ('RibsOnly' if just_ribosomes else '', 'AnnotOnly' if remove_unmapped else '',"LB" if use_LB else '')
+use_LB = True
+db_used = 'heinmann'
+
+conf_fname_mod = '%s%s%s%s' % ('RibsOnly' if just_ribosomes else '', 'AnnotOnly' if remove_unmapped else '',"LB" if use_LB else '',db_used)
 #Initialization of basic data containers, gene annotation data, growth rates and cell volumes and selection of conditions to analyze.
 def uniprot_to_desc_dict():
     uni_konum_dict = {}
@@ -63,67 +65,90 @@ def uniprot_to_offset():
             uniprot_to_location[uni]= 0
     return uniprot_to_location
 
-# Define the list of conditions that will be relevant for the analysis, (and the description column):
-cond_list = [
-    u'chemostat \u00b5=0.12',
-    u'galactose',
-    u'chemostat \u00b5=0.20',
-    u'acetate',
-    u'chemostat \u00b5=0.35',
-    u'glucosamine',
-    u'pyruvate',
-    u'glycerol',
-    u'fumarate',
-    u'succinate',
-    u'chemostat \u00b5=0.5',
-    u'anaerobic',
-    u'glucose',
-]
-if use_LB:
-    cond_list.append(u'LB')
+# Define the list of conditions that will be relevant for the analysis, (and the description column), the growth rates and the cell volumes, according to the database used:
+if db_used == 'heinmann':
+    cond_list = [
+        u'chemostat \u00b5=0.12',
+        u'galactose',
+        u'chemostat \u00b5=0.20',
+        u'acetate',
+        u'chemostat \u00b5=0.35',
+        u'glucosamine',
+        u'pyruvate',
+        u'glycerol',
+        u'fumarate',
+        u'succinate',
+        u'chemostat \u00b5=0.5',
+        u'anaerobic',
+        u'glucose',
+    ]
+    if use_LB:
+        cond_list.append(u'LB')
 
-# define the growth rates:
-gr = {
-    u'chemostat \u00b5=0.12': 0.12, 
-    u'galactose':0.17, 
-    u'chemostat \u00b5=0.20':0.2, 
-    u'acetate':0.29, 
-    u'chemostat \u00b5=0.35':0.35,
-    u'glucosamine':0.39, 
-    u'pyruvate':0.4, 
-    u'glycerol':0.47,
-    u'fumarate':0.47, 
-    u'succinate':0.49, 
-    u'chemostat \u00b5=0.5':0.5, 
-    u'anaerobic' : 0.55, 
-    u'glucose': 0.6,
-    u'LB':1.61
-}
-gr = pd.Series(gr)
-gr = gr[cond_list]
+    # define the growth rates:
+    gr = {
+        u'chemostat \u00b5=0.12': 0.12, 
+        u'galactose':0.17, 
+        u'chemostat \u00b5=0.20':0.2, 
+        u'acetate':0.29, 
+        u'chemostat \u00b5=0.35':0.35,
+        u'glucosamine':0.39, 
+        u'pyruvate':0.4, 
+        u'glycerol':0.47,
+        u'fumarate':0.47, 
+        u'succinate':0.49, 
+        u'chemostat \u00b5=0.5':0.5, 
+        u'anaerobic' : 0.55, 
+        u'glucose': 0.6,
+        u'LB':1.61
+    }
+    gr = pd.Series(gr)
+    gr = gr[cond_list]
 
-# define cell volumes:
-volumes = {
-    u'chemostat \u00b5=0.12': 2.1,
-    u'galactose':1.9,
-    u'chemostat \u00b5=0.20':2.2,
-    u'acetate':2.4,
-    u'chemostat \u00b5=0.35':2.4,
-    u'glucosamine':2.9,
-    u'pyruvate':2.1,
-    u'glycerol':2.3,
-    u'fumarate':2.4,
-    u'succinate':2.4,
-    u'chemostat \u00b5=0.5':2.6,
-    u'anaerobic' : 2.9,
-    u'glucose': 3.2,
-    u'LB':4.4
-}
-volumes = pd.Series(volumes)
-volumes = volumes[cond_list]
+    # define cell volumes:
+    volumes = {
+        u'chemostat \u00b5=0.12': 2.1,
+        u'galactose':1.9,
+        u'chemostat \u00b5=0.20':2.2,
+        u'acetate':2.4,
+        u'chemostat \u00b5=0.35':2.4,
+        u'glucosamine':2.9,
+        u'pyruvate':2.1,
+        u'glycerol':2.3,
+        u'fumarate':2.4,
+        u'succinate':2.4,
+        u'chemostat \u00b5=0.5':2.6,
+        u'anaerobic' : 2.9,
+        u'glucose': 3.2,
+        u'LB':4.4
+    }
+    volumes = pd.Series(volumes)
+    volumes = volumes[cond_list]
 
-#Define the text fields that will be relevant for the analysis:
-desc_list = ['Description','UP_AC']
+    #Define the text fields that will be relevant for the analysis:
+    desc_list = ['Description','UP_AC']
+if db_used == 'valgepea':
+    cond_list = [
+        u'chemostat \u00b5=0.11',
+        u'chemostat \u00b5=0.21',
+        u'chemostat \u00b5=0.31',
+        u'chemostat \u00b5=0.40',
+        u'chemostat \u00b5=0.48'
+    ]
+
+    # define the growth rates:
+    gr = {
+        u'chemostat \u00b5=0.11': 0.11, 
+        u'chemostat \u00b5=0.21':0.21, 
+        u'chemostat \u00b5=0.31':0.31,
+        u'chemostat \u00b5=0.40':0.4, 
+        u'chemostat \u00b5=0.48':0.48 
+    }
+    gr = pd.Series(gr)
+    gr = gr[cond_list]
+
+    #Define the text fields that will be relevant for the analysis:
+    desc_list = ['Description','UP_AC']
 
 #Convert dataframe types to standart types for analysis
 def convert_types(df):
@@ -249,8 +274,12 @@ plot(gr.values,global_weighted[1]*gr.values+global_weighted[2],color='blue',labe
 plot(gr.values,global_normed[0].values,'o',label="Normalized")
 plot(gr.values,global_normed[1]*gr.values+global_normed[2],color='green',label=("Normalized Trend,$R^2$=%f" % (gr.corr(global_normed[0])**2)))
 
-xlim(0,0.7)
-ylim(0,2)
+if use_LB:
+    xlim(0,1.7)
+    ylim(0,3)
+if not use_LB:
+    xlim(0,0.7)
+    ylim(0,2)
 xlabel('Growth rate',fontsize=10)
 ylabel('Protein level (normalized)',fontsize=10)
 legend(loc=2, prop={'size':8})
