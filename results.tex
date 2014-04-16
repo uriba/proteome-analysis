@@ -3,6 +3,7 @@
 \usepackage[outercaption]{sidecap}
 \usepackage[citestyle=authoryear]{biblatex}
 \usepackage[font=small,labelfont=bf]{caption}
+\usepackage{verbatim}
 \sidecaptionvpos{figure}{c}
 \providecommand{\abs}[1]{\lvert#1\rvert}
 \providecommand{\norm}[1]{\lVert#1\rVert}
@@ -28,6 +29,39 @@ Proteins with unknown function show less correlation with growth rate (as well a
 
 \begin{figure}[h]
 \centering
+\includegraphics{GlobalClusterGRFit.pdf}
+\caption{
+The global cluster (sum of all proteins with a correlation in the rage 0.4 to 0.8 with the growth rate) is reasonably correlated with growth rate.
+Both weighted sum and normalized sum are presented.
+Weighted sum means the concentrations of all proteins in the group are summed.
+Normalized sum means every protein is first normalized to have an average concentration of 1 across the different growth conditions, and then all proteins in the group are summed.
+Some of the unexplained variability of the global cluster by the growth rate can indicate errors in growth rate measurements and/or differences in degredation rates across conditions.
+}
+\label{global-grcorr}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics{AllProtsVSRibosomalNormalizedSlopes.pdf}
+\caption{
+    (A) Most proteins have similar, positive, response to the growth rate meaning they maintain their relative proportions across conditions.
+    (B) The response of all of the proteins peaks at the same values as the response of the ribosomal proteins.
+}
+\label{global-fit}
+\end{figure}
+
+\begin{comment}
+\begin{figure}[h]
+\centering
+\includegraphics{CoordinatedRSquareComparison.pdf}
+\caption{
+  Proteins in the global cluster fit reasonably well to the global cluster itself
+}
+\label{global-fit}
+\end{figure}
+
+\begin{figure}[h]
+\centering
 \includegraphics{GlobalClusterCorr.pdf}
 \caption{
 Proteins that have a high corrleation (0.4-0.8) with growth rate mostly have even higher correlation to the sum of these proteins (both weighted sum and normalized sum are presented).
@@ -47,29 +81,12 @@ Plotting the $r^2$ distribution shows that a large fraction of the variability o
 \label{global-rsq}
 \end{figure}
 
-\begin{figure}[h]
-\centering
-\includegraphics{GlobalClusterGRFit.pdf}
-\caption{
-The global cluster is reasonably correlated with growth rate.
-Some of the unexplained variability of the global cluster by the growth rate can indicate errors in growth rate measurements and/or differences in degredation rates across conditions.
-}
-\label{global-grcorr}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\includegraphics{CoordinatedRSquareComparison.pdf}
-\caption{
-  Proteins in the global cluster fit reasonably well to the global cluster itself
-}
-\label{global-fit}
-\end{figure}
 \begin{itemize}
  
 \item These proteins have similar response.
 figure - distribution of slopes/intercepts, covariance between the clusters, pca. if possible - confidence intervals.
 \item This happens in multiple organisms and datasets (show yeast, two datasets of coli). Possibly add mRNA measurements.
 \end{itemize}
+\end{comment}
 \end{document}
 

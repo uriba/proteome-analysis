@@ -8,6 +8,9 @@ from numpy import linspace,ndarray,arange
 from numpy.random import randn
 
 remove_unmapped = True
+just_ribosomes = False
+use_LB = False
+conf_fname_mod = '%s%s%s' % ('RibsOnly' if just_ribosomes else '', 'AnnotOnly' if remove_unmapped else '',"LB" if use_LB else '')
 #Initialization of basic data containers, gene annotation data, growth rates and cell volumes and selection of conditions to analyze.
 def uniprot_to_desc_dict():
     uni_konum_dict = {}
@@ -75,8 +78,9 @@ cond_list = [
     u'chemostat \u00b5=0.5',
     u'anaerobic',
     u'glucose',
-#    u'LB'
 ]
+if use_LB:
+    cond_list.append(u'LB')
 
 # define the growth rates:
 gr = {
@@ -176,8 +180,8 @@ conc_data['group']=conc_data.apply(lambda x: (uni_to_annot[x['UP_AC']])[0],axis=
 conc_data['func']=conc_data.apply(lambda x: '' if len(uni_to_annot[x['UP_AC']]) < 3 else (uni_to_annot[x['UP_AC']])[2],axis=1)
 conc_data['loc']=conc_data.apply(lambda x: 0 if x['UP_AC'] not in uni_to_loc else uni_to_loc[x['UP_AC']],axis=1)
 
-## just ribosomes
-## conc_data = conc_data[conc_data['func']=='Ribosome']
+if just_ribosomes:
+    conc_data = conc_data[conc_data['func']=='Ribosome']
 
 if remove_unmapped:
     conc_data = conc_data[conc_data['group'] != 'NotMapped']
@@ -194,8 +198,9 @@ for x in categories:
     sets.append(conc_data[conc_data['group']==x].gr_cov)
     #sets.append(hist(conc_data[conc_data['group']==x].gr_cov,bins)[0])
 
-if not remove_unmapped:
+if not remove_unmapped and not just_ribosomes:
     sets.append(conc_data[conc_data['group']=="NotMapped"].gr_cov)
+
 cats = list(categories)
 cats.append("NotMapped")
 
@@ -208,7 +213,7 @@ ylabel('Number of proteins',fontsize=10)
 
 legend(loc=2,prop={'size':8})
 tight_layout()
-savefig('GrowthRateCorrelation.pdf')
+savefig('GrowthRateCorrelation%s.pdf' % conf_fname_mod)
 
 
 ### Global cluster analysis:
@@ -247,7 +252,7 @@ legend(loc=2, prop={'size':8})
 tick_params(axis='both', which='major', labelsize=8)
 tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
-savefig('GlobalClusterGRFit.pdf')
+savefig('GlobalClusterGRFit%s.pdf' % conf_fname_mod)
 
 ## Figure 2, correlation inside global cluster
 figure(figsize=(5,3))
@@ -262,7 +267,7 @@ ylabel('Number of proteins',fontsize=10)
 tick_params(axis='both', which='major', labelsize=8)
 tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
-savefig('GlobalClusterCorr.pdf')
+savefig('GlobalClusterCorr%s.pdf' % conf_fname_mod)
 
 ## Figure 3, R^2 of proteins with global cluster
 figure(figsize=(5,3))
@@ -274,7 +279,7 @@ ylabel('Number of proteins',fontsize=10)
 tick_params(axis='both', which='major', labelsize=8)
 tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
-savefig('GlobalClusterRSquare.pdf')
+savefig('GlobalClusterRSquare%s.pdf' % conf_fname_mod)
 
 ## Figure 4, coherent scaling of proteins in the global cluster - R^2 comparison between global cluster and specific fits.
 def rsq(ys,xs,alpha,beta):
@@ -296,6 +301,30 @@ high_conc = conc_data[cond_list] #(conc_data[cond_list])[conc_data[cond_list]>co
 high_conc['alpha'] = high_conc[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[0],axis=1)
 high_conc['inverse'] = high_conc[cond_list].apply(lambda x: linregress(x/x.mean(),gr/gr.mean())[0],axis=1)
 high_conc['rsq'] = high_conc[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[2]**2,axis=1)
+
+high_corr_prots['alpha'] = high_corr_prots[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[0],axis=1)
+
+figure(figsize=(6,3))
+p1=subplot(121)
+#p1.hist(high_corr_prots['alpha'],bins=arange(0,2,0.1))
+p1.hist(high_conc['alpha'],bins=arange(-2,2,0.1))
+p1.set_xlabel('alpha')
+p1.axvline(x=0,ymin=0,ymax=100)
+p1.axvline(x=0.5,ymin=0,ymax=100)
+p1.axvline(x=1,ymin=0,ymax=100)
+p1.tick_params(axis='both', which='major', labelsize=8)
+p1.tick_params(axis='both', which='minor', labelsize=8)
+p2=subplot(122)
+ribs = high_corr_prots[high_corr_prots['func']=='Ribosome']
+p2.hist(ribs['alpha'],bins=arange(-2,2,0.1))
+p2.set_xlabel('alpha')
+p2.axvline(x=0,ymin=0,ymax=100)
+p2.axvline(x=0.5,ymin=0,ymax=100)
+p2.axvline(x=1,ymin=0,ymax=100)
+p2.tick_params(axis='both', which='major', labelsize=8)
+p2.tick_params(axis='both', which='minor', labelsize=8)
+tight_layout()
+savefig('AllProtsVSRibosomalNormalizedSlopes.pdf')
 
 figure(figsize=(7,6))
 p1 = subplot(221)
@@ -343,7 +372,7 @@ p4.set_ylabel('alpha')
 p4.tick_params(axis='both', which='major', labelsize=8)
 p4.tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
-savefig('globalSlope.pdf')
+savefig('slopeGRAnalysis%s.pdf' % conf_fname_mod)
 
 ## other figures: abundance vs, correlation, gene location vs. correlation, amount at two adjacent conditions with trendlines at equal amounts and global scaling amounts.
 ## plot scaling factor across every two conditions.
@@ -369,7 +398,7 @@ for x in cond_set:
         if i == 17:
             i = 1
             tight_layout()
-            savefig('xvsy%d.pdf' % page)
+            savefig('xvsy%d%s.pdf' % (page,conf_fname_mod))
             page +=1
             figure(figsize=(7,7))
 
