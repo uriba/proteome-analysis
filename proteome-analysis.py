@@ -7,7 +7,7 @@ from matplotlib.pyplot import hist, savefig, figure,legend,plot,xlim,ylim,xlabel
 from numpy import linspace,ndarray,arange
 from numpy.random import randn
 
-remove_unmapped = True
+remove_unmapped = False
 just_ribosomes = False
 use_LB = False
 conf_fname_mod = '%s%s%s' % ('RibsOnly' if just_ribosomes else '', 'AnnotOnly' if remove_unmapped else '',"LB" if use_LB else '')
@@ -196,7 +196,6 @@ sets = []
 figure(figsize=(5,3))
 for x in categories:
     sets.append(conc_data[conc_data['group']==x].gr_cov)
-    #sets.append(hist(conc_data[conc_data['group']==x].gr_cov,bins)[0])
 
 if not remove_unmapped and not just_ribosomes:
     sets.append(conc_data[conc_data['group']=="NotMapped"].gr_cov)
@@ -214,6 +213,7 @@ ylabel('Number of proteins',fontsize=10)
 legend(loc=2,prop={'size':8})
 tight_layout()
 savefig('GrowthRateCorrelation%s.pdf' % conf_fname_mod)
+savefig('GrowthRateCorrelation.pdf')
 
 
 ### Global cluster analysis:
@@ -222,8 +222,13 @@ savefig('GrowthRateCorrelation%s.pdf' % conf_fname_mod)
 ## The correlation of each of the proteins with the global cluster is higher than with the GR (meaning it compensates for errors in GR measurements or degredation rates).
 figure(figsize=(5,3))
 
-high_corr_prots = conc_data[conc_data['gr_cov']>0.4]
-high_corr_prots = high_corr_prots[high_corr_prots['gr_cov']<0.8]
+if not use_LB:
+    high_corr_prots = conc_data[conc_data['gr_cov']>0.4]
+    high_corr_prots = high_corr_prots[high_corr_prots['gr_cov']<0.8]
+if use_LB:
+    high_corr_prots = conc_data[conc_data['gr_cov']>0.6]
+    high_corr_prots = high_corr_prots[high_corr_prots['gr_cov']<1]
+
 high_corr_normed = high_corr_prots.copy()
 high_corr_normed = high_corr_normed[cond_list].apply(lambda x: x/x.mean(),axis=1)
 
@@ -253,6 +258,7 @@ tick_params(axis='both', which='major', labelsize=8)
 tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
 savefig('GlobalClusterGRFit%s.pdf' % conf_fname_mod)
+savefig('GlobalClusterGRFit.pdf')
 
 ## Figure 2, correlation inside global cluster
 figure(figsize=(5,3))
@@ -292,32 +298,26 @@ def rsq_self(ys,xs):
 
 rsq_global = high_corr_normed[cond_list].apply(lambda x: rsq(x,global_normed[0],1,0),axis=1)
 rsq_selfs = high_corr_normed[cond_list].apply(lambda x: rsq_self(x,global_normed[0]),axis=1)
-#alphas = high_corr_normed[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[0],axis=1)
 
-high_conc = conc_data[cond_list] #(conc_data[cond_list])[conc_data[cond_list]>conc_data[cond_list].median()].dropna()
-#high_conc = (high_corr_prots[cond_list])[high_corr_prots[cond_list]>conc_data[cond_list].median()].dropna()
-#high_conc = (conc_data[cond_list])[conc_data[cond_list]>conc_data[cond_list].median()].dropna()
-
-high_conc['alpha'] = high_conc[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[0],axis=1)
-high_conc['inverse'] = high_conc[cond_list].apply(lambda x: linregress(x/x.mean(),gr/gr.mean())[0],axis=1)
-high_conc['rsq'] = high_conc[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[2]**2,axis=1)
-
-high_corr_prots['alpha'] = high_corr_prots[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[0],axis=1)
+conc_data['alpha'] = conc_data[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[0],axis=1)
+conc_data['rsq'] = conc_data[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[2]**2,axis=1)
 
 figure(figsize=(6,3))
 p1=subplot(121)
-#p1.hist(high_corr_prots['alpha'],bins=arange(0,2,0.1))
-p1.hist(high_conc['alpha'],bins=arange(-2,2,0.1))
-p1.set_xlabel('alpha')
+if use_LB:
+    p1.hist((conc_data[conc_data['gr_cov']>0.6])['alpha'],bins=arange(-2,2,0.1))
+else:
+    p1.hist(conc_data['alpha'],bins=arange(-2,2,0.1))
+p1.set_xlabel('Normalized response')
 p1.axvline(x=0,ymin=0,ymax=100)
 p1.axvline(x=0.5,ymin=0,ymax=100)
 p1.axvline(x=1,ymin=0,ymax=100)
 p1.tick_params(axis='both', which='major', labelsize=8)
 p1.tick_params(axis='both', which='minor', labelsize=8)
 p2=subplot(122)
-ribs = high_corr_prots[high_corr_prots['func']=='Ribosome']
+ribs = conc_data[conc_data['func']=='Ribosome']
 p2.hist(ribs['alpha'],bins=arange(-2,2,0.1))
-p2.set_xlabel('alpha')
+p2.set_xlabel('Normalized response')
 p2.axvline(x=0,ymin=0,ymax=100)
 p2.axvline(x=0.5,ymin=0,ymax=100)
 p2.axvline(x=1,ymin=0,ymax=100)
@@ -325,95 +325,3 @@ p2.tick_params(axis='both', which='major', labelsize=8)
 p2.tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
 savefig('AllProtsVSRibosomalNormalizedSlopes.pdf')
-
-figure(figsize=(7,6))
-p1 = subplot(221)
-p1.hist(high_conc['alpha'],bins=arange(-3,3,0.1))
-p1.set_xlabel('alpha')
-p1.axvline(x=0,ymin=0,ymax=100)
-p1.axvline(x=0.5,ymin=0,ymax=100)
-p1.axvline(x=1,ymin=0,ymax=100)
-p1.tick_params(axis='both', which='major', labelsize=8)
-p1.tick_params(axis='both', which='minor', labelsize=8)
-p2=subplot(222)
-p2.plot(high_conc[cond_list].mean(axis=1),high_conc['alpha'],'.',markersize=1)
-p2.axhline(y=0,xmin=0,xmax=1)
-p2.axhline(y=0.5,xmin=0,xmax=1)
-p2.axhline(y=1,xmin=0,xmax=1)
-#p2.axvline(x=0,ymin=0,ymax=100,color='r')
-p2.set_xscale('log')
-p2.set_xlabel('mean')
-p2.set_ylabel('alpha')
-p2.tick_params(axis='both', which='major', labelsize=8)
-p2.tick_params(axis='both', which='minor', labelsize=8)
-#p2.set_ylim(0,50)
-#plot(rsq_global,rsq_selfs,'.',markersize=1)
-#hist(rsq_selfs-rsq_global,30)
-#xlim(-4,1)
-m = high_conc['rsq'].median()
-mm = high_conc[cond_list].mean(axis=1).median()
-p3=subplot(223)
-p3.plot(high_conc[cond_list].mean(axis=1),high_conc['rsq'],'.',markersize=1)
-p3.set_xlabel('mean')
-p3.set_ylabel('rsq')
-p3.set_xscale('log')
-p3.axhline(y=m,xmin=0,xmax=1)
-p3.axvline(x=mm,ymin=0,ymax=1)
-p3.tick_params(axis='both', which='major', labelsize=8)
-p3.tick_params(axis='both', which='minor', labelsize=8)
-
-p4=subplot(224)
-p4.plot(high_conc['rsq'],high_conc['alpha'],'.',markersize=1)
-p4.set_xlabel('rsq')
-p4.set_ylabel('alpha')
-#xlabel('$R^2$ of global cluster as predictor for normalized protein',fontsize=10)
-#ylabel('$R^2$ of normalized protein with global cluster',fontsize=10)
-#xlabel('$\Delta R^2$ between best fit and fit to global cluster',fontsize=10)
-p4.tick_params(axis='both', which='major', labelsize=8)
-p4.tick_params(axis='both', which='minor', labelsize=8)
-tight_layout()
-savefig('slopeGRAnalysis%s.pdf' % conf_fname_mod)
-
-## other figures: abundance vs, correlation, gene location vs. correlation, amount at two adjacent conditions with trendlines at equal amounts and global scaling amounts.
-## plot scaling factor across every two conditions.
-cond_set = set(cond_list)
-conds_mapped = set([])
-figure(figsize=(7,7))
-i=1
-page=0
-for x in cond_set:
-    conds_mapped.add(x)
-    for y in cond_set - conds_mapped:
-        p=subplot(4,4,i)
-        p.plot(conc_data[x],conc_data[y],'.',markersize=1)
-        p.plot(conc_data[x],conc_data[x],'-g')
-        p.set_xscale('log')
-        p.set_yscale('log')
-        p.set_xlabel(x,fontsize=6)
-        p.set_ylabel(y,fontsize=6)
-        p.tick_params(axis='both', which='major', labelsize=6)
-        p.tick_params(axis='both', which='minor', labelsize=6)
-        p.set_title('gr-change:%f' % (gr[x]/gr[y]),fontsize=6)
-        i+=1
-        if i == 17:
-            i = 1
-            tight_layout()
-            savefig('xvsy%d%s.pdf' % (page,conf_fname_mod))
-            page +=1
-            figure(figsize=(7,7))
-
-        
-####################################### reference figure or R^2 distribution of random series
-figure(figsize=(5,3))
-xs = pd.DataFrame(randn(1000,10),columns=arange(0,10),index=arange(0,1000))
-ys = pd.Series(arange(0,10))
-cors = xs.apply(lambda x: x.corr(ys),axis=1)**2
-hist(cors,bins=20)
-
-tick_params(axis='both', which='major', labelsize=8)
-tick_params(axis='both', which='minor', labelsize=8)
-xlabel('R-square of random series with arbitrary series',fontsize=10)
-ylabel('Number of proteins',fontsize=10)
-tight_layout()
-savefig('RandomRSquare.pdf')
-#############################################################################################
