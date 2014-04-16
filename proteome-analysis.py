@@ -7,7 +7,7 @@ from matplotlib.pyplot import hist, savefig, figure,legend,plot,xlim,ylim,xlabel
 from numpy import linspace,ndarray,arange
 from numpy.random import randn
 
-remove_unmapped = False
+remove_unmapped = True
 #Initialization of basic data containers, gene annotation data, growth rates and cell volumes and selection of conditions to analyze.
 def uniprot_to_desc_dict():
     uni_konum_dict = {}
@@ -173,7 +173,11 @@ conc_data = conc_data.dropna()
 conc_data['gr_cov']=conc_data[cond_list].apply(lambda x: x.corr(gr[cond_list]),axis=1)
 conc_data['rsq']=conc_data['gr_cov']**2
 conc_data['group']=conc_data.apply(lambda x: (uni_to_annot[x['UP_AC']])[0],axis=1)
+conc_data['func']=conc_data.apply(lambda x: '' if len(uni_to_annot[x['UP_AC']]) < 3 else (uni_to_annot[x['UP_AC']])[2],axis=1)
 conc_data['loc']=conc_data.apply(lambda x: 0 if x['UP_AC'] not in uni_to_loc else uni_to_loc[x['UP_AC']],axis=1)
+
+## just ribosomes
+## conc_data = conc_data[conc_data['func']=='Ribosome']
 
 if remove_unmapped:
     conc_data = conc_data[conc_data['group'] != 'NotMapped']
