@@ -1,19 +1,44 @@
-\documentclass[a4page,notitlepage]{article}
+\documentclass[notitlepage]{article}
 \usepackage{color,soul,amsmath,graphicx}
 \usepackage[outercaption]{sidecap}
-\usepackage[citestyle=authoryear]{biblatex}
+\usepackage[citestyle=numeric,backend=bibtex]{biblatex}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{verbatim}
 \sidecaptionvpos{figure}{c}
 \providecommand{\abs}[1]{\lvert#1\rvert}
 \providecommand{\norm}[1]{\lVert#1\rVert}
+\bibliography{library}
 
-\title{Proteome Analysis Results Section}
-\author{Uri Barenholz}
+\title{On the quantitative inter-dependence between gene regulation, protein levels and growth rate}
+\author{Leeat Keren, Uri Barenholz, Ron Milo}
 \date{April 2014}
 
 \begin{document}
 \maketitle
+\abstract{
+  In many microorganisms, the proteome composition changes dramatically as a function of the growth environment.
+Furthermore, many of these changes seem to be coordinated with the growth rate.
+However, although cellular growth rates, gene expression levels and gene regulation have been at the center of biological research for decades, their quantitative interdependence remains largely unexplained.
+
+Based on two recently published proteome composition datasets for the model microorganism \emph{E.coli} under various growth conditions, we analyzed global trends in the proteome composition as a function of growth rate.
+We found that, for a large fraction of the proteins measured, their cellular concentration coordinately increased with the growth rate.
+These proteins belong to different functional groups and are involved in different cellular processes.
+We developed a simple model that explains how such a widely coordinated increase in concentration of many proteins can be the result of passive redistribution of resources, following active down regulation of a few proteins.
+Our model further explains why and how such changes relate to the growth rate under different environmental conditions.
+
+We conclude that, although the concentrations of many proteins change with the growth rate, such changes do not necessarily imply that these proteins have been specifically and coordinately up-regulated, but can also be the default outcome of suppression of the expression of other proteins.
+Furthermore, such changes can be quantitatively related to the resulting growth rate.
+}
+
+\section{Introduction}
+A fundamental system-level challenge for cell physiology is the achievement of proper function in the face of fluctuating environments.
+It has been established for many years that in different environments cells differ in many properties, including their shape, size, growth rate, and macromolecular composition \parencite{Maaloe1969, Schaechter1958, Churchward1982, Pedersen1978a, ingraham1983growth,Bremer1987}, with strong interdependence between these parameters.
+Early on it was found that the expression of some genes is coordinated with growth rate.
+Classical experiments in bacteria, by researchers from what became known as the Copenhagen school, have shown that ribosome concentration increases in proportion to growth rate2.
+This increase is primarily the result of changes in protein production rate, with ribosome production increasing as the square of the growth rate1,7.
+The search for mechanisms in \emph{E.coli} that underlie this observation yielded several candidates.
+Specifically, coordination between ribosome production and growth rate was attributed both to the pools of purine nucleotides 7,8, and the tRNA pools through the stringent response 9,10
+
 \section{Results}
 
 \begin{figure}[h]
@@ -35,7 +60,7 @@ The global cluster (sum of all proteins with a correlation in the rage 0.4 to 0.
 Both weighted sum and normalized sum are presented.
 Weighted sum means the concentrations of all proteins in the group are summed.
 Normalized sum means every protein is first normalized to have an average concentration of 1 across the different growth conditions, and then all proteins in the group are summed.
-Some of the unexplained variability of the global cluster by the growth rate can indicate errors in growth rate measurements and/or differences in degredation rates across conditions.
+Some of the unexplained variability of the global cluster by the growth rate can indicate errors in growth rate measurements and/or differences in degradation rates across conditions.
 }
 \label{global-grcorr}
 \end{figure}
@@ -64,7 +89,7 @@ Some of the unexplained variability of the global cluster by the growth rate can
 \centering
 \includegraphics{GlobalClusterCorr.pdf}
 \caption{
-Proteins that have a high corrleation (0.4-0.8) with growth rate mostly have even higher correlation to the sum of these proteins (both weighted sum and normalized sum are presented).
+Proteins that have a high correlation (0.4-0.8) with growth rate mostly have even higher correlation to the sum of these proteins (both weighted sum and normalized sum are presented).
 Weighted sum means the concentrations of all proteins in the group are summed.
 Normalized sum means every protein is first normalized to have an average concentration of 1 across the different growth conditions, and then all proteins in the group are summed.
 The higher correlation indicates that their response is coordinated (they scale by the same factor between conditions).
@@ -85,5 +110,6 @@ Plotting the $r^2$ distribution shows that a large fraction of the variability o
 \item This happens in multiple organisms and datasets (show yeast, two datasets of coli). Possibly add mRNA measurements ??.
 \end{itemize}
 \end{comment}
-\end{document}
 
+\printbibliography
+\end{document}
