@@ -28,9 +28,11 @@ This fraction includes proteins spanning different functional groups and protein
 We developed a simple model that explains how such a widely coordinated increase in the concentration of many proteins can be the result of passive redistribution of resources, due to active down regulation of a few unrelated proteins.
 Our model further explains why and how such changes relate to the growth rate under different environmental conditions.
 
-We conclude that, although the concentrations of many proteins change with the growth rate, such changes do not necessarily imply that these proteins have been specifically and coordinately up-regulated, but can also be the default outcome of suppression of the expression of other proteins.
-Furthermore, such changes can be quantitatively related to the resulting growth rate.
+We conclude that, although the concentrations of many proteins change with the growth rate, such changes do not necessarily imply that these proteins have been specifically and coordinately up-regulated.
+Instead, we show that this change can be the result of suppression of the expression of other proteins and thus does not require further cellular control mechanisms.
+Furthermore, we show how the resulting growth rate can be an outcome of the change in the proteome composition suggesting that proteome composition is the cause and growth rate is the result.
 }
+
 \section{Introduction}
 A fundamental system-level challenge for cell physiology is the achievement of proper function in the face of fluctuating environments.
 It has been established for many years that in different environments cells differ in many properties, including their shape, size, growth rate, and macromolecular composition \parencite{Maaloe1969, Schaechter1958, Churchward1982, Pedersen1978a, ingraham1983growth,Bremer1987}, with strong interdependence between these parameters.
@@ -65,10 +67,14 @@ Our model suggests that positive correlation with growth rate is a system-emergi
 As a result, such an observed correlation does not require specific regulation of the positively correlated proteins and hence, no mechanism needs to exist in order to explain this phenomena.
 
 \section{Results}
-We found that a large fraction of the proteome is positively correlated with growth rate.
-The proteins that correlate with the growth rate belong to different functional groups and are involved in different cellular processes.
-These proteins display not only a positive correlation with the growth rate, but, furthermore, have similar response, meaning they maintain their relative ratios.
-
+\subsection{Analysis of proteomic data}
+Having two high-quality data sets at hand, we looked for global trends in the data and specifically trends involving the growth rate under the different conditions analysed.
+We measured the pearson correlation of every protein in the two datasets analyzed (denoted by H for Heinmann's data and V for Valgepea's data) against the growth rate (Figure \ref{fig:growthcorr}).
+The two data sets show that a large fraction ($x\% $ in H and $y\% $ in V) are significantly positively correlated with the growth rate.
+In the H data set, the correlation with growth rate is more significant among annotated proteins than among un-annotated proteins ($x\% $ of annotated proteins have a correlation in the range of $(a,b)$ whereas only $y\% $ of the un-annotated proteins have a correlation within this range).
+In both datasets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups (reftable/SI breakdown by function).
+We believe that the lower correlation and higher variability found in the H data set is a byproduct of the fact that it contains much more conditions but spans roughly the same range of growth rates.
+Furthermore, it maps conditions involving different carbon sources as opposed to the V data set that uses the same carbon source on all measurements.
 
 \begin{figure}[h]
 \centering
@@ -78,21 +84,34 @@ A significant fraction of the proteins have positive correlation with the growth
 These proteins span all the functional groups.
 Proteins with unknown function show less correlation with growth rate (as well as proteins with low levels of expression, data not shown).
 }
-\label{growth-corr}
+\label{fig:growthcorr}
 \end{figure}
+
+Next we checked how significant was the response of the proteins that had a significant positive correlation with the growth rate across the conditions measured (hereafter called the High Correlation proteins, abbreviated as HC-proteins).
+To that end, we summed up the concentrations of all of the HC-proteins across the conditions measured and compared their total concentration to the growth rate (Figure \ref{fig:globalgrcorr}).
+Both datasets presented a significant response ($x\% $ change in total concentration across $y\% $ change of the growth rate) with most of the variability of the total concentration being explaind by the growth rate ($R^2$ of . in H and . in V). 
+As before, the H data set presented more noise, probably due to the reasons mentioned above.
 
 \begin{figure}[h]
 \centering
 \includegraphics{GlobalClusterGRFit.pdf}
 \caption{
-The global cluster (sum of all proteins with a correlation in the rage 0.4 to 0.8 with the growth rate) can be largely explained by the growth rate ($R^2>0.5$).
+The global cluster (sum of all proteins with a correlation in the rage $0.4$ to $0.8$ with the growth rate) can be largely explained by the growth rate ($R^2>0.5$).
 Both weighted sum and normalized sum are presented.
 Weighted sum means the concentrations of all proteins in the group are summed.
 Normalized sum means every protein is first normalized to have an average concentration of 1 across the different growth conditions, and then all proteins in the group are summed.
 Some of the unexplained variability of the global cluster by the growth rate can indicate errors in growth rate measurements and/or differences in degradation rates across conditions.
 }
-\label{global-grcorr}
+\label{fig:globalgrcorr}
 \end{figure}
+
+Noting that the fact that two proteins have the same correlation with the growth rate does not imply that they are correlated between themselves, neither does it imply that they scale in the same way, we calculated the slope of a linear regression line with the growth rate for every protein in the HC-proteins and plotted the results in Figure \ref{fig:globalfit}.
+In order to compensate for the different concentrations of different proteins, the data for every protein was first normalized to have an average concentration of 1 across the different conditions and then the slope of the fit was calculated.
+This analysis revealed that most proteins responded in a similar manner to the different conditions.
+
+Lastly, we wanted to check how the response of the HC-proteins relates to the well-studied response of the ribosomal proteins.
+To that end, we performed the same analysis of slopes, restricting it to ribosomal proteins alone (Figure \ref{fig:globalfit}).
+The analysis revealed that, on average, all of the HC-proteins scale in the same way as the ribosomal proteins do.
 
 \begin{figure}[h]
 \centering
@@ -101,8 +120,11 @@ Some of the unexplained variability of the global cluster by the growth rate can
     (A) Most proteins have similar, positive, response to the growth rate meaning they maintain their relative proportions across conditions.
     (B) The response of all of the proteins peaks at the same values as the response of the ribosomal proteins.
 }
-\label{global-fit}
+\label{fig:globalfit}
 \end{figure}
+\subsection{Theoretical model}
+In an attempt to explain how such a wide-span positive response occures we have constructed a model that is able to reproduce these results as the outcome of redistribution of resources of the biosynthesis machinery.
+The model 
 
 \begin{comment}
 \begin{figure}[h]
@@ -111,7 +133,7 @@ Some of the unexplained variability of the global cluster by the growth rate can
 \caption{
   Proteins in the global cluster fit reasonably well to the global cluster itself
 }
-\label{global-fit}
+\label{fig:globalfit}
 \end{figure}
 
 \begin{figure}[h]
@@ -123,7 +145,7 @@ Weighted sum means the concentrations of all proteins in the group are summed.
 Normalized sum means every protein is first normalized to have an average concentration of 1 across the different growth conditions, and then all proteins in the group are summed.
 The higher correlation indicates that their response is coordinated (they scale by the same factor between conditions).
 }
-\label{global-corr}
+\label{globalcorr}
 \end{figure}
 
 \begin{figure}[h]
@@ -132,7 +154,7 @@ The higher correlation indicates that their response is coordinated (they scale 
 \caption{
 Plotting the $r^2$ distribution shows that a large fraction of the variability of these proteins is captured by the global response.
 }
-\label{global-rsq}
+\label{globalrsq}
 \end{figure}
 
 \begin{itemize}
