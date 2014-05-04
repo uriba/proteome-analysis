@@ -123,9 +123,25 @@ The analysis revealed that, on average, all of the HC-proteins scale in the same
 \label{fig:globalfit}
 \end{figure}
 \subsection{Theoretical model}
-In an attempt to explain how such a wide-span positive response occures we have constructed a model that is able to reproduce these results as the outcome of redistribution of resources of the biosynthesis machinery.
-The model 
+In an attempt to explain how such a wide-span positive response occures, we have constructed a model that is able to reproduce these results as the outcome of redistribution of resources of the biosynthesis machinery.
+\subsubsection{Distincting between gene specific and global control of expression}
+For every protein, the model decouples its resulting concentration as the product of two control mechanisms:
+\begin{enumerate}
+\item Protein/gene specific controls such as the associated gene's promoter sequence, 5'-UTRs, ribosomal binding site sequence, and factors affecting this specific gene's expression such as transcription factors and riboswitches that react with the relevant gene.
+  While some of these controls (such as, for example, the 5'-UTRs) are static, and therefore condition independent, others are dynamic and may differ under different environmental conditions (such as transcription factors state).
+\item The global state of the cell, including availability of RNA Polymeraze and cofactors, Ribosomes concentrations etc.
+\end{enumerate}
+According to the model, every gene, under every environmental condition, is given an 'affinity-for-expression' (or 'intrinsic-strength') score that encapsulates its gene-specific control state under the condition considered (denoted $w_i(c)$, where $c$ refers to the growth condition).
+Our model assumes that the biosynthetic resources of the cell (Ribosomes, RNA Polymerases, etc.) are distributed among the genes according to their affinities under the condition at hand.
+The resulting protein concentration, under a specific condition, is therefore its specific affinity under the condition, divided by the sum of all the affinities of all of the genes under that same condition.
+Thus, if two proteins have the same affinity under some condition, they will have the same concentration under that condition, if protein $A$ has twice the affinity of protein $B$ under the same condition, then $A$'s concentration will be double than $B$'s concentration under that condition, etc.
 
+This relationship can be simply fomulated as follows:
+\begin{equation}
+  \label{eq:concentration-ratio}
+  p_i(c)=\frac{P_i(c)}{P(c)}=\frac{w_i(c)}{\sum_jw_j(c)}
+\end{equation}
+where $p_i(c)$ denotes the concentration of protein $i$ under condition $c$, $P_i(c)$ denotes the mass of protein $i$ under condition $c$ per cell, and $P(c)$ denotes the total mass of proteins per cell under condition $c$).
 \begin{comment}
 \begin{figure}[h]
 \centering
