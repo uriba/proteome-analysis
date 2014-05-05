@@ -129,7 +129,7 @@ For every protein, the model decouples its resulting concentration as the produc
 \begin{enumerate}
 \item Protein/gene specific controls such as the associated gene's promoter sequence, 5'-UTRs, ribosomal binding site sequence, and factors affecting this specific gene's expression such as transcription factors and riboswitches that react with the relevant gene.
   While some of these controls (such as, for example, the 5'-UTRs) are static, and therefore condition independent, others are dynamic and may differ under different environmental conditions (such as transcription factors state).
-\item The global state of the cell, including availability of RNA Polymerase and co-factors, Ribosomes concentrations etc.
+\item The global state of the cell, including availability of RNA Polymerase, co-factors, Ribosomes, amino-acids etc.
 \end{enumerate}
 According to the model, every gene, under every environmental condition, is given an 'affinity-for-expression' (or 'intrinsic-strength') score that encapsulates its gene-specific control state under the condition considered (denoted $w_i(c)$, where $c$ refers to the growth condition).
 Our model assumes that the bio-synthetic resources of the cell (Ribosomes, RNA Polymerases, etc.) are distributed among the genes according to their affinities under the condition at hand.
@@ -148,20 +148,24 @@ Different environmental conditions may require the expression of different genes
 For example, comparing two growth media, one that includes all the required amino-acids (abbreviated as AA), and one that includes none, it can be assumed that when all the AA are present, no need exists for the cell to express AA metabolism enzymes, whereas when AA's are absent, these enzymes must be expressed.
 If we now consider some arbitrary protein $i$, whose specific affinity is unaltered between these two conditions, we see that its concentration will most likely still change between the two conditions as the affinities of at least some of the genes (the AA synthesizing enzymes) change, affecting the distribution of resources between all of the expressed genes.
 
-Generalizing this notion, for every group of conditions, one could divide the proteins into those whose intrinsic affinity remained constant across all of the conditions, and to those whose intrinsic affinity was modified (meaning their expression was actively regulated by the cell) between at least some of the conditions.
-As an outcome of Equation \ref{eq:concentration-ratio} it follows that those proteins whose intrinsic affinity remained constant across the different growth conditions, also maintained their relative concentrations across these conditions.
+Generalizing this notion, for every group of conditions, one could divide the proteins into those whose intrinsic affinity remaines constant across all of the conditions, and to those whose intrinsic affinity changes (meaning their expression is actively regulated by the cell) between at least some of the conditions.
+As an outcome of Equation \ref{eq:concentration-ratio} it follows that those proteins whose intrinsic affinity remaines constant across the different growth conditions, also maintained their relative concentrations across these conditions with respect to each other.
 Therefore, identifying large groups of proteins that maintain their relative concentrations across conditions, may indicate that these proteins maintained their intrinsic affinities and that any changes in their absolute concentrations are in fact a passive outcome resulting from changes in the intrinsic affinities of other proteins.
 
 \subsubsection{The relationship between proteome composition and the growth rate}
 While it is sometimes implied that different cellular components are regulated by the growth rate, here we treat the growth rate as an outcome of the combination of proteome composition and the environmental conditions.
 Specifically, we evaluate the growth rate as the result of dividing the total amount of proteins per cell by the amount of bio-synthesis machinery in that cell.
 The larger the ratio of total proteins to bio-synthesis proteins is, the longer these bio-synthesis proteins will have to operate in order to duplicate the proteome, and thus the longer the doubling time of the cell will be.
-To illustrate this assumption concretely, one could think about the total amount of proteins per cell (measured in AA count) divided by the number of ribosomes per cell.
-As each Ribosome translates at an approximately condition-independent rate of about 20 AA per second, and as the amount of actively translating Ribosomes is also condition-independent (refs), it follows that the doubling time is linearly dependent on the ratio of protein to ribosomes in the biomass.
 
-To integrate this notion into our model we assume that there is a group of genes (e.g. genes of the transcriptional and translational machineries) which are not differentially regulated across different conditions.
+To illustrate this assumption concretely, one could think about the total amount of proteins per cell (measured in AA count) divided by the number of ribosomes per cell.
+As each Ribosome translates at an approximately condition-independent rate of about 20 AA per second, and as the amount of actively translating Ribosomes is also relatively condition-independent (refs), it follows that the doubling time is linearly dependent on the ratio of protein to ribosomes in the biomass.
+
+Theoretically, the fastest doubling time a cell may have is the doubling time achieved when all of the cell's proteome is the bio-synthetic machinery.
+We denote this minimal doubling time by $T_B$.
+
+To integrate the notion of total protein to bio-synthetic protein ratio into our model, we assume that there is a group of bio-synthetic genes (e.g. genes of the transcriptional and translational machineries) which are not differentially regulated across different conditions.
 Furthermore, we assume that the machineries these genes are involved at operate at relatively constant rates and occupancy ratios across conditions.
-Mathematically we can therefore define a group of bio-synthesis genes, $G_B$, such that, for every gene that belongs to that group, its affinity is constant regardless of the condition:
+Mathematically we can therefore define this group of bio-synthesis genes, $G_B$, such that, for every gene that belongs to this group, its affinity is constant regardless of the condition:
 \begin{equation}
   \label{eq:biosynth-def}
   \forall k \in G_B, c \rightarrow w_k(c)=w_k
@@ -169,21 +173,21 @@ Mathematically we can therefore define a group of bio-synthesis genes, $G_B$, su
 
 To keep our notations short, we will define the (condition independent) sum over all of these genes as the constant: $W_B = \sum_{k\in G_B}w_k$.
 
-As these genes form the bio-synthesis machinery, and following the logic presented above, it follows that the doubling time under a given condition, $\tau(c)$ will be linearly proportional to the ratio of total protein to bio-synthesis protein under that condition, namely:
+As these genes form the bio-synthesis machinery, and according to the logic presented above, it follows that the doubling time under a given condition, $\tau(c)$ will be linearly proportional to the ratio of total protein to bio-synthesis protein under that condition, with the proportionality constant being $T_B$:
 \begin{equation}
   \label{eq:gr-ratio}
-  \tau(c) \propto \frac{P(c)}{\sum_{k\in G_B}P_k(c)}=\frac{\sum_jw_j(c)}{W_B}
+  \tau(c) = T_B\frac{P(c)}{\sum_{k\in G_B}P_k(c)}=T_B\frac{\sum_jw_j(c)}{W_B}
 \end{equation}
-Therefore, the model implies that for conditions that require the expression of larger amounts of non-bio-synthetic genes, the resulting doubling time will be longer, and therefore the growth rate will be lower.
+Therefore, the model implies that for conditions that require the expression of larger amounts of non-bio-synthetic genes, the resulting doubling time will be longer, and thus, the growth rate will be lower.
 
 \subsubsection{The concentration of a non-differentially regulated protein is expected to increase with the growth rate} 
-Recalling that the connection between the growth rate and the doubling time is: $g=\frac{\ln(2)}{\tau}$, we now combine Equation \ref{eq:concentration-ratio} with Equation \ref{eq:gr-ratio} to get that:
+Recalling that the connection between the growth rate and the doubling time is: $g(c)=\frac{\ln(2)}{\tau(c)}$, we now combine Equation \ref{eq:concentration-ratio} with Equation \ref{eq:gr-ratio} to get that:
 \begin{equation}
   \label{eq:default-response}
-  p_i(c)=\frac{w_i(c)}{\sum_jw_j(c)}=\frac{w_i(c)}{W_B}\frac{W_B}{\sum_jw_j(c)}=\frac{w_i(c)}{W_B}\frac{g}{\ln(2)}
+  p_i(c)=\frac{w_i(c)}{\sum_jw_j(c)}=\frac{w_i(c)}{W_B}\frac{W_B}{\sum_jw_j(c)}=\frac{w_i(c)}{W_B}\frac{T_B}{\ln(2)}g(c)
 \end{equation}
 
-Incorporating all the condition-independent constants into one term, $C$, we get that the predicted concentration of protein $i$ under condition $c$ is:
+Incorporating all the condition-independent constants ($W_B$, $T_B$, $\ln(2)$) into one term, $C$, we get that the predicted concentration of protein $i$ under condition $c$ is:
 \begin{equation}
   \label{eq:final-conc}
   p_i(c)=Cw_i(c)g(c)
@@ -191,30 +195,33 @@ Incorporating all the condition-independent constants into one term, $C$, we get
 which implies that, for every two conditions between which $i$ maintains its affinity, $i$'s concentration will scale like the growth rate change between these two conditions.
 
 \subsubsection{Accounting for protein degradation}
-Thus far, our model neglected the effect of protein degradation, on the one hand, and predicted that, for non-differentially regulated proteins, their concentration should drop to 0 when the growth rate is 0.
-We assume that protein degradation acts on all proteins in the same way, and that it is invariant in the growth rate.
-The effect of protein degradation can now be understood as follows: at any time, some fraction of the entire proteome is degraded.
-Therefore, the observed growth rate, $g$, is, in fact, the amount of proteins produced minus the amount of proteins degraded.
-To illustrate, if the measured growth rate is 0, the implication is that proteins are produced at exactly the same rate as they are degraded.
-Integrating this notion into the equations means that, where the equations previously referred to the observed growth rate, $g$, they should in fact refer to the observed growth rate plus the degradation rate, as that is the real rate of protein synthesis.
+Thus far, our model neglected the effect of protein degradation.
+Our model also predicted that, for non-differentially regulated proteins, their concentration should drop to 0 when the growth rate is 0.
+Interestingly, protein degradation affects the expected concentration of non-differentially regulated proteins at 0 growth rate.
+
+Assuming that protein degradation acts on all proteins in the same way, and that it is invariant in the growth rate, the effect of protein degradation can be understood as follows: at any time, some fraction of the entire proteome is degraded.
+Therefore, the \emph{observed} growth rate, $g$, is, in fact, the amount of proteins produced minus the amount of proteins degraded.
+To illustrate, if the measured growth rate is 0, the implication is not that no proteins are produced, but rather that proteins are produced at exactly the same rate as they are degraded.
+
+Integrating this notion into the model means that, where the equations previously referred to the observed growth rate, $g$, as the indicator of protein synthesis rate, they should in fact refer to the observed growth rate plus the degradation rate, as that is the real rate of protein synthesis.
 Therefore, if we denote by $\alpha$ the degradation rate, Equation \ref{eq:final-conc} should be rewritten as:
 \begin{equation}
   \label{eq:final-conc-deg}
   p_i(c)=Cw_i(c)(\alpha+g(c))
 \end{equation}
-which yields much better agreement with the results as presented in Figure \ref{fig:globalgrcorr} and explains why the intercept is not at the origin.
+which now yields much better agreement with the experimental results as presented in Figure \ref{fig:globalgrcorr} and explains why the concentration of non-differentially regulated proteins does not drop to 0 when the growth rate is 0.
 \section{Discussion}
 \begin{itemize}
 \item 
 Notion of affinity is not new, was first presented by maaloe and the Copenhagen school, but only recently became possible to examine on a protein based level in the genomic scale.
 \item 
-Relation to terry hwa work - different growth rates.
+Relation to Terry Hwa's work - we look at different growth rates.
 \item 
-Relation to terry hwa work - protein degradation can explain existence of proteins that do not drop to zero.
+Relation to Terry Hwa's work - protein degradation can explain existence of proteins that do not drop to zero (his Q section).
 \item 
-Relation to previous works on ribosomes - we measure ribosomal proteins whereas previous works measure RNA/protein ratio to infer ribosomal fraction.
+Relation to previous works on ribosomes (eco-sal, Hwa and others) - we measure ribosomal proteins whereas previous works measure RNA/protein ratio to infer ribosomal fraction.
 \item 
-Choice of conditions from Heinmann's data - we focused on conditions with non-zero growth and under which our assumptions are expected to hold (so we omitted NaCl, and high temp. conditions).
+Choice of conditions from Heinmann's data - we focus on conditions with non-zero growth and under which our assumptions are expected to hold (so we omitted stationary, NaCl and high temp. conditions).
 Furthermore - due to the spread of growth rates, we omitted LB as it dominated the results.
 Analysis with these conditions is available in the supplementary.
 \item 
@@ -228,6 +235,8 @@ No regulation is required in order to achieve this response at exponential growt
 These mechanisms may still allow for faster or more fine-tuned response, or may serve other purposes.
 \end{itemize}
 
+\section{Materials and Methods}
+Detail data sources, software and algorithms used.
 \begin{comment}
 \begin{figure}[h]
 \centering
