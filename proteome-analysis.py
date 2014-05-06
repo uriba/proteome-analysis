@@ -11,7 +11,7 @@ remove_unmapped = False
 just_ribosomes = False
 use_LB = False
 id_col_dict = { 'valgepea':'ko_num', 'heinmann':u'UP_AC' }
-db_used = 'valgepea'
+db_used = 'heinmann'
 
 conf_fname_mod = '%s%s%s%s' % ('RibsOnly' if just_ribosomes else '', 'AnnotOnly' if remove_unmapped else '',"LB" if use_LB else '',db_used)
 #Initialization of basic data containers, gene annotation data, growth rates and cell volumes and selection of conditions to analyze.
@@ -83,85 +83,19 @@ cond_list_dict = {'valgepea':[u'11', u'21', u'31', u'40', u'48'],
 if use_LB:
     cond_list_dict['heinmann'].append(u'LB')
 
-if db_used == 'heinmann':
-    cond_list = [
-        u'chemostat \u00b5=0.12',
-        u'galactose',
-        u'chemostat \u00b5=0.20',
-        u'acetate',
-        u'chemostat \u00b5=0.35',
-        u'glucosamine',
-        u'pyruvate',
-        u'glycerol',
-        u'fumarate',
-        u'succinate',
-        u'chemostat \u00b5=0.5',
-        u'anaerobic',
-        u'glucose',
-    ]
-    if use_LB:
-        cond_list.append(u'LB')
-
-    # define the growth rates:
-    gr = {
-        u'chemostat \u00b5=0.12': 0.12, 
-        u'galactose':0.17, 
-        u'chemostat \u00b5=0.20':0.2, 
-        u'acetate':0.29, 
-        u'chemostat \u00b5=0.35':0.35,
-        u'glucosamine':0.39, 
-        u'pyruvate':0.4, 
-        u'glycerol':0.47,
-        u'fumarate':0.47, 
-        u'succinate':0.49, 
-        u'chemostat \u00b5=0.5':0.5, 
-        u'anaerobic' : 0.55, 
-        u'glucose': 0.6,
-        u'LB':1.61
-    }
-
-    # define cell volumes:
-    volumes = {
-        u'chemostat \u00b5=0.12': 2.1,
-        u'galactose':1.9,
-        u'chemostat \u00b5=0.20':2.2,
-        u'acetate':2.4,
-        u'chemostat \u00b5=0.35':2.4,
-        u'glucosamine':2.9,
-        u'pyruvate':2.1,
-        u'glycerol':2.3,
-        u'fumarate':2.4,
-        u'succinate':2.4,
-        u'chemostat \u00b5=0.5':2.6,
-        u'anaerobic' : 2.9,
-        u'glucose': 3.2,
-        u'LB':4.4
-    }
-    volumes = pd.Series(volumes)
-    volumes = volumes[cond_list]
-
-if db_used == 'valgepea':
-    cond_list = [
-        u'11',
-        u'21',
-        u'31',
-        u'40',
-        u'48'
-    ]
-
-    # define the growth rates:
-    gr = {
-        u'11': 0.11, 
-        u'21':0.21, 
-        u'31':0.31,
-        u'40':0.4, 
-        u'48':0.48 
-    }
-
-gr = pd.Series(gr)
-gr = gr[cond_list]
+gr_dict = {'valgepea':
+    {u'11': 0.11, u'21':0.21, u'31':0.31, u'40':0.4, u'48':0.48},
+           'heinmann':
+    {u'chemostat \u00b5=0.12': 0.12, u'galactose':0.17, 
+     u'chemostat \u00b5=0.20':0.2, u'acetate':0.29, 
+     u'chemostat \u00b5=0.35':0.35, u'glucosamine':0.39, 
+     u'pyruvate':0.4, u'glycerol':0.47, u'fumarate':0.47, 
+     u'succinate':0.49, u'chemostat \u00b5=0.5':0.5, 
+     u'anaerobic' : 0.55, u'glucose': 0.6, u'LB':1.61}
+           }
 
 def get_coli_data(db_used,use_weight):
+    cond_list = cond_list_dict[db_used]
     if db_used == 'heinmann':
         # As the file was exported from Excel, it uses Excel's encoding.
         ecoli_data = read_csv('coli_data.csv',header=1,encoding='iso-8859-1')
@@ -212,7 +146,11 @@ def get_annotated_prots(db):
         id_to_annot = ko_to_desc_dict()
     coli_data['group']=coli_data.apply(lambda x: 'unknown' if x[id_col] not in id_to_annot else (id_to_annot[x[id_col]])[0],axis=1)
     coli_data['func']=coli_data.apply(lambda x: '' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else (id_to_annot[x[id_col]])[2],axis=1)
-    return (cond_list_dict[db],gr,coli_data)
+    gr = gr_dict[db]
+    gr = pd.Series(gr)
+    cond_list = cond_list_dict[db]
+    gr = gr[cond_list]
+    return (cond_list,gr,coli_data)
 
 ### Results generation#####
 ### Figure 1 - Correlation to growth rate by functional group histogram.
