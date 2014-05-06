@@ -10,11 +10,8 @@ from numpy.random import randn
 remove_unmapped = False
 just_ribosomes = False
 use_LB = False
+id_col_dict = { 'valgepea':'ko_num', 'heinmann':u'UP_AC' }
 db_used = 'valgepea'
-if db_used == 'heinmann':
-    id_col=u'UP_AC'
-if db_used == 'valgepea':
-    id_col='ko_num'
 
 conf_fname_mod = '%s%s%s%s' % ('RibsOnly' if just_ribosomes else '', 'AnnotOnly' if remove_unmapped else '',"LB" if use_LB else '',db_used)
 #Initialization of basic data containers, gene annotation data, growth rates and cell volumes and selection of conditions to analyze.
@@ -74,6 +71,18 @@ def uniprot_to_offset():
     return uniprot_to_location
 
 # Define the list of conditions that will be relevant for the analysis, (and the description column), the growth rates and the cell volumes, according to the database used:
+cond_list_dict = {'valgepea':[u'11', u'21', u'31', u'40', u'48'],
+                  'heinmann':[
+                      u'chemostat \u00b5=0.12', u'galactose',
+                      u'chemostat \u00b5=0.20', u'acetate',
+                      u'chemostat \u00b5=0.35', u'glucosamine',
+                      u'pyruvate', u'glycerol', u'fumarate',
+                      u'succinate', u'chemostat \u00b5=0.5',
+                      u'anaerobic', u'glucose',]
+                  }
+if use_LB:
+    cond_list_dict['heinmann'].append(u'LB')
+
 if db_used == 'heinmann':
     cond_list = [
         u'chemostat \u00b5=0.12',
@@ -110,8 +119,6 @@ if db_used == 'heinmann':
         u'glucose': 0.6,
         u'LB':1.61
     }
-    gr = pd.Series(gr)
-    gr = gr[cond_list]
 
     # define cell volumes:
     volumes = {
@@ -133,8 +140,6 @@ if db_used == 'heinmann':
     volumes = pd.Series(volumes)
     volumes = volumes[cond_list]
 
-    #Define the text fields that will be relevant for the analysis:
-    desc_list = ['Description','UP_AC']
 if db_used == 'valgepea':
     cond_list = [
         u'11',
@@ -152,20 +157,11 @@ if db_used == 'valgepea':
         u'40':0.4, 
         u'48':0.48 
     }
-    gr = pd.Series(gr)
-    gr = gr[cond_list]
 
-    #Define the text fields that will be relevant for the analysis:
-    desc_list = ['ko_num']
+gr = pd.Series(gr)
+gr = gr[cond_list]
 
-#Convert dataframe types to standart types for analysis
-def convert_types(df):
-    df = df[df != 'below LOQ']
-    df[cond_list] = df[cond_list].astype('float')
-    df[desc_list] = df[desc_list].astype('string')
-    return df
-
-def get_coli_data(use_weight):
+def get_coli_data(db_used,use_weight):
     if db_used == 'heinmann':
         # As the file was exported from Excel, it uses Excel's encoding.
         ecoli_data = read_csv('coli_data.csv',header=1,encoding='iso-8859-1')
@@ -176,6 +172,7 @@ def get_coli_data(use_weight):
         ecoli_data_weight = ecoli_data[idx[0:10].append(idx[29:])]
 
         # Refine the DataFrames to include only these conditions (and the protein descriptions):
+        desc_list = [id_col_dict[db_used]]
         count_cond = desc_list+cond_list
         ecoli_data_count = ecoli_data_count[count_cond]
 
@@ -193,36 +190,41 @@ def get_coli_data(use_weight):
             ecoli_data = ecoli_data_count
 
         #convert all data columns to floats, and description columns to strings.
-        ecoli_data_weight = convert_types(ecoli_data_weight)
-        ecoli_data = convert_types(ecoli_data)
+        ecoli_data = ecoli_data[ecoli_data != 'below LOQ']
+        ecoli_data[cond_list] = ecoli_data[cond_list].astype('float')
 
-        #Normalize to get concentrations (Use the total protein weight as the normalizing factor to avoid errors in cell volume measurements)
-        ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data_weight[cond_list].sum() #volumes[cond_list]
-        return ecoli_data
     if db_used == 'valgepea':
         ecoli_data = read_csv('valgepea.csv',header=0,encoding='iso-8859-1')
-        print ecoli_data
-        ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
+
+    #Normalize to get concentrations 
+    ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
+    id_col = id_col_dict[db_used]
+    ecoli_data[id_col] = ecoli_data[id_col].astype('string')
     return ecoli_data
+
+def get_annotated_prots(db):
+    coli_data = get_coli_data(db,use_weight=True)
+    #annotate coli_data according to db.
+    id_col = id_col_dict[db]
+    if db_used == 'heinmann':
+        id_to_annot = uniprot_to_desc_dict()
+    if db_used == 'valgepea':
+        id_to_annot = ko_to_desc_dict()
+    coli_data['group']=coli_data.apply(lambda x: 'unknown' if x[id_col] not in id_to_annot else (id_to_annot[x[id_col]])[0],axis=1)
+    coli_data['func']=coli_data.apply(lambda x: '' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else (id_to_annot[x[id_col]])[2],axis=1)
+    return (cond_list_dict[db],gr,coli_data)
 
 ### Results generation#####
 ### Figure 1 - Correlation to growth rate by functional group histogram.
-uni_to_annot = uniprot_to_desc_dict()
-uni_to_loc = uniprot_to_offset()
-ko_to_annot = ko_to_desc_dict()
-ecoli_data = get_coli_data(use_weight=True)
-if db_used == 'heinmann':
-    id_to_annot = uni_to_annot
-if db_used == 'valgepea':
-    id_to_annot = ko_to_annot
+(cond_list,gr,ecoli_data) = get_annotated_prots(db_used)
+#ecoli_data = get_coli_data(db_used,use_weight=True)
 conc_data = ecoli_data
 conc_data = conc_data.dropna()
 conc_data['gr_cov']=conc_data[cond_list].apply(lambda x: x.corr(gr[cond_list]),axis=1)
 conc_data['rsq']=conc_data['gr_cov']**2
-conc_data['group']=conc_data.apply(lambda x: 'unknown' if x[id_col] not in id_to_annot else (id_to_annot[x[id_col]])[0],axis=1)
-conc_data['func']=conc_data.apply(lambda x: '' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else (id_to_annot[x[id_col]])[2],axis=1)
 if db_used == 'heinmann':
-    conc_data['loc']=conc_data.apply(lambda x: 0 if x[id_col] not in uni_to_loc else uni_to_loc[x[id_col]],axis=1)
+    uni_to_loc = uniprot_to_offset()
+    conc_data['loc']=conc_data.apply(lambda x: 0 if x[id_col_dict[db_used]] not in uni_to_loc else uni_to_loc[x[id_col_dict[db_used]]],axis=1)
 
 if just_ribosomes:
     conc_data = conc_data[conc_data['func']=='Ribosome']
@@ -361,7 +363,8 @@ if db_used == 'heinmann':
     else:
         p1.hist(conc_data['alpha'],bins=arange(-2,2,0.1))
 if db_used == 'valgepea':
-    p1.hist((conc_data[conc_data['gr_cov']>0.8])['alpha'],bins=arange(-2,2,0.1))
+    p1.hist((conc_data[conc_data['gr_cov']>0.8])['alpha'].values,bins=arange(-2,2,0.1))
+p1.set_xlim(-2,2)
 p1.set_xlabel('Normalized response')
 p1.axvline(x=0,ymin=0,ymax=100)
 p1.axvline(x=0.5,ymin=0,ymax=100)
@@ -370,7 +373,8 @@ p1.tick_params(axis='both', which='major', labelsize=8)
 p1.tick_params(axis='both', which='minor', labelsize=8)
 p2=subplot(122)
 ribs = conc_data[conc_data['func']=='Ribosome']
-p2.hist(ribs['alpha'],bins=arange(-2,2,0.1))
+p2.hist(ribs['alpha'].values,bins=arange(-2,2,0.1))
+p2.set_xlim(-2,2)
 p2.set_xlabel('Normalized response')
 p2.axvline(x=0,ymin=0,ymax=100)
 p2.axvline(x=0.5,ymin=0,ymax=100)
