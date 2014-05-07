@@ -3,7 +3,7 @@ import pandas as pd
 from pandas.io.parsers import read_csv
 from scipy.stats import gaussian_kde,linregress
 from Bio import SeqIO
-from matplotlib.pyplot import hist, savefig, figure,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot
+from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust
 from numpy import linspace,ndarray,arange
 from numpy.random import randn
 
@@ -11,9 +11,10 @@ remove_unmapped = False
 just_ribosomes = False
 use_LB = False
 id_col_dict = { 'valgepea':'ko_num', 'heinmann':u'UP_AC' }
-db_used = 'heinmann'
+db_used = 'valgepea'
 
 conf_fname_mod = '%s%s%s%s' % ('RibsOnly' if just_ribosomes else '', 'AnnotOnly' if remove_unmapped else '',"LB" if use_LB else '',db_used)
+
 #Initialization of basic data containers, gene annotation data, growth rates and cell volumes and selection of conditions to analyze.
 def ko_to_desc_dict():
     ko_annot_dict = {}
@@ -140,65 +141,87 @@ def get_annotated_prots(db):
     coli_data = get_coli_data(db,use_weight=True)
     #annotate coli_data according to db.
     id_col = id_col_dict[db]
-    if db_used == 'heinmann':
+    if db == 'heinmann':
         id_to_annot = uniprot_to_desc_dict()
-    if db_used == 'valgepea':
+    if db == 'valgepea':
         id_to_annot = ko_to_desc_dict()
-    coli_data['group']=coli_data.apply(lambda x: 'unknown' if x[id_col] not in id_to_annot else (id_to_annot[x[id_col]])[0],axis=1)
-    coli_data['func']=coli_data.apply(lambda x: '' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else (id_to_annot[x[id_col]])[2],axis=1)
+    coli_data['group']=coli_data.apply(lambda x: 'NotMapped' if x[id_col] not in id_to_annot else (id_to_annot[x[id_col]])[0],axis=1)
+    coli_data['func']=coli_data.apply(lambda x: 'NotMapped' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else (id_to_annot[x[id_col]])[2],axis=1)
+
+    if just_ribosomes:
+        coli_data = coli_data[coli_data['func']=='Ribosome']
+    if remove_unmapped:
+        coli_data = coli_data[coli_data['group'] != 'NotMapped']
+
+    coli_data = coli_data.dropna()
     gr = gr_dict[db]
     gr = pd.Series(gr)
     cond_list = cond_list_dict[db]
     gr = gr[cond_list]
     return (cond_list,gr,coli_data)
 
+def calc_gr_corr(df,cond_list,gr):
+    df['gr_cov']=df[cond_list].apply(lambda x: x.corr(gr[cond_list]),axis=1)
+    df['rsq']=df['gr_cov']**2
+    return df
+
+def add_loc_info(df):
+    if db_used == 'heinmann':
+        uni_to_loc = uniprot_to_offset()
+        conc_data['loc']=conc_data.apply(lambda x: 0 if x[id_col_dict[db_used]] not in uni_to_loc else uni_to_loc[x[id_col_dict[db_used]]],axis=1)
+
+
 ### Results generation#####
 ### Figure 1 - Correlation to growth rate by functional group histogram.
-(cond_list,gr,ecoli_data) = get_annotated_prots(db_used)
-#ecoli_data = get_coli_data(db_used,use_weight=True)
-conc_data = ecoli_data
-conc_data = conc_data.dropna()
-conc_data['gr_cov']=conc_data[cond_list].apply(lambda x: x.corr(gr[cond_list]),axis=1)
-conc_data['rsq']=conc_data['gr_cov']**2
-if db_used == 'heinmann':
-    uni_to_loc = uniprot_to_offset()
-    conc_data['loc']=conc_data.apply(lambda x: 0 if x[id_col_dict[db_used]] not in uni_to_loc else uni_to_loc[x[id_col_dict[db_used]]],axis=1)
+(cond_list_v,gr_v,ecoli_data_v) = get_annotated_prots('valgepea')
+(cond_list_h,gr_h,ecoli_data_h) = get_annotated_prots('heinmann')
+ecoli_data_h = calc_gr_corr(ecoli_data_h,cond_list_h,gr_h)
+ecoli_data_v = calc_gr_corr(ecoli_data_v,cond_list_v,gr_v)
 
-if just_ribosomes:
-    conc_data = conc_data[conc_data['func']=='Ribosome']
+categories = set(ecoli_data_v['group'].values).union(set(ecoli_data_h['group'].values))
 
-if remove_unmapped:
-    conc_data = conc_data[conc_data['group'] != 'NotMapped']
-
-categories = set(conc_data['group'].values)
 # Remove the unmapped proteins first and add them at the end so that they are stacked last in the histogram.
 if not remove_unmapped and "NotMapped" in categories:
     categories.remove("NotMapped")
-bins = linspace(-1,1,20)
-covs = ndarray(shape=(len(categories),len(bins)-1))
-sets = [] 
+categories = list(categories)
+
+if not just_ribosomes:
+    categories.append('NotMapped')
+
 figure(figsize=(5,3))
-for x in categories:
-    sets.append(conc_data[conc_data['group']==x].gr_cov)
 
-if not remove_unmapped and not just_ribosomes:
-    sets.append(conc_data[conc_data['group']=="NotMapped"].gr_cov)
+p=subplot(111)
+p1=subplot(121)
+p2=subplot(122)
 
-cats = list(categories)
-cats.append("NotMapped")
+def plot_corr_hist(p,conc_data,categories):
+    bins = linspace(-1,1,20)
+    covs = ndarray(shape=(len(categories),len(bins)-1))
+    sets = [] 
 
-hist(sets,bins = bins, stacked = True,label=cats)
+    for x in categories:
+        sets.append(conc_data[conc_data['group']==x].gr_cov)
 
-tick_params(axis='both', which='major', labelsize=8)
-tick_params(axis='both', which='minor', labelsize=8)
-xlabel('Pearson correlation with growth rate',fontsize=10)
-ylabel('Number of proteins',fontsize=10)
+    p.hist(sets,bins = bins, stacked = True,label=categories)
+    handles,labels=p.get_legend_handles_labels()
+    p.tick_params(axis='both', which='major', labelsize=8)
+    p.tick_params(axis='both', which='minor', labelsize=8)
+    p.set_xlabel('Pearson correlation with growth rate',fontsize=8)
+    p.set_ylabel('Number of proteins',fontsize=8)
 
-legend(loc=2,prop={'size':8})
-tight_layout()
-savefig('GrowthRateCorrelation%s.pdf' % conf_fname_mod)
+    #legend(loc=2,prop={'size':8})
+    tight_layout()
+    return handles,labels
+
+plot_corr_hist(p1,ecoli_data_h,categories)
+plot_corr_hist(p2,ecoli_data_v,categories)
+
+#assume both subplots have the same categories.
+handles,labels=p1.get_legend_handles_labels()
+
+figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
+subplots_adjust(top=0.83)
 savefig('GrowthRateCorrelation.pdf')
-
 
 ### Global cluster analysis:
 ## The proteins that show a high correlation with growth rate have significant R^2 values.
@@ -206,44 +229,31 @@ savefig('GrowthRateCorrelation.pdf')
 ## The correlation of each of the proteins with the global cluster is higher than with the GR (meaning it compensates for errors in GR measurements or degredation rates).
 figure(figsize=(5,3))
 
-if db_used == 'heinmann':
-    if not use_LB:
-        high_corr_prots = conc_data[conc_data['gr_cov']>0.4]
-        high_corr_prots = high_corr_prots[high_corr_prots['gr_cov']<0.8]
-    if use_LB:
-        high_corr_prots = conc_data[conc_data['gr_cov']>0.6]
-        high_corr_prots = high_corr_prots[high_corr_prots['gr_cov']<1]
-if db_used == 'valgepea':
-    high_corr_prots = conc_data[conc_data['gr_cov']>0.8]
+def get_high_corr(db,df,gr,conds):
+    if db == 'heinmann' and not use_LB:
+        limits = (0.4,0.8)
+    if db == 'heinmann' and use_LB:
+        limits = (0.6,1.)
+    if db == 'valgepea':
+        limits = (0.8,1.)
+    glob = df[df['gr_cov']>limits[0]]
+    glob = glob[glob['gr_cov']<limits[1]]
+    glob_tot = glob[conds].sum()
+    alpha,beta,r_val,p_val,std_err = linregress(gr,glob_tot)
+    return (glob_tot,alpha,beta)
 
-high_corr_normed = high_corr_prots.copy()
-high_corr_normed = high_corr_normed[cond_list].apply(lambda x: x/x.mean(),axis=1)
+(glob_h,alpha_h,beta_h) = get_high_corr('heinmann',ecoli_data_h,gr_h,cond_list_h)
+(glob_v,alpha_v,beta_v) = get_high_corr('valgepea',ecoli_data_v,gr_v,cond_list_v)
 
-def cluster_corr(cluster):
-    cluster_global = cluster.sum()
-    cluster_global = cluster_global/cluster_global.mean()
+plot(gr_h.values,glob_h.values,'o',label="Heinmann")
+plot(gr_v.values,glob_v.values,'o',label="Valgepea")
+plot(gr_h.values,alpha_h*gr_h.values+beta_h,color='blue',label=("Heinmann Trend,$R^2$=%.2f" % (gr_h.corr(glob_h)**2)))
+plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_v)**2)))
 
-    alpha,beta,r_val,p_val,std_err = linregress(gr,cluster_global)
-    return (cluster_global,alpha,beta)
-
-global_cluster = {}
-global_weighted=cluster_corr(high_corr_prots[cond_list])
-global_normed=cluster_corr(high_corr_normed[cond_list])
-
-plot(gr.values,global_weighted[0].values,'o',label="Weighted")
-plot(gr.values,global_weighted[1]*gr.values+global_weighted[2],color='blue',label=("Weighted Trend,$R^2$=%f" % (gr.corr(global_weighted[0])**2)))
-
-plot(gr.values,global_normed[0].values,'o',label="Normalized")
-plot(gr.values,global_normed[1]*gr.values+global_normed[2],color='green',label=("Normalized Trend,$R^2$=%f" % (gr.corr(global_normed[0])**2)))
-
-if use_LB:
-    xlim(0,1.7)
-    ylim(0,3)
-if not use_LB:
-    xlim(0,0.7)
-    ylim(0,2)
+xlim(xmin=0.)
+ylim(ymin=0.)
 xlabel('Growth rate',fontsize=10)
-ylabel('Protein level (normalized)',fontsize=10)
+ylabel('Protein level',fontsize=10)
 legend(loc=2, prop={'size':8})
 tick_params(axis='both', which='major', labelsize=8)
 tick_params(axis='both', which='minor', labelsize=8)
