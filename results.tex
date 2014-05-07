@@ -81,7 +81,7 @@ Furthermore, it maps conditions involving different carbon sources as opposed to
 \centering
 \includegraphics{GrowthRateCorrelation.pdf}
 \caption{
-A significant fraction of the proteins have positive correlation with the growth rate in the two datasets analysed.
+A significant fraction of the proteins have positive correlation with the growth rate in the two data sets analyzed.
 These proteins span all the functional groups.
 Proteins with unknown function (present in the Heinmann data, left figure) show less correlation with growth rate (as well as proteins with low levels of expression, data not shown).
 }
@@ -97,8 +97,10 @@ As before, the H data set presented more noise, probably due to the reasons ment
 \centering
 \includegraphics{GlobalClusterGRFit.pdf}
 \caption{
-The sum of the concentrations of the HC-proteins in each of the data set, and a linear regression line are shown.
-Changes in the concentration of the HC-proteins across conditions can be largely explained by the growth rate ($R^2>0.7$ for both data sets analyzed).
+The sum of the concentrations of the HC-proteins in each of the data sets, and the corresponding linear regression lines are shown.
+The HC-proteins form a large fraction out of the proteome (over $40\%$ at the higher growth rates measured).
+The change in the concentration of the HC-proteins is about 2-fold while the growth rate changes by about 5-fold.
+The estimated degradation rate is A for H and B for V (with confidence...).
 For the Heinmann data set, the HC proteins are defined as those with a Pearson correlation of $0.4$ to $0.8$ with the growth rate.
 For the Valgepea data set, the HC proteins are defined as those with a Pearson correlation of $0.8$ and above with the growth rate.
 Some of the unexplained variability of the HC proteins in the Heinmann data set can indicate errors in growth rate measurements and/or differences in degradation rates across conditions.
@@ -125,7 +127,7 @@ The analysis revealed that, on average, all of the HC-proteins scale in the same
 \end{figure}
 \subsection{Theoretical model}
 In an attempt to explain how such a wide-span positive response occurs, we have constructed a model that is able to reproduce these results as the outcome of redistribution of resources of the bio-synthesis machinery.
-\subsubsection{Distincting between gene specific and global control of expression}
+\subsubsection{Distinguishing between gene specific and global control of expression}
 For every protein, the model decouples its resulting concentration as the product of two control mechanisms:
 \begin{enumerate}
 \item Protein/gene specific controls such as the associated gene's promoter sequence, 5'-UTRs, ribosomal binding site sequence, and factors affecting this specific gene's expression such as transcription factors and riboswitches that react with the relevant gene.
@@ -149,8 +151,8 @@ Different environmental conditions may require the expression of different genes
 For example, comparing two growth media, one that includes all the required amino-acids (abbreviated as AA), and one that includes none, it can be assumed that when all the AA are present, no need exists for the cell to express AA metabolism enzymes, whereas when AA's are absent, these enzymes must be expressed.
 If we now consider some arbitrary protein $i$, whose specific affinity is unaltered between these two conditions, we see that its concentration will most likely still change between the two conditions as the affinities of at least some of the genes (the AA synthesizing enzymes) change, affecting the distribution of resources between all of the expressed genes.
 
-Generalizing this notion, for every group of conditions, one could divide the proteins into those whose intrinsic affinity remaines constant across all of the conditions, and to those whose intrinsic affinity changes (meaning their expression is actively regulated by the cell) between at least some of the conditions.
-As an outcome of Equation \ref{eq:concentration-ratio} it follows that those proteins whose intrinsic affinity remaines constant across the different growth conditions, also maintained their relative concentrations across these conditions with respect to each other.
+Generalizing this notion, for every group of conditions, one could divide the proteins into those whose intrinsic affinity remains constant across all of the conditions, and to those whose intrinsic affinity changes (meaning their expression is actively regulated by the cell) between at least some of the conditions.
+As an outcome of Equation \ref{eq:concentration-ratio} it follows that those proteins whose intrinsic affinity remain-es constant across the different growth conditions, also maintained their relative concentrations across these conditions with respect to each other.
 Therefore, identifying large groups of proteins that maintain their relative concentrations across conditions, may indicate that these proteins maintained their intrinsic affinities and that any changes in their absolute concentrations are in fact a passive outcome resulting from changes in the intrinsic affinities of other proteins.
 
 \subsubsection{The relationship between proteome composition and the growth rate}
