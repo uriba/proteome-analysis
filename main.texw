@@ -77,7 +77,7 @@ In both data sets, the proteins that have a high correlation with the growth rat
 We believe that the lower correlation and higher variability found in the H data set is a byproduct of the fact that it contains much more conditions but spans roughly the same range of growth rates.
 Furthermore, it maps conditions involving different carbon sources as opposed to the V data set that uses the same carbon source on all measurements.
 
-<< fig = True, echo = False >>=
+<< fig = True, echo = False, label = 'growthcorr', caption = 'A significant fraction of the proteins have positive correlation with the growth rate in the two data sets analyzed.\nThese proteins span all the functional groups.\nProteins with unknown function (present in the Heinmann data, left figure) show less correlation with growth rate (as well as proteins with low levels of expression, data not shown).' >>=
 from analysis import *
 (cond_list_v,gr_v,ecoli_data_v) = get_annotated_prots('valgepea')
 (cond_list_h,gr_h,ecoli_data_h) = get_annotated_prots('heinmann')
@@ -128,17 +128,6 @@ handles,labels=p1.get_legend_handles_labels()
 figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
 subplots_adjust(top=0.83)
 @
-
-\begin{figure}[h]
-\centering
-\includegraphics{GrowthRateCorrelation.pdf}
-\caption{
-A significant fraction of the proteins have positive correlation with the growth rate in the two data sets analyzed.
-These proteins span all the functional groups.
-Proteins with unknown function (present in the Heinmann data, left figure) show less correlation with growth rate (as well as proteins with low levels of expression, data not shown).
-}
-\label{fig:growthcorr}
-\end{figure}
 
 Next we checked how significant was the response of the proteins that had a significant positive correlation with the growth rate across the conditions measured (hereafter called the High Correlation proteins, abbreviated as HC-proteins).
 To that end, we summed up the concentrations of all of the HC-proteins across the conditions measured and compared their total concentration to the growth rate (Figure \ref{fig:globalgrcorr}).
