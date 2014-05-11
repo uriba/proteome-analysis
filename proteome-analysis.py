@@ -229,7 +229,7 @@ savefig('GrowthRateCorrelation.pdf')
 ## The correlation of each of the proteins with the global cluster is higher than with the GR (meaning it compensates for errors in GR measurements or degredation rates).
 figure(figsize=(5,3))
 
-def get_high_corr(db,df,gr,conds):
+def get_glob(db,df):
     if db == 'heinmann' and not use_LB:
         limits = (0.4,0.8)
     if db == 'heinmann' and use_LB:
@@ -238,6 +238,10 @@ def get_high_corr(db,df,gr,conds):
         limits = (0.8,1.)
     glob = df[df['gr_cov']>limits[0]]
     glob = glob[glob['gr_cov']<limits[1]]
+    return glob
+ 
+def get_high_corr(db,df,gr,conds):
+    glob = get_glob(db,df)
     glob_tot = glob[conds].sum()
     alpha,beta,r_val,p_val,std_err = linregress(gr,glob_tot)
     return (glob_tot,alpha,beta)
@@ -261,73 +265,33 @@ tight_layout()
 savefig('GlobalClusterGRFit%s.pdf' % conf_fname_mod)
 savefig('GlobalClusterGRFit.pdf')
 
-## Figure 2, correlation inside global cluster
-figure(figsize=(5,3))
+## Figure 3, global cluster slope vs. ribosomal slope
+def set_alpha(db,df,gr):
+    cond_list = cond_list_dict[db]
+    df['alpha'] = df[cond_list].apply(lambda x: linregress(gr[cond_list]/gr[cond_list].mean(),x/x.mean())[0],axis=1)
+    return df
 
-high_corr_prots['weighted_cov']=high_corr_prots[cond_list].apply(lambda x: x.corr(global_weighted[0]),axis=1)
-high_corr_prots['normed_cov']=high_corr_prots[cond_list].apply(lambda x: x.corr(global_normed[0]),axis=1)
-sets = [high_corr_prots['weighted_cov'].values,high_corr_prots['normed_cov'].values]
-hist(sets,bins = bins, stacked = False,label=['Weighted','Normalized'])
-legend(loc=2, prop={'size':8})
-xlabel('Pearson correlation with global cluster',fontsize=10)
-ylabel('Number of proteins',fontsize=10)
-tick_params(axis='both', which='major', labelsize=8)
-tick_params(axis='both', which='minor', labelsize=8)
-tight_layout()
-savefig('GlobalClusterCorr%s.pdf' % conf_fname_mod)
-
-## Figure 3, R^2 of proteins with global cluster
-figure(figsize=(5,3))
-sets = [(high_corr_prots['weighted_cov']**2).values,(high_corr_prots['normed_cov']**2).values]
-hist(sets, stacked = False,label=['Weighted','Normalized'],bins=20)
-legend(loc=2, prop={'size':8})
-xlabel('R-square of protein with global cluster',fontsize=10)
-ylabel('Number of proteins',fontsize=10)
-tick_params(axis='both', which='major', labelsize=8)
-tick_params(axis='both', which='minor', labelsize=8)
-tight_layout()
-savefig('GlobalClusterRSquare%s.pdf' % conf_fname_mod)
-
-## Figure 4, coherent scaling of proteins in the global cluster - R^2 comparison between global cluster and specific fits.
-def rsq(ys,xs,alpha,beta):
-    n = len(xs)
-    return 1.0-((ys-(alpha*xs + beta))**2).sum()/((n-1)*ys.var())
-
-def rsq_self(ys,xs):
-    alpha,beta,r_val,p_val,std_err = linregress(xs,ys)
-    return rsq(ys,xs,alpha,beta)
-
-rsq_global = high_corr_normed[cond_list].apply(lambda x: rsq(x,global_normed[0],1,0),axis=1)
-rsq_selfs = high_corr_normed[cond_list].apply(lambda x: rsq_self(x,global_normed[0]),axis=1)
-
-conc_data['alpha'] = conc_data[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[0],axis=1)
-conc_data['rsq'] = conc_data[cond_list].apply(lambda x: linregress(gr/gr.mean(),x/x.mean())[2]**2,axis=1)
+def plot_response_hist(db,df,gr,p):
+    bins = linspace(-2,2,20)
+    ribs = df[df['func'] == 'Ribosome']
+    glob_conc = get_glob(db,df)
+    glob_conc = glob_conc[glob_conc['func'] != 'Ribosome']
+    glob_conc = set_alpha(db,glob_conc,gr)
+    ribs = set_alpha(db,ribs,gr)
+    p.hist([glob_conc['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['HC-proteins','Ribosomal proteins'])
+    p.set_xlim(-2,2)
+    p.set_xlabel('Normalized response')
+    p.axvline(x=0,ymin=0,ymax=100)
+    p.axvline(x=0.5,ymin=0,ymax=100)
+    p.axvline(x=1,ymin=0,ymax=100)
+    p.tick_params(axis='both', which='major', labelsize=8)
+    p.tick_params(axis='both', which='minor', labelsize=8)
 
 figure(figsize=(6,3))
+
 p1=subplot(121)
-if db_used == 'heinmann':
-    if use_LB:
-        p1.hist((conc_data[conc_data['gr_cov']>0.6])['alpha'],bins=arange(-2,2,0.1))
-    else:
-        p1.hist(conc_data['alpha'],bins=arange(-2,2,0.1))
-if db_used == 'valgepea':
-    p1.hist((conc_data[conc_data['gr_cov']>0.8])['alpha'].values,bins=arange(-2,2,0.1))
-p1.set_xlim(-2,2)
-p1.set_xlabel('Normalized response')
-p1.axvline(x=0,ymin=0,ymax=100)
-p1.axvline(x=0.5,ymin=0,ymax=100)
-p1.axvline(x=1,ymin=0,ymax=100)
-p1.tick_params(axis='both', which='major', labelsize=8)
-p1.tick_params(axis='both', which='minor', labelsize=8)
 p2=subplot(122)
-ribs = conc_data[conc_data['func']=='Ribosome']
-p2.hist(ribs['alpha'].values,bins=arange(-2,2,0.1))
-p2.set_xlim(-2,2)
-p2.set_xlabel('Normalized response')
-p2.axvline(x=0,ymin=0,ymax=100)
-p2.axvline(x=0.5,ymin=0,ymax=100)
-p2.axvline(x=1,ymin=0,ymax=100)
-p2.tick_params(axis='both', which='major', labelsize=8)
-p2.tick_params(axis='both', which='minor', labelsize=8)
+plot_response_hist('valgepea',ecoli_data_v,gr_v,p1)
+plot_response_hist('heinmann',ecoli_data_h,gr_h,p2)
 tight_layout()
 savefig('AllProtsVSRibosomalNormalizedSlopes.pdf')

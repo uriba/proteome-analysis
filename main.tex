@@ -8,8 +8,9 @@
 \providecommand{\abs}[1]{\lvert#1\rvert}
 \providecommand{\norm}[1]{\lVert#1\rVert}
 \bibliography{library}
+\immediate\write18{python proteome-analysis.py}
 
-\title{On the quantitative inter-dependence between gene regulation, protein levels and growth rate}
+\title{Increased concentration of proteins with growth rate can result from passive resource redistribution}
 \begin{comment}
 \author{Leeat Keren, Uri Barenholz, Ron Milo}
 \end{comment}
@@ -280,3 +281,4 @@ Plotting the $r^2$ distribution shows that a large fraction of the variability o
 \end{comment}
 \printbibliography
 \end{document}
+%%% LaTeX-command: "pdflatex -enable-write18"
