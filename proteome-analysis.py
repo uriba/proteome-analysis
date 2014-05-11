@@ -272,14 +272,14 @@ def set_alpha(db,df,gr):
     return df
 
 def plot_response_hist(db,df,gr,p):
-    bins = linspace(-2,2,20)
+    bins = linspace(-1.7,1.7,35)
     ribs = df[df['func'] == 'Ribosome']
     glob_conc = get_glob(db,df)
     glob_conc = glob_conc[glob_conc['func'] != 'Ribosome']
     glob_conc = set_alpha(db,glob_conc,gr)
     ribs = set_alpha(db,ribs,gr)
     p.hist([glob_conc['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['HC-proteins','Ribosomal proteins'])
-    p.set_xlim(-2,2)
+    p.set_xlim(-1.7,1.7)
     p.set_xlabel('Normalized response')
     p.axvline(x=0,ymin=0,ymax=100)
     p.axvline(x=0.5,ymin=0,ymax=100)
