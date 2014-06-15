@@ -22,17 +22,17 @@
 \abstract{
   In many microorganisms, the proteome composition changes dramatically as a function of the growth environment.
 Furthermore, many of these changes seem to be coordinated with the growth rate.
-However, although cellular growth rates, gene expression levels and gene regulation have been at the center of biological research for decades, their quantitative interdependence remains largely unexplained.
+However, although cellular growth rates, gene expression levels and gene regulation have been at the center of biological research for decades, their quantitative interdependence is not yet fully understood.
 
 We analyzed global trends in two recently published proteome composition data sets for the model microorganism \emph{E.coli} under various growth conditions, and specifically, their relation to growth rate.
-We found that the cellular concentration of a large fraction of the proteins measured coordinately increased with the growth rate.
+We found that the cellular concentration of a large fraction of the proteins measured coordinately increase with the growth rate.
 This fraction includes proteins spanning different functional groups and proteins that are involved in different cellular processes.
-We developed a simple model that explains how such a widely coordinated increase in the concentration of many proteins can be the result of passive redistribution of resources, due to active down regulation of a few unrelated proteins.
+Notably, Ribosomal proteins are only a small fraction of this group of proteins.
+
+We present a simple model that explains how such a widely coordinated increase in the concentration of many proteins can be the result of passive redistribution of resources, due to active regulation of a few unrelated proteins.
 Our model further explains why and how such changes relate to the growth rate under different environmental conditions.
 
-We conclude that, although the concentrations of many proteins change with the growth rate, such changes do not necessarily imply that these proteins have been specifically and coordinately up-regulated.
-Instead, we show that this change can be the result of suppression of the expression of other proteins and thus does not require further cellular control mechanisms.
-Furthermore, we show how the resulting growth rate can be an outcome of the change in the proteome composition suggesting that proteome composition, combined with specific environmental conditions, determines the growth rate.
+In light of these results we conclude that, although the concentrations of many proteins change with the growth rate, such changes could be part of a global effect, not requiring specific cellular control mechanisms.
 }
 
 \section{Introduction}
@@ -40,12 +40,12 @@ A fundamental system-level challenge for cell physiology is the achievement of p
 It has been established for many years that in different environments cells differ in many properties, including their shape, size, growth rate, and macro-molecular composition \parencite{Schaechter1958, Maaloe1969, Churchward1982, Pedersen1978a, ingraham1983growth,Bremer1987}, with strong interdependence between these parameters.
 
 Early on it was found that the expression of some genes is coordinated with growth rate.
-Classical experiments in bacteria, by researchers from what became known as the Copenhagen school, have shown that ribosome concentration increases in proportion to growth rate\parencite{Schaechter1958}.
+Classical experiments in bacteria, by researchers from what became known as the Copenhagen school, have shown that ribosome concentration (inferred from the RNA to protein ratio in cells) increases in proportion to growth rate\parencite{Schaechter1958}.
 The search for mechanisms in \emph{E.coli} that underlie this observation yielded several candidates.
 Specifically, coordination between ribosome production and growth rate was attributed both to the pools of purine nucleotides \parencite{Gourse1996,Gaal1997}, and the tRNA pools through the stringent response \parencite{Chatterji2001,Brauer2008a}.
 The logic behind this observed increase is that, given that translation rates and ribosome occupancy ratios remain relatively constant across conditions, a larger fraction of ribosomes out of the biomass is needed in order to achieve faster growth \parencite{zaslaver2009a, dennis2004, neidhardt1999a, Nomura1984, }.
 
-In the last two decades, with the development of the ability to measure genome-wide expression levels, it was found that coordination of protein concentration and growth rate is not limited to ribosomal genes, but is actually much more wide-spread.
+In the last two decades, with the development of the ability to measure genome-wide expression levels, it was found that coordination of protein concentration and growth rate is not limited to ribosomes and ribosomal genes, but is actually much more wide-spread.
 In \emph{E.coli}, a coordination between the expression of catabolic and anabolic genes, and the growth rate, was observed, a process mediated by cAMP \parencite{Saldanha2004}.
 In \emph{S.cerevisiae}, it was shown that a surprisingly large fraction of the genome changes its expression levels in response to environmental conditions in a manner strongly correlated with growth rate \parencite{Keren2013a,Gasch2000,Castrillo2007, Zaslaver2009a, Berthoumieux2013, Gerosa2013}.
 These studies and others raised many fundamental questions regarding the basic nature of gene regulation that are still open.
@@ -54,7 +54,7 @@ For example, what is the degree of interconnection between gene expression and g
 Several studies examining the interplay between global and specific modes of regulation tried to answer these questions, suggesting that global factors play a major role in determining the expression levels of genes \parencite{Gasch2000, Klumpp2009a,Scott2010}.
 In \emph{E.coli}, this was mechanistically attributed to changes in the pool of RNA polymerase core and sigma factors \parencite{Klumpp2008}.
 In \emph{S.cerevisiae}, it was suggested that differences in histone modifications around the replication origins \parencite{regenberg2006} or translation rates \parencite{Gasch2000} across conditions may underlie the same phenomenon.
-Important advancements in understanding this process in \emph{E.coli} were achieved by coupling measurements of fluorescent reporters to a model of expression built upon the empirical scaling of different cell parameters (such as gene dosage, transcription rate and cell size) with growth rate [refs].
+Important advancements in understanding this process in \emph{E.coli} were achieved by coupling measurements of fluorescent reporters to a model of expression built upon the empirical scaling of different cell parameters (such as gene dosage, transcription rate and cell size) with growth rate [refs Klumpp? others?].
 These studies suggest that the expression of all genes change with growth rate, with different architectures of regulatory networks yielding differences in the direction and magnitude of these changes. 
 
 Despite these advancements, many gaps remain in our understanding of the connection between gene expression and growth rate.
@@ -63,8 +63,8 @@ In addition, mechanistic insight and models for organisms other than \emph{E.col
 As such, a need remains for a quantitative model relating gene expression and growth rate, which can provide a baseline for the behavior of endogenous genes in conditions in which they are not differentially regulated.
 Such a model will provide a basis on top of which different regulatory aspects can be added.
 
-In this work we analyzed two recently published proteomic data sets of \emph{E.coli} under different growth conditions.
-Based on the analysis we present a baseline, organism-independent, model that quantifies the relationship between gene regulation, protein abundance and growth rate.
+In this work we analyzed two recently published proteomic data sets of \emph{E.coli} under different growth conditions [ref valgepea and heinmann].
+Based on the analysis we present a baseline, organism-independent model, that quantifies the relationship between gene regulation, protein abundance and growth rate.
 Our model suggests that positive correlation with growth rate is a system-emerging property that is the result of passive redistribution of resources.
 As a result, such an observed correlation does not require specific regulation of the positively correlated proteins and hence, no mechanism needs to exist in order to explain this phenomena.
 
@@ -77,6 +77,7 @@ In the H data set, the correlation with growth rate is more significant among an
 In both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups (reftable/SI breakdown by function).
 We believe that the lower correlation and higher variability found in the H data set is a byproduct of the fact that it contains much more conditions but spans roughly the same range of growth rates.
 Furthermore, it maps conditions involving different carbon sources as opposed to the V data set that uses the same carbon source on all measurements.
+Restricting the analysis of the H dataset only to chemostat conditions indeed results in lower varability (direct to SI, consider adding figures here? what about LB?).
 
 \begin{figure}[h]
 \centering
@@ -111,11 +112,11 @@ Some of the unexplained variability of the HC proteins in the Heinmann data set 
 
 Noting that the fact that two proteins have the same correlation with the growth rate does not imply that they are correlated between themselves, neither does it imply that they scale in the same way, we calculated the slope of a linear regression line with the growth rate for every protein in the HC-proteins and plotted the results in Figure \ref{fig:globalfit}.
 In order to compensate for the different concentrations of different proteins, the data for every protein was first normalized to have an average concentration of 1 across the different conditions and then the slope of the fit was calculated.
-This analysis revealed that most proteins responded in a similar manner to the different conditions.
+This analysis revealed that most proteins respond in a similar manner to the different conditions.
 
 Lastly, we wanted to check how the response of the HC-proteins relates to the well-studied response of the ribosomal proteins.
 To that end, we performed the same analysis of slopes, restricting it to ribosomal proteins alone (Figure \ref{fig:globalfit}).
-The analysis revealed that, on average, all of the HC-proteins scale in the same way as the ribosomal proteins do.
+The analysis showed that, on average, all of the HC-proteins scale in the same way as the ribosomal proteins do.
 
 \begin{figure}[h]
 \centering
@@ -130,6 +131,9 @@ The analysis revealed that, on average, all of the HC-proteins scale in the same
 \end{figure}
 \subsection{Theoretical model}
 In an attempt to explain how such a wide-span positive response occurs, we have constructed a model that is able to reproduce these results as the outcome of redistribution of resources of the bio-synthesis machinery.
+Briefly, the model assumes that favorable growth conditions allow the cell to down-regulate some proteins that are needed in harsher conditions, thus reducing the amount of proteins that need to be produced for the cell to proliferate.
+Therefore, the fraction of each of the rest of the proteins out of the proteome increases, assuming they are being expressed in the same relative ratios.
+The growth rate increases due to the fact that the ratio of bio-synthetic machinery to the rest of the proteome increases.
 \subsubsection{Distinguishing between gene specific and global control of expression}
 For every protein, the model decouples its resulting concentration as the product of two control mechanisms:
 \begin{enumerate}

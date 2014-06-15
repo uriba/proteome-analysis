@@ -1,0 +1,15 @@
+Increased concentration of proteins with growth rate can result from passive resource redistribution
+
+
+In many microorganisms, the proteome composition changes dramatically as a function of the growth environment.
+Furthermore, many of these changes seem to be coordinated with the growth rate.
+However, although cellular growth rates, gene expression levels and gene regulation have been at the center of biological research for decades, their quantitative interdependence is not yet fully understood.
+
+We analyzed global trends in two proteome composition data sets for the model microorganism E.coli under various growth conditions, and specifically, their relation to growth rate.
+We found that the cellular concentration of a large fraction of the proteins measured coordinately increases with the growth rate.
+This fraction includes proteins spanning different functional groups and proteins that are involved in different cellular processes.
+Notably, Ribosomal proteins are only a small fraction of this group of proteins.
+
+We present a simple model that explains how such a widely coordinated increase in the concentration of many proteins can be the result of passive redistribution of resources, due to active regulation of a few unrelated proteins.
+Our model further explains why and how such changes relate to the growth rate under different environmental conditions.
+The model thus suggests that, although the concentrations of many proteins change with the growth rate, such changes could be part of a global effect, not requiring specific cellular control mechanisms.

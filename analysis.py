@@ -78,13 +78,13 @@ def uniprot_to_offset():
 # Define the list of conditions that will be relevant for the analysis, (and the description column), the growth rates and the cell volumes, according to the database used:
 cond_list_dict = {'valgepea':[u'11', u'21', u'31', u'40', u'48'],
                   'heinmann':[
-                      u'chemostat \u00b5=0.12', #u'galactose',
-                      u'chemostat \u00b5=0.20', #u'acetate',
-                      u'chemostat \u00b5=0.35', #u'glucosamine',
-                      #u'pyruvate', u'glycerol', u'fumarate',
-                      #u'succinate', 
-                      u'chemostat \u00b5=0.5',]
-                      #u'anaerobic', u'glucose',]
+                      u'chemostat \u00b5=0.12', u'galactose',
+                      u'chemostat \u00b5=0.20', u'acetate',
+                      u'chemostat \u00b5=0.35', u'glucosamine',
+                      u'pyruvate', u'glycerol', u'fumarate',
+                      u'succinate', 
+                      u'chemostat \u00b5=0.5',
+                      u'anaerobic', u'glucose',]
                   }
 if use_LB:
     cond_list_dict['heinmann'].append(u'LB')
