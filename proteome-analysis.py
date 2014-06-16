@@ -3,7 +3,7 @@ import pandas as pd
 from pandas.io.parsers import read_csv
 from scipy.stats import gaussian_kde,linregress
 from Bio import SeqIO
-from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust
+from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,text,subplots
 from numpy import linspace,ndarray,arange
 from numpy.random import randn
 from analysis import *
@@ -50,13 +50,17 @@ def plot_corr_hist(p,conc_data,categories):
     tight_layout()
     return handles,labels
 
-plot_corr_hist(p1,ecoli_data_h,categories)
-plot_corr_hist(p2,ecoli_data_v,categories)
+plot_corr_hist(p1,ecoli_data_v,categories)
+plot_corr_hist(p2,ecoli_data_h,categories)
 
 #assume both subplots have the same categories.
 handles,labels=p1.get_legend_handles_labels()
 
 figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
+
+text(0.03,0.8,"V",fontsize=12,transform=p.transAxes)
+text(0.65,0.8,"H",fontsize=12,transform=p.transAxes)
+
 subplots_adjust(top=0.83)
 savefig('GrowthRateCorrelation.pdf')
 
@@ -73,8 +77,13 @@ def get_glob(db,df):
         limits = (0.6,1.)
     if db == 'valgepea':
         limits = (0.8,1.)
+    if db == 'heinmann-chemo':
+        limits = (0.8,1.)
     glob = df[df['gr_cov']>limits[0]]
     glob = glob[glob['gr_cov']<limits[1]]
+    print "for db %s global cluster is %d out of %d measured proteins" % (db, len(glob.index),len(df.index))
+    if db == 'heinmann':
+        print "for db %s annotated proteins in global are %d out of %d measured annotated proteins" % (db, len(glob[glob['group']!= "NotMapped"].index),len(df[df['group']!="NotMapped"].index))
     return glob
  
 def get_high_corr(db,df,gr,conds):
@@ -158,3 +167,63 @@ p.plot(hgr,vgr,'.')
 p.set_title('%d out of %d are only in one' % (only_in_one, len(ko_vals)))
 
 savefig('vhcorrcomp.pdf')
+
+# plot heinmann data only for chemostat conditions.
+figure(figsize=(5,3))
+(cond_list,gr_chemo,ecoli_data_chemo) = get_annotated_prots('heinmann-chemo')
+ecoli_data_chemo = calc_gr_corr(ecoli_data_chemo,cond_list,gr_chemo)
+
+categories = set(ecoli_data_chemo['group'].values)
+
+# Remove the unmapped proteins first and add them at the end so that they are stacked last in the histogram.
+if not remove_unmapped and "NotMapped" in categories:
+    categories.remove("NotMapped")
+categories = list(categories)
+
+if not just_ribosomes:
+    categories.append('NotMapped')
+
+p1=subplot(121)
+p2=subplot(122)
+
+def plot_corr_hist(p,conc_data,categories):
+    bins = linspace(-1,1,20)
+    covs = ndarray(shape=(len(categories),len(bins)-1))
+    sets = [] 
+
+    for x in categories:
+        sets.append(conc_data[conc_data['group']==x].gr_cov)
+
+    p.hist(sets,bins = bins, stacked = True,label=categories)
+    handles,labels=p.get_legend_handles_labels()
+    p.tick_params(axis='both', which='major', labelsize=8)
+    p.tick_params(axis='both', which='minor', labelsize=8)
+    p.set_xlabel('Pearson correlation with growth rate',fontsize=8)
+    p.set_ylabel('Number of proteins',fontsize=8)
+
+    #legend(loc=2,prop={'size':8})
+    tight_layout()
+    return handles,labels
+
+plot_corr_hist(p1,ecoli_data_chemo,categories)
+
+handles,labels=p1.get_legend_handles_labels()
+
+figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
+
+(glob_chemo,alpha_chemo,beta_chemo) = get_high_corr('heinmann-chemo',ecoli_data_chemo,gr_chemo,cond_list)
+
+p2.plot(gr_chemo.values,glob_chemo.values,'o',label="Heinmann Chemostat")
+p2.plot(gr_chemo.values,alpha_chemo*gr_chemo.values+beta_chemo,color='blue',label=("Heinmann Chemostat Trend,$R^2$=%.2f" % (gr_chemo.corr(glob_chemo)**2)))
+
+p2.set_xlim(xmin=0.)
+p2.set_ylim(ymin=0.)
+p2.set_xlabel('Growth rate',fontsize=10)
+p2.set_ylabel('Protein level',fontsize=10)
+legend(loc=3, prop={'size':6})
+p2.tick_params(axis='both', which='major', labelsize=8)
+p2.tick_params(axis='both', which='minor', labelsize=8)
+tight_layout()
+
+subplots_adjust(top=0.83)
+savefig('HeinmannChemostatGr.pdf')

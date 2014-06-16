@@ -21,16 +21,16 @@
 \maketitle
 \abstract{
   In many microorganisms, the proteome composition changes dramatically as a function of the growth environment.
-Furthermore, many of these changes seem to be coordinated with the growth rate.
+Furthermore, many of these changes seem to be coordinated with the growth rate rather than the specific environment.
 However, although cellular growth rates, gene expression levels and gene regulation have been at the center of biological research for decades, their quantitative interdependence is not yet fully understood.
 
-We analyzed global trends in two recently published proteome composition data sets for the model microorganism \emph{E.coli} under various growth conditions, and specifically, their relation to growth rate.
+We analyzed the relationship between growth rate and proteome composition for the model microorganism \emph{E.coli} as reflected in two recently published proteomics data sets spanning various growth conditions.
 We found that the cellular concentration of a large fraction of the proteins measured coordinately increase with the growth rate.
 This fraction includes proteins spanning different functional groups and proteins that are involved in different cellular processes.
 Notably, Ribosomal proteins are only a small fraction of this group of proteins.
 
-We present a simple model that explains how such a widely coordinated increase in the concentration of many proteins can be the result of passive redistribution of resources, due to active regulation of a few unrelated proteins.
-Our model further explains why and how such changes relate to the growth rate under different environmental conditions.
+We present a simple model that demonstrates how such a widely coordinated increase in the concentration of many proteins can be the result of passive redistribution of resources, due to active regulation of a few proteins.
+Our model provides a potential explanation for why and how such changes relate to the growth rate under different environmental conditions.
 
 In light of these results we conclude that, although the concentrations of many proteins change with the growth rate, such changes could be part of a global effect, not requiring specific cellular control mechanisms.
 }
@@ -43,7 +43,8 @@ Early on it was found that the expression of some genes is coordinated with grow
 Classical experiments in bacteria, by researchers from what became known as the Copenhagen school, have shown that ribosome concentration (inferred from the RNA to protein ratio in cells) increases in proportion to growth rate\parencite{Schaechter1958}.
 The search for mechanisms in \emph{E.coli} that underlie this observation yielded several candidates.
 Specifically, coordination between ribosome production and growth rate was attributed both to the pools of purine nucleotides \parencite{Gourse1996,Gaal1997}, and the tRNA pools through the stringent response \parencite{Chatterji2001,Brauer2008a}.
-The logic behind this observed increase is that, given that translation rates and ribosome occupancy ratios remain relatively constant across conditions, a larger fraction of ribosomes out of the biomass is needed in order to achieve faster growth \parencite{zaslaver2009a, dennis2004, neidhardt1999a, Nomura1984, }.
+For a more thorough review see \parencite{Nomura1984}.
+The logic behind this observed increase is that, given that translation rates and ribosome occupancy ratios remain relatively constant across conditions, a larger fraction of ribosomes out of the biomass is needed in order to achieve faster growth \parencite{neidhardt1999a,dennis2004,zaslaver2009a,}.
 
 In the last two decades, with the development of the ability to measure genome-wide expression levels, it was found that coordination of protein concentration and growth rate is not limited to ribosomes and ribosomal genes, but is actually much more wide-spread.
 In \emph{E.coli}, a coordination between the expression of catabolic and anabolic genes, and the growth rate, was observed, a process mediated by cAMP \parencite{Saldanha2004}.
@@ -54,7 +55,7 @@ For example, what is the degree of interconnection between gene expression and g
 Several studies examining the interplay between global and specific modes of regulation tried to answer these questions, suggesting that global factors play a major role in determining the expression levels of genes \parencite{Gasch2000, Klumpp2009a,Scott2010}.
 In \emph{E.coli}, this was mechanistically attributed to changes in the pool of RNA polymerase core and sigma factors \parencite{Klumpp2008}.
 In \emph{S.cerevisiae}, it was suggested that differences in histone modifications around the replication origins \parencite{regenberg2006} or translation rates \parencite{Gasch2000} across conditions may underlie the same phenomenon.
-Important advancements in understanding this process in \emph{E.coli} were achieved by coupling measurements of fluorescent reporters to a model of expression built upon the empirical scaling of different cell parameters (such as gene dosage, transcription rate and cell size) with growth rate [refs Klumpp? others?].
+Important advancements in understanding this process in \emph{E.coli} were achieved by coupling measurements of fluorescent reporters to a model of expression built upon the empirical scaling of different cell parameters (such as gene dosage, transcription rate and cell size) with growth rate \parencite{Klumpp2009a}.
 These studies suggest that the expression of all genes change with growth rate, with different architectures of regulatory networks yielding differences in the direction and magnitude of these changes. 
 
 Despite these advancements, many gaps remain in our understanding of the connection between gene expression and growth rate.
@@ -63,21 +64,22 @@ In addition, mechanistic insight and models for organisms other than \emph{E.col
 As such, a need remains for a quantitative model relating gene expression and growth rate, which can provide a baseline for the behavior of endogenous genes in conditions in which they are not differentially regulated.
 Such a model will provide a basis on top of which different regulatory aspects can be added.
 
-In this work we analyzed two recently published proteomic data sets of \emph{E.coli} under different growth conditions [ref valgepea and heinmann].
+In this work we analyzed two recently published proteomic data sets of \emph{E.coli} under different growth conditions \parencite{Valgepea2013} [ref unpublished heinmann].
 Based on the analysis we present a baseline, organism-independent model, that quantifies the relationship between gene regulation, protein abundance and growth rate.
 Our model suggests that positive correlation with growth rate is a system-emerging property that is the result of passive redistribution of resources.
-As a result, such an observed correlation does not require specific regulation of the positively correlated proteins and hence, no mechanism needs to exist in order to explain this phenomena.
+As a result, such an observed correlation does not require specific regulation of the positively correlated proteins and hence, no mechanism needs to exist in order to achieve this trait.
 
 \section{Results}
 \subsection{Analysis of proteomic data}
 Having two high-quality data sets at hand, we looked for global trends in the data and specifically trends involving the growth rate under the different conditions analyzed.
 We measured the Pearson correlation of every protein in the two data sets analyzed (denoted by H for Heinmann's data and V for Valgepea's data) against the growth rate (Figure \ref{fig:growthcorr}).
-The two data sets show that a large fraction ($x\% $ in H and $y\% $ in V) are significantly positively correlated with the growth rate.
-In the H data set, the correlation with growth rate is more significant among annotated proteins than among un-annotated proteins ($x\% $ of annotated proteins have a correlation in the range of $(a,b)$ whereas only $y\% $ of the un-annotated proteins have a correlation within this range).
-In both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups (reftable/SI breakdown by function).
-We believe that the lower correlation and higher variability found in the H data set is a byproduct of the fact that it contains much more conditions but spans roughly the same range of growth rates.
-Furthermore, it maps conditions involving different carbon sources as opposed to the V data set that uses the same carbon source on all measurements.
-Restricting the analysis of the H dataset only to chemostat conditions indeed results in lower varability (direct to SI, consider adding figures here? what about LB?).
+The two data sets show that a large number of proteins ($724$ out of $1981$ measured in H and $296$ out of $2184$ in V) are significantly positively correlated with the growth rate.
+In the H data set, the correlation with growth rate is slightly more significant among annotated proteins than among un-annotated proteins ($509$ out of $1318$ of annotated proteins have a correlation in the range of $(0.4,0.8)$ whereas only $215$ out of $663$ of the un-annotated proteins have a correlation within this range).
+In both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups (ToDo refer to table with breakdown by function).
+We believe that the lower correlation and higher variability found in the H data set results from the fact that it contains much more conditions but spans roughly the same range of growth rates.
+Furthermore, it measures the proteome under conditions involving different carbon sources as opposed to the V data set that uses the same carbon source on all measurements.
+Restricting the analysis of the H data set only to chemostat conditions indeed results in a distribution resembling the one obtained for the V data set (Figure \ref{fig:growthcorrchemo}).
+(ToDo consider discussing analysis with LB here or in the SI.)
 
 \begin{figure}[h]
 \centering
@@ -85,38 +87,38 @@ Restricting the analysis of the H dataset only to chemostat conditions indeed re
 \caption{
 A significant fraction of the proteins have positive correlation with the growth rate in the two data sets analyzed.
 These proteins span all the functional groups.
-Proteins with unknown function (present in the Heinmann data, left figure) show less correlation with growth rate (as well as proteins with low levels of expression, data not shown).
+Proteins with unknown function (present in the Heinmann data set, right figure) show less correlation with growth rate, as well as proteins with low levels of expression (data not shown).
 }
 \label{fig:growthcorr}
 \end{figure}
 
-Next we checked how significant was the response of the proteins that had a significant positive correlation with the growth rate across the conditions measured (hereafter called the High Correlation proteins, abbreviated as HC-proteins).
+Next, we checked how significant was the response of the proteins that had a significant positive correlation with the growth rate across the conditions measured (hereafter called the High Correlation proteins, abbreviated as HC-proteins).
 To that end, we summed up the concentrations of all of the HC-proteins across the conditions measured and compared their total concentration to the growth rate (Figure \ref{fig:globalgrcorr}).
-Both data sets presented a significant response ($x\% $ change in total concentration across $y\% $ change of the growth rate) with most of the variability of the total concentration being explained by the growth rate ($R^2$ of . in H and . in V). 
-As before, the H data set presented more noise, probably due to the reasons mentioned above.
+Both data sets presented a significant response ($\approx 2$ fold change in total concentration across $\approx 5$ fold change of the growth rate) with most of the variability of the total concentration being explained by the growth rate ($R^2$ of $0.75$ in H and $0.99$ in V). 
+As before, the H data set presented more noise, due to the reasons mentioned above (see Figure \ref{fig:growthcorrchemo} for analysis of the chemostat conditions of the H data set).
 
 \begin{figure}[h]
 \centering
 \includegraphics{GlobalClusterGRFit.pdf}
 \caption{
 The sum of the concentrations of the HC-proteins in each of the data sets, and the corresponding linear regression lines are shown.
-The HC-proteins form a large fraction out of the proteome (over $40\%$ at the higher growth rates measured).
+The HC-proteins form a large fraction out of the proteome at the higher growth rates (over $40\%$ for H and over $50\%$ for V).
 The change in the concentration of the HC-proteins is about 2-fold while the growth rate changes by about 5-fold.
-The estimated degradation rate is A for H and B for V (with confidence...).
-For the Heinmann data set, the HC proteins are defined as those with a Pearson correlation of $0.4$ to $0.8$ with the growth rate.
-For the Valgepea data set, the HC proteins are defined as those with a Pearson correlation of $0.8$ and above with the growth rate.
+(ToDo: The estimated degradation rate is A for H and B for V (with confidence intervals).
+For the H data set, the HC proteins are defined as those with a Pearson correlation of $0.4$ to $0.8$ with the growth rate.
+For the V data set, the HC proteins are defined as those with a Pearson correlation of $0.8$ and above with the growth rate.
 Some of the unexplained variability of the HC proteins in the Heinmann data set can indicate errors in growth rate measurements and/or differences in degradation rates across conditions.
 }
 \label{fig:globalgrcorr}
 \end{figure}
 
 Noting that the fact that two proteins have the same correlation with the growth rate does not imply that they are correlated between themselves, neither does it imply that they scale in the same way, we calculated the slope of a linear regression line with the growth rate for every protein in the HC-proteins and plotted the results in Figure \ref{fig:globalfit}.
-In order to compensate for the different concentrations of different proteins, the data for every protein was first normalized to have an average concentration of 1 across the different conditions and then the slope of the fit was calculated.
-This analysis revealed that most proteins respond in a similar manner to the different conditions.
+In order to compensate for the different concentrations of different proteins, the data for every protein was first normalized to have an average concentration of $1$ across the different conditions and then the slope of the fit was calculated.
+The analysis revealed that most proteins respond in a similar manner to the different conditions.
 
 Lastly, we wanted to check how the response of the HC-proteins relates to the well-studied response of the ribosomal proteins.
 To that end, we performed the same analysis of slopes, restricting it to ribosomal proteins alone (Figure \ref{fig:globalfit}).
-The analysis showed that, on average, all of the HC-proteins scale in the same way as the ribosomal proteins do.
+The analysis showes that, on average, all of the HC-proteins scale in the same way as the ribosomal proteins do.
 
 \begin{figure}[h]
 \centering
@@ -126,14 +128,17 @@ The analysis showed that, on average, all of the HC-proteins scale in the same w
     Left panel - Valgepea, Right panel - Heinmann.
     The HC-proteins all respond in a similar manner to the ribosomal proteins.
     The HC-proteins all share a similar response, meaning they maintain their relative ratios.
+    (ToDo confidence intervals or some other huristic for justifying the observed variation)
 }
 \label{fig:globalfit}
 \end{figure}
+
 \subsection{Theoretical model}
 In an attempt to explain how such a wide-span positive response occurs, we have constructed a model that is able to reproduce these results as the outcome of redistribution of resources of the bio-synthesis machinery.
 Briefly, the model assumes that favorable growth conditions allow the cell to down-regulate some proteins that are needed in harsher conditions, thus reducing the amount of proteins that need to be produced for the cell to proliferate.
-Therefore, the fraction of each of the rest of the proteins out of the proteome increases, assuming they are being expressed in the same relative ratios.
-The growth rate increases due to the fact that the ratio of bio-synthetic machinery to the rest of the proteome increases.
+As a consequence, the fraction of each of the rest of the proteins out of the proteome increases, assuming they are being expressed in the same relative ratios.
+The growth rate therefore increases as well, due to the fact that the ratio of bio-synthetic machinery to the rest of the proteome increases.
+
 \subsubsection{Distinguishing between gene specific and global control of expression}
 For every protein, the model decouples its resulting concentration as the product of two control mechanisms:
 \begin{enumerate}
@@ -144,7 +149,7 @@ For every protein, the model decouples its resulting concentration as the produc
 According to the model, every gene, under every environmental condition, is given an 'affinity-for-expression' (or 'intrinsic-strength') score that encapsulates its gene-specific control state under the condition considered (denoted $w_i(c)$, where $c$ refers to the growth condition).
 Our model assumes that the bio-synthetic resources of the cell (Ribosomes, RNA Polymerases, etc.) are distributed among the genes according to their affinities under the condition at hand.
 The resulting protein concentration, under a specific condition, is therefore its specific affinity under the condition, divided by the sum of all the affinities of all of the genes under that same condition.
-Thus, if two proteins have the same affinity under some condition, they will have the same concentration under that condition, if protein $A$ has twice the affinity of protein $B$ under the same condition, then $A$'s concentration will be double than $B$'s concentration under that condition, etc.
+Thus, if two proteins have the same affinity under some condition, they will have the same concentration under that condition, if protein $A$ has twice the affinity of protein $B$ under the same condition, then $A$'s concentration will be twice as high as $B$'s concentration under that condition, etc.
 
 This relationship can be simply formulated as follows:
 \begin{equation}
@@ -159,16 +164,16 @@ For example, comparing two growth media, one that includes all the required amin
 If we now consider some arbitrary protein $i$, whose specific affinity is unaltered between these two conditions, we see that its concentration will most likely still change between the two conditions as the affinities of at least some of the genes (the AA synthesizing enzymes) change, affecting the distribution of resources between all of the expressed genes.
 
 Generalizing this notion, for every group of conditions, one could divide the proteins into those whose intrinsic affinity remains constant across all of the conditions, and to those whose intrinsic affinity changes (meaning their expression is actively regulated by the cell) between at least some of the conditions.
-As an outcome of Equation \ref{eq:concentration-ratio} it follows that those proteins whose intrinsic affinity remain-es constant across the different growth conditions, also maintained their relative concentrations across these conditions with respect to each other.
-Therefore, identifying large groups of proteins that maintain their relative concentrations across conditions, may indicate that these proteins maintained their intrinsic affinities and that any changes in their absolute concentrations are in fact a passive outcome resulting from changes in the intrinsic affinities of other proteins.
+As an outcome of Equation \ref{eq:concentration-ratio} it follows that those proteins whose intrinsic affinity remains constant across the different growth conditions, also maintain their relative concentrations across these conditions with respect to each other.
+Therefore, identifying a large group of proteins that maintain their relative concentrations across conditions may indicate that these proteins maintained their intrinsic affinities and that any changes in their absolute concentrations are in fact a passive outcome resulting from changes in the intrinsic affinities of other proteins.
 
 \subsubsection{The relationship between proteome composition and the growth rate}
 While it is sometimes implied that different cellular components are regulated by the growth rate, here we treat the growth rate as an outcome of the combination of proteome composition and the environmental conditions.
 Specifically, we evaluate the growth rate as the result of dividing the total amount of proteins per cell by the amount of bio-synthesis machinery in that cell.
 The larger the ratio of total proteins to bio-synthesis proteins is, the longer these bio-synthesis proteins will have to operate in order to duplicate the proteome, and thus the longer the doubling time of the cell will be.
 
-To illustrate this assumption concretely, one could think about the total amount of proteins per cell (measured in AA count) divided by the number of ribosomes per cell.
-As each Ribosome translates at an approximately condition-independent rate of about 20 AA per second, and as the amount of actively translating Ribosomes is also relatively condition-independent (refs), it follows that the doubling time is linearly dependent on the ratio of protein to ribosomes in the biomass.
+To illustrate this assumption concretely, one could think about the total amount of proteins per cell (measured in AA count) divided by the number of ribosomes in the cell.
+As each Ribosome translates at an approximately condition-independent rate of about 20 AA per second, and as the amount of actively translating Ribosomes is also relatively condition-independent (refs), it follows that the doubling time is linearly dependent on the ratio of proteins to ribosomes in the biomass.
 
 Theoretically, the fastest doubling time a cell may have is the doubling time achieved when all of the cell's proteome is the bio-synthetic machinery.
 We denote this minimal doubling time by $T_B$.
@@ -250,6 +255,17 @@ These mechanisms may still allow for faster or more fine-tuned response, or may 
 
 \section{Materials and Methods}
 Detail data sources, software and algorithms used.
+
+\section{Supplementary figures and data}
+\begin{figure}[h]
+\centering
+\includegraphics{HeinmannChemostatGr.pdf}
+\caption{
+  Restricting the analysis of the H dataset to chemostat conditions yields similar results to those of the V dataset.
+}
+\label{fig:growthcorrchemo}
+\end{figure}
+
 \begin{comment}
 \begin{figure}[h]
 \centering

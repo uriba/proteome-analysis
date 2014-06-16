@@ -84,7 +84,12 @@ cond_list_dict = {'valgepea':[u'11', u'21', u'31', u'40', u'48'],
                       u'pyruvate', u'glycerol', u'fumarate',
                       u'succinate', 
                       u'chemostat \u00b5=0.5',
-                      u'anaerobic', u'glucose',]
+                      u'anaerobic', u'glucose',],
+                  'heinmann-chemo': [
+                      u'chemostat \u00b5=0.12',
+                      u'chemostat \u00b5=0.20',
+                      u'chemostat \u00b5=0.35',
+                      u'chemostat \u00b5=0.5']
                   }
 if use_LB:
     cond_list_dict['heinmann'].append(u'LB')
@@ -102,6 +107,8 @@ gr_dict = {'valgepea':
 
 def get_coli_data(db_used,use_weight):
     cond_list = cond_list_dict[db_used]
+    if db_used == 'heinmann-chemo':
+        db_used = 'heinmann'
     if db_used == 'heinmann':
         # As the file was exported from Excel, it uses Excel's encoding.
         ecoli_data = read_csv('coli_data.csv',header=1,encoding='iso-8859-1')
@@ -144,6 +151,9 @@ def get_coli_data(db_used,use_weight):
 
 def get_annotated_prots(db):
     coli_data = get_coli_data(db,use_weight=True)
+    cond_list = cond_list_dict[db]
+    if db == 'heinmann-chemo':
+        db = 'heinmann'
     #annotate coli_data according to db.
     if db == 'heinmann':
         uni_to_konum = uni_ko_dict()
@@ -161,7 +171,6 @@ def get_annotated_prots(db):
     coli_data = coli_data.dropna()
     gr = gr_dict[db]
     gr = pd.Series(gr)
-    cond_list = cond_list_dict[db]
     gr = gr[cond_list]
     return (cond_list,gr,coli_data)
 
