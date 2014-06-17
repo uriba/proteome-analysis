@@ -48,6 +48,8 @@ def uniprot_to_desc_dict():
     for uni in uni_konum_dict:
         if uni_konum_dict[uni] == 'NotMapped':
             uni_to_annot[uni]=['NotMapped']
+        if uni_konum_dict[uni] == 'Not mapped':
+            uni_to_annot[uni]=['NotMapped']
         elif uni_konum_dict[uni] not in ko_annot_dict:
 	    uni_to_annot[uni]=['NotMapped']
         else:

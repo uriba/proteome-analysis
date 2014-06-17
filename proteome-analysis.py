@@ -7,6 +7,7 @@ from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,y
 from numpy import linspace,ndarray,arange
 from numpy.random import randn
 from analysis import *
+import matplotlib
 
 ### Results generation#####
 ### Figure 1 - Correlation to growth rate by functional group histogram.
@@ -21,6 +22,7 @@ categories = set(ecoli_data_v['group'].values).union(set(ecoli_data_h['group'].v
 if not remove_unmapped and "NotMapped" in categories:
     categories.remove("NotMapped")
 categories = list(categories)
+categories.sort()
 
 if not just_ribosomes:
     categories.append('NotMapped')
@@ -104,7 +106,7 @@ xlim(xmin=0.)
 ylim(ymin=0.)
 xlabel('Growth rate',fontsize=10)
 ylabel('Protein level',fontsize=10)
-legend(loc=2, prop={'size':8})
+legend(loc=2, prop={'size':8},numpoints=1)
 tick_params(axis='both', which='major', labelsize=8)
 tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
@@ -133,12 +135,17 @@ def plot_response_hist(db,df,gr,p):
     p.tick_params(axis='both', which='major', labelsize=8)
     p.tick_params(axis='both', which='minor', labelsize=8)
 
-figure(figsize=(6,3))
+figure(figsize=(5,3))
 
+p=subplot(111)
 p1=subplot(121)
 p2=subplot(122)
 plot_response_hist('valgepea',ecoli_data_v,gr_v,p1)
 plot_response_hist('heinmann',ecoli_data_h,gr_h,p2)
+
+text(-0.03,0.9,"V",fontsize=12,transform=p.transAxes)
+text(0.6,0.9,"H",fontsize=12,transform=p.transAxes)
+
 tight_layout()
 savefig('AllProtsVSRibosomalNormalizedSlopes.pdf')
 
@@ -179,6 +186,7 @@ categories = set(ecoli_data_chemo['group'].values)
 if not remove_unmapped and "NotMapped" in categories:
     categories.remove("NotMapped")
 categories = list(categories)
+categories.sort()
 
 if not just_ribosomes:
     categories.append('NotMapped')
@@ -209,7 +217,7 @@ plot_corr_hist(p1,ecoli_data_chemo,categories)
 
 handles,labels=p1.get_legend_handles_labels()
 
-figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
+figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.05,0.8,0.5,0.2),ncol=2)
 
 (glob_chemo,alpha_chemo,beta_chemo) = get_high_corr('heinmann-chemo',ecoli_data_chemo,gr_chemo,cond_list)
 
@@ -220,7 +228,7 @@ p2.set_xlim(xmin=0.)
 p2.set_ylim(ymin=0.)
 p2.set_xlabel('Growth rate',fontsize=10)
 p2.set_ylabel('Protein level',fontsize=10)
-legend(loc=3, prop={'size':6})
+legend(loc=3, prop={'size':6},numpoints=1)
 p2.tick_params(axis='both', which='major', labelsize=8)
 p2.tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
