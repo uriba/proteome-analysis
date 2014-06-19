@@ -4,6 +4,7 @@
 \usepackage[labelfont=bf]{caption}
 \usepackage[affil-it]{authblk}
 \usepackage{fullpage}
+\usepackage{pdflscape}
 \linespread{1}
 \pagenumbering{gobble}
 \bibliography{library}
@@ -31,10 +32,9 @@ The model thus suggests that, although the concentrations of many proteins chang
 \clearpage        
 \section*{\LARGE Results}
 \subsection*{Many proteins are positively correlated with growth rate}
-The Pearson correlation between the concentration of every protein and the growth rate in the two data sets (denoted by H for Heinmann's data and V for Valgepea's data) is shown in Figure \ref{fig:growthcorr}.
-The two data sets present a large number of proteins ($724$ out of $1981$ measured in H and $296$ out of $2184$ in V) that are significantly positively correlated with the growth rate.
-In the H data set, the correlation with growth rate is more significant among annotated proteins than among un-annotated proteins ($435$ out of $988$ of annotated proteins have a correlation in the range of $(0.4,0.8)$ whereas only $289$ out of $993$ of the un-annotated proteins have a correlation within this range).
-In both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups.
+The Pearson correlation between the concentration of every protein and the growth rate in the two data sets (denoted by V for data from \parencite{Valgepea2013} and by H for unpublished data from M. Heinemann's lab) is shown in Figure \ref{fig:growthcorr}.
+The two data sets present a large number of proteins ($724$ out of $1981$ measured in H and $296$ out of $2184$ in V) that are significantly positively correlated with the growth rate \footnote{High correlation proteins are defined as those with a Pearson correlation in the range $(0.4,0.8)$ and $(0.8,1)$ for the H and V data sets, respectively}.
+Notably, the proteins that present high correlation with the growth rate are involved in different cellular functions and span different functional groups.
 
 The lower correlation and higher variability found in the H data set may result from the fact that it contains much more conditions but spans roughly the same range of growth rates.
 Furthermore, it includes measurements of the proteome under conditions involving different carbon sources as opposed to the V data set that uses the same carbon source in all measurements.
@@ -46,37 +46,37 @@ This is exemplified by restricting the analysis of the H data set only to chemos
 \caption{\linespread{0.5}\selectfont{}
 A significant fraction of the proteins have positive correlation with the growth rate in the two data sets analyzed.
 These proteins span many functional groups.
-Proteins with unknown function (present in the Heinmann data set, right panel) show less correlation with growth rate, as well as proteins with low levels of expression (data not shown).
+Proteins with unknown function (present in the Heinemann data set, right panel) show less correlation with growth rate, as well as proteins with low levels of expression (data not shown).
 }
 \label{fig:growthcorr}
 \end{figure}
 
 \clearpage        
 \subsection*{Proteins that are positively correlated with growth rate share a similar, significant response}
-We checked how large is the response of the proteins that have a significant positive correlation with the growth rate across the conditions measured (referred to as HC, for High Correlation, proteins).
-To that end, we summed up the concentrations of all of the HC proteins across the conditions measured and compared their total concentration to the growth rate (Figure \ref{fig:globalgrcorr}).
+We examined how large is the response of the proteins that have a significant positive correlation with the growth rate across the conditions measured (referred to as high correlation proteins).
+To this end, we summed up the concentrations of all of the high correlation proteins across the conditions measured and compared their total concentration to the growth rate (Figure \ref{fig:globalgrcorr}).
 Both data sets presented a significant response ($\approx 2$ fold change in total concentration across $\approx 5$ fold change of the growth rate) with most of the variability of the total concentration being explained by the growth rate ($R^2$ of $0.75$ in H and $0.99$ in V). 
-As before, the H data set presented more noise, due to the reasons mentioned above (see Figure \ref{fig:growthcorrchemo} for analysis of the chemostat conditions of the H data set).
 
-Noting that the fact that two proteins have the same correlation with the growth rate does not imply that they are correlated between themselves, neither does it imply that they scale in the same way, we calculated the slope of a linear regression line with the growth rate for every protein in the HC proteins and plotted the results in Figure \ref{fig:globalfit}.
-In order to compensate for the different concentrations of different proteins, the data for every protein was first normalized to have an average concentration of $1$ across the different conditions and then the slope of the fit was calculated.
-The analysis reveals that most proteins respond in a similar manner across the different conditions.
+We note that two proteins that have equal, non-perfect, correlation with the growth rate may not be correlated between themselves.
+Furthermore, they may scale differently with the growth rate.
+To test whether the high correlation proteins indeed share a common response, we normalized the concentration of every such protein across the conditions measured to 1, and then calculated the slope of a linear regression line with the growth rate for that protein.
+This analysis revealed that most proteins respond in a similar manner across the different growth conditions (Figure \ref{fig:globalfit}).
 
 \subsection*{Ribosomal proteins share the same response to growth rate as other proteins}
-We wanted to check how the response of the HC proteins relates to the well-studied response of the ribosomal proteins.
-To that end, we performed the same analysis of slopes, restricting it to ribosomal proteins alone (Figure \ref{fig:globalfit}).
-The analysis shows that, on average, HC proteins scale in the same way as ribosomal proteins do.
+We examined how the response of high correlation proteins relates to the well-studied response of the ribosomal proteins.
+We therefore performed the same analysis of slopes, restricting it to ribosomal proteins alone (Figure \ref{fig:globalfit}).
+The analysis shows that, on average, high correlation proteins scale in the same way as ribosomal proteins do.
 \clearpage        
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=1.7]{GlobalClusterGRFit.pdf}
 \caption{\linespread{0.5}\selectfont{}
-The sum of the concentrations of HC proteins in each of the data sets (with linear regression lines) is shown.
-HC proteins form a large fraction out of the proteome at higher growth rates ($>40\%$ for H and $>50\%$ for V).
-The change in the concentration of the HC proteins is about 2-fold while the growth rate changes by about 5-fold.
-Some of the unexplained variability of the HC proteins in the H data set can indicate errors in growth rate measurements and/or differences in degradation rates across conditions.
-(HC proteins are defined as those with a Pearson correlation in the range $(0.4,0.8)$ and $(0.8,1)$ for the H and V data sets, respectively)
+The sum of the concentrations (as fractions out of the proteome) of high correlation proteins in each of the data sets, with linear regression lines, is shown.
+High correlation proteins form a large fraction out of the proteome at higher growth rates ($>40\%$ for H and $>50\%$ for V).
+The change in the total concentration of high correlation proteins is about 2-fold while the growth rate changes by about 5-fold.
+Some of the unexplained variability of high correlation proteins in the H data set can indicate errors in growth rate measurements and/or differences in degradation rates across conditions.
+(High correlation proteins are defined as those with a Pearson correlation in the range $(0.4,0.8)$ and $(0.8,1)$ for the H and V data sets, respectively)
 }
 
 \label{fig:globalgrcorr}
@@ -86,10 +86,10 @@ Some of the unexplained variability of the HC proteins in the H data set can ind
 \centering
 \includegraphics[scale=1.9]{AllProtsVSRibosomalNormalizedSlopes.pdf}
 \caption{\linespread{0.5}\selectfont{}
-    A histogram of the normalized slopes of the trend lines for every protein in the HC proteins and for all the ribosomal proteins is shown for the two data sets analyzed.
-    Left panel - Valgepea, right panel - Heinmann.
-    The HC proteins all share a relatively similar response, meaning they maintain their relative ratios.
-    The ribosomal proteins respond in a similar manner to the HC proteins .
+    A histogram of the normalized slopes of the trend lines for every high correlation protein (blue), and for every ribosomal protein (green) is shown for the two data sets analyzed.
+    Left panel - data from \parencite{Valgepea2013}, right panel - data from the Heinemann lab.
+    High correlation proteins all share a relatively similar response, meaning they maintain their relative ratios.
+    Ribosomal proteins respond in a similar manner to the rest of the high correlation proteins .
 }
 \label{fig:globalfit}
 \end{figure}
@@ -99,15 +99,15 @@ Some of the unexplained variability of the HC proteins in the H data set can ind
 \centering
 \includegraphics[scale=1.9]{HeinmannChemostatGr.pdf}
 \caption{\linespread{0.5}\selectfont{}
-  Restricting the analysis of the Heinmann data set to chemostat conditions yields similar results to those obtained for the Valgepea data set.
+  Restricting the analysis of the Heinemann data set to chemostat conditions yields similar results to those obtained for the Valgepea data set.
 }
 \label{fig:growthcorrchemo}
 \end{figure}
 \clearpage        
 
 \subsection*{Theoretical model}
-In an attempt to explain how such a wide-span positive response occurs, we have constructed a model that is able to reproduce these results as the outcome of redistribution of resources of the bio-synthesis machinery.
-Briefly, the model assumes that favorable growth conditions allow the cell to down-regulate some proteins that are needed in harsher conditions, thus reducing the amount of proteins that need to be produced for the cell to proliferate.
+In an attempt to explain how such a wide-span positive response occurs, we have constructed a minimalistic model that is able to reproduce these results as the outcome of redistribution of resources of the bio-synthesis machinery.
+Briefly, the model assumes that favorable growth conditions allow the cell to down-regulate some proteins that are needed in harsher conditions, thus reducing the amount of proteins that need to be produced for the cell to proliferate (Figure \ref{fig:model}).
 As a consequence, the fraction of each of the rest of the proteins out of the proteome increases, assuming they are being expressed in the same relative ratios.
 The growth rate therefore increases as well, due to the fact that the ratio of bio-synthetic machinery to the rest of the proteome increases.
 
@@ -117,6 +117,20 @@ Interestingly, protein degradation affects the expected concentration of non-dif
 Assuming that protein degradation acts on all proteins in the same way, and that it is invariant in the growth rate, the effect of protein degradation can be understood as follows: at any time, some fraction of the entire proteome is degraded.
 Therefore, the \emph{observed} growth rate, $\mu$, is, in fact, equivalent to the amount of proteins produced minus the amount of proteins degraded.
 To illustrate, if the measured growth rate is 0, the implication is not that no proteins are produced, but rather that proteins are produced at exactly the same rate as they are degraded.
+\clearpage
+\begin{landscape}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.9]{Figures7-trieste.pdf}
+\caption{\linespread{0.5}\selectfont{}
+  A minimalistic model predicts up regulation of environmental genes reduces the concentration of other proteins (Panel A).
+As a result, the ratio of bio-synthesis machinery genes to the rest of the proteome decreases, resulting in slower growth (Panel B).
+}
+\label{fig:model}
+\end{figure}
+\end{landscape}
+\clearpage        
+
 
 \printbibliography
 \end{document}

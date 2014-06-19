@@ -23,6 +23,7 @@ if not remove_unmapped and "NotMapped" in categories:
     categories.remove("NotMapped")
 categories = list(categories)
 categories.sort()
+categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes']
 
 if not just_ribosomes:
     categories.append('NotMapped')
@@ -34,7 +35,7 @@ p1=subplot(121)
 p2=subplot(122)
 
 def plot_corr_hist(p,conc_data,categories):
-    bins = linspace(-1,1,20)
+    bins = linspace(-1,1,21)
     covs = ndarray(shape=(len(categories),len(bins)-1))
     sets = [] 
 
@@ -105,7 +106,7 @@ plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend
 xlim(xmin=0.)
 ylim(ymin=0.)
 xlabel('Growth rate',fontsize=10)
-ylabel('Protein level',fontsize=10)
+ylabel('Protein fraction out of proteome',fontsize=10)
 legend(loc=2, prop={'size':8},numpoints=1)
 tick_params(axis='both', which='major', labelsize=8)
 tick_params(axis='both', which='minor', labelsize=8)
@@ -128,10 +129,11 @@ def plot_response_hist(db,df,gr,p):
     ribs = set_alpha(db,ribs,gr)
     p.hist([glob_conc['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['HC-proteins','Ribosomal proteins'])
     p.set_xlim(-1.7,1.7)
-    p.set_xlabel('Normalized response')
-    p.axvline(x=0,ymin=0,ymax=100)
-    p.axvline(x=0.5,ymin=0,ymax=100)
-    p.axvline(x=1,ymin=0,ymax=100)
+    p.set_xlabel('Normalized response',fontsize=8)
+    p.set_ylabel('Number of proteins',fontsize=8)
+    p.axvline(x=0,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
+    p.axvline(x=0.5,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
+    p.axvline(x=1,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
     p.tick_params(axis='both', which='major', labelsize=8)
     p.tick_params(axis='both', which='minor', labelsize=8)
 
@@ -143,8 +145,8 @@ p2=subplot(122)
 plot_response_hist('valgepea',ecoli_data_v,gr_v,p1)
 plot_response_hist('heinmann',ecoli_data_h,gr_h,p2)
 
-text(-0.03,0.9,"V",fontsize=12,transform=p.transAxes)
-text(0.6,0.9,"H",fontsize=12,transform=p.transAxes)
+text(-0.01,0.9,"V",fontsize=12,transform=p.transAxes)
+text(0.62,0.9,"H",fontsize=12,transform=p.transAxes)
 
 tight_layout()
 savefig('AllProtsVSRibosomalNormalizedSlopes.pdf')
@@ -187,6 +189,7 @@ if not remove_unmapped and "NotMapped" in categories:
     categories.remove("NotMapped")
 categories = list(categories)
 categories.sort()
+categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes']
 
 if not just_ribosomes:
     categories.append('NotMapped')
@@ -195,7 +198,7 @@ p1=subplot(121)
 p2=subplot(122)
 
 def plot_corr_hist(p,conc_data,categories):
-    bins = linspace(-1,1,20)
+    bins = linspace(-1,1,21)
     covs = ndarray(shape=(len(categories),len(bins)-1))
     sets = [] 
 
@@ -223,11 +226,13 @@ figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_ancho
 
 p2.plot(gr_chemo.values,glob_chemo.values,'o',label="Heinmann Chemostat")
 p2.plot(gr_chemo.values,alpha_chemo*gr_chemo.values+beta_chemo,color='blue',label=("Heinmann Chemostat Trend,$R^2$=%.2f" % (gr_chemo.corr(glob_chemo)**2)))
+p2.plot(gr_v.values,glob_v.values,'o',label="Valgepea")
+p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_v)**2)))
 
 p2.set_xlim(xmin=0.)
 p2.set_ylim(ymin=0.)
-p2.set_xlabel('Growth rate',fontsize=10)
-p2.set_ylabel('Protein level',fontsize=10)
+p2.set_xlabel('Growth rate',fontsize=8)
+p2.set_ylabel('Protein fraction out of proteome',fontsize=8)
 legend(loc=3, prop={'size':6},numpoints=1)
 p2.tick_params(axis='both', which='major', labelsize=8)
 p2.tick_params(axis='both', which='minor', labelsize=8)
