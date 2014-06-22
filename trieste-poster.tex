@@ -1,4 +1,4 @@
-\documentclass[a4paper,landscape,titlepage,17pt]{extarticle}
+\documentclass[a4paper,landscape,17pt]{extarticle}
 \usepackage{color,amsmath,graphicx}
 \usepackage[citestyle=numeric,backend=bibtex]{biblatex}
 \usepackage[labelfont=bf]{caption}
@@ -10,12 +10,13 @@
 \bibliography{library}
 
 \title{\Huge Increased concentration of proteins with growth rate can result from passive resource redistribution}
-\author{\Large Uri Barenholz, Leeat Keren, Ron Milo}
-\affil{The Weizmann Institute of Science, Rehovot, Israel}
+\author{\Large Uri Barenholz\thanks{uri.barenholz@weizmann.ac.il}, Leeat Keren, Ron Milo}
+\affil{Weizmann Institute of Science, Rehovot, Israel}
 \date{}
 
 \begin{document}
 \maketitle
+\clearpage
 \section*{\LARGE Abstract}
 In many microorganisms, the proteome composition changes dramatically as a function of the growth environment.
 Furthermore, many of these changes seem to be coordinated with the growth rate rather than the specific environment.
@@ -35,7 +36,7 @@ The model thus suggests that, although the concentrations of many proteins chang
 \centering
 \includegraphics[scale=1.7]{GrowthRateCorrelation.pdf}
 \caption{\linespread{0.5}\selectfont{}
-  We analyzed two data sets in which \emph{E.coli} was grown at different growth rates and carbon sources, and its proteome composition was assessed by mass spectrometry (\parencite{Valgepea2013}, left panel, and unpublished data from M. Heinemann's lab, right panel).
+  We analyzed two data sets in which \emph{E.coli} was grown at different growth rates and carbon sources, and its proteome composition was assessed by mass spectrometry (\parencite{Valgepea2013}, left panel, and \parencite{Heinemann2014}, right panel).
 The Pearson correlation between the concentration of every protein and the growth rate was calculated for each of these data sets.
 We find that a significant fraction of the proteome, spanning distinct functional groups, has a high correlation with the growth rate.
 }
@@ -43,13 +44,11 @@ We find that a significant fraction of the proteome, spanning distinct functiona
 \end{figure}
 
 \clearpage        
-\section*{\LARGE Results}
 \subsection*{Proteins that are positively correlated with growth rate share a similar, significant response}
-We examined how large is the response of the proteins that have a significant positive correlation with the growth rate\footnote{High correlation proteins were defined as those with a Pearson correlation in the range $(0.4,0.8)$ and $(0.8,1)$ for the H and V data sets, respectively.} across the conditions measured (referred to as high correlation proteins).
-To this end, we summed up the concentrations of all of the high correlation proteins across the conditions measured and compared their total concentration to the growth rate (Figure \ref{fig:globalgrcorr}).
-Both data sets presented a significant response ($\approx 2$ fold change in total concentration across $\approx 5$ fold change of the growth rate) with most of the variability of the total concentration being explained by the growth rate ($R^2$ of $0.75$ in H and $0.99$ in V). 
+We examined how large is the response of the proteins that have a significant positive correlation with the growth rate\footnote{High correlation proteins were defined as those with a Pearson correlation in the range $(0.4,0.8)$ and $(0.8,1)$ for date sets \parencite{Heinemann2014} and \parencite{Valgepea2013}, respectively.} across the conditions measured (referred to as high correlation proteins) (Figure \ref{fig:globalgrcorr}).
+Both data sets presented a significant response ($\approx 2$ fold change in total concentration across $\approx 5$ fold change of the growth rate) with most of the variability of the total concentration being explained by the growth rate ($R^2$ of $0.75$ for data from \parencite{Heinemann2014} and $0.99$ for data from \parencite{Valgepea2013}). 
 
-To examine how similar is the behavior with growth rate for different proteins, we calculated the slope of a linear regression line with the growth rate for that protein (Figure \ref{fig:globalfit}).
+To examine the similarity in response to growth rate of different proteins, we calculated the slope of a linear regression line with the growth rate for every high correlation protein (Figure \ref{fig:globalfit}).
 The analysis reveals that most proteins respond in a similar manner across the different growth conditions.
 
 \subsection*{Ribosomal proteins share the same response to growth rate as other proteins}
@@ -63,7 +62,7 @@ The analysis shows that, on average, high correlation proteins scale in the same
 \includegraphics[scale=1.7]{GlobalClusterGRFit.pdf}
 \caption{\linespread{0.5}\selectfont{}
 The sum of the concentrations (as fractions out of the proteome) of high correlation proteins in each of the data sets, with linear regression lines, is shown.
-High correlation proteins form a large fraction out of the proteome at higher growth rates ($>40\%$ for H and $>50\%$ for V).
+High correlation proteins form a large fraction out of the proteome at higher growth rates ($>40\%$ for data from \parencite{Heinemann2014} and $>50\%$ for data from \parencite{Valgepea2013}).
 }
 
 \label{fig:globalgrcorr}
@@ -74,7 +73,7 @@ High correlation proteins form a large fraction out of the proteome at higher gr
 \includegraphics[scale=1.9]{AllProtsVSRibosomalNormalizedSlopes.pdf}
 \caption{\linespread{0.5}\selectfont{}
     A histogram of the normalized slopes of the trend lines for every high correlation protein (blue), and for every ribosomal protein (green) is shown for the two data sets analyzed.
-    Left panel - data from \parencite{Valgepea2013}, right panel - data from the Heinemann lab.
+    Left panel - data from \parencite{Valgepea2013}, right panel - data from \parencite{Heinemann2014}.
     High correlation proteins all share a relatively similar response, meaning they maintain their relative ratios.
     Ribosomal proteins respond in a similar manner to the rest of the high correlation proteins .
 }
@@ -86,7 +85,7 @@ High correlation proteins form a large fraction out of the proteome at higher gr
 \centering
 \includegraphics[scale=1.9]{HeinmannChemostatGr.pdf}
 \caption{\linespread{0.5}\selectfont{}
-  Restricting the analysis of the Heinemann data set to chemostat conditions yields similar results to those obtained for the Valgepea data set.
+  Restricting the analysis of the Schmidt/Heinemann data set to chemostat conditions yields similar results to those obtained for data set \parencite{Valgepea2013}.
 }
 \label{fig:growthcorrchemo}
 \end{figure}

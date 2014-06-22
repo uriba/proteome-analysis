@@ -61,8 +61,8 @@ handles,labels=p1.get_legend_handles_labels()
 
 figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
 
-text(0.03,0.8,"V",fontsize=12,transform=p.transAxes)
-text(0.65,0.8,"H",fontsize=12,transform=p.transAxes)
+text(0.03,0.8,"Valgepea",fontsize=8,transform=p.transAxes)
+text(0.65,0.8,"Heinemann",fontsize=8,transform=p.transAxes)
 
 subplots_adjust(top=0.83)
 savefig('GrowthRateCorrelation.pdf')
@@ -145,8 +145,8 @@ p2=subplot(122)
 plot_response_hist('valgepea',ecoli_data_v,gr_v,p1)
 plot_response_hist('heinmann',ecoli_data_h,gr_h,p2)
 
-text(-0.01,0.9,"V",fontsize=12,transform=p.transAxes)
-text(0.62,0.9,"H",fontsize=12,transform=p.transAxes)
+text(-0.01,0.9,"Valgepea",fontsize=8,transform=p.transAxes)
+text(0.62,0.9,"Heinemann",fontsize=8,transform=p.transAxes)
 
 tight_layout()
 savefig('AllProtsVSRibosomalNormalizedSlopes.pdf')
