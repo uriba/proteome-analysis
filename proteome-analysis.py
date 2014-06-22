@@ -98,9 +98,9 @@ def get_high_corr(db,df,gr,conds):
 (glob_h,alpha_h,beta_h) = get_high_corr('heinmann',ecoli_data_h,gr_h,cond_list_h)
 (glob_v,alpha_v,beta_v) = get_high_corr('valgepea',ecoli_data_v,gr_v,cond_list_v)
 
-plot(gr_h.values,glob_h.values,'o',label="Heinmann")
+plot(gr_h.values,glob_h.values,'o',label="Heinemann")
 plot(gr_v.values,glob_v.values,'o',label="Valgepea")
-plot(gr_h.values,alpha_h*gr_h.values+beta_h,color='blue',label=("Heinmann Trend,$R^2$=%.2f" % (gr_h.corr(glob_h)**2)))
+plot(gr_h.values,alpha_h*gr_h.values+beta_h,color='blue',label=("Heinemann Trend,$R^2$=%.2f" % (gr_h.corr(glob_h)**2)))
 plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_v)**2)))
 
 xlim(xmin=0.)
@@ -224,8 +224,8 @@ figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_ancho
 
 (glob_chemo,alpha_chemo,beta_chemo) = get_high_corr('heinmann-chemo',ecoli_data_chemo,gr_chemo,cond_list)
 
-p2.plot(gr_chemo.values,glob_chemo.values,'o',label="Heinmann Chemostat")
-p2.plot(gr_chemo.values,alpha_chemo*gr_chemo.values+beta_chemo,color='blue',label=("Heinmann Chemostat Trend,$R^2$=%.2f" % (gr_chemo.corr(glob_chemo)**2)))
+p2.plot(gr_chemo.values,glob_chemo.values,'o',label="Heinemann Chemostat")
+p2.plot(gr_chemo.values,alpha_chemo*gr_chemo.values+beta_chemo,color='blue',label=("Heinemann Chemostat Trend,$R^2$=%.2f" % (gr_chemo.corr(glob_chemo)**2)))
 p2.plot(gr_v.values,glob_v.values,'o',label="Valgepea")
 p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_v)**2)))
 
