@@ -240,3 +240,39 @@ tight_layout()
 
 subplots_adjust(top=0.83)
 savefig('HeinmannChemostatGr.pdf')
+
+# plot slopes distribution for highly negatively correlated proteins from Valgepea dataset and sum of concentrations
+figure(figsize=(5,3))
+
+p1=subplot(121)
+p2=subplot(122)
+
+def get_low_corr(db,df,gr,conds):
+    if db == 'valgepea':
+        limits = (-1.0,-0.7)
+    glob = df[df['gr_cov']>limits[0]]
+    glob = glob[glob['gr_cov']<limits[1]]
+    print "for db %s anti-correlated cluster is %d out of %d measured proteins" % (db, len(glob.index),len(df.index))
+    glob_tot = glob[conds].sum()
+    alpha,beta,r_val,p_val,std_err = linregress(gr,-glob_tot)
+    return (glob_tot,alpha,beta)
+
+(neg_corr_v,alpha_neg,beta_neg) = get_low_corr('valgepea',ecoli_data_v,gr_v,cond_list_v)
+
+p2.plot(gr_v.values,neg_corr_v.values,'o',label="Valgepea anti correlated")
+p2.plot(gr_v.values,-alpha_neg*neg_corr_v.values+beta_neg,color='blue',label=("Valgepea anti correlated Trend,$R^2$=%.2f" % (gr_v.corr(neg_corr_v)**2)))
+p2.plot(gr_v.values,glob_v.values,'o',label="Valgepea")
+p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_v)**2)))
+
+p2.set_xlim(xmin=0.)
+p2.set_ylim(ymin=0.)
+p2.set_xlabel('Growth rate',fontsize=8)
+p2.set_ylabel('Protein fraction out of proteome',fontsize=8)
+#legend(loc=3, prop={'size':6},numpoints=1)
+p2.tick_params(axis='both', which='major', labelsize=8)
+p2.tick_params(axis='both', which='minor', labelsize=8)
+tight_layout()
+
+subplots_adjust(top=0.83)
+savefig('Anticorrelated.pdf')
+

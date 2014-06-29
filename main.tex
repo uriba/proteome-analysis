@@ -11,9 +11,7 @@
 \immediate\write18{python proteome-analysis.py}
 
 \title{Increased concentration of proteins with growth rate can result from passive resource redistribution}
-\begin{comment}
 \author{Leeat Keren, Uri Barenholz, Ron Milo}
-\end{comment}
 
 \begin{document}
 \maketitle
@@ -25,7 +23,7 @@ However, although cellular growth rates, gene expression levels and gene regulat
 We analyzed the relationship between growth rate and proteome composition for the model microorganism \emph{E.coli} as reflected in two recently published proteomics data sets spanning various growth conditions.
 We found that the cellular concentration of a large fraction of the proteins measured coordinately increases with the growth rate.
 This fraction includes proteins spanning different functional groups and proteins that are involved in different cellular processes.
-Notably, Ribosomal proteins are only a small fraction of this group of proteins.
+Notably, ribosomal proteins are only a small fraction of this group of proteins.
 
 We present a simple model that demonstrates how such a widely coordinated increase in the concentration of many proteins can be the result of passive redistribution of resources, due to active regulation of a few proteins.
 Our model provides a potential explanation for why and how such changes relate to the growth rate under different environmental conditions.
@@ -42,11 +40,11 @@ Classical experiments in bacteria, by researchers from what became known as the 
 The search for mechanisms in \emph{E.coli} that underlie this observation yielded several candidates.
 Specifically, coordination between ribosome production and growth rate was attributed both to the pools of purine nucleotides \parencite{Gourse1996,Gaal1997}, and the tRNA pools through the stringent response \parencite{Chatterji2001,Brauer2008a}.
 For a more thorough review see \parencite{Nomura1984}.
-The logic behind this observed increase is that, given that translation rates and ribosome occupancy ratios remain relatively constant across conditions, a larger fraction of ribosomes out of the biomass is needed in order to achieve faster growth \parencite{neidhardt1999a,dennis2004,zaslaver2009a,}.
+The logic behind this observed increase is that, given that translation rates and ribosome occupancy ratios remain relatively constant across conditions, a larger fraction of ribosomes out of the biomass is needed in order to achieve faster growth \parencite{neidhardt1999a,dennis2004,Zaslaver2009}.
 
 In the last two decades, with the development of the ability to measure genome-wide expression levels, it was found that coordination of protein concentration and growth rate is not limited to ribosomes and ribosomal genes, but is actually much more wide-spread.
 In \emph{E.coli}, a coordination between the expression of catabolic and anabolic genes, and the growth rate, was observed, a process mediated by cAMP \parencite{Saldanha2004}.
-In \emph{S.cerevisiae}, it was shown that a surprisingly large fraction of the genome changes its expression levels in response to environmental conditions in a manner strongly correlated with growth rate \parencite{Keren2013a,Gasch2000,Castrillo2007, Zaslaver2009a, Berthoumieux2013, Gerosa2013}.
+In \emph{S.cerevisiae}, it was shown that a surprisingly large fraction of the genome changes its expression levels in response to environmental conditions in a manner strongly correlated with growth rate \parencite{Keren2013a,Gasch2000,Castrillo2007,Zaslaver2009, Berthoumieux2013, Gerosa2013}.
 These studies and others raised many fundamental questions regarding the basic nature of gene regulation that are still open.
 For example, what is the degree of interconnection between gene expression and growth rate? What are the mechanisms underlying this connection? Is it mostly due to specific mechanisms, each affecting a distinct group of genes (such as the mechanisms detailed above) or is it a more global phenomenon shared across most genes in the genome?
 
@@ -73,11 +71,11 @@ Having two high-quality data sets at hand, we looked for global trends in the da
 We measured the Pearson correlation of every protein in the two data sets analyzed (denoted by H for Heinemann's data and V for Valgepea's data) against the growth rate (Figure \ref{fig:growthcorr}).
 The two data sets present a large number of proteins ($724$ out of $1981$ measured in H and $296$ out of $2184$ in V) that are significantly positively correlated with the growth rate.
 In the H data set, the correlation with growth rate is more significant among annotated proteins than among un-annotated proteins ($435$ out of $988$ of annotated proteins have a correlation in the range of $(0.4,0.8)$ whereas only $289$ out of $993$ of the un-annotated proteins have a correlation within this range).
-In both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups (ToDo refer to table with breakdown by function).
+In both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups (To-Do refer to table with breakdown by function).
 We believe that the lower correlation and higher variability found in the H data set results from the fact that it contains much more conditions but spans roughly the same range of growth rates.
 Furthermore, it includes measurements of the proteome under conditions involving different carbon sources as opposed to the V data set that uses the same carbon source on all measurements.
 This is exemplified by restricting the analysis of the H data set only to chemostat conditions (Figure \ref{fig:growthcorrchemo}).
-(ToDo consider discussing analysis with LB here or in the SI.)
+(To-Do consider discussing analysis with LB here or in the SI.)
 
 \begin{figure}[h]
 \centering
@@ -104,7 +102,7 @@ HC proteins form a large fraction out of the proteome at higher growth rates ($>
 The change in the concentration of the HC proteins is about 2-fold while the growth rate changes by about 5-fold.
 Some of the unexplained variability of the HC proteins in the H data set can indicate errors in growth rate measurements and/or differences in degradation rates across conditions.
 (HC proteins are defined as those with a Pearson correlation in the range $(0.4,0.8)$ and $(0.8,1)$ for the H and V data sets, respectively)
-(ToDo: The estimated degradation rate is A for H and B for V (with confidence intervals).
+(To-Do: The estimated degradation rate is A for H and B for V (with confidence intervals).
 }
 \label{fig:globalgrcorr}
 \end{figure}
@@ -115,7 +113,7 @@ The analysis reveals that most proteins respond in a similar manner to the diffe
 
 Lastly, we wanted to check how the response of the HC-proteins relates to the well-studied response of the ribosomal proteins.
 To that end, we performed the same analysis of slopes, restricting it to ribosomal proteins alone (Figure \ref{fig:globalfit}).
-The analysis showes that, on average, HC-proteins scale in the same way as the ribosomal proteins do.
+The analysis shows that, on average, HC-proteins scale in the same way as the ribosomal proteins do.
 
 \begin{figure}[h]
 \centering
@@ -125,7 +123,7 @@ The analysis showes that, on average, HC-proteins scale in the same way as the r
     Left panel - Valgepea, Right panel - Heinemann.
     The HC proteins all share a relatively similar response, meaning they maintain their relative ratios.
     The ribosomal proteins respond in a similar manner to the HC proteins .
-    (ToDo confidence intervals or some other huristic for justifying the observed variation)
+    (To-Do confidence intervals or some other heuristic for justifying the observed variation)
 }
 \label{fig:globalfit}
 \end{figure}
@@ -241,22 +239,22 @@ However, only recently did experimental data made the exploring this idea possib
 
 Other works have suggested different models and in some cases have results that do not coincide with those presented in this work.
 Notably, in \parencite{Klumpp2009a} the opposite behavior for unregulated gene is predicted.
-We note that, among the reasons that could explain this discrepency are the different ranges of growth rates observed in these two works, as well as the different ways by which the expected behavior is deduced.
+We note that, among the reasons that could explain this discrepancy are the different ranges of growth rates observed in these two works, as well as the different ways by which the expected behavior is deduced.
 
 Many works monitored the ribosome concentration in cells \parencite{Scott2010, Bremer1987, Schaechter1958, 1974, eco-sal} and in some cases had different expected response strengths than those observed in this work.
 These differences can result, again, from the different growth rates monitored.
 Moreover, these works deduced the amount of ribosomes by measuring the RNA to protein ratio, assuming a relatively fixed portion of the RNA is rRNA.
 In this work, in contrast, ribosomal proteins are measured.
-Therefore, and as it is known that ribosomes can operate even in the abscence of some ribosomal proteins, such differences in manner of inference can account for some of the differences encountered.
+Therefore, and as it is known that ribosomes can operate even in the absence of some ribosomal proteins, such differences in manner of inference can account for some of the differences encountered.
 
 While our work assumes that many bio-synthesis rates are condition independent, that may not be the case under specific kinds of conditions.
 Specifically, changes in temperatures, osmotic pressure and PH levels may change such rates.
 Slow growth rates, or cells at stationary phase, may also present different bio-synthesis rates.
 In our analysis of data, we therefore considered only conditions for which this assumption will likely hold.
-Importantly, we have ommited from the Heinemann data set stationary conditions and heat, PH and osmotic stress conditions.
+Importantly, we have omitted from the Heinemann data set stationary conditions and heat, PH and osmotic stress conditions.
 Analysis of these conditions is provided in the SI.
 
-As, out of the conditions measured in the Heinemann dataset, growth in LB media presented a much faster growth rate than the rest of the conditions measured, it dominated the behavior and trends calculated.
+As, out of the conditions measured in the Heinemann data set, growth in LB media presented a much faster growth rate than the rest of the conditions measured, it dominated the behavior and trends calculated.
 We have therefore omitted it as well to allow for a more statistically robust analysis.
 The analysis of growth in LB is presented in the SI.
 
@@ -264,12 +262,12 @@ The definition of protein concentration, or protein fraction out of the proteome
 One could consider the number of molecules of a specific protein out of the number of molecules of all of the proteome, or, alternatively, the mass ratio of one protein to the mass of the entire proteome.
 We use the mass ratio as we find it to better represent the meaning of a fraction out of the proteome.
 However, we note that if initiation rates are limiting, and not elongation rates, then using molecule counts may be a better metric.
-We compared these two metrices and, while they present some differences in the analysis, these differences are marginal (see SI for comparison).
+We compared these two metrics and, while they present some differences in the analysis, these differences are marginal (see SI for comparison).
 
 Our model demonstrates that no specific control mechanisms need to exist in order to achieve a linear correlation between ribosomal proteins and the growth rate.
 However, many such mechanisms have been described before(refs).
-We stress that the model does not contradict the existance of such mechanisms.
-They may still be needed to achieve faster response under changing environmental conditions or a tighter regualtion to avoid unnecessary production and reduce translational noise.
+We stress that the model does not contradict the existence of such mechanisms.
+They may still be needed to achieve faster response under changing environmental conditions or a tighter regulation to avoid unnecessary production and reduce translational noise.
 However, the fact that many non-ribosomal proteins share the same response poses interesting questions regarding the scope of these control mechanisms, their necessity and the trade-offs employing them present.
 
 \section{Materials and Methods}
@@ -280,7 +278,7 @@ Detail data sources, software and algorithms used.
 \centering
 \includegraphics{HeinmannChemostatGr.pdf}
 \caption{
-  Restricting the analysis of the Heinemann data set to chemostat conditions yields similar results to those of the Valgepea dataset.
+  Restricting the analysis of the Heinemann data set to chemostat conditions yields similar results to those of the Valgepea data set.
 }
 \label{fig:growthcorrchemo}
 \end{figure}
