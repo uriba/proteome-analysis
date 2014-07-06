@@ -45,12 +45,16 @@ def uniprot_to_desc_dict():
     #load the ko annotation tree:
     ko_annot_dict = ko_to_desc_dict()
     uni_to_annot = {}
+    print "getting annotations"
     for uni in uni_konum_dict:
         if uni_konum_dict[uni] == 'NotMapped':
+            print "Unable to map %s" % uni
             uni_to_annot[uni]=['NotMapped']
         if uni_konum_dict[uni] == 'Not mapped':
+            print "Unable to map %s" % uni
             uni_to_annot[uni]=['NotMapped']
         elif uni_konum_dict[uni] not in ko_annot_dict:
+            print "Unable to map %s, ko %s" % (uni,uni_konum_dict[uni])
 	    uni_to_annot[uni]=['NotMapped']
         else:
             uni_to_annot[uni]=ko_annot_dict[uni_konum_dict[uni]]
@@ -159,9 +163,29 @@ def get_annotated_prots(db):
     #annotate coli_data according to db.
     if db == 'heinmann':
         uni_to_konum = uni_ko_dict()
+        x=0
+        with open('unmappeduni.txt','w+') as f:
+            for i,r in coli_data.iterrows():
+                if r[u'UP_AC'] not in uni_to_konum or uni_to_konum[r[u'UP_AC']] == 'NotMapped':
+                    f.write(r[u'UP_AC'])
+                    f.write('\n')
+                    x+=1
+            print "unmapped uniprots:%d" % x
         coli_data['ko_num']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uni_to_konum else uni_to_konum[x[u'UP_AC']],axis=1)
     id_to_annot = ko_to_desc_dict()
     id_col = 'ko_num'
+    x=0
+    y=0
+    with open('unmappedko.txt','w+') as f:
+        for i,r in coli_data.iterrows():
+            if r[id_col] not in id_to_annot:
+                if r[id_col] != "NotMapped":
+                    f.write(r[id_col])
+                    f.write("\n")
+                    x+=1
+                y+=1
+    print "total unmapped ko's:%d" % x
+    print "total unmapped :%d" % y
     coli_data['group']=coli_data.apply(lambda x: 'NotMapped' if x[id_col] not in id_to_annot else (id_to_annot[x[id_col]])[0],axis=1)
     coli_data['func']=coli_data.apply(lambda x: 'NotMapped' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else (id_to_annot[x[id_col]])[2],axis=1)
 
