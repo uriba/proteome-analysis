@@ -152,30 +152,30 @@ tight_layout()
 savefig('AllProtsVSRibosomalNormalizedSlopes.pdf')
 
 #### plot figure of gr corr comparison by ko_num.
-hgr = []
-vgr = []
-only_in_one = 0
+#hgr = []
+#vgr = []
+#only_in_one = 0
 
-v_ko_vals = set(ecoli_data_v['ko_num'].values)
-h_ko_vals = set(ecoli_data_h['ko_num'].values)
-ko_vals = v_ko_vals.union(h_ko_vals)
+#v_ko_vals = set(ecoli_data_v['ko_num'].values)
+#h_ko_vals = set(ecoli_data_h['ko_num'].values)
+#ko_vals = v_ko_vals.union(h_ko_vals)
 
-for ko in ko_vals:
-    if ko == 'NotMapped':
-        continue
-    if len((ecoli_data_v[ecoli_data_v['ko_num']==ko])[['gr_cov']].values) >= 1 and len((ecoli_data_h[ecoli_data_h['ko_num']==ko])[['gr_cov']].values) >= 1:
-        vgr.append((ecoli_data_v[ecoli_data_v['ko_num']==ko])[['gr_cov']].values[0][0])
-        hgr.append((ecoli_data_h[ecoli_data_h['ko_num']==ko])[['gr_cov']].values[0][0])
-    else:
-        only_in_one +=1
+#for ko in ko_vals:
+#    if ko == 'NotMapped':
+#        continue
+#    if len((ecoli_data_v[ecoli_data_v['ko_num']==ko])[['gr_cov']].values) >= 1 and len((ecoli_data_h[ecoli_data_h['ko_num']==ko])[['gr_cov']].values) >= 1:
+#        vgr.append((ecoli_data_v[ecoli_data_v['ko_num']==ko])[['gr_cov']].values[0][0])
+#        hgr.append((ecoli_data_h[ecoli_data_h['ko_num']==ko])[['gr_cov']].values[0][0])
+#    else:
+#        only_in_one +=1
 
-figure(figsize=(5,3))
+#figure(figsize=(5,3))
 
-p=subplot(111)
-p.plot(hgr,vgr,'.')
-p.set_title('%d out of %d are only in one' % (only_in_one, len(ko_vals)))
+#p=subplot(111)
+#p.plot(hgr,vgr,'.')
+#p.set_title('%d out of %d are only in one' % (only_in_one, len(ko_vals)))
 
-savefig('vhcorrcomp.pdf')
+#savefig('vhcorrcomp.pdf')
 
 # plot heinmann data only for chemostat conditions.
 figure(figsize=(5,3))
@@ -276,3 +276,16 @@ tight_layout()
 subplots_adjust(top=0.83)
 savefig('Anticorrelated.pdf')
 
+#plot rsq (or corr) vs slope.
+
+figure(figsize=(5,3))
+p1=subplot(121)
+p2=subplot(122)
+glob_conc = get_glob('heinmann',ecoli_data_h)
+glob_conc = set_alpha('heinmann',glob_conc,gr_h)
+p1.plot(glob_conc.gr_cov,glob_conc.alpha,'.')
+glob_conc = get_glob('valgepea',ecoli_data_v)
+glob_conc = set_alpha('valgepea',glob_conc,gr_v)
+p2.plot(glob_conc.gr_cov,glob_conc.alpha,'.')
+tight_layout()
+savefig('slopecorr.pdf')

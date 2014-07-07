@@ -32,6 +32,22 @@ def ko_to_desc_dict():
                 ko_annot_dict[row[-1]]=(cat,subcat,component)
     return ko_annot_dict
 
+def b_to_desc_dict():
+    b_annot_dict = {}
+
+    with open('eco_hierarchy.tms','rb') as annot_file:
+         annots = csv.reader(annot_file,delimiter='\t') #,encoding='iso-8859-1')
+         for row in annots:
+             if len(row) == 2:
+                cat = row [-1]
+             elif len(row) == 3:
+                subcat = row[-1]
+             elif len(row) == 4:
+                component = row[-1]
+             elif len(row) == 5:
+                b_annot_dict[row[-1].split(':')[1]]=(cat,subcat,component)
+    return b_annot_dict
+
 def uni_ko_dict():
     uni_konum_dict = {}
     uni_to_konum = read_csv('eco_uniprot_mapping.csv',sep='[\t:]',encoding='iso-8859-1',header = None, names = ['ko','bla','uniprot'])
@@ -41,24 +57,33 @@ def uni_ko_dict():
 
 
 def uniprot_to_desc_dict():
-    uni_konum_dict = uni_ko_dict()
+    ##uni_konum_dict = uni_ko_dict()
+    uni_locus_dict = uni_to_locus()
     #load the ko annotation tree:
-    ko_annot_dict = ko_to_desc_dict()
+    ##ko_annot_dict = ko_to_desc_dict()
+    b_annot_dict = b_to_desc_dict()
+
     uni_to_annot = {}
     print "getting annotations"
-    for uni in uni_konum_dict:
-        if uni_konum_dict[uni] == 'NotMapped':
+    for uni in uni_locus_dict:
+        if uni_locus_dict[uni] == 'NotMapped':
             print "Unable to map %s" % uni
             uni_to_annot[uni]=['NotMapped']
-        if uni_konum_dict[uni] == 'Not mapped':
+        if uni_locus_dict[uni] == 'Not mapped':
             print "Unable to map %s" % uni
             uni_to_annot[uni]=['NotMapped']
-        elif uni_konum_dict[uni] not in ko_annot_dict:
-            print "Unable to map %s, ko %s" % (uni,uni_konum_dict[uni])
+        elif uni_locus_dict[uni] not in b_annot_dict:
+            print "Unable to map %s, b %s" % (uni,uni_locus_dict[uni])
 	    uni_to_annot[uni]=['NotMapped']
         else:
-            uni_to_annot[uni]=ko_annot_dict[uni_konum_dict[uni]]
+            uni_to_annot[uni]=b_annot_dict[uni_locus_dict[uni]]
     return uni_to_annot
+
+def uni_to_locus():
+    uniprot_to_locus = {}
+    for row in open('all_ecoli_genes.txt','r'):
+        uniprot_to_locus[row[48:54]]=row[0:5]
+    return uniprot_to_locus
 
 def uniprot_to_offset():
     #load location information for genes:
@@ -69,10 +94,7 @@ def uniprot_to_offset():
         if feat.type == 'CDS':
            locus_to_offset[feat.qualifiers['locus_tag'][0]]=feat.location.start.real
 
-    uniprot_to_locus = {}
-    for row in open('all_ecoli_genes.txt','r'):
-        uniprot_to_locus[row[48:54]]=row[0:5]
-
+    uniprot_to_locus = uni_to_locus()
     uniprot_to_location = {}
     for uni in uniprot_to_locus.keys():
         if uniprot_to_locus[uni] in locus_to_offset.keys():
@@ -162,18 +184,23 @@ def get_annotated_prots(db):
         db = 'heinmann'
     #annotate coli_data according to db.
     if db == 'heinmann':
-        uni_to_konum = uni_ko_dict()
+        ##uni_to_konum = uni_ko_dict()
+        uniprot_to_locus = uni_to_locus()
         x=0
         with open('unmappeduni.txt','w+') as f:
             for i,r in coli_data.iterrows():
-                if r[u'UP_AC'] not in uni_to_konum or uni_to_konum[r[u'UP_AC']] == 'NotMapped':
+                if r[u'UP_AC'] not in uniprot_to_locus or uniprot_to_locus[r[u'UP_AC']] == 'NotMapped':
                     f.write(r[u'UP_AC'])
                     f.write('\n')
                     x+=1
             print "unmapped uniprots:%d" % x
-        coli_data['ko_num']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uni_to_konum else uni_to_konum[x[u'UP_AC']],axis=1)
-    id_to_annot = ko_to_desc_dict()
-    id_col = 'ko_num'
+        ##coli_data['ko_num']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uni_to_konum else uni_to_konum[x[u'UP_AC']],axis=1)
+        coli_data['b_num']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uniprot_to_locus else uniprot_to_locus[x[u'UP_AC']],axis=1)
+        id_to_annot = b_to_desc_dict()
+        id_col = 'b_num'
+    if db == 'valgepea':
+        id_to_annot = ko_to_desc_dict()
+        id_col = 'ko_num'
     x=0
     y=0
     with open('unmappedko.txt','w+') as f:

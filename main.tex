@@ -26,46 +26,43 @@ We analyzed the relationship between growth rate and proteome composition for th
 We found that the cellular concentration of a large fraction of the proteins measured coordinately increases with the growth rate.
 This fraction includes proteins spanning different functional groups and proteins that are involved in different cellular processes.
 Notably, ribosomal proteins are only a small fraction of this group of proteins.
+We present a simple model that demonstrates how such a widely coordinated increase in the concentration of many proteins can be the result of passive redistribution of resources, due to active regulation of only a few proteins.
+Our model provides a potential explanation for why and how there is a global coordinated response of a large fraction of the proteome to the growth rate under different environmental conditions.
+Its simplicity can also be useful by serving as a baseline null hypothesis in the search for active regulation.
 
-We present a simple model that demonstrates how such a widely coordinated increase in the concentration of many proteins can be the result of passive redistribution of resources, due to active regulation of a few proteins.
-Our model provides a potential explanation for why and how such changes relate to the growth rate under different environmental conditions.
-
-In light of these results we conclude that, although the concentrations of many proteins change with the growth rate, such changes could be part of a global effect, not requiring specific cellular control mechanisms.
+We suggest that, although the concentrations of many proteins change with the growth rate, such changes could be part of a global effect, not requiring specific cellular control mechanisms.
 }
 
 \section{Introduction}
 A fundamental system-level challenge for cell physiology is the achievement of proper function in the face of various environmental conditions.
 It has been established for many years that in different environments cells differ in many properties, including their shape, size, growth rate, and macro-molecular composition \parencite{Schaechter1958, Maaloe1969, Churchward1982, Pedersen1978a, ingraham1983growth,Bremer1987}, with strong interdependence between these parameters.
 
-Early on it was found that the expression of some genes is coordinated with growth rate.
+Early on it was found that the expression of some genes is coordinated with growth rate, rather than with the specific environment.
 Classical experiments in bacteria, by researchers from what became known as the Copenhagen school, have shown that ribosome concentration (inferred from the RNA to protein ratio in cells) increases in proportion to growth rate\parencite{Schaechter1958}.
 The search for mechanisms in \emph{E.coli} that underlie this observation yielded several candidates.
 Specifically, coordination between ribosome production and growth rate was attributed both to the pools of purine nucleotides \parencite{Gourse1996,Gaal1997}, and the tRNA pools through the stringent response \parencite{Chatterji2001,Brauer2008a}.
 For a more thorough review see \parencite{Nomura1984}.
-The logic behind this observed increase is that, given that translation rates and ribosome occupancy ratios remain relatively constant across conditions, a larger fraction of ribosomes out of the biomass is needed in order to achieve faster growth \parencite{neidhardt1999a,dennis2004,Zaslaver2009}.
+The logic behind this observed increase is that, given that translation rates and ribosome functional fraction remain relatively constant across conditions, a larger fraction of ribosomes out of the proteome is needed in order to achieve faster growth \parencite{neidhardt1999a,dennis2004,Zaslaver2009}.
 
-In the last two decades, with the development of the ability to measure genome-wide expression levels, it was found that coordination of protein concentration and growth rate is not limited to ribosomes and ribosomal genes, but is actually much more wide-spread.
-In \emph{E.coli}, a coordination between the expression of catabolic and anabolic genes, and the growth rate, was observed, a process mediated by cAMP \parencite{Saldanha2004}.
+In the last two decades, with the development of the ability to measure genome-wide expression levels, it was found that coordination of gene expression (measured through mRNA levels and promoter-reporter libraries) and growth rate is not limited to ribosomes and ribosomal genes.
+In \emph{E.coli}, the expression of catabolic and anabolic genes is coordinated with growth rate, and suggested to be mediated by cAMP \parencite{Saldanha2004}.
 In \emph{S.cerevisiae}, it was shown that a surprisingly large fraction of the genome changes its expression levels in response to environmental conditions in a manner strongly correlated with growth rate \parencite{Keren2013a,Gasch2000,Castrillo2007,Zaslaver2009, Berthoumieux2013, Gerosa2013}.
-These studies and others raised many fundamental questions regarding the basic nature of gene regulation that are still open.
-For example, what is the degree of interconnection between gene expression and growth rate? What are the mechanisms underlying this connection? Is it mostly due to specific mechanisms, each affecting a distinct group of genes (such as the mechanisms detailed above) or is it a more global phenomenon shared across most genes in the genome?
-
-Several studies examining the interplay between global and specific modes of regulation tried to answer these questions, suggesting that global factors play a major role in determining the expression levels of genes \parencite{Gasch2000, Klumpp2009a,Scott2010}.
+Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \parencite{Gasch2000, Klumpp2009a,Scott2010}.
 In \emph{E.coli}, this was mechanistically attributed to changes in the pool of RNA polymerase core and sigma factors \parencite{Klumpp2008}.
 In \emph{S.cerevisiae}, it was suggested that differences in histone modifications around the replication origins \parencite{regenberg2006} or translation rates \parencite{Gasch2000} across conditions may underlie the same phenomenon.
-Important advancements in understanding this process in \emph{E.coli} were achieved by coupling measurements of fluorescent reporters to a model of expression built upon the empirical scaling of different cell parameters (such as gene dosage, transcription rate and cell size) with growth rate \parencite{Klumpp2009a}.
-These studies suggest that the expression of all genes change with growth rate, with different architectures of regulatory networks yielding differences in the direction and magnitude of these changes. 
+Important advancements in \emph{E.coli} were achieved by analyzing measurements of fluorescent reporters through a simplified model of gene expression built upon the empirical scaling with growth rate of different cell parameters (such as gene dosage, transcription rate and cell size)\parencite{Klumpp2009a}.
+These studies suggest that the expression of all genes changes with growth rate, with different architectures of regulatory networks yielding differences in the direction and magnitude of these changes. 
 
 Despite these advancements, many gaps remain in our understanding of the connection between gene expression and growth rate.
-Importantly, whereas many of these studies depict gene expression as a function of growth rate, other studies suggest that the changes in expression temporally precede the changes in growth rate\parencite{levy2007}.
-In addition, mechanistic insight and models for organisms other than \emph{E.coli} are still missing.
-As such, a need remains for a quantitative model relating gene expression and growth rate, which can provide a baseline for the behavior of endogenous genes in conditions in which they are not differentially regulated.
-Such a model will provide a basis on top of which different regulatory aspects can be added.
+Primarily, it is unclear what is the degree of interconnection between gene expression and growth rate.
+Is it unique to specific groups of genes or is it a more global phenomenon shared across most genes in the genome?
+Genome-wide proteomic data sets, such as those generated by fluorescent fusion proteins or mass-spectrometry, which probe the proteome composition at different growth rates, offer potential insights into these questions.
 
 In this work we analyzed two recently published proteomic data sets of \emph{E.coli} under different growth conditions \parencite{Valgepea2013} [ref unpublished heinemann].
-Based on the analysis we present a baseline, organism-independent model, that quantifies the relationship between gene regulation, protein abundance and growth rate.
-Our model suggests that positive correlation with growth rate is a system-emerging property that is the result of passive redistribution of resources.
-As a result, such an observed correlation does not require specific regulation of the positively correlated proteins and hence, no mechanism needs to exist in order to achieve this trait.
+We find a positive correlation between growth rate and the protein concentration of many genes, from diverse functional groups.
+Based on this recently published data we present a baseline model, which does not require fine-tuning according to organism-specific parameters, that quantitatively predicts the relationship between gene regulation, protein abundance and growth rate.
+Our model provides a baseline for the behavior of endogenous genes in conditions in which they are not differentially regulated, on top of which different regulatory aspects can be added.
+It suggests that positive correlation of protein concentration with growth rate is a system-emerging property that is the result of passive redistribution of resources, without need for specific regulation mechanisms.
 
 \section{Results}
 \subsection{Analysis of proteomic data sets}
