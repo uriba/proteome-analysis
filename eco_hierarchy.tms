@@ -1,0 +1,2338 @@
+eco
+	Genetic Information Processing
+		Transcription
+			RNA polymerase
+				RpoA:b3295
+				RpoB:b3987
+				RpoC:b3988
+				RpoD:b3067
+				RpoS:b2741
+				FliA:b1922
+				FecI:b4293
+				RpoH:b3461
+				RpoN:b3202
+				RpoZ:b3649
+			Basal transcription factors
+			Transcription factors
+				HupB:b0440
+				HupA:b4000
+				AraC:b0064
+				RhaR:b3906
+				RhaS:b3905
+				ChbR:b1735
+				AdiY:b4116
+				EutR:b2437
+				AppY:b0564
+				EnvY:b0566
+				SoxS:b4062
+				MarA:b1531
+				FeaR:b1384
+				Ada:b2213
+				GcvA:b2808
+				IlvY:b3773
+				MetR:b3828
+				NhaR:b0020
+				OxyR:b3961
+				ArgP:b2916
+				LeuO:b0076
+				HcaR:b2537
+				TdcA:b3118
+				AllS:b0504
+				CynR:b0338
+				CysB:b1275
+				Cbl:b1987
+				DsdC:b2364
+				AbgR:b1339
+				DeoR:b0840
+				GlpR:b3423
+				AgaR:b3131
+				FucR:b2805
+				SrlR:b2707
+				UlaR:b4191
+				RbsR:b3753
+				CytR:b3934
+				FruR:b0080
+				TreR:b4241
+				AscG:b2714
+				PurR:b1658
+				GntR:b3438
+				IdnR:b4264
+				EbgR:b3075
+				YidP:b3684
+				PhnF:b4102
+				FrlR:b3375
+				MngR:b0730
+				FadR:b1187
+				PdhR:b0113
+				GlcC:b2980
+				UxuR:b4324
+				LldR:b3604
+				McbR:b1450
+				BetI:b0313
+				AcrR:b0464
+				SlmA:b3641
+				RutR:b1013
+				AsnC:b3743
+				Lrp:b0889
+				YbaO:b0447
+				MalT:b3418
+				CsgD:b1040
+				RcsA:b1951
+				SdiA:b1916
+				MprA:b2684
+				SlyA:b1642
+				CueR:b0487
+				ZntR:b3292
+				SoxR:b4063
+				Fur:b0683
+				Zur:b4046
+				IclR:b4018
+				MhpR:b0346
+				AllR:b0506
+				Crp:b3357
+				Fnr:b1334
+				IscR:b2531
+				NsrR:b4178
+				MntR:b0817
+				NikR:b3481
+				ArsR:b3501
+				BirA:b3973
+				Fis:b3261
+				TrpR:b4393
+				PrpR:b0330
+				NadR:b4390
+				MqsA:b3021
+				PuuR:b1299
+				CdaR:b0162
+				SfsB:b3188
+				ModE:b0761
+				SgrR:b0069
+				HyfR:b2491
+				NorR:b2709
+				YiaG:b3555
+				BglG:b3723
+				RfaH:b3842
+				ArgR:b3237
+				NagC:b0676
+				MtlR:b3601
+				CspA:b3556
+				MetJ:b3938
+				TyrR:b1323
+				CadC:b4133
+				GcvR:b2479
+				PaaX:b1399
+				PspF:b1303
+				PspC:b1306
+				LsrR:b1512
+				DhaR:b1201
+				Rnk:b0610
+				AlpA:b2624
+				YqgE:b2948
+				CaiF:b0034
+				DksA:b0145
+				NrdR:b0413
+				Crl:b0240
+				YgiV:b3023
+			Spliceosome
+		Translation
+			Ribosome
+				RpsM:b3298
+				RplR:b3304
+				RplD:b3319
+				RplE:b3308
+				RplF:b3305
+				RplL:b3986
+				RplI:b4203
+				RplU:b3186
+				RpmC:b3312
+				RplC:b3320
+				RpmD:b3302
+				RpsE:b3303
+				YkgO:b4506
+				RpmG:b3636
+				RpsF:b4200
+				RpsI:b3230
+				RplN:b3310
+				RplM:b3231
+				RplQ:b3294
+				RpsT:b0023
+				RpsQ:b3311
+				RplK:b3983
+				RplJ:b3985
+				RpmA:b3185
+				RplY:b2185
+				RplX:b3309
+				RpsA:b0911
+				RpsJ:b3321
+				RpsB:b0169
+				RpsC:b3314
+				RpsD:b3296
+				RpsG:b3341
+				RpsH:b3306
+				RpsK:b3297
+				RpsL:b3342
+				RpsN:b3307
+				RpsO:b3165
+				RpsP:b2609
+				RpsR:b4202
+				RpsS:b3316
+				RpsU:b3065
+				Sra:b1480
+				RplA:b3984
+				RplB:b3317
+				RplO:b3301
+				RplP:b3313
+				RplS:b2606
+				RplT:b1716
+				RplV:b3315
+				RplW:b3318
+				RpmB:b3637
+				RpmE:b3936
+				RpmF:b1089
+				RpmH:b3703
+				RpmI:b1717
+				RrsE:b4007
+				RrlE:b4009
+				RrfE:b4010
+			Translation factors
+				TufB:b3980
+				InfB:b3168
+				InfC:b1718
+				Tsf:b0170
+				FusA:b3340
+				PrfA:b1211
+				Frr:b0172
+				InfA:b0884
+				Efp:b4147
+				PrfB:b2891
+				PrfC:b4375
+				PrfH:b0236
+			tRNA loading
+				LysU:b4129
+				GltX:b2400
+				GlnS:b0680
+				CysS:b0526
+				MetG:b2114
+				SerS:b0893
+				AspS:b1866
+				ProS:b0194
+				IleS:b0026
+				ValS:b4258
+				AlaS:b2697
+				TyrS:b1637
+				TrpS:b3384
+				ArgS:b1876
+				PheS:b1714
+				ThrS:b1719
+				LeuS:b0642
+				HisS:b2514
+				PheT:b1713
+				AlaT:b3853
+				ArgX:b3796
+				AsnV:b1989
+				AspT:b3760
+				CysT:b1910
+				GlnU:b0670
+				GltV:b4008
+				GlyY:b4165
+				HisR:b3797
+				IleT:b3852
+				LeuQ:b4370
+				LysV:b2404
+				MetY:b3171
+				PheU:b4134
+				ProM:b3799
+				SerV:b2695
+				ThrT:b3979
+				TrpT:b3761
+				TyrU:b3977
+				ValY:b2403
+				SelC:b3658
+				AsnS:b0930
+				GlyQ:b3560
+				GlyS:b3559
+				SelA:b3591
+				Fmt:b3288
+				YjeA:b4155
+			RNA transport
+				Cca:b3056
+				YciH:b1282
+				Rbn:b2268
+			mRNA surveillance pathway
+			Ribosome biogenesis in eukaryotes
+				Rnc:b2567
+			Ribosome Biogenesis
+				RsuA:b2183
+				RsmA:b0051
+				RsmB:b3289
+				RsmC:b4371
+				RsmD:b3465
+				RsmE:b2946
+				RsmF:b1835
+				RsmG:b3740
+				RlmE:b3179
+				RlmF:b0807
+				RlmG:b3084
+				RlmI:b0967
+				RlmL:b0948
+				RlmN:b2517
+				RlmA:b1822
+				RumA:b2785
+				RumB:b0859
+				YfiF:b2581
+				RlmB:b4180
+				RluA:b0058
+				RluB:b1269
+				RluC:b1086
+				RluD:b2594
+				RluE:b1135
+				RluF:b4022
+				RimI:b4373
+				RimJ:b1066
+				RimL:b1427
+				DeaD:b3162
+				DbpA:b1343
+				SrmB:b2576
+				RsgA:b4161
+		Folding, Sorting and Degradation
+			Chaperones and folding catalysts
+				DnaK:b0014
+				GroL:b4143
+				ClpA:b0882
+				ClpB:b2592
+				ClpX:b0438
+				HslU:b3931
+				HscA:b2526
+				HscC:b0650
+				YegD:b2069
+				DnaJ:b0015
+				CbpA:b1000
+				DjlA:b0055
+				HscB:b2527
+				HslO:b3401
+				IbpA:b3687
+				IbpB:b3686
+				GrpE:b2614
+				HslR:b3400
+				GroS:b4142
+				DegP:b0161
+				FtsH:b3178
+				FimC:b4316
+				SecB:b3609
+				PpiA:b3363
+				PpiB:b0525
+				PpiD:b0441
+				FkpA:b3347
+				FklB:b4207
+				FkpB:b0028
+				SlyD:b3349
+				PpiC:b3775
+				SurA:b0053
+				TrxA:b3781
+				TrxC:b2582
+				YbbN:b0492
+				GrxA:b0849
+				GrxB:b1064
+				GrxC:b3610
+				GrxD:b1654
+				DsbA:b3860
+				DsbB:b1185
+				DsbC:b2893
+				DsbD:b4136
+				CcmG:b2195
+				DsbG:b0604
+			Protein export
+				Ffh:b2610
+				LepB:b2568
+				SecA:b0098
+				YidC:b3705
+				TatA:b3836
+				SecY:b3300
+				SecE:b3981
+				SecG:b3175
+				SecD:b0408
+				SecF:b0409
+				YajC:b0407
+				SecM:b0097
+				Ffs:b0455
+				FtsY:b3464
+				TatB:b3838
+				TatC:b3839
+				TatE:b0627
+				LspA:b0027
+			Protein processing in endoplasmic reticulum
+				HtpG:b0473
+			SNARE interactions in vesicular transport
+			SNAREs
+			Ubiquitin mediated proteolysis
+			Ubiquitin labeling
+			Sulfur relay system
+				MnmA:b1133
+				MoeB:b0826
+				IscS:b2530
+				SirA:b3470
+				YheL:b3343
+				YheM:b3344
+				YheN:b3345
+				YccK:b0969
+				MoaA:b0781
+				MoaD:b0784
+				MoaC:b0783
+				Mog:b0009
+				ThiI:b0423
+				ThiS:b4407
+				ThiF:b3992
+			Proteasome
+			Peptidases
+				ClpP:b0437
+				Lon:b0439
+				PppA:b2972
+				GspO:b3335
+				OmpT:b0565
+				HyaD:b0975
+				HybD:b2993
+				HycI:b2717
+				PuuD:b1298
+				Spr:b2175
+				NlpC:b1708
+				PurF:b2312
+				AsnB:b0674
+				YhbO:b3153
+				YajL:b0424
+				PrlC:b3498
+				Dcp:b1538
+				DdpX:b1488
+				PtrA:b2821
+				PqqL:b1494
+				PepB:b2523
+				PepT:b1127
+				PepD:b0237
+				AllC:b0516
+				Gcp:b3064
+				Map:b0168
+				PepQ:b3847
+				PepP:b2908
+				YpdF:b2385
+				Iap:b2753
+				IadA:b4328
+				HtpX:b1829
+				YggG:b2936
+				RseP:b0176
+				MepA:b2328
+				YdgD:b1598
+				DegQ:b3234
+				DegS:b3235
+				PtrB:b1845
+				DacD:b2010
+				PbpG:b2134
+				DacB:b3182
+				YcbZ:b0955
+				LexA:b4043
+				UmuD:b1183
+				Prc:b1830
+				SppA:b1766
+				SohB:b1272
+				PepE:b4021
+				LdcA:b1192
+				HslV:b3932
+				IaaA:b0828
+				Ggt:b3447
+				YhbU:b3158
+				PmbA:b4235
+				TldD:b3244
+			RNA degradation
+				Rne:b1084
+				GroL:b4143
+				RppH:b2830
+				RhlB:b3780
+				RhlE:b0797
+				Rnr:b4179
+				RecQ:b3822
+				Rho:b3783
+				Hfq:b4172
+				Ppk:b2501
+				PcnB:b0143
+		DNA maintenance
+			DNA replication complex
+				HolE:b1842
+				DnaQ:b0215
+				DnaE:b0184
+				DnaX:b0470
+				HolB:b1099
+				HolA:b0640
+				HolD:b4372
+				HolC:b4259
+				DnaN:b3701
+				DnaB:b4052
+				DnaG:b3066
+				RnhA:b0214
+				RnhB:b0183
+				LigB:b3647
+			DNA replication control
+				IhfA:b1712
+				IhfB:b0912
+				DnaA:b3702
+				DnaC:b4361
+				Tus:b1610
+				Dam:b3387
+				SeqA:b0687
+				Hda:b2496
+				GyrA:b2231
+				GyrB:b3699
+				ParC:b3019
+				ParE:b3030
+				TopA:b1274
+				TopB:b1763
+			Chromosome-related
+				Hns:b1237
+				StpA:b2669
+				Rob:b4396
+				DiaA:b3149
+				Dps:b0812
+				MukB:b0924
+				MukE:b0923
+				MukF:b0922
+				FtsA:b0094
+				FtsB:b2748
+				FtsE:b3463
+				FtsI:b0084
+				FtsK:b0890
+				FtsL:b0083
+				FtsN:b3933
+				FtsQ:b0093
+				FtsW:b0089
+				FtsX:b3462
+				ZipA:b2412
+				ZapA:b2910
+				AmiB:b4169
+				AcrE:b3265
+				SulA:b0958
+				MreC:b3250
+				MreD:b3249
+				MrdB:b0634
+				MnmG:b3741
+				XerC:b3811
+				XerD:b2894
+				Mrp:b2113
+				Fic:b3361
+			Base excision repair
+				Tag:b3549
+				AlkA:b2068
+				MutY:b2961
+				MutM:b3635
+				Ung:b2580
+				Nei:b0714
+				Nth:b1633
+				Mug:b3068
+				XthA:b1749
+				Nfo:b2159
+			Nucleotide excision repair
+				Mfd:b1114
+				UvrA:b4058
+				UvrB:b0779
+				UvrC:b1913
+				UvrD:b3813
+			Mismatch repair
+				MutS:b2733
+				MutL:b4170
+				MutH:b2831
+				SbcB:b2011
+				XseA:b2509
+				XseB:b0422
+				ExoX:b1844
+			Homologous recombination
+				RecA:b2699
+				RecG:b3652
+				RecF:b3700
+				RecO:b2565
+				RecR:b0472
+				RuvA:b1861
+				RuvB:b1860
+				RuvC:b1863
+				RecB:b2820
+				RecC:b2822
+				RecD:b2819
+				PriA:b3935
+				PriB:b4201
+				PriC:b0467
+				DnaT:b4362
+			Non-homologous end-joining
+			DNA repair and recombination proteins
+				Ogt:b1335
+				Phr:b0708
+				MutT:b0099
+				AlkB:b2212
+				Nfi:b3998
+				Cho:b1741
+				Vsr:b1960
+				RusA:b0550
+				SbcC:b0397
+				SbcD:b0398
+				RadA:b4389
+				RecN:b2616
+				RdgC:b0393
+				RecT:b1349
+				DinB:b0231
+				UmuC:b1184
+				PolB:b0060
+				NrdE:b2675
+				NrdF:b2676
+				Rep:b3778
+				HelD:b0962
+				DinG:b0799
+				Lhr:b1653
+		RNA family
+			Non-coding RNAs
+				RnpB:b3123
+	Environmental Information Processing
+		Signal Transduction
+			Two-component system
+				PhoR:b0400
+				PhoB:b0399
+				PhoQ:b1129
+				PhoP:b1130
+				EnvZ:b3404
+				OmpR:b3405
+				RstB:b1609
+				RstA:b1608
+				CpxA:b3911
+				CpxR:b3912
+				CreC:b4399
+				CreB:b4398
+				BaeS:b2078
+				BaeR:b2079
+				MdtA:b2074
+				MdtB:b2075
+				MdtC:b2076
+				BasS:b4112
+				BasR:b4113
+				ArnB:b2253
+				CusS:b0570
+				CusR:b0571
+				CusC:b0572
+				CusF:b0573
+				CusB:b0574
+				CusA:b0575
+				QseC:b3026
+				QseB:b3025
+				FlhD:b1892
+				FlhC:b1891
+				MotA:b1890
+				KdpD:b0695
+				KdpE:b0694
+				KdpA:b0698
+				KdpB:b0697
+				KdpC:b0696
+				KdpF:b4513
+				TorS:b0993
+				TorR:b0995
+				TorC:b0996
+				TorA:b0997
+				TorD:b0998
+				ArcB:b3210
+				ArcA:b4401
+				DpiB:b0619
+				DpiA:b0620
+				CitD:b0617
+				CitE:b0616
+				CitF:b0615
+				CitX:b0614
+				CitG:b0613
+				CitT:b0612
+				DcuS:b4125
+				DcuR:b4124
+				DcuB:b4123
+				NarX:b1222
+				NarL:b1221
+				NarQ:b2469
+				NarP:b2193
+				NarG:b1224
+				NarH:b1225
+				NarJ:b1226
+				NarI:b1227
+				FdnG:b1474
+				FdnH:b1475
+				FdnI:b1476
+				FrdA:b4154
+				FrdB:b4153
+				FrdC:b4152
+				FrdD:b4151
+				UhpC:b3667
+				UhpB:b3668
+				UhpA:b3669
+				UhpT:b3666
+				RcsF:b0196
+				RcsC:b2218
+				RcsD:b2216
+				RcsB:b2217
+				BarA:b2786
+				UvrY:b1914
+				CsrA:b2696
+				EvgS:b2370
+				EvgA:b2369
+				EmrK:b2368
+				EmrY:b2367
+				FimZ:b0535
+				AmpC:b4150
+				GlnD:b0167
+				GlnB:b2553
+				GlnL:b3869
+				GlnG:b3868
+				ZraS:b4003
+				ZraR:b4004
+				ZraP:b4002
+				AtoS:b2219
+				AtoC:b2220
+				AtoD:b2221
+				AtoA:b2222
+				AtoE:b2223
+				DctA:b3528
+				GlrK:b2556
+				GlrR:b2554
+				CheR:b1884
+				Tsr:b4355
+				Tar:b1886
+				Trg:b1421
+				Tap:b1885
+				Aer:b3072
+				CheW:b1887
+				CheA:b1888
+				CheY:b1882
+				CheB:b1883
+			MAPK signaling pathway
+			ErbB signaling pathway
+			Wnt signaling pathway
+			Notch signaling pathway
+			Hedgehog signaling pathway
+			TGF-beta signaling pathway
+			VEGF signaling pathway
+			Jak-STAT signaling pathway
+			Calcium signaling pathway
+			Phosphatidylinositol signaling system
+				DgkA:b4042
+			mTOR signaling pathway
+			Plant hormone signal transduction
+		Signaling Molecules and Interaction
+			G protein-coupled receptors
+			Enzyme-linked receptors
+			Cytokine receptors
+			Nuclear receptors
+			Ion channels
+				AqpZ:b0875
+				GlpF:b3927
+			Neuroactive ligand-receptor interaction
+			Cytokine-cytokine receptor interaction
+			Cytokines
+			ECM-receptor interaction
+			Cell adhesion molecules (CAMs)
+			CAM ligands
+			Cellular antigens
+			GTP-binding signaling proteins
+			Glycan bindng proteins
+			Bacterial toxins
+				YqfA:b2899
+				HlyE:b1182
+	Cellular Processes
+		Vesicular transport
+			Endocytosis
+			Phagosome
+			Lysosome
+				UidA:b1617
+			Peroxisome
+				SodA:b3908
+			Regulation of autophagy
+		Cytoskeleton
+			Regulation of actin cytoskeleton
+			Cytoskeleton proteins
+				MinE:b1174
+				MinD:b1175
+				MinC:b1176
+				FtsZ:b0095
+				MreB:b3251
+		Cell Motility
+			Bacterial chemotaxis
+				RbsB:b3751
+				CheZ:b1881
+				FliG:b1939
+				FliM:b1945
+				FliN:b1946
+				MotB:b1889
+			Bacterial motility proteins
+				FliC:b1923
+				FliH:b1940
+				FliI:b1941
+				FliO:b1947
+				FliP:b1948
+				FliQ:b1949
+				FliR:b1950
+				FlhA:b1879
+				FlhB:b1880
+				FlhE:b1878
+				FliF:b1938
+				FlgI:b1080
+				FlgA:b1072
+				FlgH:b1079
+				FlgB:b1073
+				FlgC:b1074
+				FlgD:b1075
+				FlgF:b1077
+				FlgG:b1078
+				FlgJ:b1081
+				FlgE:b1076
+				FliE:b1937
+				FlgK:b1082
+				FlgL:b1083
+				FliD:b1924
+				FliK:b1943
+				FliL:b1944
+				FlgM:b1071
+				FlgN:b1070
+				FliJ:b1942
+				FliS:b1925
+				FliT:b1926
+				FliY:b1920
+				FliZ:b1921
+				YggR:b2950
+				FimA:b4314
+				FimD:b4317
+				FimF:b4318
+				FimG:b4319
+				FimH:b4320
+				FimI:b4315
+				SfmA:b0530
+				SfmC:b0531
+				SfmD:b0532
+				SfmF:b0534
+				SfmH:b0533
+			Flagellar assembly
+		Cell Growth and Death
+			Cell cycle
+			Cell cycle - Caulobacter
+			Cytokinesis
+			Meiosis
+			Oocyte meiosis
+			Apoptosis
+			p53 signaling pathway
+			Cell wall
+		Cell Communication
+			Focal adhesion
+			Adherens junction
+			Tight junction
+			Gap junction
+	Metabolism
+		Membrane Transport
+			Transporters
+				DppA:b3544
+				OmpC:b2215
+				OmpF:b0929
+				MglB:b2150
+				MalE:b4034
+				MsbA:b0914
+				MdlA:b0448
+				CydD:b0887
+				MacB:b0879
+				YojI:b2211
+				YddA:b1496
+				Sbp:b3917
+				CysU:b2424
+				CysW:b2423
+				CysA:b2422
+				SsuA:b0936
+				SsuC:b0934
+				SsuB:b0933
+				ModA:b0763
+				ModB:b0764
+				ModC:b0765
+				ModF:b0760
+				AfuB:b0263
+				AfuC:b0262
+				ThiB:b0068
+				ThiP:b0067
+				ThiQ:b0066
+				YnjB:b1754
+				YnjC:b1755
+				YnjD:b1756
+				PotC:b1124
+				PotB:b1125
+				PotA:b1126
+				PotF:b0854
+				PotI:b0857
+				PotH:b0856
+				PotG:b0855
+				YdcS:b1440
+				YdcV:b1443
+				YdcU:b1442
+				YdcT:b1441
+				ProX:b2679
+				ProW:b2678
+				ProV:b2677
+				OsmF:b2131
+				YehY:b2130
+				YehX:b2129
+				MalF:b4033
+				MalG:b4032
+				MalK:b4035
+				UgpB:b3453
+				UgpA:b3452
+				UgpE:b3451
+				UgpC:b3450
+				YcjN:b1310
+				YcjO:b1311
+				YcjP:b1312
+				MlaD:b3193
+				MlaE:b3194
+				MlaF:b3195
+				YbbM:b0491
+				YbbL:b0490
+				RbsC:b3750
+				RbsA:b3749
+				AraF:b1901
+				AraH:b4460
+				AraG:b1900
+				MglC:b2148
+				MglA:b2149
+				XylF:b3566
+				XylH:b3568
+				XylG:b3567
+				AlsB:b4088
+				AlsC:b4086
+				AlsA:b4087
+				LsrB:b1516
+				LsrC:b1514
+				LsrD:b1515
+				LsrA:b1513
+				YtfQ:b4227
+				YjfF:b4231
+				YtfR:b4485
+				PstC:b3727
+				PstA:b3726
+				PstB:b3725
+				PhnE:b4104
+				PhnL:b4096
+				PhnK:b4097
+				ArgT:b2310
+				HisM:b2307
+				HisQ:b2308
+				HisP:b2306
+				HisJ:b2309
+				GlnH:b0811
+				GlnP:b0810
+				GlnQ:b0809
+				ArtJ:b0860
+				ArtI:b0863
+				ArtM:b0861
+				ArtQ:b0862
+				ArtP:b0864
+				GltI:b0655
+				GltK:b0653
+				GltJ:b0654
+				GltL:b0652
+				YhdW:b3268
+				YhdX:b3269
+				YhdY:b3270
+				YhdZ:b3271
+				YecS:b1918
+				YecC:b1917
+				LivJ:b3460
+				LivH:b3457
+				LivM:b3456
+				LivG:b3455
+				LivF:b3454
+				NlpA:b3661
+				MetI:b0198
+				MetN:b0199
+				DppB:b3543
+				DppC:b3542
+				DppD:b3541
+				DppF:b3540
+				NikA:b3476
+				NikB:b3477
+				NikC:b3478
+				NikD:b3479
+				NikE:b3480
+				GsiB:b0830
+				GsiC:b0831
+				GsiD:b0832
+				GsiA:b0829
+				YejA:b2177
+				YejB:b2178
+				YejE:b2179
+				YejF:b2180
+				FecB:b4290
+				FecC:b4289
+				FecE:b4287
+				BtuF:b0158
+				BtuC:b1711
+				BtuD:b1709
+				ZnuA:b1857
+				ZnuB:b1859
+				ZnuC:b1858
+				YhhJ:b3485
+				YadG:b0127
+				YbhF:b0794
+				LolE:b1118
+				LolD:b1117
+				CcmD:b2198
+				CcmC:b2199
+				CcmB:b2200
+				CcmA:b2201
+				LptF:b4261
+				LptG:b4262
+				LptB:b3201
+				SufC:b1682
+				GalP:b2943
+				AraE:b2841
+				XylE:b4031
+				LacY:b0343
+				FucP:b2801
+				SetC:b3659
+				NupG:b2964
+				XapB:b2406
+				YgfQ:b4464
+				KgtP:b2587
+				ProP:b4111
+				ShiA:b1981
+				YhjX:b3547
+				NanT:b3224
+				GudP:b2789
+				ExuT:b3093
+				DgoT:b3691
+				GarP:b3127
+				MhpT:b0353
+				YeaN:b1791
+				HcaT:b2536
+				GlpT:b2240
+				NarU:b1469
+				LplT:b2835
+				EntS:b0591
+				AmpG:b0433
+				Bcr:b2182
+				MdfA:b0842
+				MdtG:b1053
+				MdtH:b1065
+				MdtL:b3710
+				YdhP:b1657
+				YdeA:b1528
+				NepI:b3662
+				EmrD:b3673
+				EmrB:b2686
+				YebQ:b1828
+				Fsr:b0479
+				YnfM:b1596
+				YcaD:b0898
+				TsgA:b3364
+				YaaU:b0045
+				YdjK:b1775
+				PtsA:b3947
+				PtsP:b2829
+				PtsH:b2415
+				Npr:b3206
+				Crr:b2417
+				PtsG:b1101
+				NagE:b0679
+				MalX:b1621
+				BglF:b3722
+				AscF:b2715
+				TreB:b4240
+				MurP:b2429
+				GlvC:b3683
+				FruB:b2169
+				FruA:b2167
+				FrvA:b3900
+				FrwD:b3953
+				FrwC:b3949
+				MtlA:b3599
+				CmtA:b2933
+				MngA:b0731
+				ChbA:b1736
+				ChbB:b1738
+				ChbC:b1737
+				SrlB:b2704
+				SrlE:b2703
+				SrlA:b2702
+				SgcA:b4302
+				SgcB:b4565
+				SgcC:b4304
+				ManX:b1817
+				ManY:b1818
+				ManZ:b1819
+				AgaV:b3133
+				AgaB:b3138
+				AgaC:b3139
+				AgaD:b3140
+				UlaC:b4195
+				UlaA:b4193
+				PtsN:b3204
+				DhaM:b1198
+			ABC transporters
+				PhnC:b4106
+				PstS:b3728
+				PotD:b1123
+				PhnD:b4105
+				RbsD:b3748
+			Phosphotransferase system (PTS)
+			Bacterial secretion system
+				TolC:b3035
+				GspD:b3325
+				GspC:b3324
+				GspF:b3327
+				GspG:b3328
+				GspH:b3329
+				GspI:b3330
+				GspJ:b3331
+				GspK:b3332
+				GspL:b3333
+				GspM:b3334
+				GspE:b3326
+			Secretion system
+				GspA:b3323
+				GspB:b3322
+				PpdA:b2826
+				PpdB:b2825
+				PpdC:b2823
+				PpdD:b0108
+				HofB:b0107
+				HofC:b0106
+				HofM:b3395
+				HofN:b3394
+				HofO:b3393
+				HofP:b3392
+				HofQ:b3391
+				YggT:b2952
+				YbaV:b0442
+				YcaI:b0913
+				Flu:b2000
+				CsgA:b1042
+				CsgB:b1041
+				CsgC:b1043
+				CsgE:b1039
+				CsgF:b1038
+				CsgG:b1037
+		Carbohydrate Metabolism
+			Glycolysis / Gluconeogenesis
+				Eno:b2779
+				FbaB:b2097
+				Pgi:b4025
+				PykA:b1854
+				AceF:b0115
+				Fbp:b4232
+				Pgm:b0688
+				YtjC:b4395
+				Acs:b4069
+				YeaD:b1780
+				GapA:b1779
+				Pgk:b2926
+				GalM:b0756
+				Lpd:b0116
+				FrmA:b0356
+				Glk:b2388
+				PfkA:b3916
+				GlpX:b3925
+				FbaA:b2925
+				TpiA:b3919
+				AceE:b0114
+				AdhE:b1241
+				AdhP:b1478
+				YiaY:b3589
+				EutG:b2453
+				Agp:b1002
+				Pck:b3403
+				ChbF:b1734
+				BglB:b3721
+			Citrate cycle
+				Icd:b1136
+				GltA:b0720
+				AcnB:b0118
+				SucD:b0729
+				SucC:b0728
+				SdhA:b0723
+				SdhB:b0724
+				SdhC:b0721
+				SdhD:b0722
+				FumB:b4122
+				Mdh:b3236
+			Pentose phosphate pathway
+				IdnK:b4268
+				RbsK:b3752
+				RpiA:b2914
+				TalA:b2464
+				Prs:b1207
+				TktA:b2935
+				Zwf:b1852
+				Rpe:b3386
+				Gnd:b2029
+				Pgl:b0767
+				RpiB:b4090
+				DeoC:b4381
+				DeoB:b4383
+				PhnN:b4094
+				Edd:b1851
+				Eda:b1850
+				Gcd:b0124
+				GhrB:b3553
+				KdgK:b3526
+			Pentose and glucuronate interconversions
+				XylB:b3564
+				GalF:b2042
+				XylA:b3565
+				YbhC:b0772
+				Ugd:b2028
+				KduI:b2843
+				KduD:b2842
+				UxaC:b3092
+				UxaB:b1521
+				UxaA:b3091
+				UxuA:b4322
+				UxuB:b4323
+				YiaK:b3575
+				LyxK:b3580
+				YiaQ:b3581
+				YiaR:b3582
+				AraD:b0061
+				YiaS:b3583
+				AraA:b0062
+				AraB:b0063
+				RhaB:b3904
+				RhaD:b3902
+			Fructose and mannose metabolism
+				ManA:b1613
+				Mak:b0394
+				CpsG:b2048
+				CpsB:b2049
+				Gmd:b2053
+				Fcl:b2052
+				FucI:b2802
+				FucK:b2803
+				FucA:b2800
+				RhmA:b2245
+				RhmD:b2247
+				RhaA:b3903
+				YedP:b1955
+				YfbT:b2293
+				MtlD:b3600
+				SrlD:b2705
+				FruK:b2168
+			Galactose metabolism
+				GalT:b0758
+				LacZ:b0344
+				MalZ:b0403
+				GalK:b0757
+				GalE:b0759
+				EbgA:b3076
+				EbgC:b3077
+				MelA:b4119
+				GatD:b2091
+				KbaZ:b3132
+				KbaY:b3137
+				DgoD:b4478
+				DgoK:b3693
+				DgoA:b4477
+				AgaI:b3141
+			Ascorbate and aldarate metabolism
+				UlaB:b4194
+				UlaG:b4192
+				UlaD:b4196
+				UlaE:b4197
+				UlaF:b4198
+				GudD:b2787
+				GarL:b3126
+				GarD:b3128
+			Starch and sucrose metabolism
+				MalS:b3571
+				BcsZ:b3531
+				GlgP:b3428
+				OtsB:b1897
+				OtsA:b1896
+				TreF:b3519
+				TreC:b4239
+				YcjU:b1317
+				YagH:b0271
+				GlgC:b3430
+				GlgA:b3429
+				GlgB:b3432
+				YcjM:b1309
+				MalQ:b3416
+				BcsA:b3533
+			Amino sugar and nucleotide sugar metabolism
+				ChiA:b3338
+				NagZ:b1107
+				MurQ:b2428
+				NagK:b1119
+				GlmU:b3730
+				RffE:b3786
+				NanK:b3222
+				NanE:b3223
+				NanA:b3225
+				RffD:b3787
+				MurA:b3189
+				MurB:b3972
+				GlmM:b3176
+				NagA:b0677
+				NagB:b0678
+				CobB:b1120
+				ArnA:b2255
+				ArnC:b2254
+			Pyruvate metabolism
+				GloB:b0212
+				YccX:b0968
+				GloA:b1651
+				MaeB:b2463
+				MaeA:b1479
+				LldD:b3605
+				PflD:b3951
+				MhpF:b0351
+				EutE:b2455
+				AckA:b2296
+				Pta:b2297
+				EutD:b2458
+				AccA:b0185
+				AccC:b3256
+				AccD:b2316
+				PoxB:b0871
+				Dld:b2133
+				LdhA:b1380
+				AldA:b1415
+				GhrA:b1033
+				FucO:b2799
+				MgsA:b0963
+				Mqo:b2210
+				Ppc:b3956
+				PpsA:b1702
+				AceB:b4014
+				LeuA:b0074
+			Glyoxylate and dicarboxylate metabolism
+				Gph:b3385
+				AceA:b4015
+				PurU:b1232
+				ScpA:b2917
+				GlcD:b2979
+				GlcE:b4468
+				GlcF:b4467
+				Gcl:b0507
+				Hyi:b0508
+				GarR:b3125
+				GarK:b3124
+				TtdA:b3061
+				TtdB:b3062
+				DmlA:b1800
+				FdhF:b4079
+				FdoH:b3893
+				FdoI:b3892
+				Oxc:b2373
+			Propanoate metabolism
+				PrpE:b0335
+				TdcD:b3115
+				PaaG:b1394
+				FadB:b3846
+				FadJ:b2341
+				PuuE:b1302
+				GabT:b2662
+				ScpB:b2919
+				PrpC:b0333
+				PrpD:b0334
+				PrpB:b0331
+			Butanoate metabolism
+				IlvB:b3671
+				IlvM:b3769
+			C5-Branched dibasic acid metabolism
+				LeuC:b0072
+			Inositol phosphate metabolism
+				SuhB:b2533
+				AppA:b0980
+		Energy Metabolism
+			Oxidative phosphorylation
+				Ppa:b4226
+				Ndh:b1109
+				AtpB:b3738
+				AtpF:b3736
+				NuoA:b2288
+				NuoB:b2287
+				NuoC:b2286
+				NuoE:b2285
+				NuoF:b2284
+				NuoG:b2283
+				NuoH:b2282
+				NuoI:b2281
+				NuoJ:b2280
+				NuoK:b2279
+				NuoL:b2278
+				NuoM:b2277
+				NuoN:b2276
+				CyoE:b0428
+				CyoD:b0429
+				CyoC:b0430
+				CyoB:b0431
+				CyoA:b0432
+				AppC:b0978
+				AppB:b0979
+				AtpC:b3731
+				AtpD:b3732
+				AtpG:b3733
+				AtpA:b3734
+				AtpH:b3735
+				AtpE:b3737
+			Photosynthesis
+			Photosynthesis - antenna proteins
+			Carbon fixation in photosynthetic organisms
+				PrkB:b3355
+				AspC:b0928
+			Carbon fixation pathways in prokaryotes
+				FolD:b0529
+				MetF:b3941
+			Methane metabolism
+				YeiG:b2154
+				KatG:b3942
+				NhaA:b0019
+				NhaB:b1186
+			Nitrogen metabolism
+				CynT:b0339
+				CynS:b0340
+				NarZ:b1468
+				NarY:b1467
+				NarW:b1466
+				NarV:b1465
+				NirB:b3365
+				NirD:b3366
+				YqeA:b2874
+				NadE:b1740
+				TnaA:b3708
+				DadA:b1189
+				AspA:b4139
+				AsnA:b3744
+				YneH:b1524
+				GltB:b3212
+				GltD:b3213
+				MalY:b1622
+				NapA:b2206
+				NapC:b2202
+				NapB:b2203
+				NapH:b2204
+				NapG:b2205
+				NapD:b2207
+				NapF:b2208
+				NrfA:b4070
+				NrfB:b4071
+				NrfC:b4072
+				NrfD:b4073
+				NrfE:b4074
+				NrfF:b4075
+				NrfG:b4076
+			Sulfur metabolism
+				CysJ:b2764
+				CysN:b2751
+				CysD:b2752
+				CysH:b2762
+				CysI:b2763
+				MetA:b4013
+				CysE:b3607
+				CysM:b2421
+		Lipid Metabolism
+			Fatty acid biosynthesis
+				FabZ:b0180
+				FabG:b1093
+				FabD:b1092
+				AccB:b3255
+				FabH:b1091
+				FabF:b1095
+				FabB:b2323
+				FabA:b0954
+				FabI:b1288
+			Fatty acid elongation in mitochondria
+			Fatty acid metabolism
+				FadD:b1805
+				YqeF:b2844
+				FadA:b3845
+				FadE:b0221
+				Aas:b2836
+				HcaD:b2542
+			Synthesis and degradation of ketone bodies
+			Steroid biosynthesis
+			Primary bile acid biosynthesis
+			Secondary bile acid biosynthesis
+			Steroid hormone biosynthesis
+			Glycerolipid metabolism
+				GlpK:b3926
+				DhaK:b1200
+				DhaL:b1199
+				GldA:b3945
+				PlsB:b4041
+				PlsX:b1090
+				PlsY:b3059
+				PlsC:b3018
+				OpgB:b4359
+			Glycerophospholipid metabolism
+				PgsA:b1912
+				UgpQ:b3449
+				Psd:b4160
+				YnbB:b1409
+				GpsA:b3608
+				GlpD:b3426
+				GlpB:b2242
+				GlpC:b2243
+				PldA:b3821
+				PldB:b3825
+				EutA:b2451
+				EutB:b2441
+				EutC:b2440
+				Cdh:b3918
+				PssA:b2585
+				PgpA:b0418
+				PgpB:b1278
+				Cls:b1249
+				YbhO:b0789
+			Ether lipid metabolism
+			Sphingolipid metabolism
+				AslA:b3801
+			Arachidonic acid metabolism
+			Linoleic acid metabolism
+			alpha-Linolenic acid metabolism
+			Biosynthesis of unsaturated fatty acids
+				TesA:b0494
+				TesB:b0452
+				YciA:b1253
+			Lipid biosynthesis proteins
+				FadM:b0443
+				FadK:b1701
+		Nucleotide Metabolism
+			Purine metabolism
+				GuaB:b2508
+				Adk:b0474
+				PurM:b2499
+				Pnp:b3164
+				SurE:b2744
+				GuaD:b2883
+				GuaA:b2507
+				Ppx:b2502
+				PurB:b1131
+				NudF:b3034
+				Gmk:b3648
+				CysC:b2750
+				Ndk:b2518
+				PurD:b4005
+				Hpt:b0125
+				SpoT:b3650
+				PurH:b4006
+				Add:b1623
+				HiuH:b1970
+				AllA:b0505
+				NudE:b3397
+				PurN:b2500
+				PurT:b1849
+				PurL:b2557
+				PurK:b0522
+				PurE:b0523
+				PurC:b2476
+				Apt:b0469
+				UshA:b0480
+				YfbR:b2291
+				YjjG:b4374
+				Gsk:b0477
+				DeoD:b4384
+				XapA:b2407
+				RihB:b2162
+				MazG:b2781
+				Gpt:b0238
+				XdhA:b2866
+				XdhB:b2867
+				XdhC:b2868
+				PaoC:b0284
+				PaoB:b0285
+				PaoA:b0286
+				GuaC:b0104
+				NrdD:b4238
+				Dgt:b0160
+				Gpp:b3779
+				RelA:b2784
+				CyaA:b3806
+				PurA:b4177
+				Amn:b1982
+				Ade:b3665
+				CpdB:b4213
+				RdgB:b2954
+				ApaH:b0049
+				AllB:b0512
+				AllD:b0517
+			Pyrimidine metabolism
+				Tdk:b1238
+				HyuA:b2873
+				TrxB:b0888
+				Upp:b2498
+				Dut:b3640
+				PyrB:b4245
+				Tmk:b1098
+				PyrH:b0171
+				PyrG:b2780
+				Udk:b2066
+				CarB:b0033
+				CarA:b0032
+				PyrI:b4244
+				PyrC:b1062
+				PyrD:b0945
+				PyrE:b3642
+				PyrF:b1281
+				Cmk:b0910
+				Dcd:b2065
+				Udp:b3831
+				CodA:b0337
+				ThyA:b2827
+				Cdd:b2143
+				DeoA:b4382
+		Amino Acid Metabolism
+			Alanine, aspartate and glutamate metabolism
+				ArgH:b3960
+				GabD:b2661
+				GdhA:b1761
+				ArgG:b3172
+				GlmS:b3729
+				AnsB:b2957
+				GadA:b3517
+				NadB:b2574
+				AlaA:b2290
+				PutA:b1014
+			Glycine, serine and threonine metabolism
+				SerB:b4388
+				GlyA:b2551
+				GcvT:b2905
+				SerC:b0907
+				ThrB:b0003
+				Asd:b3433
+				GcvP:b2903
+				ThrA:b0002
+				IlvA:b3772
+				TrpA:b1260
+				TrpB:b1261
+				ThrC:b0004
+				LysC:b4024
+				SerA:b2913
+				TynA:b1386
+				MetL:b3940
+				LtaE:b0870
+				Kbl:b3617
+				Tdh:b3616
+				BetA:b0311
+				BetB:b0312
+				TdcG:b4471
+				DsdA:b2366
+			Cysteine and methionine metabolism
+				SseA:b2521
+				MmuM:b0261
+				MetC:b3008
+				SpeE:b0121
+				MetK:b2942
+				MetB:b3939
+				Dcm:b1961
+				CysK:b2414
+				MetE:b3829
+				MetH:b4019
+				SpeD:b0120
+				Mtn:b0159
+				TyrB:b4054
+				LuxS:b2687
+				DcyD:b1919
+			Valine, leucine and isoleucine degradation
+				IlvE:b3770
+			Valine, leucine and isoleucine biosynthesis
+				YjhG:b4297
+				LeuB:b0073
+				IlvC:b3774
+				IlvN:b3670
+				LeuD:b0071
+				AvtA:b3572
+			Lysine biosynthesis
+				LysA:b2838
+				DapF:b3809
+				DapB:b0031
+				YjhH:b4298
+				DapD:b0166
+				ArgD:b3359
+				DapE:b2472
+				MurE:b0085
+				MurF:b0086
+			Lysine degradation
+				CadA:b4131
+				RzpD:b0556
+			Arginine and proline metabolism
+				ArgC:b3958
+				ProC:b0386
+				ArgE:b3957
+				SpeB:b2937
+				ProB:b0242
+				ArgB:b3959
+				AdiA:b4117
+				SpeA:b2938
+				SpeC:b2965
+				PatA:b3073
+				Prr:b1444
+				SpeG:b1584
+				AstA:b1747
+				AstB:b1745
+				AstC:b1748
+				AstD:b1746
+				AstE:b1744
+				PuuA:b1297
+				PuuB:b1301
+				PuuC:b1300
+				ProA:b0243
+				ArgI:b4254
+				ArgA:b2818
+			Histidine metabolism
+				HisC:b2021
+				HisA:b2024
+				HisG:b2019
+				HisI:b2026
+				HisH:b2023
+				HisF:b2025
+				HisB:b2022
+				HisD:b2020
+			Tyrosine metabolism
+			Phenylalanine metabolism
+				PaaH:b1395
+				FeaB:b1385
+				PaaK:b1398
+				HcaE:b2538
+				HcaF:b2539
+				HcaC:b2540
+				HcaB:b2541
+				MhpA:b0347
+				MhpB:b0348
+				MhpC:b0349
+				MhpD:b0350
+				MhpE:b0352
+			Tryptophan metabolism
+			Phenylalanine, tyrosine and tryptophan biosynthesis
+				AroK:b3390
+				AroC:b2329
+				AroB:b3389
+				AroF:b2601
+				AroA:b0908
+				TrpE:b1264
+				AroD:b1693
+				AroE:b3281
+				YdiB:b1692
+				TrpD:b1263
+				TrpC:b1262
+				TyrA:b2600
+				PheA:b2599
+			Amino acid related enzymes
+				YadB:b0144
+				AlaC:b2379
+				YbdL:b0600
+				BioF:b0776
+				BioA:b0774
+				HemL:b0154
+				RffA:b3791
+		Metabolism of Other Amino Acids
+			beta-Alanine metabolism
+				PanD:b0131
+				PanC:b0133
+			Taurine and hypotaurine metabolism
+				TauD:b0368
+			Phosphonate and phosphinate metabolism
+				YjdM:b4108
+				YncA:b1448
+			Selenocompound metabolism
+				MetG:b2114
+				SufS:b1680
+				YnfE:b1587
+				YnfF:b1588
+				YgfK:b2878
+				SelD:b1764
+			Cyanoamino acid metabolism
+				BglX:b2132
+			D-Glutamine and D-glutamate metabolism
+				GlnA:b3870
+				MurI:b3967
+				MurD:b0088
+				MurC:b0091
+			D-Arginine and D-ornithine metabolism
+			D-Alanine metabolism
+				Alr:b4053
+				DdlA:b0381
+			Glutathione metabolism
+				PepA:b4260
+				PepN:b0932
+				YfcG:b2302
+				Gor:b3500
+				BtuE:b1710
+				GshA:b2688
+				GshB:b2947
+				Gss:b2988
+		Glycan Biosynthesis and Metabolism
+			Glycosyltransferases
+				MtgA:b3208
+				PbpC:b2519
+				MrcB:b0149
+				MrcA:b3396
+				LpxB:b0182
+				ArnT:b2257
+				RfaZ:b3624
+				RfaC:b3621
+				RfaF:b3620
+				RfaQ:b3632
+				WaaU:b3623
+				RfaJ:b3626
+				RfaI:b3627
+				RfaG:b3631
+				RfaB:b3628
+				RfaS:b3629
+				Rfe:b3784
+				WcaE:b2055
+				WcaC:b2057
+				RffM:b3794
+				RffT:b4481
+				WzyE:b3793
+			N-Glycan biosynthesis
+			Various types of N-glycan biosynthesis
+			Mucin type O-glycan biosynthesis
+			Other types of O-glycan biosynthesis
+			Glycosaminoglycan biosynthesis - chondroitin sulfate
+			Glycosaminoglycan biosynthesis - heparan sulfate
+			Glycosaminoglycan biosynthesis - keratan sulfate
+			Proteoglycans
+			Glycosaminoglycan degradation
+			Glycosylphosphatidylinositol(GPI)-anchor biosynthesis
+			Glycosphingolipid biosynthesis - lacto and neolacto series
+			Glycosphingolipid biosynthesis - globo series
+			Glycosphingolipid biosynthesis - ganglio series
+			Lipopolysaccharide biosynthesis
+				LpxA:b0181
+				LpxD:b0179
+				LpxH:b0524
+				LpxK:b0915
+				KdsC:b3198
+				LpxL:b1054
+				LpxM:b1855
+				LpcA:b0222
+				RfaE:b3052
+				GmhB:b0200
+				RfaD:b3619
+				RfaY:b3625
+				RfaP:b3630
+				RfaL:b3622
+			Lipopolysaccharide biosynthesis proteins
+				PagP:b0622
+				LpxP:b2378
+				EptA:b4114
+				EptB:b3546
+				WbbJ:b2033
+				Rfc:b2035
+				Cld:b2027
+				ArnD:b2256
+				ArnE:b4544
+				ArnF:b2258
+			Peptidoglycan biosynthesis
+				BacA:b3057
+				MraY:b0087
+				MurJ:b1069
+				MrdA:b0635
+			Other glycan degradation
+				MngB:b0732
+		Metabolism of Cofactors and Vitamins
+			Thiamine metabolism
+				ThiM:b2104
+				ThiC:b3994
+				ThiD:b2103
+				ThiG:b3991
+				ThiH:b3990
+				ThiE:b3993
+				ThiL:b0417
+				ThiK:b1106
+			Riboflavin metabolism
+				RibA:b1277
+				RibD:b0414
+				RibB:b3041
+				RibE:b0415
+				RibC:b1662
+				RibF:b0025
+				AphA:b4055
+				SsuE:b0937
+				Fre:b3844
+			Vitamin B6 metabolism
+				PdxH:b1638
+				PdxK:b2418
+				Epd:b2927
+				PdxB:b2320
+				PdxA:b0052
+				PdxJ:b2564
+			Nicotinate and nicotinamide metabolism
+				NadK:b2615
+				PncB:b0931
+				NudC:b3996
+				NadA:b0750
+				NadC:b0109
+				PncA:b1768
+				NadD:b0639
+				SthA:b3962
+				PntA:b1603
+				PntB:b1602
+			Pantothenate and CoA biosynthesis
+				PanE:b0425
+				CoaE:b0103
+				AcpT:b3475
+				PanB:b0134
+				CoaA:b3974
+				Dfp:b3639
+				CoaD:b3634
+				AcpS:b2563
+				AcpH:b0404
+			Biotin metabolism
+				YnfK:b1593
+				BioB:b0775
+			Lipoic acid metabolism
+				LipA:b0628
+				LplA:b4386
+				LipB:b0630
+			Folate biosynthesis
+				MoaE:b0785
+				FolB:b3058
+				PhoA:b0383
+				FolE:b2153
+				FolK:b0142
+				FolP:b3177
+				FolA:b0048
+				FolM:b1606
+				FolC:b2315
+				QueD:b2765
+				PabB:b1812
+				PabA:b3360
+				PabC:b1096
+			One carbon pool by folate
+			Retinol metabolism
+			Porphyrin and chlorophyll metabolism
+				GltX:b2400
+				HemH:b0475
+				HemD:b3804
+				HemE:b3997
+				HemA:b1210
+				HemB:b0369
+				HemC:b3805
+				HemX:b3803
+				CysG:b3368
+				HemF:b2436
+				HemN:b3867
+				HemG:b3850
+				BtuR:b1270
+				CobU:b1993
+				CobS:b1992
+				CobT:b1991
+				CobC:b0638
+				EutT:b2459
+				FtnA:b1905
+			Ubiquinone and other terpenoid-quinone biosynthesis
+				UbiC:b4039
+				UbiA:b4040
+				UbiD:b3843
+				UbiX:b2311
+				UbiB:b3835
+				UbiG:b2232
+				UbiH:b2907
+				UbiE:b3833
+				UbiF:b0662
+				MenF:b2265
+				EntC:b0593
+				MenD:b2264
+				MenH:b2263
+				MenC:b2261
+				MenE:b2260
+				MenB:b2262
+				MenA:b3930
+		Metabolism of Terpenoids and Polyketides
+			Prenyltransferases
+				IspA:b0421
+				IspB:b3187
+				IspU:b0174
+				MiaA:b4171
+			Terpenoid backbone biosynthesis
+				IspE:b1208
+				Dxs:b0420
+				Dxr:b0173
+				IspD:b2747
+				IspF:b2746
+				IspG:b2515
+				IspH:b0029
+				Idi:b2889
+			Monoterpenoid biosynthesis
+			Sesquiterpenoid biosynthesis
+			Diterpenoid biosynthesis
+			Carotenoid biosynthesis
+			Brassinosteroid biosynthesis
+			Insect hormone biosynthesis
+			Zeatin biosynthesis
+			Limonene and pinene degradation
+				YeaW:b1802
+			Geraniol degradation
+			Biosynthesis of 12-, 14- and 16-membered macrolides
+			Biosynthesis of ansamycins
+			Biosynthesis of type II polyketide backbone
+			Biosynthesis of type II polyketide products
+			Tetracycline biosynthesis
+			Polyketide sugar unit biosynthesis
+				RffH:b3789
+				RffG:b3788
+				RfbC:b2038
+				RfbD:b2040
+			Biosynthesis of siderophore group nonribosomal peptides
+				EntB:b0595
+				EntA:b0596
+				EntE:b0594
+				EntF:b0586
+			Biosynthesis of vancomycin group antibiotics
+		Biosynthesis of Other Secondary Metabolites
+			Phenylpropanoid biosynthesis
+			Stilbenoid, diarylheptanoid and gingerol biosynthesis
+			Flavonoid biosynthesis
+			Flavone and flavonol biosynthesis
+			Anthocyanin biosynthesis
+			Isoflavonoid biosynthesis
+			Indole alkaloid biosynthesis
+			Isoquinoline alkaloid biosynthesis
+			Tropane, piperidine and pyridine alkaloid biosynthesis
+				Aes:b0476
+			Acridone alkaloid biosynthesis
+			Caffeine metabolism
+			Betalain biosynthesis
+			Glucosinolate biosynthesis
+			Benzoxazinoid biosynthesis
+			Penicillin and cephalosporin biosynthesis
+			beta-Lactam resistance
+			Streptomycin biosynthesis
+			Butirosin and neomycin biosynthesis
+			Clavulanic acid biosynthesis
+			Puromycin biosynthesis
+			Novobiocin biosynthesis
+		Xenobiotics Biodegradation and Metabolism
+			Benzoate degradation
+				PptA:b1461
+			Aminobenzoate degradation
+			Fluorobenzoate degradation
+			Chloroalkane and chloroalkene degradation
+			Chlorocyclohexane and chlorobenzene degradation
+			Toluene degradation
+			Xylene degradation
+			Nitrotoluene degradation
+				NfsA:b0851
+				NfsB:b0578
+				NemA:b1650
+				HybC:b2994
+				HybO:b2997
+			Ethylbenzene degradation
+			Styrene degradation
+			Atrazine degradation
+			Caprolactam degradation
+			1,1,1-Trichloro-2,2-bis(4-chlorophenyl)ethane (DDT) degradation
+			Bisphenol degradation
+			Dioxin degradation
+			Naphthalene degradation
+			Polycyclic aromatic hydrocarbon degradation
+			Metabolism of xenobiotics by cytochrome P450
+			Drug metabolism - cytochrome P450
+			Drug metabolism - other enzymes
+		Other enzymes
+			Other enzymes
+				KatE:b1732
+				SodC:b1646
+				SodA:b3908
+				GlgP:b3428
+				AhpC:b0605
+				YqeF:b2844
+				IdnO:b4266
+				HdhA:b1619
+				IdnD:b4267
+				DkgA:b3012
+				DkgB:b0207
+				RspB:b1580
+				YbiC:b0801
+				YbdH:b0599
+				YihU:b3882
+				YgbJ:b2736
+				YqhD:b3011
+				AldB:b3588
+				Sad:b1525
+				FadH:b3081
+				CaiA:b0039
+				RutF:b1007
+				SolA:b1059
+				QorA:b4051
+				QueF:b2794
+				TorZ:b1872
+				MsrA:b4219
+				MsrB:b1778
+				DmsA:b0894
+				YhjA:b3518
+				Bcp:b2480
+				Tpx:b1324
+				YbiX:b0804
+				Hmp:b2552
+				SsuD:b0935
+				RutA:b1012
+				Fpr:b3924
+				ArsC:b3503
+				NrdG:b4237
+				PflC:b3952
+				DusA:b4049
+				DusB:b3260
+				DusC:b2140
+				BisC:b3551
+				RutE:b1008
+				Hcr:b0872
+				HyfA:b2481
+				HyfB:b2482
+				HyfC:b2483
+				HyfD:b2484
+				HyfE:b2485
+				HyfF:b2486
+				HyfG:b2487
+				HyfI:b2489
+				HyfJ:b2490
+				YjgB:b4269
+				YahK:b0325
+				TrmD:b2607
+				TrmI:b2960
+				TrmH:b3651
+				TrmA:b3965
+				HsdM:b4349
+				YhdJ:b3262
+				PrmB:b2330
+				Pcm:b2743
+				Cfa:b1661
+				Tam:b1519
+				PrmC:b1212
+				YjtD:b4403
+				PrmA:b3259
+				TrmL:b3606
+				RsmH:b0082
+				LacA:b0342
+				Maa:b0459
+				NhoA:b1463
+				PaaJ:b1397
+				WcaF:b2054
+				WcaB:b2058
+				Lnt:b0657
+				YhbS:b3156
+				YhhY:b3441
+				YiaC:b3550
+				YjaB:b4012
+				YjgM:b4256
+				YedL:b1932
+				YafP:b0234
+				PhnO:b4093
+				Aat:b0885
+				OpgH:b1049
+				Tgt:b0406
+				AlsK:b4084
+				KptA:b4331
+				AnmK:b1640
+				FrlD:b3374
+				LsrK:b1511
+				GlnE:b3053
+				Rph:b3643
+				YeaP:b1794
+				EntD:b0583
+				AceK:b4016
+				YpdA:b2380
+				YedV:b1968
+				ArgK:b2918
+				GlpE:b3425
+				Frc:b2374
+				CaiB:b0038
+				WcaL:b2044
+				Lgt:b2828
+				Pth:b1204
+				PphA:b1838
+				PphB:b2734
+				YbiV:b0822
+				Wzb:b2061
+				SixA:b2340
+				DosP:b1489
+				YahA:b0315
+				Gmr:b1285
+				Rnb:b1286
+				Rnd:b1804
+				EndA:b2945
+				HsdR:b4350
+				HsdS:b4348
+				RnpA:b3704
+				Rna:b0611
+				ArrQ:b1554
+				GlgX:b3431
+				YcjT:b1316
+				MltA:b2813
+				MltB:b2701
+				MltC:b2963
+				MltD:b0211
+				EmtA:b1193
+				Slt:b4392
+				RihA:b0651
+				YegU:b2099
+				RihC:b0030
+				HflC:b4175
+				HflK:b4174
+				AmiD:b0867
+				Def:b3287
+				TadA:b2559
+				YafV:b0219
+				FrlB:b3371
+				YoaA:b1808
+				Gmm:b2051
+				NudB:b1865
+				NudG:b1759
+				Cof:b0446
+				NudJ:b1134
+				NudI:b2251
+				NudK:b2467
+				MgtA:b4242
+				ZntA:b3469
+				CopA:b0484
+				HrpA:b1413
+				HrpB:b0148
+				FsaA:b0825
+				FsaB:b3946
+				LsrF:b1517
+				CaiD:b0036
+				YgeX:b2871
+				CsdA:b2810
+				FucU:b2804
+				RhaM:b3901
+				KdsD:b3197
+				Glf:b2036
+				TruB:b3166
+				TruA:b2318
+				TruC:b2791
+				TruD:b2745
+				AgaS:b3136
+				QueA:b0405
+				FolX:b2303
+				CaiC:b0037
+				Mpl:b4233
+				TilS:b0188
+				RtcA:b4475
+			Protein kinases
+			Cytochrome P450
+	Organismal Systems
+		Immune System
+			Hematopoietic cell lineage
+			Complement and coagulation cascades
+			Toll-like receptor signaling pathway
+			NOD-like receptor signaling pathway
+			RIG-I-like receptor signaling pathway
+			Cytosolic DNA-sensing pathway
+			Natural killer cell mediated cytotoxicity
+			Antigen processing and presentation
+			T cell receptor signaling pathway
+			B cell receptor signaling pathway
+			Fc epsilon RI signaling pathway
+			Fc gamma R-mediated phagocytosis
+			Leukocyte transendothelial migration
+			Intestinal immune network for IgA production
+			Chemokine signaling pathway
+		Endocrine System
+			Insulin signaling pathway
+			Adipocytokine signaling pathway
+			PPAR signaling pathway
+			GnRH signaling pathway
+			Progesterone-mediated oocyte maturation
+			Melanogenesis
+			Renin-angiotensin system
+		Circulatory System
+			Cardiac muscle contraction
+			Vascular smooth muscle contraction
+		Digestive System
+			Salivary secretion
+			Gastric acid secretion
+			Pancreatic secretion
+			Bile secretion
+			Carbohydrate digestion and absorption
+			Protein digestion and absorption
+			Fat digestion and absorption
+			Vitamin digestion and absorption
+			Mineral absorption
+		Excretory System
+			Vasopressin-regulated water reabsorption
+			Aldosterone-regulated sodium reabsorption
+			Endocrine and other factor-regulated calcium reabsorption
+			Proximal tubule bicarbonate reclamation
+			Collecting duct acid secretion
+		Nervous System
+			Glutamatergic synapse
+			Cholinergic synapse
+			Long-term potentiation
+			Long-term depression
+			Neurotrophin signaling pathway
+		Sensory System
+			Phototransduction
+			Phototransduction - fly
+			Olfactory transduction
+			Taste transduction
+		Development
+			Dorso-ventral axis formation
+			Axon guidance
+			Osteoclast differentiation
+		Environmental Adaptation
+			Circadian rhythm - mammal
+			Circadian rhythm - fly
+			Circadian rhythm - plant
+			Plant-pathogen interaction
+				TufB:b3980
+	Human Diseases
+		Cancers
+			Pathways in cancer
+			Colorectal cancer
+			Pancreatic cancer
+			Glioma
+			Thyroid cancer
+			Acute myeloid leukemia
+			Chronic myeloid leukemia
+			Basal cell carcinoma
+			Melanoma
+			Renal cell carcinoma
+			Bladder cancer
+			Prostate cancer
+			Endometrial cancer
+			Small cell lung cancer
+			Non-small cell lung cancer
+		Immune System Diseases
+			Asthma
+			Systemic lupus erythematosus
+			Rheumatoid arthritis
+			Autoimmune thyroid disease
+			Allograft rejection
+			Graft-versus-host disease
+			Primary immunodeficiency
+		Neurodegenerative Diseases
+			Alzheimer's disease
+			Parkinson's disease
+			Amyotrophic lateral sclerosis (ALS)
+			Huntington's disease
+			Prion diseases
+		Cardiovascular Diseases
+			Hypertrophic cardiomyopathy (HCM)
+			Arrhythmogenic right ventricular cardiomyopathy (ARVC)
+			Dilated cardiomyopathy (DCM)
+			Viral myocarditis
+		Metabolic Diseases
+			Type I diabetes mellitus
+			Type II diabetes mellitus
+			Maturity onset diabetes of the young
+		Infectious Diseases
+			Vibrio cholerae infection
+			Vibrio cholerae pathogenic cycle
+			Epithelial cell signaling in Helicobacter pylori infection
+			Pathogenic Escherichia coli infection
+			Shigellosis
+			Pertussis
+			Staphylococcus aureus infection
+			Tuberculosis
+			Bacterial invasion of epithelial cells
+			Measles
+			Influenza A
+			Hepatitis C
+			Amoebiasis
+			Malaria
+			Toxoplasmosis
+			Leishmaniasis
+			Chagas disease (American trypanosomiasis)
+			African trypanosomiasis
+	Not mapped
+		Not mapped
+			Not mapped
+				Not Mapped:NotMapped
