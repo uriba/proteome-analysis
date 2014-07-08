@@ -66,15 +66,13 @@ It suggests that positive correlation of protein concentration with growth rate 
 
 \section{Results}
 \subsection{Analysis of proteomic data sets}
-Having two high-quality data sets at hand, we looked for global trends in the data and specifically trends involving the growth rate under the different conditions analyzed.
-We measured the Pearson correlation of every protein in the two data sets analyzed (denoted by H for data from [ref Heinemann] and V for data from \parencite{Valgepea2013}) against the growth rate (Figure \ref{fig:growthcorr}).
-We find that a large number of proteins ($724$ out of $1981$ measured in H and $296$ out of $2184$ in V) are significantly positively correlated with the growth rate.
-In the H data set, the correlation with growth rate is more significant among annotated proteins than among un-annotated proteins ($435$ out of $988$ of annotated proteins have a correlation in the range of $(0.4,0.8)$ whereas only $289$ out of $993$ of the un-annotated proteins have a correlation within this range).
-In both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups (To-Do refer to table with breakdown by function).
-We believe that the lower correlation and higher variability found in the H data set results from the variability in the conditions it contains as well as the higher number of conditions measured across a similar rage of growth rates.
-Specifically, we note that it includes measurements under different carbon sources as opposed to the V data set that uses the same carbon source on all measurements.
-Restricting the analysis of the H data set only to chemostat conditions strengthens this assumption (Figure \ref{fig:growthcorrchemo}).
-(To-Do consider discussing analysis with LB here or in the SI.)
+To examine the interdependence of protein concentration and growth rate across expressed genes we analyzed two published proteomics data sets of \emph{E.coli}, \parencite{Valgepea2013} and [ref Heinemann].
+These data sets use mass spectrometry to evaluate the proteomic composition of \emph{E.coli} under $5$ different growth rates using a chemostat, in \parencite{Valgepea2013}, and $13$ different growth conditions, spanning both different carbon sources and chemostat-controlled growth rates, in [ref Heinemann]\footnote{The [ref Heinemann] data set contains more conditions than those analyzed, see SI for discussion}.
+For each data set, we measured the Pearson correlation of every protein with the growth rate (Figure \ref{fig:growthcorr}, see Methods section for more details).
+We find that a large number of proteins ($724$ out of $1981$ measured in the data set from [ref Heinemann], hereafter referred to as H, and $296$ out of $2184$ in the data set from \parencite{Valgepea2013}, hereafter referred to as V) are significantly positively correlated with the growth rate \footnote{Significant correlation was defined as a correlation above 0.8 for the V data set and a correlation in the range (0.4,0.8) for the H data set}.
+Notably, in both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups (To-Do refer to table with breakdown by function).
+Specifically, these groups include more proteins than the 56 ribosomal proteins, and the proteins they include are not generally expected to be co-regulated.
+For further comparison and analysis of the causes underlying the differences between the two data sets as reflected in Figure \ref{fig:growthcorr} see \ref{heinemannchemo}
 
 \begin{figure}[h]
 \centering
@@ -82,16 +80,18 @@ Restricting the analysis of the H data set only to chemostat conditions strength
 \caption{
 A significant fraction of the proteins have positive correlation with the growth rate in the two data sets analyzed.
 These proteins span many functional groups.
+The thresholds used for defining high correlation are marked in dashed lines.
 (Proteins with unknown function (present in the Heinemann data set, right panel) show less correlation with growth rate, as well as proteins with low levels of expression (data not shown).)
 }
 \label{fig:growthcorr}
 \end{figure}
 
-Next, we checked how large is the response of the proteins that have a significant positive correlation\footnote{Significant correlation was defined as a correlation above 0.8 for the V data set and a correlation in the range (0.4,0.8) for the H data set} with the growth rate across the conditions measured.
-To that end, we summed up the concentrations of all of the highly correlated proteins across the conditions measured and compared their total concentration to the growth rate (Figure \ref{fig:globalgrcorr}).
+Next, we wanted to assess the impact the highly positively correlated with growth rate proteins have on the composition of the proteome.
+To that end, we summed the concentrations of all of these proteins across the conditions measured and compared their total concentration to the growth rate (Figure \ref{fig:globalgrcorr}) (ToDo: consider clustering using PCA or some other method instead of arbitrarily selecting high correlation boundaries).
 Both data sets presented a significant response ($\approx 2$ fold change in total concentration across $\approx 5$ fold change of the growth rate) with most of the variability of the total concentration being explained by the growth rate ($R^2$ of $0.75$ in H and $0.99$ in V). 
 Furthermore, the highly correlated proteins form a large fraction of the proteome mass-wise, approaching or exceeding $50\%$ of the proteome at the higher growth rates measured.
-As before, the H data set presented more noise, probably due to the same reasons mentioned above (see Figure \ref{fig:growthcorrchemo} for analysis of the chemostat conditions of the H data set).
+Thus, an $\approx 25\%$ change in the proteome composition across the measured conditions is caused by the positive correlation with growth rate of these proteins.
+For further analysis of the differences between the two data sets see \ref{heinemannchemo}.
 
 \begin{figure}[h]
 \centering
@@ -282,6 +282,15 @@ Nevertheless, the fact that many non-ribosomal proteins share the same response 
 Detail data sources, software and algorithms used.
 
 \section{Supplementary figures and data}
+\subsubsection{Differences between the correlations found in the two data sets}
+\label{heinemannchemo}
+We believe that the lower correlation and higher variability found in the H data set results from the variability in the conditions it contains as well as the higher number of conditions measured across a similar rage of growth rates.
+Specifically, we note that it includes measurements under different carbon sources as opposed to the V data set that uses the same carbon source on all measurements.
+Restricting the analysis of the H data set only to chemostat conditions strengthens this assumption (Figure \ref{fig:growthcorrchemo}).
+(To-Do consider discussing analysis with LB here or in the SI.)
+
+As before, the H data set presented more noise, probably due to the same reasons mentioned above (see Figure \ref{fig:growthcorrchemo} for analysis of the chemostat conditions of the H data set).
+
 \begin{figure}[h]
 \centering
 \includegraphics{HeinmannChemostatGr.pdf}

@@ -10,6 +10,17 @@ from analysis import *
 import matplotlib
 
 ### Results generation#####
+def get_limits(db):
+    if db == 'heinmann' and not use_LB:
+        limits = (0.4,0.8)
+    if db == 'heinmann' and use_LB:
+        limits = (0.6,1.)
+    if db == 'valgepea':
+        limits = (0.8,1.)
+    if db == 'heinmann-chemo':
+        limits = (0.8,1.)
+    return limits
+
 ### Figure 1 - Correlation to growth rate by functional group histogram.
 (cond_list_v,gr_v,ecoli_data_v) = get_annotated_prots('valgepea')
 (cond_list_h,gr_h,ecoli_data_h) = get_annotated_prots('heinmann')
@@ -34,7 +45,7 @@ p=subplot(111)
 p1=subplot(121)
 p2=subplot(122)
 
-def plot_corr_hist(p,conc_data,categories):
+def plot_corr_hist(p,db,conc_data,categories):
     bins = linspace(-1,1,21)
     covs = ndarray(shape=(len(categories),len(bins)-1))
     sets = [] 
@@ -48,21 +59,24 @@ def plot_corr_hist(p,conc_data,categories):
     p.tick_params(axis='both', which='minor', labelsize=8)
     p.set_xlabel('Pearson correlation with growth rate',fontsize=8)
     p.set_ylabel('Number of proteins',fontsize=8)
+    limits = get_limits(db)
+    p.axvline(x=limits[0],ymin=0,ymax=250,ls='--',color='black',lw=0.5)
+    p.axvline(x=limits[1],ymin=0,ymax=250,ls='--',color='black',lw=0.5)
 
     #legend(loc=2,prop={'size':8})
     tight_layout()
     return handles,labels
 
-plot_corr_hist(p1,ecoli_data_v,categories)
-plot_corr_hist(p2,ecoli_data_h,categories)
+plot_corr_hist(p1,'valgepea',ecoli_data_v,categories)
+plot_corr_hist(p2,'heinmann',ecoli_data_h,categories)
 
 #assume both subplots have the same categories.
 handles,labels=p1.get_legend_handles_labels()
 
 figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
 
-text(0.03,0.8,"Valgepea",fontsize=8,transform=p.transAxes)
-text(0.65,0.8,"Heinemann",fontsize=8,transform=p.transAxes)
+text(0.03,0.8,"Valgepea et. al.",fontsize=8,transform=p.transAxes)
+text(0.65,0.8,"Heinemann et. al.",fontsize=8,transform=p.transAxes)
 
 subplots_adjust(top=0.83)
 savefig('GrowthRateCorrelation.pdf')
@@ -72,16 +86,8 @@ savefig('GrowthRateCorrelation.pdf')
 ## They change by xx fold across conditions measured.
 ## The correlation of each of the proteins with the global cluster is higher than with the GR (meaning it compensates for errors in GR measurements or degredation rates).
 figure(figsize=(5,3))
-
 def get_glob(db,df):
-    if db == 'heinmann' and not use_LB:
-        limits = (0.4,0.8)
-    if db == 'heinmann' and use_LB:
-        limits = (0.6,1.)
-    if db == 'valgepea':
-        limits = (0.8,1.)
-    if db == 'heinmann-chemo':
-        limits = (0.8,1.)
+    limits = get_limits(db)
     glob = df[df['gr_cov']>limits[0]]
     glob = glob[glob['gr_cov']<limits[1]]
     print "for db %s global cluster is %d out of %d measured proteins" % (db, len(glob.index),len(df.index))
