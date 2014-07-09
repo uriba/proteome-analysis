@@ -86,11 +86,13 @@ The thresholds used for defining high correlation are marked in dashed lines.
 \label{fig:growthcorr}
 \end{figure}
 
-Next, we wanted to assess the impact the highly positively correlated with growth rate proteins have on the composition of the proteome.
-To that end, we summed the concentrations of all of these proteins across the conditions measured and compared their total concentration to the growth rate (Figure \ref{fig:globalgrcorr}) (ToDo: consider clustering using PCA or some other method instead of arbitrarily selecting high correlation boundaries).
-Both data sets presented a significant response ($\approx 2$ fold change in total concentration across $\approx 5$ fold change of the growth rate) with most of the variability of the total concentration being explained by the growth rate ($R^2$ of $0.75$ in H and $0.99$ in V). 
-Furthermore, the highly correlated proteins form a large fraction of the proteome mass-wise, approaching or exceeding $50\%$ of the proteome at the higher growth rates measured.
-Thus, an $\approx 25\%$ change in the proteome composition across the measured conditions is caused by the positive correlation with growth rate of these proteins.
+To assess the significance of the positive correlation with growth rate of proteins, out of the total change in proteome composition across conditions, we summed the concentrations of all of the proteins that are highly correlated with growth rate across the conditions measured and plotted their total concentration against the growth rate (Figure \ref{fig:globalgrcorr})
+(ToDo: consider clustering using PCA or some other method instead of arbitrarily selecting high correlation boundaries, if not then at least add figures demonstrating validity of results even under different boundaries).
+Both data sets show a significant change in the concentration of these proteins across the different conditions ($\approx 2$ fold change in total concentration across $\approx 5$ fold change of the growth rate).
+Moreover, most of the variability of the total concentration of these proteins can be explained by the growth rate ($R^2$ of $0.75$ in H and $0.99$ in V). 
+Importantly, the highly correlated proteins form a large fraction of the proteome mass-wise, approaching or exceeding $50\%$ of the proteome at the higher growth rates measured.
+Thus, when considering the changes in proteome composition across conditions, we find that, at higher growth rates, $\approx 50\%$ of the proteome composition is determined by the correlation with growth rate of the same group of proteins.
+(ToDo: This analysis, unlike the one done in Leeat's work, does not try to identify the scaling between every two conditions and then cluster genes according to conditions where specific regulation occured, I'm now thinking of ways of modifying this analysis in that direction as it can potentially be much more interesting and strong so generally I believe this paragraph and accompanying figure will be replaced)
 For further analysis of the differences between the two data sets see \ref{heinemannchemo}.
 
 \begin{figure}[h]
@@ -105,13 +107,14 @@ The change in the concentration of the highly correlated proteins is about 2-fol
 \label{fig:globalgrcorr}
 \end{figure}
 
-At this point, we note that the fact that two proteins have the same correlation with the growth rate does not imply that they are correlated between themselves.
+Next we wished to examine how similar is the behavior with growth rate for different proteins.
+We note that the fact that two proteins have the same correlation with the growth rate does not imply that they are correlated between themselves.
 Moreover, it also does not imply that they scale in the same way with the growth rate.
-We therefore calculated the slope of a linear regression line with the growth rate for every highly correlated protein and plotted the results in Figure \ref{fig:globalfit}.
-In order to compensate for the different concentrations of different proteins, the data for every protein was first normalized to have an average concentration of $1$ across the different conditions and then the slope of the fit was calculated.
-This analysis reveals that most proteins respond in a similar manner to the different conditions.
+We therefore calculated the slope of a linear regression line with the growth rate for every highly correlated protein and plotted the results in Figure \ref{fig:globalfit} (Further details on the calculation are at \ref{concacrossconds}.
+We find that the distribution of slopes falls within the expected range resulting from measurement errors of the proteins concentrations (ToDo: This is not calculated yet!).
+This analysis thus reveals that most proteins respond in a similar manner to the different conditions.
 
-Lastly, we wanted to check how the response of the highly correlated proteins relates to the well-studied response of ribosomal proteins.
+Lastly, we examined how the response of the highly correlated proteins relates to the well-studied response of ribosomal proteins.
 To that end, we performed the same analysis of slopes, restricting it to ribosomal proteins alone (Figure \ref{fig:globalfit}).
 The analysis shows that, on average, highly correlated proteins scale in the same way as ribosomal proteins do.
 
@@ -280,6 +283,9 @@ Nevertheless, the fact that many non-ribosomal proteins share the same response 
 
 \section{Materials and Methods}
 Detail data sources, software and algorithms used.
+\subsubsection{Normalizing protein concentration across conditions}
+\label{concacrossconds}
+In order to compensate for the different concentrations of different proteins, the data for every protein was first normalized to have an average concentration of $1$ across the different conditions and then the slope of the fit was calculated.
 
 \section{Supplementary figures and data}
 \subsubsection{Differences between the correlations found in the two data sets}
