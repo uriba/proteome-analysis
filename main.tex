@@ -177,10 +177,10 @@ Therefore, ideally, the cell will be able to sense the presence or absence of AA
 If we now consider some arbitrary protein $i$, whose specific affinity is unaltered between these two conditions, we see that its concentration will most likely still change between the two conditions as the affinities of at least some of the genes (the AA synthesizing enzymes) change, changing the denominator in equation \ref{eq:concentration} and thus affecting the distribution of resources between all of the expressed genes.
 
 Generalizing this notion, for every group of conditions, one could divide the proteins into those whose intrinsic affinity remains constant across all of the conditions, and to those whose intrinsic affinity changes (meaning their expression is actively regulated by the cell) between at least some of the conditions (see Figure \ref{fig:model}A).
-An interesting consequence of the formulation in Equation \ref{eq:concentration-ratio} is that proteins whose intrinsic affinity remains constant across different growth conditions, also maintain their relative concentrations across these conditions with respect to each other.
+An interesting consequence of the formulation in Equation \ref{eq:concentration-ratio} is that proteins whose intrinsic affinities remain constant across different growth conditions, also maintain their relative concentrations across these conditions with respect to each other.
 (ToDo: consider adding a panel to Figure 4 to show this (sub-slices in the blue slice at 4A) or show by writing the equation for the ratio between to proteins whos affinities remain constant, across different conditions).
+(ToDo: consider moving following sentence or two to Discussion)
 Therefore, identifying a large group of proteins that maintain their relative concentrations across conditions may indicate that these proteins maintained their intrinsic affinities and that any changes in their absolute concentrations are in fact a passive outcome resulting from changes in the intrinsic affinities of other proteins.
-Such a phenomena is observed for \emph{S.cerevisiae} as was reported in \parencite{Keren2013a}.
 
 \subsubsection{The relationship between proteome composition and the growth rate}
 While it is sometimes implied that different cellular components are regulated by the growth rate, here we treat the growth rate as an outcome of the combination of proteome composition and the environmental conditions.
@@ -191,10 +191,10 @@ To illustrate this assumption concretely, one could think about the total amount
 Assuming each Ribosome translates at an approximately condition-independent rate of about 20 AA per second, and as the amount of actively translating Ribosomes is also relatively condition-independent (refs), it follows that the doubling time is linearly dependent on the ratio of proteins to ribosomes in the biomass (see Figure \ref{fig:model}B).
 
 Theoretically, the fastest doubling time a cell may have is the doubling time achieved when all of the cell's proteome is the bio-synthetic machinery.
-(ToDo - calculate this time based on known rates and molecular sizes and add either here or in SI)
+(ToDo - calculate this time based on known rates and molecular sizes and add to SI)
 We denote this minimal doubling time by $T_B$.
 
-To integrate the notion of total protein to bio-synthetic protein ratio into our model, we assume that there is a group of bio-synthetic genes (e.g. genes of the transcriptional and translational machineries) which are not differentially regulated across different conditions.
+To integrate the notion of total protein to bio-synthetic protein ratio into our model, we assume that there is a group of bio-synthetic genes (e.g. genes of the transcriptional and translational machineries) which are not actively differentially regulated across different conditions.
 Furthermore, we assume that the machineries these genes are involved at operate at relatively constant rates and occupancy ratios across conditions.
 Mathematically we can therefore define this group of bio-synthesis genes, $G_B$, such that, for every gene that belongs to this group, its affinity is constant regardless of the condition:
 \begin{equation}
@@ -223,12 +223,12 @@ Incorporating all the condition-independent constants ($W_B$, $T_B$, $\ln(2)$) i
   \label{eq:final-conc}
   p_i(c)=Cw_i(c)g(c)
 \end{equation}
-which implies that, for every two conditions between which $i$ maintains its affinity, $i$'s concentration will scale like the growth rate change between these two conditions.
+which implies that, for every two conditions between which $i$ maintains its affinity, $w_i$, $i$'s concentration will scale like the growth rate change between these two conditions.
 
 \subsubsection{Accounting for protein degradation}
 The model as presented predicts that, for non-differentially regulated proteins, their concentrations should drop to 0 when the growth rate is 0.
 As the data analysis in Figure \ref{fig:globalgrcorr} shows, this is not the case.
-Interestingly, accounting for protein degradation affects affects the expected concentration of non-differentially regulated proteins at 0 growth rate.
+Interestingly, accounting for protein degradation affects the expected concentration of non-differentially regulated proteins at 0 growth rate.
 (ToDo - changes in synthesis rate may also account for this effect - need to add that as well, Note that it is an idea Hwa brought up during our conversation).
 
 Assuming that protein degradation acts on all proteins in the same way, and that it is invariant in the growth condition, the effect of protein degradation can be understood as follows: at any time, some fraction of the entire proteome is degraded.
@@ -244,9 +244,10 @@ Therefore, if we denote by $\alpha$ the degradation rate, Equation \ref{eq:final
 which now yields much better agreement with the experimental results as presented in Figure \ref{fig:globalgrcorr} and explains why the concentration of non-differentially regulated proteins does not drop to 0 when the growth rate is 0.
 (ToDo - add exact predicted degradation rate that achieved good agreement with experimental results)
 \section{Discussion}
-We identified a significant, coordinated response between many proteins and the growth rate.
+We identified a significant, coordinated response in \emph{E.coli} between many proteins and the growth rate.
 This response spans proteins from various functional groups and is not related to the specific medium of growth.
-We presented the notion of intrinsic affinity for expression and the limited bio-synthesis capacity as factors that, combined, can explain the response observed in the experimental data.
+A similar phenomena is observed for \emph{S.cerevisiae} as was reported in \parencite{Keren2013a} and may thus be conserved across various organisms and domains.
+We present the notion of intrinsic affinity for expression and the limited bio-synthesis capacity as factors that, combined, can explain the response observed in the experimental data.
 While the notion of affinity for expression was first presented in \parencite{Maaloe1969}, only recently did experimental data made the exploring this idea possible.
 
 Other works have suggested different models and in some cases have results that do not coincide with those presented in this work.
