@@ -104,8 +104,8 @@ def get_high_corr(db,df,gr,conds):
 (glob_h,alpha_h,beta_h) = get_high_corr('heinmann',ecoli_data_h,gr_h,cond_list_h)
 (glob_v,alpha_v,beta_v) = get_high_corr('valgepea',ecoli_data_v,gr_v,cond_list_v)
 
-plot(gr_h.values,glob_h.values,'o',label="Heinemann")
-plot(gr_v.values,glob_v.values,'o',label="Valgepea")
+plot(gr_h.values,glob_h.values,'o',label="Heinemann et. al")
+plot(gr_v.values,glob_v.values,'o',label="Valgepea et. al")
 plot(gr_h.values,alpha_h*gr_h.values+beta_h,color='blue',label=("Heinemann Trend,$R^2$=%.2f" % (gr_h.corr(glob_h)**2)))
 plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_v)**2)))
 
@@ -151,8 +151,8 @@ p2=subplot(122)
 plot_response_hist('valgepea',ecoli_data_v,gr_v,p1)
 plot_response_hist('heinmann',ecoli_data_h,gr_h,p2)
 
-text(-0.01,0.9,"Valgepea",fontsize=8,transform=p.transAxes)
-text(0.62,0.9,"Heinemann",fontsize=8,transform=p.transAxes)
+text(-0.01,0.9,"Valgepea et. al",fontsize=8,transform=p.transAxes)
+text(0.62,0.9,"Heinemann et. al",fontsize=8,transform=p.transAxes)
 
 tight_layout()
 savefig('AllProtsVSRibosomalNormalizedSlopes.pdf')
