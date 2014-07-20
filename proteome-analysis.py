@@ -2,12 +2,15 @@ import csv
 import pandas as pd
 from pandas.io.parsers import read_csv
 from scipy.stats import gaussian_kde,linregress
+from scipy import stats
 from Bio import SeqIO
 from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,text,subplots
-from numpy import linspace,ndarray,arange
+from numpy import linspace,ndarray,arange,sum,square
 from numpy.random import randn
 from analysis import *
 import matplotlib
+from math import sqrt
+
 
 ### Results generation#####
 def get_limits(db):
@@ -120,6 +123,30 @@ tight_layout()
 savefig('GlobalClusterGRFit%s.pdf' % conf_fname_mod)
 savefig('GlobalClusterGRFit.pdf')
 
+#gets values at cond_list and normalized in both axes
+def std_err_fit(gr,s):
+    alpha,beta,r,p,st = linregress(gr,s)
+    n = sqrt(sum(square(s-(alpha * gr + beta)))/(len(s)-2))
+    d = sqrt(sum(square(gr-gr.mean())))
+    return n/d
+    
+def conf_int_min(degfr,s):
+    res = stats.t.interval(0.95,degfr,loc=s['alpha'],scale=s['std_err'])
+    return  res[0]
+
+def conf_int_max(degfr,s):
+    res = stats.t.interval(0.95,degfr,loc=s['alpha'],scale=s['std_err'])
+    return  res[1]
+
+def set_std_err(db,df,gr):
+    cond_list = cond_list_dict[db]
+    print "for db %s deg-free %d" %(db,len(cond_list)-2)
+    df['std_err'] = df[cond_list].apply(lambda x: std_err_fit(gr[cond_list]/gr[cond_list].mean(),x/x.mean()),axis=1)
+    
+    df['conf_min'] = df.apply(lambda x: conf_int_min(len(cond_list)-2,x) ,axis=1)
+    df['conf_max'] = df.apply(lambda x: conf_int_max(len(cond_list)-2,x) ,axis=1)
+    return df
+
 ## Figure 3, global cluster slope vs. ribosomal slope
 def set_alpha(db,df,gr):
     cond_list = cond_list_dict[db]
@@ -142,6 +169,7 @@ def plot_response_hist(db,df,gr,p):
     p.axvline(x=1,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
     p.tick_params(axis='both', which='major', labelsize=8)
     p.tick_params(axis='both', which='minor', labelsize=8)
+    
 
 figure(figsize=(5,3))
 
@@ -295,3 +323,48 @@ glob_conc = set_alpha('valgepea',glob_conc,gr_v)
 p2.plot(glob_conc.gr_cov,glob_conc.alpha,'.')
 tight_layout()
 savefig('slopecorr.pdf')
+
+#plot slope vs std_err of estimate
+def count(x,df):
+    return float(len(df[(df['conf_min'] < x) & (df['conf_max'] > x)]))/len(df)
+
+figure(figsize=(5,3))
+p1=subplot(121)
+p2=subplot(122)
+glob_conc_h = get_glob('heinmann',ecoli_data_h)
+glob_conc_h = set_alpha('heinmann',glob_conc_h,gr_h)
+glob_conc_h = set_std_err('heinmann',glob_conc_h,gr_h)
+print "heinemann's data"
+mins = sorted(glob_conc_h['conf_min'].values)
+maxs = sorted(glob_conc_h['conf_max'].values)
+allbound = sorted(mins + maxs)
+fracs = [count(x,glob_conc_h) for x in allbound]
+p1.plot(allbound,fracs)
+p1.axhline(y=0.95,xmin=0,xmax=3,ls='--',color='black',lw=0.5)
+
+print "95 percent of slopes lower bound is smaller than %f" % mins[int(len(mins)*0.95)]
+print "95 percent of slopes upper bound is larger than %f" % maxs[int(len(maxs)*0.05)]
+cand = 0.384
+print "total count of slopes which contain %f is %d out of %d" % (cand,len(glob_conc_h[(glob_conc_h['conf_min'] < cand) & (glob_conc_h['conf_max'] > cand)].values), len(glob_conc_h.values)) 
+#p1.plot(glob_conc_h.alpha,glob_conc_h.std_err,'.',markersize=2)
+p1.set_title('heinemann')
+glob_conc_v = get_glob('valgepea',ecoli_data_v)
+glob_conc_v = set_alpha('valgepea',glob_conc_v,gr_v)
+glob_conc_v = set_std_err('valgepea',glob_conc_v,gr_v)
+print "Valgepea's data"
+mins = sorted(glob_conc_v['conf_min'].values)
+maxs = sorted(glob_conc_v['conf_max'].values)
+print "95 percent of slopes lower bound is smaller than %f" % mins[int(len(mins)*0.95)]
+print "95 percent of slopes upper bound is larger than %f" % maxs[int(len(maxs)*0.05)]
+cand = 0.4
+print "total count of slopes which contain %f is %d out of %d" % (cand,len(glob_conc_v[(glob_conc_v['conf_min'] < cand) & (glob_conc_v['conf_max'] > cand)].values),len(glob_conc_v.values)) 
+allbound = sorted(mins + maxs)
+fracs = [count(x,glob_conc_v) for x in allbound]
+p2.plot(allbound,fracs)
+#p2.plot(glob_conc_v.alpha,glob_conc_v.std_err,'.',markersize=2)
+p2.set_title('valgepea')
+tight_layout()
+savefig('slopestderr.pdf')
+
+#check if for 95% of the slopes, the mean of all of the slopes lies in their 95% confidence interval
+

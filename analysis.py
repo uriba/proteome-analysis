@@ -1,7 +1,6 @@
 import csv
 import pandas as pd
 from pandas.io.parsers import read_csv
-from scipy.stats import gaussian_kde,linregress
 from Bio import SeqIO
 from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust
 from numpy import linspace,ndarray,arange
