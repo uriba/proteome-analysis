@@ -5,11 +5,11 @@ from scipy.stats import gaussian_kde,linregress
 from scipy import stats
 from Bio import SeqIO
 from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,text,subplots
-from numpy import linspace,ndarray,arange,sum,square
+from numpy import linspace,ndarray,arange,sum,square,array
 from numpy.random import randn
 from analysis import *
 import matplotlib
-from math import sqrt
+from math import sqrt,isnan
 
 
 ### Results generation#####
@@ -93,7 +93,7 @@ def get_glob(db,df):
     limits = get_limits(db)
     glob = df[df['gr_cov']>limits[0]]
     glob = glob[glob['gr_cov']<limits[1]]
-    print "for db %s global cluster is %d out of %d measured proteins" % (db, len(glob.index),len(df.index))
+    print "for db %s global cluster is %d out of %d measured proteins" % (db, len(glob),len(df[isnan(df['gr_cov'])]))
     if db == 'heinmann':
         print "for db %s annotated proteins in global are %d out of %d measured annotated proteins" % (db, len(glob[glob['group']!= "NotMapped"].index),len(df[df['group']!="NotMapped"].index))
     return glob
@@ -329,24 +329,23 @@ def count(x,df):
     return float(len(df[(df['conf_min'] < x) & (df['conf_max'] > x)]))/len(df)
 
 figure(figsize=(5,3))
-p1=subplot(121)
-p2=subplot(122)
+p1=subplot(111)
+#p2=subplot(122)
 glob_conc_h = get_glob('heinmann',ecoli_data_h)
 glob_conc_h = set_alpha('heinmann',glob_conc_h,gr_h)
 glob_conc_h = set_std_err('heinmann',glob_conc_h,gr_h)
 print "heinemann's data"
+alphas = glob_conc_h['alpha'].values
+mins = glob_conc_h['conf_min'].values
+intervals = array(alphas)-array(mins)
+alphas,intervals = (list (x) for x in zip(*sorted(zip(alphas,intervals))))
+p1.errorbar(range(0,len(alphas)),alphas,yerr=intervals,fmt='.',markersize='1',elinewidth=0.25)
 mins = sorted(glob_conc_h['conf_min'].values)
 maxs = sorted(glob_conc_h['conf_max'].values)
 allbound = sorted(mins + maxs)
 fracs = [count(x,glob_conc_h) for x in allbound]
-p1.plot(allbound,fracs)
-p1.axhline(y=0.95,xmin=0,xmax=3,ls='--',color='black',lw=0.5)
-
-print "95 percent of slopes lower bound is smaller than %f" % mins[int(len(mins)*0.95)]
-print "95 percent of slopes upper bound is larger than %f" % maxs[int(len(maxs)*0.05)]
-cand = 0.384
-print "total count of slopes which contain %f is %d out of %d" % (cand,len(glob_conc_h[(glob_conc_h['conf_min'] < cand) & (glob_conc_h['conf_max'] > cand)].values), len(glob_conc_h.values)) 
-#p1.plot(glob_conc_h.alpha,glob_conc_h.std_err,'.',markersize=2)
+#p1.plot(allbound,fracs)
+#p1.axhline(y=0.95,xmin=0,xmax=3,ls='--',color='black',lw=0.5)
 p1.set_title('heinemann')
 glob_conc_v = get_glob('valgepea',ecoli_data_v)
 glob_conc_v = set_alpha('valgepea',glob_conc_v,gr_v)
@@ -354,17 +353,11 @@ glob_conc_v = set_std_err('valgepea',glob_conc_v,gr_v)
 print "Valgepea's data"
 mins = sorted(glob_conc_v['conf_min'].values)
 maxs = sorted(glob_conc_v['conf_max'].values)
-print "95 percent of slopes lower bound is smaller than %f" % mins[int(len(mins)*0.95)]
-print "95 percent of slopes upper bound is larger than %f" % maxs[int(len(maxs)*0.05)]
-cand = 0.4
-print "total count of slopes which contain %f is %d out of %d" % (cand,len(glob_conc_v[(glob_conc_v['conf_min'] < cand) & (glob_conc_v['conf_max'] > cand)].values),len(glob_conc_v.values)) 
 allbound = sorted(mins + maxs)
 fracs = [count(x,glob_conc_v) for x in allbound]
-p2.plot(allbound,fracs)
-#p2.plot(glob_conc_v.alpha,glob_conc_v.std_err,'.',markersize=2)
-p2.set_title('valgepea')
-tight_layout()
+#p2.plot(allbound,fracs)
+#p2.set_title('valgepea')
+#tight_layout()
 savefig('slopestderr.pdf')
 
 #check if for 95% of the slopes, the mean of all of the slopes lies in their 95% confidence interval
-
