@@ -15,13 +15,14 @@ from math import sqrt,isnan
 ### Results generation#####
 def get_limits(db):
     if db == 'heinmann' and not use_LB:
-        limits = (0.4,0.8)
+        #limits = (0.4,0.8)
+        limits = (0.4,1.)
     if db == 'heinmann' and use_LB:
         limits = (0.6,1.)
     if db == 'valgepea':
         limits = (0.8,1.)
     if db == 'heinmann-chemo':
-        limits = (0.8,1.)
+        limits = (0.5,1.)
     return limits
 
 ### Figure 1 - Correlation to growth rate by functional group histogram.
@@ -93,7 +94,7 @@ def get_glob(db,df):
     limits = get_limits(db)
     glob = df[df['gr_cov']>limits[0]]
     glob = glob[glob['gr_cov']<limits[1]]
-    print "for db %s global cluster is %d out of %d measured proteins" % (db, len(glob),len(df[isnan(df['gr_cov'])]))
+    print "for db %s global cluster is %d out of %d measured proteins" % (db, len(glob),len(df[df['gr_cov']>-1.]))
     if db == 'heinmann':
         print "for db %s annotated proteins in global are %d out of %d measured annotated proteins" % (db, len(glob[glob['group']!= "NotMapped"].index),len(df[df['group']!="NotMapped"].index))
     return glob
@@ -162,7 +163,7 @@ def plot_response_hist(db,df,gr,p):
     ribs = set_alpha(db,ribs,gr)
     p.hist([glob_conc['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['HC-proteins','Ribosomal proteins'])
     p.set_xlim(-1.7,1.7)
-    p.set_xlabel('Normalized response',fontsize=8)
+    p.set_xlabel('Normalized slope',fontsize=8)
     p.set_ylabel('Number of proteins',fontsize=8)
     p.axvline(x=0,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
     p.axvline(x=0.5,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
