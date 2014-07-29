@@ -9,7 +9,7 @@ from numpy import linspace,ndarray,arange,sum,square,array
 from numpy.random import randn
 from analysis import *
 import matplotlib
-from math import sqrt,isnan
+from math import sqrt,isnan,log
 
 
 ### Results generation#####
@@ -103,6 +103,8 @@ def get_high_corr(db,df,gr,conds):
     glob = get_glob(db,df)
     glob_tot = glob[conds].sum()
     alpha,beta,r_val,p_val,std_err = linregress(gr,glob_tot)
+    print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
+    print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
     return (glob_tot,alpha,beta)
 
 (glob_h,alpha_h,beta_h) = get_high_corr('heinmann',ecoli_data_h,gr_h,cond_list_h)
@@ -156,12 +158,16 @@ def set_alpha(db,df,gr):
 
 def plot_response_hist(db,df,gr,p):
     bins = linspace(-1.7,1.7,35)
-    ribs = df[df['func'] == 'Ribosome']
+    xs = linspace(-1.75,1.75,100)
     glob_conc = get_glob(db,df)
-    glob_conc = glob_conc[glob_conc['func'] != 'Ribosome']
     glob_conc = set_alpha(db,glob_conc,gr)
-    ribs = set_alpha(db,ribs,gr)
-    p.hist([glob_conc['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['HC-proteins','Ribosomal proteins'])
+    glob_conc = set_std_err(db,glob_conc,gr)
+    avg = glob_conc['alpha'].mean()
+    std_err = glob_conc['std_err'].mean()
+    glob_conc_no_ribs = glob_conc[glob_conc['func'] != 'Ribosome']
+    ribs = glob_conc[glob_conc['func'] == 'Ribosome']
+    p.hist([glob_conc_no_ribs['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['HC-proteins','Ribosomal proteins'])
+    p.plot(xs,stats.t.pdf(xs,df=len(cond_list_dict[db])-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.1)
     p.set_xlim(-1.7,1.7)
     p.set_xlabel('Normalized slope',fontsize=8)
     p.set_ylabel('Number of proteins',fontsize=8)
@@ -362,3 +368,9 @@ fracs = [count(x,glob_conc_v) for x in allbound]
 savefig('slopestderr.pdf')
 
 #check if for 95% of the slopes, the mean of all of the slopes lies in their 95% confidence interval
+
+#Plot variability explained (R^2)/Var? in global cluster and in proteome as function of threshold for HC proteins.
+
+#Demonstrate predictive power of model by showing 3 normalized genes + trendline and how an unrelated gene "fits" the same line.
+
+#Change caption of Y axis for global cluster trend line.
