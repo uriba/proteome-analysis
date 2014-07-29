@@ -73,16 +73,15 @@ The [ref Heinemann] data set contains more conditions than those analyzed, see s
 For each data set, we calculated the Pearson correlation of every protein with the growth rate as shown in Figure \ref{fig:growthcorr} (see Methods section for more details).
 We find that $\approx 1/3$ of the proteins ($825$ out of $1981$ measured in the data set from [ref Heinemann], hereafter referred to as H, and $296$ out of $944$ in the data set from \parencite{Valgepea2013}, hereafter referred to as V) are strongly positively correlated with the growth rate, where a strong correlation with growth rate was defined as a correlation of $R\geq 0.8$ for the V data set, and $R\geq 0.4$ for the H data set (see SI for further discussion).
 Notably, in both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups \emph{ToDo refer to table with breakdown by function}.
-Specifically, these groups include more proteins than the 56 ribosomal proteins, the vast majority of which are highly correlated with the growth rate, and the proteins they include are not generally expected to be co-regulated.
+Specifically, these groups include more proteins than the 56 ribosomal proteins, the vast majority of which are strongly correlated with the growth rate, and the proteins they include are not generally expected to be co-regulated.
 For further comparison and analysis of the causes underlying the differences between the two data sets as reflected in Figure \ref{fig:growthcorr} see section \ref{heinemannchemo}
 
 \begin{figure}[h]
 \centering
 \includegraphics{GrowthRateCorrelation.pdf}
 \caption{
-A large fraction of the proteins have a strong positive correlation with the growth rate in the two data sets analyzed (ranges used for high correlation are marked in dashed lines).
+A large fraction of the proteins have a strong positive correlation with the growth rate in the two data sets analyzed (thresholds used for high correlation are marked in dashed lines).
 These proteins span many functional groups.
-The thresholds used for defining high correlation are marked in dashed lines.
 }
 \label{fig:growthcorr}
 \end{figure}
@@ -99,12 +98,12 @@ We refer to proteins that share a similar normalized response across different c
 To assess the coordination between the proteins that were found to be strongly positively correlated with growth rate we therefore calculated the slope of a linear regression line for the normalized concentration vs. the growth rate for every one of these proteins.
 We present the results in Figure \ref{fig:globalfit} (Further details on the calculation are in section \ref{concacrossconds}).
 Further more, for every slope obtained for any protein, we calculated the $95\%$ confidence interval of that slope.
-We find that the distribution of estimated slopes can result from having a common, single response slope, given the experimental noise in the measurements (For further discussion see SI).
-This analysis thus reveals that, not only does a significant fraction of the proteome is highly positively correlated with the growth rate, but that, as is shown in Figure \ref{fig:globalfit}, this response is coordinated.
+We find that the distribution of estimated slopes can result from having a common, single response slope, given the experimental noise in the measurements (For further discussion see SI)\emph{ToDo:further analyze the expected distribution to check if that is indeed the case}.
+This analysis thus reveals that, not only does a significant fraction of the proteome is strongly positively correlated with the growth rate, but that, as is shown in Figure \ref{fig:globalfit}, this response is coordinated.
 
-Furthermore, we examined how the response of the highly correlated proteins relates to the well-studied response of ribosomes concentration.
+Furthermore, we examined how the response of the strongly correlated proteins relates to the well-studied response of ribosomes concentration.
 To that end, we performed the same analysis of slopes, restricting it to ribosomal proteins alone, as is shown in Figure \ref{fig:globalfit} (green bars).
-The analysis shows that, on average, highly correlated proteins scale in the same way as ribosomal proteins do, implying that the observed response of ribosomal proteins to growth rate is coordinated with a much larger fraction of the proteome, encompassing many more cellular components.
+The analysis shows that, on average, strongly correlated proteins scale in the same way as ribosomal proteins do, implying that the observed response of ribosomal proteins to growth rate is coordinated with a much larger fraction of the proteome, encompassing many more cellular components.
 \emph{ToDo: literature survey on mechanisms suggested to control ribosomes concentration to check whether they are for RNA to protein coordination, rRNA to mRNA control, or ribosomal protein control, with our findings highlighting questions on the last ones}.
 
 \begin{figure}[h]
@@ -123,11 +122,11 @@ The analysis shows that, on average, highly correlated proteins scale in the sam
 
 \subsubsection{Changes in the proteome across environmental conditions are dominated by proteins that are positively correlated with growth rate}
 Lastly, we assessed the significance of the positive correlation with growth rate of proteins, out of the total change in proteome composition across conditions.
-To that end, we summed the concentrations of all of the proteins that are highly correlated with growth rate across the conditions measured and plotted their total concentration against the growth rate in Figure \ref{fig:globalgrcorr}.
+To that end, we summed the concentrations of all of the proteins that are strongly correlated with growth rate across the conditions measured and plotted their total concentration against the growth rate in Figure \ref{fig:globalgrcorr}.
 \emph{ToDo: consider clustering using PCA or some other method instead of arbitrarily selecting high correlation boundaries, if not then at least add figures demonstrating validity of results even under different boundaries}.
 Both data sets show that these proteins concentrations change significantly across the different conditions ($\approx 2$ fold change in total concentration across $\approx 5$ fold change of the growth rate).
 Moreover, most of the variability of the total concentration of these proteins can be explained by the growth rate ($R^2$ of $0.78$ in H and $0.99$ in V). 
-Importantly, the highly correlated proteins form a large fraction of the proteome mass-wise, exceeding $50\%$ of the proteome at the higher growth rates measured.
+Importantly, the strongly correlated proteins form a large fraction of the proteome mass-wise, exceeding $50\%$ of the proteome at the higher growth rates measured.
 Thus, when considering the changes in proteome composition across conditions, we find that, at higher growth rates, more than $50\%$ of the proteome composition is affected by the correlation with growth rate of the same group of proteins.
 \emph{ToDo: This analysis, unlike the one done in Leeat's work, does not try to identify the scaling between every two conditions and then cluster genes according to conditions where specific regulation occurred, I'm now thinking of ways of modifying this analysis in that direction as it can potentially be much more interesting and strong so generally I believe this paragraph and accompanying figure will be replaced}
 For further analysis of the differences between the two data sets see section \ref{heinemannchemo}.
@@ -136,9 +135,9 @@ For further analysis of the differences between the two data sets see section \r
 \centering
 \includegraphics{GlobalClusterGRFit.pdf}
 \caption{
-The sum of the concentrations of the highly correlated proteins (defined as having a correlation above 0.8 for the V data set and a correlation above 0.4 for the H data set) in each of the data sets, with linear regression lines, is shown.
+The sum of the concentrations of the strongly correlated proteins (defined as having a correlation above 0.8 for the V data set and a correlation above 0.4 for the H data set) in each of the data sets, with linear regression lines, is shown.
 These proteins form a large fraction ($>50\%$) out of the proteome at higher growth rates.
-The change in the concentration of the highly correlated proteins follows trend lines with slopes of $\approx 0.5$ meaning their total concentration doubles itself as the growth rate changes by about 5-fold.
+The change in the concentration of the strongly correlated proteins follows trend lines with slopes of $\approx 0.5$ meaning their total concentration doubles itself as the growth rate changes by about 5-fold.
 \emph{ToDo: Comment on the estimated degradation rates (horizontal intercepts, -0.44 for H and -0.34 for V) and rate changes as noted in the model. confidence intervals?}
 }
 \label{fig:globalgrcorr}
@@ -345,7 +344,7 @@ As, out of the conditions measured in the Heinemann data set, growth in LB media
 While including the data on growth in LB does not qualitatively changes the observed results, such analysis is less statistically robust.
 We have therefore omitted LB growth data in the main analysis yet present it in the SI.
 Including LB growth results in a much smaller set of proteins with a high positive correlation with growth (as many of the proteins in that group in the slower conditions get down-regulated in LB, significantly reducing their Pearson correlation with growth rate).
-On the other hand, the proteins that remain highly positively correlated with growth rate when LB is included in the analysis show a higher correlation compared with the highly correlated with growth rate proteins under the slower conditions.
+On the other hand, the proteins that remain strongly positively correlated with growth rate when LB is included in the analysis show a higher correlation compared with the strongly correlated with growth rate proteins under the slower conditions.
 Furthermore, despite the decrease in the number of proteins that are highely positively correlated with growth when LB is included in the analysis, these proteins form up to $50\%$ of the proteome under LB.
 
 \subsubsection{Calculation of protein concentration}
