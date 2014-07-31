@@ -118,7 +118,7 @@ plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend
 xlim(xmin=0.)
 ylim(ymin=0.)
 xlabel('Growth rate',fontsize=10)
-ylabel('Protein fraction out of proteome',fontsize=10)
+ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=10)
 legend(loc=2, prop={'size':8},numpoints=1)
 tick_params(axis='both', which='major', labelsize=8)
 tick_params(axis='both', which='minor', labelsize=8)
@@ -265,15 +265,15 @@ figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_ancho
 
 (glob_chemo,alpha_chemo,beta_chemo) = get_high_corr('heinmann-chemo',ecoli_data_chemo,gr_chemo,cond_list)
 
-p2.plot(gr_chemo.values,glob_chemo.values,'o',label="Heinemann Chemostat")
-p2.plot(gr_chemo.values,alpha_chemo*gr_chemo.values+beta_chemo,color='blue',label=("Heinemann Chemostat Trend,$R^2$=%.2f" % (gr_chemo.corr(glob_chemo)**2)))
+p2.plot(gr_chemo.values,glob_chemo.values,'o',label="Heinemann Chem.")
+p2.plot(gr_chemo.values,alpha_chemo*gr_chemo.values+beta_chemo,color='blue',label=("Heinemann Chem. Trend,$R^2$=%.2f" % (gr_chemo.corr(glob_chemo)**2)))
 p2.plot(gr_v.values,glob_v.values,'o',label="Valgepea")
 p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_v)**2)))
 
 p2.set_xlim(xmin=0.)
 p2.set_ylim(ymin=0.)
 p2.set_xlabel('Growth rate',fontsize=8)
-p2.set_ylabel('Protein fraction out of proteome',fontsize=8)
+p2.set_ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=8)
 legend(loc=3, prop={'size':6},numpoints=1)
 p2.tick_params(axis='both', which='major', labelsize=8)
 p2.tick_params(axis='both', which='minor', labelsize=8)

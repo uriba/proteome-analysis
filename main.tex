@@ -219,7 +219,8 @@ Theoretically, the fastest doubling time a cell may have is the doubling time ac
 We denote this minimal doubling time by $T_B$.
 If the bio-synthetic machinery is only half of the proteome, the doubling time will be $2T_B$ etc.
 
-To integrate the notion of total protein to bio-synthetic protein ratio into our model, we assume that there is a group of bio-synthetic genes (e.g. genes of the transcriptional and translational machineries) which are not actively differentially regulated across different conditions.
+To integrate the notion of total protein to bio-synthetic protein ratio into our model, we make the following simplifying assumption.
+There is a group of bio-synthetic genes (e.g. genes of the transcriptional and translational machineries) the affinities of which remain constant across different growth conditions, a.k.a. these genes are not actively differentially regulated across different conditions.
 Furthermore, we assume that the machineries these genes are involved at operate at relatively constant rates and active to non-active ratios across conditions.
 Under these assumptions we can define this group of bio-synthesis genes, $G_B$, such that, for every gene that belongs to this group, $k \in G_B$, its affinity, $w_k(c)$ is constant regardless of the condition, $c$.
 \begin{equation}
