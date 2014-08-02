@@ -74,7 +74,7 @@ For each data set, we calculated the Pearson correlation of every protein with t
 A histogram of the distribution of the correlations is shown in Figure \ref{fig:growthcorr} (see Methods section for more details).
 We find that $\approx 1/3$ of the proteins ($825$ out of $1981$ measured in the data set from [ref Heinemann], hereafter referred to as H, and $296$ out of $944$ in the data set from \parencite{Valgepea2013}, hereafter referred to as V) are strongly positively correlated with the growth rate, where a strong correlation with growth rate was defined as a correlation of $R\geq 0.8$ for the V data set, and $R\geq 0.4$ for the H data set (see SI for further discussion).
 Notably, in both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups \emph{ToDo refer to table with breakdown by function}.
-Specifically, these groups include more proteins than the 56 ribosomal proteins (the vast majority of which are strongly correlated with the growth rate) and the proteins they include are not generally expected to be co-regulated.
+Specifically, these groups include more proteins than the 56 ribosomal proteins, the vast majority of which are strongly correlated with the growth rate, and the proteins they include are not generally expected to be co-regulated.
 For further comparison and analysis of the causes underlying the differences between the two data sets as reflected in Figure \ref{fig:growthcorr} see section \ref{heinemannchemo}
 
 \begin{figure}[h]
@@ -92,16 +92,16 @@ From this point on, we focus our analysis on this group of proteins that are str
 Following the identification of the group of strongly positively correlated with growth rate proteins, we wished to examine how similar is the behavior with growth rate for these different proteins.
 We note that similar correlation with growth rate for different proteins does not imply that such proteins share the same scaling with growth rate, that is,  they may have very different slopes or fold changes with an increasing growth rate.
 
-In order to compare the responses of differnt proteins across conditions, we therefore, for every protein, divided its concentration under every condition by its average concentration across all of the conditions (see \ref{concacrossconds} for further details).
-This modified concentration across conditions thus represents the normalized (in the sence of specific-protein concentration independent) response of that protein to the different conditions under which it was measured.
+In order to compare the responses of different proteins across conditions, we therefore, for every protein, divided its concentration under every condition by its average concentration across all of the conditions (see \ref{concacrossconds} for further details).
+This normalized concentration across conditions represents a specific protein, concentration independent, response to the different conditions under which the protein was measured.
 We note that, under this metric, sharing similar responses among a group of proteins implies that proteins in that group maintain their relative ratios, ratios that are determined by the average concentration of each of these proteins across the different environmental conditions.
 We refer to proteins that share a similar normalized response across different conditions as being coordinated or coordinately regulated.
 
 To assess the coordination between the proteins that were found to be strongly positively correlated with growth rate we therefore calculated the slope of a linear regression line for the normalized concentration vs. the growth rate for every one of these proteins.
-We present the results in Figure \ref{fig:globalfit} (Further details on the calculation are in section \ref{concacrossconds}).
+The results are presented in Figure \ref{fig:globalfit} (Further details on the calculation are in section \ref{concacrossconds}).
 Further more, for every slope obtained for any protein, we calculated the $95\%$ confidence interval of that slope.
-We find that the distribution of estimated slopes can result from having a common, single response slope, given the experimental noise in the measurements (For further discussion see SI)\emph{ToDo:1. The red line in the figure, representing the expected distribution given the average slope and noise clearly does not fit the results, more thought is needed to settle this}.
-This analysis thus reveals that, not only does a significant fraction of the proteome is strongly positively correlated with the growth rate, but that, as is shown in Figure \ref{fig:globalfit}, this response is coordinated.
+We find that the distribution of estimated slopes can result from having a common, single response slope, given the experimental noise in the measurements (For further discussion see SI)\emph{ToDo: The red line in the figure, representing the expected distribution given the average slope and noise does not fit the results very well, more thought is needed to settle this}.
+This analysis thus reveals that, not only is a significant fraction of the proteome strongly positively correlated with the growth rate, but that, as is shown in Figure \ref{fig:globalfit}, this response is coordinated.
 
 Furthermore, we examined how the response of the strongly correlated proteins relates to the well-studied response of ribosomes concentration.
 To that end, we performed the same analysis of slopes, restricting it to ribosomal proteins alone, as is shown in Figure \ref{fig:globalfit} (green bars).
@@ -145,7 +145,7 @@ The change in the concentration of the strongly correlated proteins follows tren
 \label{fig:globalgrcorr}
 \end{figure}
 
-We therefore observe that a large fraction \emph{ToDo:make concrete by calculating} of the change in the proteome composition across conditions is the result of scaling with growth rate of many proteins.
+To conclude, we observe that a large fraction of the change in the proteome composition across conditions is the result of scaling with growth rate of many proteins \emph{ToDo:make concrete by calculating}.
 This scaling with growth rate is coordinated, meaning the proteins maintain their relative abundances.
 Finally, this fraction of proteins encompasses many proteins from different functional groups and cellular mechanisms.
 
@@ -153,8 +153,9 @@ Finally, this fraction of proteins encompasses many proteins from different func
 What is the simplest way to explain the observed coordinated growth rate dependence, that is, can this behavior be explained without invoking parameter tuning or complex layers of regulation?
 In an attempt to parsimoniously explain this wide-span, coordinated, positive response, we have constructed a minimalistic model that is able to reproduce these observations as the outcome of redistribution of resources of the bio-synthesis machinery.
 Before presenting the model mathematically, we give a brief intuitive depiction.
+
 The model assumes that, under favorable growth conditions, the cell actively down-regulates some proteins that are needed in harsher conditions, as is illustrated in Figure \ref{fig:model}.
-Assuming the overall proteome concentration is relatively constant, the fraction of each of the rest of the proteins out of the proteome increases, showing the same relative ratios, as long as there is no specific regulation.
+As a result, the fraction of each of the rest of the proteins out of the proteome increases, showing the same relative ratios, as long as there is no specific regulation.
 The growth rate thus increases, as the ratio of bio-synthetic machinery to the rest of the proteome increases, as is depicted in Figure \ref{fig:model}B.
 To demonstrate the idea concretely, one could think about the down regulation of the lac operon in the presence of Glucose, that alleviates the need to transcribe and translate lactose metabolism genes and coincides with faster growth.
 
@@ -168,7 +169,7 @@ As a result, the ratio of bio-synthesis machinery genes to the rest of the prote
 \label{fig:model}
 \end{figure}
 
-\subsubsection{The concentration of a protein is determined by both gene specific control, and global expression machinary availability}
+\subsubsection{The concentration of a protein is determined by both gene specific control, and global expression machinery availability}
 For every protein, the model separately considers the resulting concentration as the product of two control mechanisms:
 \begin{enumerate}
 \item Protein/gene specific controls such as the gene associated promoter sequence, 5'-UTRs, ribosomal binding site sequence, and factors affecting the specific expression of the gene such as transcription factors and riboswitches that react with the relevant gene.
@@ -176,25 +177,26 @@ For every protein, the model separately considers the resulting concentration as
 \item The global availability of bio-synthetic resources in the cell, including availability of RNA Polymerase, co-factors, Ribosomes concentration, amino-acids etc.
   All of these factors can potentially differ across different environmental conditions.
 \end{enumerate}
-For simplicity, the model refers to the fraction of a specific protein out of the proteome, and not to the concentration of that protein.
-We note that the two are identical, up to a constant, given that the total protein concentration in the biomass is constant.
-In case the total protein concentration in the biomass changes with growth rate, the change can be integrated into the model as a growth-rate dependent factor.
+For simplicity, the model refers to the fraction of a specific protein out of the proteome, and not to the concentration of that protein in the biomass.
+The concentration of a specific protein in the biomass can be calculated given this fraction and the concentration of total protein in the biomass, which is known to be relatively constant \parencite{eco-sal} (for further discussion see \ref{protconc}).
 
-According to the model, every gene, under every environmental condition, is given an 'affinity-for-expression' (or 'intrinsic-strength') \parencite{Maaloe1969} score that encapsulates its gene-specific control state under the condition considered (denoted $w_i(c)$, where $c$ refers to the growth condition).
+According to the model, every gene, under every environmental condition, is given an 'affinity-for-expression' (or 'intrinsic-strength') score that encapsulates its gene-specific control state under the condition considered.
+We denote the affinity of gene $i$ under growth condition $c$ by $w_i(c)$ (the notion of affinity for expression is not new, and was first suggested in  \parencite{Maaloe1969}).
 Our model assumes that the bio-synthetic resources of the cell (Ribosomes, RNA Polymerases, etc.) are distributed among the genes according to their affinities under the condition at hand.
-The notion of affinities can reduce the number of parameters needed to predict expression levels markedly.
+The notion of affinities can thus reduce the number of parameters needed to predict expression levels markedly.
 Instead of an expression level for every gene under each condition, there is only a need for the characterization of the affinities a gene may obtain under relevant environmental cues, a parameter set that is expected to be much smaller and easily characterized.
 \emph{ToDo: connect to figure showing how coordination serves as a predictor for a gene concentration.}
 
 The resulting protein fraction, under a specific condition, is therefore its specific affinity under the condition, divided by the sum of all the affinities of all of the genes under that same condition.
-Thus, if two proteins have the same affinity under some condition, they will have occupy identical fractions out of the proteome under that condition, if protein $A$ has twice the affinity of protein $B$ under the same condition, then the fraction $A$ occupies will be twice as large as the fraction occupied by $B$ under that condition, etc.
+Thus, if two proteins have the same affinity under some condition, they will occupy identical fractions out of the proteome under that condition.
+If protein $A$ has twice the affinity of protein $B$ under a given condition, then the fraction $A$ occupies will be twice as large as the fraction occupied by $B$ under that condition, etc.
 
 This relationship can be simply formulated as follows:
 \begin{equation}
   \label{eq:concentration-ratio}
   p_i(c)=\frac{P_i(c)}{P(c)}=\frac{w_i(c)}{\sum_jw_j(c)}
 \end{equation}
-where $p_i(c)$ denotes the fraction of protein $i$ under condition $c$ out of the proteome, $P_i(c)$ denotes the mass of protein $i$ under condition $c$ per cell, and $P(c)$ denotes the total mass of proteins per cell under condition $c$.
+where $p_i(c)$ denotes the fraction of protein $i$ under condition $c$ out of the proteome, $P_i(c)$ denotes the mass of protein $i$ under condition $c$ per cell, $P(c)$ denotes the total mass of proteins per cell under condition $c$, and the sum, $\sum_jw_j(c)$, is taken over all the genes the cell has.
 
 This equation implies that the observed fraction of a protein is determined by two factors, first, obviously, its own specific affinity that is present in the nominator, but second, and less intuitive and commonly thought of, the affinity of all of the other genes under the growth condition, as reflected by the denominator.
 
@@ -202,12 +204,12 @@ This equation implies that the observed fraction of a protein is determined by t
 Different environmental conditions may require the expression of different genes in order to achieve growth.
 For example, comparing two growth media, one that includes amino-acids, and one that does not, it can be assumed that when amino-acids are present, no need exists for the cell to express amino-acids synthesizing enzymes, whereas when amino-acids are absent, these enzymes must be expressed.
 Therefore, ideally, the cell will be able to sense the presence or absence of amino-acids in the growth media and, for the amino-acids synthesizing genes, down or up regulate their affinities accordingly.
-If we now consider some arbitrary protein $i$, whose specific affinity is unaltered between these two conditions, we suggest that, other things being equal, its concentration will still change between the two conditions as the affinities of at least some of the other genes (the amino-acids synthesizing enzymes) change, changing the denominator in equation \ref{eq:concentration-ratio} and thus affecting the distribution of resources between all of the expressed genes.
+If we now consider some arbitrary gene $i$, whose specific affinity is unaltered between these two conditions, we suggest that, other things being equal, its concentration will still change between the two conditions as the affinities of at least some of the other genes (the amino-acids synthesizing enzymes) change, changing the denominator in equation \ref{eq:concentration-ratio} and thus affecting the distribution of resources between all of the expressed genes.
 
 Generalizing this notion, for every group of conditions, one could divide the proteins into those whose intrinsic affinity remains constant across all of the conditions, and to those whose intrinsic affinity changes (meaning their expression is actively regulated by the cell) between at least some of the conditions, as is shown in Figure \ref{fig:model}A.
 An interesting consequence of the formulation in Equation \ref{eq:concentration-ratio} is that proteins whose intrinsic affinities remain constant across different growth conditions, also maintain their relative concentrations across these conditions with respect to each other.
-\emph{ToDo: consider adding a panel to Figure 4 to show this, or sub-slices in the blue slice at 4A, or show by writing the equation for the ratio between to proteins whose affinities remain constant, across different conditions}.
-Therefore, identifying a large group of proteins that maintain their relative concentrations across conditions (as was identified in section \ref{propchange}) may indicate that these proteins maintained their intrinsic affinities and that any changes in their absolute concentrations are in fact a passive outcome resulting from changes in the intrinsic affinities of other proteins.
+\emph{ToDo: consider adding a panel to Figure 4 to show this, or sub-slices in the blue slice at 4A, or show by writing the equation for the ratio between two proteins whose affinities remain constant, across different conditions}.
+Therefore, identifying a large group of proteins that maintain their relative concentrations across conditions (as was identified in section \ref{propchange}) may indicate that these proteins maintain their intrinsic affinities and that any changes in their absolute concentrations are in fact a passive outcome resulting from changes in the intrinsic affinities of other proteins.
 
 \subsubsection{The observed growth rate is an outcome of proteome composition and environmental conditions}
 While it is sometimes implied that different cellular components are regulated by the growth rate, here we consider the growth rate as an outcome of the environmental conditions that affect the proteome composition.
@@ -247,16 +249,16 @@ Recalling that the connection between the growth rate and the doubling time is: 
   p_i(c)=\frac{w_i(c)}{\sum_jw_j(c)}=\frac{w_i(c)}{W_B}\frac{W_B}{\sum_jw_j(c)}=\frac{w_i(c)}{W_B}\frac{T_B}{\ln(2)}g(c)
 \end{equation}
 
-Incorporating all the condition-independent constants ($W_B$, $T_B$, $\ln(2)$) into one term, $C$, we get that the predicted concentration of protein $i$ under condition $c$ is:
+Incorporating all the condition-independent constants ($W_B$, $T_B$, $\ln(2)$) into one term, $C$, we get that the predicted fraction of protein $i$ out of the proteome under condition $c$ is:
 \begin{equation}
   \label{eq:final-conc}
   p_i(c)=Cw_i(c)g(c)
 \end{equation}
-which implies that, for every two conditions between which gene $i$ maintains its affinity, ($w_i(c_1)=w_i(c_2)$), the concentration of gene $i$ will scale like the growth rate change between these two conditions.
+which implies that, for every two conditions between which gene $i$ maintains its affinity, ($w_i(c_1)=w_i(c_2)$), the fraction protein $i$ occupies out of the proteome scales like the growth rate change between these two conditions.
 
-To summarize, the simplistic model we have constructed predicts that, under no specific regulation, the concentration of a protein should scale with the growth rate.
+To summarize, the simplistic model we have constructed predicts that, under no specific regulation, the fraction a protein occupies out of the proteome should scale with the growth rate.
 A group of such proteins should therefore maintain their relative concentrations across conditions.
-Finally, when the growth rate approaches zero, the concentration of such proteins should also approach zero.
+Finally, when the growth rate approaches zero, the fractions of such proteins, and thus their concentrations, should also approach zero.
 
 However, as the analysis of experimental data in Figure \ref{fig:globalgrcorr} shows, while the concentration of many proteins does indeed scale linearly with growth rate, this scaling does not imply a drop to zero concentration at zero growth.
 There are at least two factors that have been neglected in the model, but that can account for this result, and the analysis of their expected effects follows.
@@ -275,8 +277,10 @@ Therefore, if we denote by $\alpha$ the degradation rate (assuming for now equal
   \label{eq:final-conc-deg}
   p_i(c)=Cw_i(c)(\alpha+g(c))
 \end{equation}
-which now yields better agreement with the experimental results as presented in Figure \ref{fig:globalgrcorr} (depending on the exact value set for degradation), partially explaining why the concentration of non-differentially regulated proteins does not drop to zero when the growth rate is zero.
-The actual values obtained for the data analyzed are $\alpha=0.34$ for \parencite{Valgepea2013} and $\alpha=0.44$ for \parencite{Heinemann2014}, correspoinding to protein half lives times of $T_{\text{deg}}=2$ hours and $T_{\text{deg}}=1.6$ hours respectively.
+This equation yields better agreement with the experimental results as presented in Figure \ref{fig:globalgrcorr}, depending on the exact value set for degradation.
+Degradation can thus explain why the concentration of non-differentially regulated proteins does not drop to zero when the growth rate is zero.
+The actual values obtained for the data analyzed are $\alpha=0.34$ for \parencite{Valgepea2013} and $\alpha=0.44$ for \parencite{Heinemann2014}, corresponding to protein half lives times of $T_{\text{deg}}=2$ hours and $T_{\text{deg}}=1.6$ hours respectively.
+As these values correspond to relatively short half lives times, protein degradation is probably only a partial explanation for the differences between the predictions of the model and the observations obtained from the experimental data.
 
 \subsubsection{Slower biological processes rates at slower growth affect the relation between proteome composition and growth rate}
 \emph{ToDo - Note that it is an idea Hwa brought up during our conversation}.
@@ -289,9 +293,9 @@ Replacing this assumption by a dependence of bio-synthesis rate with growth rate
 We characterized a significant, coordinated response in \emph{E.coli} between many proteins and the growth rate.
 This response spans proteins from various functional groups and is not related to the specific medium of growth.
 A similar phenomena is observed for \emph{S.cerevisiae} as was reported in \parencite{Keren2013a} and may thus be conserved across various organisms and domains of life.
-Our analysis suggests that, while changes in the proteome composition may seem complex, they can, to a large extent\emph{ToDo: quantify by variation explained}, be attributed to the linear increase with growth rate of a large number of proteins, at the expense of a few, down-regulated proteins.
+Our analysis suggests that, while changes in the proteome composition may seem complex, they can, to a large extent, be attributed to the linear increase with growth rate of a large number of proteins, at the expense of a few, down-regulated proteins \emph{ToDo: quantify by variation explained}.
 The well studied scaling of ribosomes concentration with growth rate can be considered one manifestation of the more general phenomena we describe here.
-We find that this response is not unique and is, in fact, shared with many other proteins spanning different functional groups.
+We find that this response, when considering ribosomal proteins fraction out of the proteome, is not unique and is, in fact, shared with many other proteins spanning different functional groups.
 
 We re-introduce the notion of intrinsic affinity for expression, first presented in \parencite{Maaloe1969}, though not widely known.
 We show that integrating this notion with the limited bio-synthesis capacity of cells results in a parsimonious mechanism that can explain the response observed in recent experimental data, data that was unavailable at the time this notion was first introduced, nearly 50 years ago.
@@ -306,7 +310,7 @@ However, many such mechanisms have been described before(refs).
 We stress that the model does not contradict the existence of such mechanisms.
 They may still be needed to achieve faster response under changing environmental conditions or a tighter regulation to avoid unnecessary production and reduce translational noise.
 Furthermore, such mechanisms may be crucial for synchronizing the amount of rRNA with ribosomal proteins as the two go through different bio-synthesis pathways.
-Nevertheless, the fact that many non-ribosomal proteins share the same response as ribosomal proteins does pose interesting questions regarding the scope of such control mechanisms, their necessity and the trade-offs involved in their deployment.
+Nevertheless, the fact that many non-ribosomal proteins share the same response as ribosomal proteins do, poses interesting questions regarding the scope of such control mechanisms, their necessity and the trade-offs involved in their deployment.
 
 \subsection{Relation to other studies}
 The findings in this study support and broaden the findings in other recent studies.
@@ -323,10 +327,6 @@ While in all of these studies a linear dependence of ribosome concentration with
 A discussion for various reasons that may underlie these differences is in \ref{ribosomeconc}.
 \emph{ToDo - final paragraph on relation to other works}
 
-\emph{ToDo - find a place for this paragraph}
-While our work assumes that bio-synthesis rates are condition independent and, at most, change only with growth rate, that may not be the case under specific kinds of conditions (refs?).
-We have therefore deliberately picked conditions for which this assumption is likely to hold (See \ref{heinemanncond} for further details).
-
 \section{Materials and Methods}
 Detail data sources, software and algorithms used.
 \subsubsection{Normalizing protein concentration across conditions}
@@ -339,19 +339,22 @@ The normalization procedure scales the data so as to reveal this identity in res
 Thus, once the fraction of each protein out of the proteome is divided by the average fraction of that protein across conditions, we get that the normalized fractions are $\frac{2}{3}$ for both $A$ and $B$ at $C_1$ and $\frac{4}{3}$ for both $A$ and $B$ at $C_2$ showing their identical response.
 
 This normalization procedure has therefore been used prior to calculating the slopes of the regression lines best describing the change in fraction out of the proteome of every protein as a function of the growth rate.
-\emph{ToDo: if any other type of clustring is attempted, it should also be noted here that the same normalization was used}
+\emph{ToDo: if any other type of clustering is attempted, it should also be noted here that the same normalization was used}
 \subsubsection{Filtering out conditions from the Heinemann data set}
 \label{heinemanncond}
-The [ref Heinemann] data set contains proteomic data measurement under 19 different environmental conditions.
-However, some of these conditions are expected to affect the proteome composition in ways not related to the actual growth rate (such as measurements after different durations spent in stationary phase, osmotic, pH and heat stress conditions and others).
-We have therefore omitted such conditions from our analysis \emph{ToDo: add these analyses to the SI} and analyzed only those conditions under which our assumptions for bio-synthesis rates being either constant or have a simple relation to the growth rate hold.
+The [ref Heinemann] data set contains proteomic data measurements under 19 different environmental conditions.
+However, some of these conditions are expected to affect the proteome composition in ways not related to the actual growth rate.
+Specifically, our model assumes that bio-synthesis rates are condition independent and, at most, change only with growth rate.
+That will likely not be the case under specific kinds of conditions such as osmotic pressure, low pH and heat stress.
+Additionally, our model assumes exponential growth, implying that measurements taken at stationary phase are expected to differ from simple extrapolation of the model to zero growth rate.
+We have therefore omitted such conditions from our analysis and analyzed only those conditions under which our assumptions for bio-synthesis rates being either constant or have a simple relation to the growth rate do hold \emph{ToDo: add these analyses to the SI}.
 
 As, out of the conditions measured in the Heinemann data set, growth in LB media presented a much faster growth rate than the rest of the conditions measured, it dominated the behavior and trends calculated, when included in the analysis.
 While including the data on growth in LB does not qualitatively changes the observed results, such analysis is less statistically robust.
 We have therefore omitted LB growth data in the main analysis yet present it in the SI.
-Including LB growth results in a much smaller set of proteins with a high positive correlation with growth (as many of the proteins in that group in the slower conditions get down-regulated in LB, significantly reducing their Pearson correlation with growth rate).
+Including LB growth results in a much smaller set of proteins with a strong positive correlation with growth (as many of the proteins in that group in the slower conditions get down-regulated in LB, significantly reducing their Pearson correlation with growth rate).
 On the other hand, the proteins that remain strongly positively correlated with growth rate when LB is included in the analysis show a higher correlation compared with the strongly correlated with growth rate proteins under the slower conditions.
-Furthermore, despite the decrease in the number of proteins that are highely positively correlated with growth when LB is included in the analysis, these proteins form up to $50\%$ of the proteome under LB.
+Furthermore, despite the decrease in the number of proteins that are strongly positively correlated with growth when LB is included in the analysis, these proteins form up to $50\%$ of the proteome under LB.
 
 \subsubsection{Calculation of protein concentration}
 \label{protconc}
@@ -366,7 +369,7 @@ Moreover, one can consider specific protein mass or molecule count per cell, thu
 Our analysis focused on the relations between different proteins and resource distribution inside the proteome, and thus avoided such metrics.
 \emph{ToDo - should we justify omitting such analysis?}
 \section{Acknowledgments}
-(perliminary list) Matthias Heinemann, Stephan Klumpp, 
+(preliminary list) Matthias Heinemann, Stephan Klumpp, 
 \section{Supplementary figures and data}
 \subsection{Differences between the correlations found in the two data sets}
 \label{heinemannchemo}
