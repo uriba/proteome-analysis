@@ -1,14 +1,9 @@
 \documentclass[notitlepage]{article}
-\usepackage{color,soul,amsmath,graphicx}
-\usepackage[outercaption]{sidecap}
+\usepackage{amsmath,graphicx}
 \usepackage[citestyle=numeric,backend=bibtex]{biblatex}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{verbatim}
-\sidecaptionvpos{figure}{c}
-\providecommand{\abs}[1]{\lvert#1\rvert}
-\providecommand{\norm}[1]{\lVert#1\rVert}
 \bibliography{library}
-\immediate\write18{python proteome-analysis.py}
 
 \title{Increased concentration of proteins with growth rate can result from passive resource redistribution}
 \begin{comment}
@@ -72,7 +67,7 @@ The [ref Heinemann] data set contains more conditions than those analyzed, see s
 \subsubsection{A large fraction of the proteome is positively correlated with growth rate}
 For each data set, we calculated the Pearson correlation of every protein with the growth rate.
 A histogram of the distribution of the correlations is shown in Figure \ref{fig:growthcorr} (see Methods section for more details).
-We find that $\approx 1/3$ of the proteins ($825$ out of $1981$ measured in the data set from [ref Heinemann], hereafter referred to as H, and $296$ out of $944$ in the data set from \parencite{Valgepea2013}, hereafter referred to as V) are strongly positively correlated with the growth rate, where a strong correlation with growth rate was defined as a correlation of $R\geq 0.8$ for the V data set, and $R\geq 0.4$ for the H data set (see SI for further discussion).
+We find that $\approx 1/3$ of the proteins ($724$ out of $1654$ measured in the data set from [ref Heinemann], hereafter referred to as H, and $296$ out of $919$ in the data set from \parencite{Valgepea2013}, hereafter referred to as V) are strongly positively correlated with the growth rate, where a strong correlation with growth rate was defined as a correlation of $R\geq 0.8$ for the V data set, and $R\geq 0.4$ for the H data set (see SI for further discussion).
 Notably, in both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups \emph{ToDo refer to table with breakdown by function}.
 Specifically, these groups include more proteins than the 56 ribosomal proteins, the vast majority of which are strongly correlated with the growth rate, and the proteins they include are not generally expected to be co-regulated.
 For further comparison and analysis of the causes underlying the differences between the two data sets as reflected in Figure \ref{fig:growthcorr} see section \ref{heinemannchemo}

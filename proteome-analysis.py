@@ -5,7 +5,7 @@ from scipy.stats import gaussian_kde,linregress
 from scipy import stats
 from Bio import SeqIO
 from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,text,subplots
-from numpy import linspace,ndarray,arange,sum,square,array
+from numpy import linspace,ndarray,arange,sum,square,array,cumsum
 from numpy.random import randn
 from analysis import *
 import matplotlib
@@ -162,6 +162,8 @@ def plot_response_hist(db,df,gr,p):
     glob_conc = get_glob(db,df)
     glob_conc = set_alpha(db,glob_conc,gr)
     glob_conc = set_std_err(db,glob_conc,gr)
+    #glob_conc = glob_conc[glob_conc['std_err']<0.4]
+    #print "for db %s, plotted slopes histogram includes %d proteins" % (db,len(glob_conc))
     avg = glob_conc['alpha'].mean()
     std_err = glob_conc['std_err'].mean()
     glob_conc_no_ribs = glob_conc[glob_conc['func'] != 'Ribosome']
@@ -283,39 +285,39 @@ subplots_adjust(top=0.83)
 savefig('HeinmannChemostatGr.pdf')
 
 # plot slopes distribution for highly negatively correlated proteins from Valgepea dataset and sum of concentrations
-figure(figsize=(5,3))
+#figure(figsize=(5,3))
 
-p1=subplot(121)
-p2=subplot(122)
+#p1=subplot(121)
+#p2=subplot(122)
 
-def get_low_corr(db,df,gr,conds):
-    if db == 'valgepea':
-        limits = (-1.0,-0.7)
-    glob = df[df['gr_cov']>limits[0]]
-    glob = glob[glob['gr_cov']<limits[1]]
-    print "for db %s anti-correlated cluster is %d out of %d measured proteins" % (db, len(glob.index),len(df.index))
-    glob_tot = glob[conds].sum()
-    alpha,beta,r_val,p_val,std_err = linregress(gr,-glob_tot)
-    return (glob_tot,alpha,beta)
+#def get_low_corr(db,df,gr,conds):
+#    if db == 'valgepea':
+#        limits = (-1.0,-0.7)
+#    glob = df[df['gr_cov']>limits[0]]
+#    glob = glob[glob['gr_cov']<limits[1]]
+#    print "for db %s anti-correlated cluster is %d out of %d measured proteins" % (db, len(glob.index),len(df.index))
+#    glob_tot = glob[conds].sum()
+#    alpha,beta,r_val,p_val,std_err = linregress(gr,-glob_tot)
+#    return (glob_tot,alpha,beta)
 
-(neg_corr_v,alpha_neg,beta_neg) = get_low_corr('valgepea',ecoli_data_v,gr_v,cond_list_v)
+#(neg_corr_v,alpha_neg,beta_neg) = get_low_corr('valgepea',ecoli_data_v,gr_v,cond_list_v)
 
-p2.plot(gr_v.values,neg_corr_v.values,'o',label="Valgepea anti correlated")
-p2.plot(gr_v.values,-alpha_neg*neg_corr_v.values+beta_neg,color='blue',label=("Valgepea anti correlated Trend,$R^2$=%.2f" % (gr_v.corr(neg_corr_v)**2)))
-p2.plot(gr_v.values,glob_v.values,'o',label="Valgepea")
-p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_v)**2)))
+#p2.plot(gr_v.values,neg_corr_v.values,'o',label="Valgepea anti correlated")
+#p2.plot(gr_v.values,-alpha_neg*neg_corr_v.values+beta_neg,color='blue',label=("Valgepea anti correlated Trend,$R^2$=%.2f" % (gr_v.corr(neg_corr_v)**2)))
+#p2.plot(gr_v.values,glob_v.values,'o',label="Valgepea")
+#p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_v)**2)))
 
-p2.set_xlim(xmin=0.)
-p2.set_ylim(ymin=0.)
-p2.set_xlabel('Growth rate',fontsize=8)
-p2.set_ylabel('Protein fraction out of proteome',fontsize=8)
+#p2.set_xlim(xmin=0.)
+#p2.set_ylim(ymin=0.)
+#p2.set_xlabel('Growth rate',fontsize=8)
+#p2.set_ylabel('Protein fraction out of proteome',fontsize=8)
 #legend(loc=3, prop={'size':6},numpoints=1)
-p2.tick_params(axis='both', which='major', labelsize=8)
-p2.tick_params(axis='both', which='minor', labelsize=8)
-tight_layout()
+#p2.tick_params(axis='both', which='major', labelsize=8)
+#p2.tick_params(axis='both', which='minor', labelsize=8)
+#tight_layout()
 
-subplots_adjust(top=0.83)
-savefig('Anticorrelated.pdf')
+#subplots_adjust(top=0.83)
+#savefig('Anticorrelated.pdf')
 
 #plot rsq (or corr) vs slope.
 
@@ -346,7 +348,8 @@ alphas = glob_conc_h['alpha'].values
 mins = glob_conc_h['conf_min'].values
 intervals = array(alphas)-array(mins)
 alphas,intervals = (list (x) for x in zip(*sorted(zip(alphas,intervals))))
-p1.errorbar(range(0,len(alphas)),alphas,yerr=intervals,fmt='.',markersize='1',elinewidth=0.25)
+#p1.errorbar(range(0,len(alphas)),alphas,yerr=intervals,fmt='.',markersize='1',elinewidth=0.25)
+p1.plot(glob_conc_h['std_err'],glob_conc_h[cond_list_dict['heinmann']].mean(axis=1),'.',markersize='1')
 mins = sorted(glob_conc_h['conf_min'].values)
 maxs = sorted(glob_conc_h['conf_max'].values)
 allbound = sorted(mins + maxs)
@@ -354,6 +357,7 @@ fracs = [count(x,glob_conc_h) for x in allbound]
 #p1.plot(allbound,fracs)
 #p1.axhline(y=0.95,xmin=0,xmax=3,ls='--',color='black',lw=0.5)
 p1.set_title('heinemann')
+p1.set_yscale('log')
 glob_conc_v = get_glob('valgepea',ecoli_data_v)
 glob_conc_v = set_alpha('valgepea',glob_conc_v,gr_v)
 glob_conc_v = set_std_err('valgepea',glob_conc_v,gr_v)
@@ -371,6 +375,241 @@ savefig('slopestderr.pdf')
 
 #Plot variability explained (R^2)/Var? in global cluster and in proteome as function of threshold for HC proteins.
 
+corrs = linspace(-1,1,100)
+figure(figsize=(5,3))
+p1=subplot(121)
+p2=subplot(122)
+plots = {'valgepea':p1,'heinmann':p2}
+coli_data = {'valgepea':ecoli_data_v,'heinmann':ecoli_data_h}
+grs = {'valgepea':gr_v,'heinmann':gr_h}
+for db in ['valgepea','heinmann']:
+    p=plots[db]
+    r_sq = []
+    gr = grs[db]
+    conds = cond_list_dict[db]
+    glob_conc = coli_data[db]
+    tot_var = sqrt(glob_conc[conds].var(axis=1).sum())
+    for threshold in corrs:
+        glob_conc = glob_conc[glob_conc['gr_cov']>threshold]
+        glob_tot = glob_conc[conds].sum()
+        alpha,beta,r_val,p_val,std_err = linregress(gr,glob_tot)
+        r_sq.append(gr.corr(glob_tot)**2)
+    p.plot(corrs,r_sq)
+    p.set_title(db)
+
+savefig('thresholdRsqrelation.pdf')
+
+# calculate variability explained in proteome (sqrt of (sum of variances for every protein))
+figure(figsize=(5,3))
+p1=subplot(121)
+p2=subplot(122)
+plots = {'valgepea':p1,'heinmann':p2}
+coli_data = {'valgepea':ecoli_data_v,'heinmann':ecoli_data_h}
+grs = {'valgepea':gr_v,'heinmann':gr_h}
+for db in ['valgepea','heinmann']:
+    p=plots[db]
+    gr = grs[db]
+    conds = cond_list_dict[db]
+    glob_conc = coli_data[db]
+    tot_var = (glob_conc[conds].var(axis=1).sum())
+    unexplained_var = []
+    for threshold in corrs:
+        glob_cluster = glob_conc[glob_conc['gr_cov']>threshold]
+        glob_complement = glob_conc[glob_conc['gr_cov']<threshold]
+        glob_cluster_tot = glob_cluster[conds].sum()
+        glob_avg = glob_cluster_tot.mean()
+        glob_cluster_normed = glob_cluster[conds]
+        glob_cluster_normed = glob_cluster_normed/glob_cluster_tot
+        glob_cluster_normed = glob_cluster_normed*glob_avg
+        glob_complement_normed = glob_complement[conds]
+        glob_complement_normed = glob_complement_normed/(1-glob_cluster_tot)
+        glob_complement_normed = glob_complement_normed*(1-glob_avg)
+        normed_prot = glob_cluster_normed.append(glob_complement_normed)
+        unexplained_var.append((normed_prot[conds].var(axis=1).sum())/tot_var)
+        
+    p.plot(corrs,unexplained_var)
+    p.set_ylim(0.0,1.0)
+    p.set_ylabel('unexplained fraction of variability', fontsize=8)
+    p.set_xlabel('global cluster correlation threshold', fontsize=8)
+    p.tick_params(axis='both', which='major', labelsize=6)
+    p.tick_params(axis='both', which='minor', labelsize=6)
+    p.axhline(xmin=0,xmax=1,y=0.5,ls='--',color='black',lw=0.5)
+    p.set_title(db)
+
+tight_layout()
+savefig('Ron5unexplainedvarfracdepthreshold.pdf')
+
+# compare to variability of modified proteome, where all proteins in global cluster are scaled(how) according to calculated fit, then calculating variability as above.
+
+
 #Demonstrate predictive power of model by showing 3 normalized genes + trendline and how an unrelated gene "fits" the same line.
 
-#Change caption of Y axis for global cluster trend line.
+#For ron today - 6 panel graph - avg. exp. vs norm. slope, slope vs. r^2. non-global cluster avg. exp. vs. slope.
+figure(figsize=(5,3))
+p1=subplot(231)
+p2=subplot(232)
+p3=subplot(233)
+p4=subplot(234)
+p5=subplot(235)
+p6=subplot(236)
+
+glob_conc = ecoli_data_h
+gr=gr_h
+conds = cond_list_dict['heinmann']
+
+p1.plot(glob_conc[conds].mean(axis=1), glob_conc['rsq'],'.', markersize=1)
+p1.set_xlabel('Average concentraion', fontsize=6)
+p1.set_ylabel('$R^2$ with GR', fontsize=6)
+p1.set_xscale('log')
+p1.tick_params(axis='both', which='major', labelsize=6)
+p1.tick_params(axis='both', which='minor', labelsize=6)
+
+p2.plot(glob_conc[conds].mean(axis=1), glob_conc['gr_cov'],'.', markersize=1)
+p2.set_xlabel('Average concentraion', fontsize=6)
+p2.set_ylabel('Pearson corr. with GR', fontsize=6)
+p2.set_xscale('log')
+p2.tick_params(axis='both', which='major', labelsize=6)
+p2.tick_params(axis='both', which='minor', labelsize=6)
+
+glob_conc = glob_conc[glob_conc['gr_cov']>0.4]
+glob_conc = set_alpha('heinmann',glob_conc,gr)
+glob_conc = set_std_err('heinmann',glob_conc,gr)
+ 
+p3.plot(glob_conc[conds].mean(axis=1), glob_conc['alpha'],'.', markersize=1)
+p3.set_xlabel('Average concentraion (HC prots)', fontsize=6)
+p3.set_ylabel('Norm. Slope', fontsize=6)
+p3.set_xscale('log')
+p3.tick_params(axis='both', which='major', labelsize=6)
+p3.tick_params(axis='both', which='minor', labelsize=6)
+
+p4.plot(glob_conc[conds].mean(axis=1), glob_conc['std_err'],'.', markersize=1)
+p4.set_xlabel('Average concentraion (HC prots)', fontsize=6)
+p4.set_ylabel('std err of fit', fontsize=6)
+p4.set_xscale('log')
+p4.tick_params(axis='both', which='major', labelsize=6)
+p4.tick_params(axis='both', which='minor', labelsize=6)
+
+p5.plot(glob_conc['alpha'], glob_conc['std_err'],'.', markersize=1)
+p5.set_xlabel('Norm. slope (HC)', fontsize=6)
+p5.set_ylabel('std err of fit', fontsize=6)
+p5.tick_params(axis='both', which='major', labelsize=6)
+p5.tick_params(axis='both', which='minor', labelsize=6)
+
+p6.plot(glob_conc['alpha'], glob_conc['rsq'],'.', markersize=1)
+p6.set_xlabel('Norm. slope (HC)', fontsize=6)
+p6.set_ylabel('$R^2$ with GR', fontsize=6)
+p6.tick_params(axis='both', which='major', labelsize=6)
+p6.tick_params(axis='both', which='minor', labelsize=6)
+
+tight_layout()
+
+savefig('Ron1AvgConcStats.pdf')
+
+#4 graphs of histograms with various thresholds for minimal noise (none, 0.5, 0.3, 0.15)
+figure(figsize=(5,3))
+def plot_response_hist(db,df,gr,threshold,p):
+    bins = linspace(-1.7,1.7,35)
+    xs = linspace(-1.75,1.75,100)
+    glob_conc = get_glob(db,df)
+    glob_conc = set_alpha(db,glob_conc,gr)
+    glob_conc = set_std_err(db,glob_conc,gr)
+    glob_conc = glob_conc[glob_conc['std_err']<threshold]
+    avg = glob_conc['alpha'].mean()
+    std_err = glob_conc['std_err'].mean()
+    prot_num = len(glob_conc)
+    tot_conc = glob_conc[conds].sum().mean()
+    glob_conc_no_ribs = glob_conc[glob_conc['func'] != 'Ribosome']
+    ribs = glob_conc[glob_conc['func'] == 'Ribosome']
+    p.hist([glob_conc_no_ribs['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['HC-proteins','Ribosomal proteins'])
+    p.plot(xs,stats.t.pdf(xs,df=len(cond_list_dict[db])-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.1)
+    p.set_xlim(-1.7,1.7)
+    p.set_ylim(0,140)
+    p.set_xlabel('Normalized slope, %d prots, %.2f conc' % (prot_num,tot_conc),fontsize=6)
+    p.set_ylabel('Number of proteins\n(std-err threshold %.2f)' % threshold,fontsize=6)
+    p.axvline(x=0,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
+    p.axvline(x=0.5,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
+    p.axvline(x=1,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
+    p.tick_params(axis='both', which='major', labelsize=6)
+    p.tick_params(axis='both', which='minor', labelsize=6)
+
+p1=subplot(221)
+p2=subplot(222)
+p3=subplot(223)
+p4=subplot(224)
+
+plot_response_hist('heinmann',ecoli_data_h,gr_h,2.0,p1)
+plot_response_hist('heinmann',ecoli_data_h,gr_h,0.5,p2)
+plot_response_hist('heinmann',ecoli_data_h,gr_h,0.3,p3)
+plot_response_hist('heinmann',ecoli_data_h,gr_h,0.15,p4)
+
+tight_layout()
+savefig('Ron2SlopesHistDifferentThresholds.pdf')
+
+#4 graphs of histograms with various thresholds for minimal concentration (none, 0.00001, 0.0001, 0.001)
+
+figure(figsize=(5,3))
+def plot_response_hist(db,df,gr,threshold,p):
+    bins = linspace(-1.7,1.7,35)
+    xs = linspace(-1.75,1.75,100)
+    glob_conc = get_glob(db,df)
+    glob_conc = set_alpha(db,glob_conc,gr)
+    glob_conc = set_std_err(db,glob_conc,gr)
+    glob_conc = glob_conc[glob_conc[conds].mean(axis=1)>threshold]
+    avg = glob_conc['alpha'].mean()
+    std_err = glob_conc['std_err'].mean()
+    prot_num = len(glob_conc)
+    tot_conc = glob_conc[conds].sum().mean()
+    glob_conc_no_ribs = glob_conc[glob_conc['func'] != 'Ribosome']
+    ribs = glob_conc[glob_conc['func'] == 'Ribosome']
+    p.hist([glob_conc_no_ribs['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['HC-proteins','Ribosomal proteins'])
+    p.plot(xs,stats.t.pdf(xs,df=len(cond_list_dict[db])-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.1)
+    p.set_xlim(-1.7,1.7)
+    p.set_ylim(0,140)
+    p.set_xlabel('Normalized slope, %d prots, %.2f conc' % (prot_num,tot_conc),fontsize=6)
+    p.set_ylabel('Number of proteins\n(avg. conc. threshold %f)' % threshold,fontsize=6)
+    p.axvline(x=0,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
+    p.axvline(x=0.5,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
+    p.axvline(x=1,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
+    p.tick_params(axis='both', which='major', labelsize=6)
+    p.tick_params(axis='both', which='minor', labelsize=6)
+
+p1=subplot(221)
+p2=subplot(222)
+p3=subplot(223)
+p4=subplot(224)
+
+plot_response_hist('heinmann',ecoli_data_h,gr_h,0.0,p1)
+plot_response_hist('heinmann',ecoli_data_h,gr_h,0.00001,p2)
+plot_response_hist('heinmann',ecoli_data_h,gr_h,0.0001,p3)
+plot_response_hist('heinmann',ecoli_data_h,gr_h,0.001,p4)
+
+tight_layout()
+savefig('Ron3SlopesHistDifferentThresholds.pdf')
+
+#comulative graph - x axis - avg. prot. conc. (or molecule count per cell), y axis, comulative % out of proteome.
+figure(figsize=(5,3))
+p1 = subplot(121)
+p2 = subplot(122)
+avgs = sorted(ecoli_data_h[conds].mean(axis=1).values)
+
+p1.plot(avgs,cumsum(avgs),'.',markersize=0.5)
+p1.set_xscale('log')
+p1.set_xlabel('Avg. prot. conc.',fontsize=6)
+p1.set_ylabel('accumulated fraction \n out of proteome',fontsize=6)
+p1.axhline(xmin=0,xmax=1,y=0.05,ls='--',color='black',lw=0.5)
+p1.axhline(xmin=0,xmax=1,y=0.01,ls='--',color='black',lw=0.5)
+p1.tick_params(axis='both', which='major', labelsize=6)
+p1.tick_params(axis='both', which='minor', labelsize=6)
+
+p2.plot(arange(0,len(avgs)),cumsum(avgs),'.',markersize=0.5)
+p2.set_xlabel('num. of prots',fontsize=6)
+p2.set_ylabel('accumulated fraction \n out of proteome',fontsize=6)
+p2.axhline(xmin=0,xmax=2000,y=0.05,ls='--',color='black',lw=0.5)
+p2.axhline(xmin=0,xmax=2000,y=0.01,ls='--',color='black',lw=0.5)
+p2.tick_params(axis='both', which='major', labelsize=6)
+p2.tick_params(axis='both', which='minor', labelsize=6)
+
+tight_layout()
+savefig('Ron4.pdf')
+
+#refactor all graphs to use for db in ['val','hein'].

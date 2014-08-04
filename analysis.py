@@ -11,6 +11,7 @@ just_ribosomes = False
 use_LB = False
 id_col_dict = { 'valgepea':'ko_num', 'heinmann':u'UP_AC' }
 db_used = 'valgepea'
+avg_conc_threshold = 0.00001
 
 conf_fname_mod = '%s%s%s%s' % ('RibsOnly' if just_ribosomes else '', 'AnnotOnly' if remove_unmapped else '',"LB" if use_LB else '',db_used)
 
@@ -172,6 +173,8 @@ def get_coli_data(db_used,use_weight):
 
     #Normalize to get concentrations 
     ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
+    #remove low abundance proteins
+    ecoli_data = ecoli_data[ecoli_data[cond_list].mean(axis=1)>avg_conc_threshold]
     id_col = id_col_dict[db_used]
     ecoli_data[id_col] = ecoli_data[id_col].astype('string')
     return ecoli_data
