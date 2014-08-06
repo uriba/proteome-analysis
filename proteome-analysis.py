@@ -600,3 +600,12 @@ def plotComulativeGraph():
     savefig('DistStatsHein.pdf')
 
 #refactor all graphs to use for db in ['val','hein'].
+# k-means
+#figure(figsize=(5,3))
+#p=subplot(111)
+#coli_data = ecoli_data_h.copy()
+#gr = gr_h
+#conds = cond_list_dict['heinmann']
+#coli_data = coli_data[conds]
+#coli_data = coli_data/coli_data.mean(axis=1)
+
