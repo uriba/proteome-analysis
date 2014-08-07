@@ -112,7 +112,8 @@ We find that, on average, strongly correlated proteins scale in the same way as 
 \centering
 \includegraphics{AllProtsVSRibosomalNormalizedSlopes.pdf}
 \caption{
-    A histogram of the slopes of regression lines for every high correlation protein (blue), and for every ribosomal protein (green) is shown for the two data sets analyzed.
+    A histogram of the slopes of regression lines for every high correlation protein, for the two data sets analyzed.
+    Ribosomal proteins are colored in green and non ribosomal proteins in blue.
     To eliminate differences in slopes resulting from different proteins having different average concentrations across conditions, the concentrations for every protein were divided by the average concentration of that protein prior to calculating the linear regression slope (see text for further details).
     The expected distribution of slopes given the experimental noise, assuming all proteins are coordinated, is plotted in red.
     Left panel - data from \parencite{Valgepea2013}, right panel - data from \parencite{Heinemann2014}.
@@ -126,12 +127,12 @@ We find that, on average, strongly correlated proteins scale in the same way as 
 Lastly, we assessed the significance of the positive correlation with growth rate of proteins, out of the total change in proteome composition across conditions.
 To that end, we summed the concentrations of all of the proteins that are strongly correlated with growth rate across the conditions measured and plotted their total concentration against the growth rate in Figure \ref{fig:globalgrcorr}.
 \emph{ToDo: consider clustering using PCA or some other method instead of arbitrarily selecting high correlation boundaries, if not then at least add figures demonstrating validity of results even under different boundaries}.
-Both data sets show that these proteins concentrations change significantly across the different conditions ($\approx 2$ fold change in total concentration across $\approx 5$ fold change of the growth rate).
+Both data sets show that the concentration of these proteins change significantly across the different conditions ($\approx 2$ fold change in total concentration across $\approx 5$ fold change of the growth rate).
 Moreover, most of the variability of the total concentration of these proteins can be explained by the growth rate ($R^2$ of $0.78$ in H and $0.99$ in V). 
+For further analysis of the differences between the two data sets see section \ref{heinemannchemo}.
 Importantly, the strongly correlated proteins form a large fraction of the proteome mass-wise, exceeding $50\%$ of the proteome at the higher growth rates measured.
 Thus, when considering the changes in proteome composition across conditions, we find that, at higher growth rates, more than $50\%$ of the proteome composition is affected by the positive correlation with growth rate of the same group of proteins.
 \emph{ToDo: This analysis, unlike the one done in Leeat's work, does not try to identify the scaling between every two conditions and then cluster genes according to conditions where specific regulation occurred, I'm now thinking of ways of modifying this analysis in that direction as it can potentially be much more interesting and strong so generally I believe this paragraph and accompanying figure will be replaced}
-For further analysis of the differences between the two data sets see section \ref{heinemannchemo}.
 
 \begin{figure}[h]
 \centering
@@ -151,7 +152,7 @@ Finally, this fraction of proteins encompasses many proteins from different func
 
 \subsection{Theoretical model}
 What is the simplest way to explain the observed coordinated growth rate dependence, that is, can this behavior be explained without invoking parameter tuning or complex layers of regulation?
-In an attempt to parsimoniously explain this wide-span, coordinated, positive response, we have constructed a minimalistic model that is able to reproduce these observations as the outcome of redistribution of resources of the bio-synthesis machinery.
+In an attempt to parsimoniously explain this wide-spread, coordinated, positive response, we have constructed a minimalistic model that is able to reproduce these observations as the outcome of redistribution of resources of the bio-synthesis machinery.
 Before presenting the model mathematically, we give a brief intuitive depiction.
 
 The model assumes that, under favorable growth conditions, the cell actively down-regulates some proteins that are needed in harsher conditions, as is illustrated in Figure \ref{fig:model}.
