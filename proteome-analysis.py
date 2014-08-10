@@ -88,6 +88,7 @@ figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_ancho
 
 subplots_adjust(top=0.83)
 savefig('GrowthRateCorrelation.pdf')
+savefig('GrowthRateCorrelation.png')
 
 ### Global cluster analysis:
 ## The proteins that show a high correlation with growth rate have significant R^2 values.
@@ -123,6 +124,7 @@ tick_params(axis='both', which='major', labelsize=8)
 tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
 savefig('GlobalClusterGRFit.pdf')
+savefig('GlobalClusterGRFit.png')
 
 #gets values at cond_list and normalized in both axes
 def std_err_fit(gr,s):
@@ -189,6 +191,7 @@ for db in dbs:
 
 tight_layout()
 savefig('AllProtsVSRibosomalNormalizedSlopes.pdf')
+savefig('AllProtsVSRibosomalNormalizedSlopes.png')
 
 #### plot figure of gr corr comparison by ko_num.
 #hgr = []
@@ -280,6 +283,7 @@ tight_layout()
 
 subplots_adjust(top=0.83)
 savefig('HeinemmanChemostatGr.pdf')
+savefig('HeinemmanChemostatGr.png')
 
 # plot slopes distribution for highly negatively correlated proteins from Valgepea dataset and sum of concentrations
 #figure(figsize=(5,3))
@@ -329,6 +333,7 @@ glob_conc = set_alpha('Valgepea',glob_conc,gr_v)
 p2.plot(glob_conc.gr_cov,glob_conc.alpha,'.')
 tight_layout()
 savefig('slopecorr.pdf')
+savefig('slopecorr.png')
 
 #plot slope vs std_err of estimate
 def count(x,df):
@@ -345,8 +350,8 @@ alphas = glob_conc_h['alpha'].values
 mins = glob_conc_h['conf_min'].values
 intervals = array(alphas)-array(mins)
 alphas,intervals = (list (x) for x in zip(*sorted(zip(alphas,intervals))))
-#p1.errorbar(range(0,len(alphas)),alphas,yerr=intervals,fmt='.',markersize='1',elinewidth=0.25)
-p1.plot(glob_conc_h['std_err'],glob_conc_h[cond_list_dict['Heinemman']].mean(axis=1),'.',markersize='1')
+#p1.errorbar(range(0,len(alphas)),alphas,yerr=intervals,fmt='.',markersize=1,elinewidth=0.25)
+p1.plot(glob_conc_h['std_err'],glob_conc_h[cond_list_dict['Heinemman']].mean(axis=1),'.',markersize=1)
 mins = sorted(glob_conc_h['conf_min'].values)
 maxs = sorted(glob_conc_h['conf_max'].values)
 allbound = sorted(mins + maxs)
@@ -367,6 +372,7 @@ fracs = [count(x,glob_conc_v) for x in allbound]
 #p2.set_title('Valgepea')
 #tight_layout()
 savefig('slopestderr.pdf')
+savefig('slopestderr.png')
 
 #check if for 95% of the slopes, the mean of all of the slopes lies in their 95% confidence interval
 
@@ -397,6 +403,7 @@ def plotRsqRel():
         p.set_title(db)
 
     savefig('thresholdRsqrelation.pdf')
+    savefig('thresholdRsqrelation.png')
 
 # calculate variability explained in proteome, take 1 (1 free parameter - selection of global cluster and scaling accordingly.
 # calculate variability explained in global cluster, take 2 (1 free parameter - selection of global cluster and measurement of resulting variability reduction.
@@ -502,6 +509,7 @@ for db in ['Valgepea','Heinemman']:
 
 tight_layout()
 savefig('ExpVar2.pdf')
+savefig('ExpVar2.png')
 
 # compare to variability of modified proteome, where all proteins in global cluster are scaled(how) according to calculated fit, then calculating variability as above.
 
@@ -569,6 +577,7 @@ def plotMultiStats():
     tight_layout()
 
     savefig('AvgConcStatsHein.pdf')
+    savefig('AvgConcStatsHein.png')
 
 #comulative graph - x axis - avg. prot. conc. (or molecule count per cell), y axis, comulative % out of proteome.
 def plotComulativeGraph():
@@ -596,32 +605,47 @@ def plotComulativeGraph():
 
     tight_layout()
     savefig('DistStatsHein.pdf')
+    savefig('DistStatsHein.png')
 
 #randomly select a few proteins and plot their prediction vs the actual concentration of a different protein in the HC prots.
 
 def plotPrediction():
-    figure(figsize=(5,3))
-    ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
     for db in dbs:
-        p = ps[db]
+        figure(figsize=(5,5))
         conds = cond_lists[db]
         coli_data = coli_datas[db]
         gr = grs[db]
+        gr = gr[conds]
         glob = get_glob(db,coli_data)
-        samp = random.sample(glob.index,11)
-        pred = samp[0:-1]
-        est = samp[-1]
-        pred = glob.ix[pred]
-        est = glob.ix[est]
-        pred = pred[conds]
-        pred = pred.sum()
-        pred = pred/pred.mean()
-        est = est[conds]
-        est = est/est.mean()
-        alpha,beta,r_val,p_val,std_err = linregress(gr,pred)
-        p.plot(gr.values,alpha*gr.values+beta)
-        p.plot(gr.values,est,'o')
-        savefig('RandEstimate.pdf')
+        for i in range(1,10):
+            p = subplot(330+i)
+            samp = random.sample(glob.index,11)
+            pred = samp[0:-1]
+            est = samp[-1]
+            pred = glob.ix[pred]
+            est = glob.ix[est]
+            pred = pred[conds]
+            pred = pred.sum()
+            pred = pred/pred.mean()
+            est = est[conds]
+            est = est/est.mean()
+            alpha,beta,r_val,p_val,std_err = linregress(gr,pred)
+            linpred = {}
+            for c in gr.index:
+                linpred[c]=alpha*gr[c]+beta
+            linpred = pd.Series(linpred)
+            linpred = linpred[conds]
+            p.plot(gr.values,linpred.values,color='blue')
+            p.plot(gr.values,pred,'o',color='blue',markersize=2)
+            p.plot(gr.values,est,'o',color='green',markersize=2)
+            p.set_ylim(0,3)
+            p.set_xlim(0,0.7)
+            p.tick_params(axis='both', which='major', labelsize=8)
+            p.tick_params(axis='both', which='minor', labelsize=8)
+            p.set_title("%.2f" % est.corr(linpred)**2,fontsize=8)
+        tight_layout()    
+        savefig('RandEstimate%s.pdf' % db)
+        savefig('RandEstimate%s.png' % db)
 plotPrediction()        
 
 #refactor all graphs to use for db in ['val','hein'].

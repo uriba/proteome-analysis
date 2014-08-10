@@ -30,22 +30,22 @@ We suggest that, although the concentrations of many proteins change with the gr
 
 \section{Introduction}
 A fundamental system-level challenge for cell physiology is the achievement of proper function in the face of various environmental conditions.
-It has been established for many years that in different environments cells differ in many properties, including their shape, size, growth rate, and macro-molecular composition \parencite{Schaechter1958, Maaloe1969, Churchward1982, Pedersen1978a, ingraham1983growth,Bremer1987}, with strong interdependence between these parameters.
+It has been established for many years that in different environments cells differ in many properties, including their shape, size, growth rate, and macro-molecular composition \cite{Schaechter1958, Maaloe1969, Churchward1982, Pedersen1978a, ingraham1983growth,Bremer1987}, with strong interdependence between these parameters.
 
 Early on it was found that the expression of some genes is coordinated with growth rate, rather than with the specific environment.
-Classical experiments in bacteria, by researchers from what became known as the Copenhagen school, have shown that ribosome concentration (inferred from the RNA to protein ratio in cells) increases in proportion to growth rate\parencite{Schaechter1958}.
+Classical experiments in bacteria, by researchers from what became known as the Copenhagen school, have shown that ribosome concentration (inferred from the RNA to protein ratio in cells) increases in proportion to growth rate\cite{Schaechter1958}.
 The search for mechanisms in \emph{E.coli} that underlie this observation yielded several candidates.
-Specifically, coordination between ribosome production and growth rate was attributed both to the pools of purine nucleotides \parencite{Gourse1996,Gaal1997}, and the tRNA pools through the stringent response \parencite{Chatterji2001,Brauer2008a}.
-For a more thorough review see \parencite{Nomura1984}.
-The logic behind this observed increase is that, given that translation rates and active ribosomes fraction remain relatively constant across conditions, a larger fraction of ribosomes out of the proteome is needed in order to achieve faster growth \parencite{neidhardt1999a,dennis2004,Zaslaver2009}.
+Specifically, coordination between ribosome production and growth rate was attributed both to the pools of purine nucleotides \cite{Gourse1996,Gaal1997}, and the tRNA pools through the stringent response \cite{Chatterji2001,Brauer2008a}.
+For a more thorough review see \cite{Nomura1984}.
+The logic behind this observed increase is that, given that translation rates and active ribosomes fraction remain relatively constant across conditions, a larger fraction of ribosomes out of the proteome is needed in order to achieve faster growth \cite{neidhardt1999a,dennis2004,Zaslaver2009}.
 
 In the last two decades, with the development of the ability to measure genome-wide expression levels, it was found that coordination of gene expression (measured through mRNA levels and promoter-reporter libraries) and growth rate is not limited to ribosomes and ribosomal genes.
-In \emph{E.coli}, the expression of catabolic and anabolic genes is coordinated with growth rate, and suggested to be mediated by cAMP \parencite{Saldanha2004}.
-In \emph{S.cerevisiae}, it was shown that a surprisingly large fraction of the genome changes its expression levels in response to environmental conditions in a manner strongly correlated with growth rate \parencite{Keren2013a,Gasch2000,Castrillo2007,Zaslaver2009, Gerosa2013}.
-Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \parencite{Gasch2000, Klumpp2009a,Scott2010, Berthoumieux2013}.
-In \emph{E.coli}, this was mechanistically attributed to changes in the pool of RNA polymerase core and sigma factors \parencite{Klumpp2008}.
-In \emph{S.cerevisiae}, it was suggested that differences in histone modifications around the replication origins \parencite{regenberg2006} or translation rates \parencite{Gasch2000} across conditions may underlie the same phenomenon.
-Important advancements in \emph{E.coli} were achieved by analyzing measurements of fluorescent reporters through a simplified model of gene expression built upon the empirical scaling with growth rate of different cell parameters (such as gene dosage, transcription rate and cell size)\parencite{Klumpp2009a}.
+In \emph{E.coli}, the expression of catabolic and anabolic genes is coordinated with growth rate, and suggested to be mediated by cAMP \cite{Saldanha2004}.
+In \emph{S.cerevisiae}, it was shown that a surprisingly large fraction of the genome changes its expression levels in response to environmental conditions in a manner strongly correlated with growth rate \cite{Keren2013a,Gasch2000,Castrillo2007,Zaslaver2009, Gerosa2013}.
+Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \cite{Gasch2000, Klumpp2009a,Scott2010, Berthoumieux2013}.
+In \emph{E.coli}, this was mechanistically attributed to changes in the pool of RNA polymerase core and sigma factors \cite{Klumpp2008}.
+In \emph{S.cerevisiae}, it was suggested that differences in histone modifications around the replication origins \cite{regenberg2006} or translation rates \cite{Gasch2000} across conditions may underlie the same phenomenon.
+Important advancements in \emph{E.coli} were achieved by analyzing measurements of fluorescent reporters through a simplified model of gene expression built upon the empirical scaling with growth rate of different cell parameters (such as gene dosage, transcription rate and cell size)\cite{Klumpp2009a}.
 These studies suggest that the expression of all genes changes with growth rate, with different architectures of regulatory networks yielding differences in the direction and magnitude of these changes. 
 
 Despite these advancements, many gaps remain in our understanding of the connection between gene expression and growth rate.
@@ -53,7 +53,7 @@ Primarily, it is unclear what is the degree of interconnection between gene expr
 Is it unique to specific groups of genes or is it a more global phenomenon shared across most genes in the genome?
 Genome-wide proteomic data sets, such as those generated by mass-spectrometry, which probe the proteome composition at different growth rates, offer potential insights into these questions.
 
-In this work we analyzed two recently published proteomic data sets of \emph{E.coli} under different growth conditions \parencite{Valgepea2013} [ref unpublished Heinemann].
+In this work we analyzed two recently published proteomic data sets of \emph{E.coli} under different growth conditions \cite{Valgepea2013} [ref unpublished Heinemann].
 We find a statistically significant positive correlation between growth rate and the protein concentration of many genes, from diverse functional groups.
 We present a parsimonious model, which does not require fine-tuning according to organism and condition-specific parameters, that quantitatively predicts the relationship between gene regulation, protein abundance and growth rate.
 Our model provides a baseline for the behavior of endogenous genes in conditions in which they are not differentially regulated, on top of which different regulatory aspects can be added.
@@ -61,13 +61,14 @@ It suggests that positive correlation of protein concentration with growth rate 
 
 \section{Results}
 \subsection{Analysis of proteomic data sets}
-To examine the interdependence of protein concentration and growth rate across expressed genes we analyzed two published proteomics data sets of \emph{E.coli}, \parencite{Valgepea2013} and [ref Heinemann].
-These data sets use mass spectrometry to evaluate the proteomic composition of \emph{E.coli} under $5$ different growth rates using a chemostat, in \parencite{Valgepea2013}, and $19$ different growth conditions, spanning both different carbon sources and chemostat-controlled growth rates, in [ref Heinemann].
+To examine the interdependence of protein concentration and growth rate across expressed genes we analyzed two published proteomics data sets of \emph{E.coli}, \cite{Valgepea2013} and [ref Heinemann].
+These data sets use mass spectrometry to evaluate the proteomic composition of \emph{E.coli} under $5$ different growth rates using a chemostat, in \cite{Valgepea2013}, and $19$ different growth conditions, spanning both different carbon sources and chemostat-controlled growth rates, in [ref Heinemann].
 The [ref Heinemann] data set contains more conditions than those analyzed, see section \ref{heinemanncond} for further details.
 \subsubsection{A large fraction of the proteome is positively correlated with growth rate}
 For each data set, we calculated the Pearson correlation of every protein with the growth rate.
-A histogram of the distribution of the correlations is shown in Figure \ref{fig:growthcorr} (ToDo:ref Methods).
-We find that $\approx 1/3$ of the proteins ($724$ out of $1654$ measured in the data set from [ref Heinemann], hereafter referred to as H, and $296$ out of $919$ in the data set from \parencite{Valgepea2013}, hereafter referred to as V) are strongly positively correlated with the growth rate, where a strong correlation with growth rate was defined as a correlation of $R\geq 0.8$ for the V data set, and $R\geq 0.4$ for the H data set (\emph{ToDo: see SI for further discussion on thresholds}).
+A histogram of the distribution of the correlations is shown in Figure \ref{fig:growthcorr}.
+We find that $\approx 1/3$ of the proteins ($724$ out of $1654$ measured in the data set from [ref Heinemann], hereafter referred to as H, and $296$ out of $919$ in the data set from \cite{Valgepea2013}, hereafter referred to as V) are strongly positively correlated with the growth rate, where a strong correlation with growth rate was defined as a correlation of $R\geq 0.8$ for the V data set, and $R\geq 0.4$ for the H data set.
+The thresholds for defining strong correlation with growth rate are the ones maximizing the explained variability in the data (See \ref{corrthreshold} for exact definition and calculation used).
 For further comparison and analysis of the causes underlying the differences between the two data sets as reflected in Figure \ref{fig:growthcorr} see section \ref{heinemannchemo}
 Notably, in both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups \emph{ToDo refer to table with breakdown by function}.
 Previous studies already found that ribosomal proteins are strongly positively correlated with growth rate (refs).
@@ -116,7 +117,7 @@ We find that, on average, strongly correlated proteins scale in the same way as 
     Ribosomal proteins are colored in green and non ribosomal proteins in blue.
     To eliminate differences in slopes resulting from different proteins having different average concentrations across conditions, the concentrations for every protein were divided by the average concentration of that protein prior to calculating the linear regression slope (see text for further details).
     The expected distribution of slopes given the experimental noise, assuming all proteins are coordinated, is plotted in red.
-    Left panel - data from \parencite{Valgepea2013}, right panel - data from \parencite{Heinemann2014}.
+    Left panel - data from \cite{Valgepea2013}, right panel - data from \cite{Heinemann2014}.
     High correlation proteins share similar normalized slopes, implying they are coordinated, maintaining their relative ratios across conditions (see text/methods for further details).
     Ribosomal proteins scale with growth rate in a manner similar to the rest of the high correlation proteins.
 }
@@ -179,10 +180,10 @@ For every protein, the model separately considers the resulting concentration as
   All of these factors can potentially differ across different environmental conditions.
 \end{enumerate}
 For simplicity, the model refers to the fraction of a specific protein out of the proteome, and not to the concentration of that protein in the biomass.
-The concentration of a specific protein in the biomass can be calculated given this fraction and the concentration of total protein in the biomass, which is known to be relatively constant \parencite{eco-sal} (for further discussion see \ref{protconc}).
+The concentration of a specific protein in the biomass can be calculated given this fraction and the concentration of total protein in the biomass, which is known to be relatively constant \cite{eco-sal} (for further discussion see \ref{protconc}).
 
 According to the model, every gene, under every environmental condition, is given an 'affinity-for-expression' (or 'intrinsic-strength') score that encapsulates its gene-specific control state under the condition considered.
-We denote the affinity of gene $i$ under growth condition $c$ by $w_i(c)$ (the notion of affinity for expression is not new, and was first suggested in  \parencite{Maaloe1969}).
+We denote the affinity of gene $i$ under growth condition $c$ by $w_i(c)$ (the notion of affinity for expression is not new, and was first suggested in  \cite{Maaloe1969}).
 Our model assumes that the bio-synthetic resources of the cell (Ribosomes, RNA Polymerases, etc.) are distributed among the genes according to their affinities under the condition at hand.
 The notion of affinities can thus reduce the number of parameters needed to predict expression levels markedly.
 Instead of an expression level for every gene under each condition, there is only a need for the characterization of the affinities a gene may obtain under relevant environmental cues, a parameter set that is expected to be much smaller and easily characterized.
@@ -218,7 +219,7 @@ Specifically, we arrive at the doubling time as the result of dividing the total
 The larger the ratio of total proteins to bio-synthesis proteins is, the longer these bio-synthesis proteins will have to operate in order to duplicate the proteome, and thus the longer the doubling time of the cell will be.
 
 To illustrate this assumption concretely, one could think about the total amount of proteins per cell (measured in amino-acids count) divided by the number of ribosomes in the cell.
-Assuming each ribosome translates at an approximately condition-independent rate of about 20 amino-acids per second, and as the amount of actively translating ribosomes is also relatively condition-independent \parencite{Philips2009} (\emph{ToDo:and its refs}), it follows that the doubling time is linearly dependent on the ratio of proteins to ribosomes in the biomass as illustrated in Figure \ref{fig:model}B.
+Assuming each ribosome translates at an approximately condition-independent rate of about 20 amino-acids per second, and as the amount of actively translating ribosomes is also relatively condition-independent \cite{Philips2009} (\emph{ToDo:and its refs}), it follows that the doubling time is linearly dependent on the ratio of proteins to ribosomes in the biomass as illustrated in Figure \ref{fig:model}B.
 
 Theoretically, the fastest doubling time a cell may have is the doubling time achieved when all of the proteome of the cell is the bio-synthetic machinery.
 \emph{ToDo - calculate this time based on known rates and molecular sizes and add to SI, check Milo and Philips PNAS paper}
@@ -280,7 +281,7 @@ Therefore, if we denote by $\alpha$ the degradation rate (assuming for now equal
 \end{equation}
 This equation yields better agreement with the experimental results as presented in Figure \ref{fig:globalgrcorr}, depending on the exact value set for degradation.
 Degradation can thus explain why the concentration of non-differentially regulated proteins does not drop to zero when the growth rate is zero.
-The actual values obtained for the data analyzed are $\alpha=0.34$ for \parencite{Valgepea2013} and $\alpha=0.44$ for \parencite{Heinemann2014}, corresponding to protein half lives times of $T_{\text{deg}}=2$ hours and $T_{\text{deg}}=1.6$ hours respectively.
+The actual values obtained for the data analyzed are $\alpha=0.34$ for \cite{Valgepea2013} and $\alpha=0.44$ for \cite{Heinemann2014}, corresponding to protein half lives times of $T_{\text{deg}}=2$ hours and $T_{\text{deg}}=1.6$ hours respectively.
 As these values correspond to relatively short half lives times, protein degradation is probably only a partial explanation for the differences between the predictions of the model and the observations obtained from the experimental data.
 
 \subsubsection{Slower biological processes rates at slower growth affect the relation between proteome composition and growth rate}
@@ -293,12 +294,12 @@ Replacing this assumption by a dependence of bio-synthesis rate with growth rate
 \section{Discussion}
 We characterized a significant, coordinated response in \emph{E.coli} between many proteins and the growth rate.
 This response spans proteins from various functional groups and is not related to the specific medium of growth.
-A similar phenomena is observed for \emph{S.cerevisiae} as was reported in \parencite{Keren2013a} and may thus be conserved across various organisms and domains of life.
+A similar phenomena is observed for \emph{S.cerevisiae} as was reported in \cite{Keren2013a} and may thus be conserved across various organisms and domains of life.
 Our analysis suggests that, while changes in the proteome composition may seem complex, they can, to a large extent, be attributed to the linear increase with growth rate of a large number of proteins, at the expense of a few, down-regulated proteins \emph{ToDo: quantify by variation explained}.
 The well studied scaling of ribosomes concentration with growth rate can be considered one manifestation of the more general phenomena we describe here.
 We find that this response, when considering ribosomal proteins fraction out of the proteome, is not unique and is, in fact, shared with many other proteins spanning different functional groups.
 
-We re-introduce the notion of intrinsic affinity for expression, first presented in \parencite{Maaloe1969}, though not widely known.
+We re-introduce the notion of intrinsic affinity for expression, first presented in \cite{Maaloe1969}, though not widely known.
 We show that integrating this notion with the limited bio-synthesis capacity of cells results in a parsimonious mechanism that can explain the response observed in recent experimental data, data that was unavailable at the time this notion was first introduced, nearly 50 years ago.
 
 The framework we present emphasizes the importance of accounting for global factors, that are reflected in the growth rate, when analyzing gene expression and proteomics data.
@@ -315,15 +316,15 @@ Nevertheless, the fact that many non-ribosomal proteins share the same response 
 
 \subsection{Relation to other studies}
 The findings in this study support and broaden the findings in other recent studies.
-Specifically, for \emph{S.cerevisiae} a few recent studies found that the concentration of the majority of the proteins is coordinated across conditions \parencite{Keren2013a, Gasch2000, Brauer2008a} and increases with growth rate.\emph{ToDo:verify this for these references and add numbers} 
+Specifically, for \emph{S.cerevisiae} a few recent studies found that the concentration of the majority of the proteins is coordinated across conditions \cite{Keren2013a, Gasch2000, Brauer2008a} and increases with growth rate.\emph{ToDo:verify this for these references and add numbers} 
 In principle, the model we suggest here can be applied to any microorganism and may thus also serve as a potential explanation to the phenomena observed in these studies.
 
 Other recently published studies in \emph{E.coli} have suggested different models and in some cases have results  and predictions that do not coincide with those presented in this study.
-Notably, in \parencite{Klumpp2009a} the opposite behavior for unregulated genes is predicted.
-A few differences can explain this seeming discrepancy, among which are different ranges of growth rates observed (the growth rates in this study lie in a range smaller than the growth rates in \parencite{Klumpp2009a}), different strains used and very different methods for deducing the expected behavior (ref SI for further discussion?).
+Notably, in \cite{Klumpp2009a} the opposite behavior for unregulated genes is predicted.
+A few differences can explain this seeming discrepancy, among which are different ranges of growth rates observed (the growth rates in this study lie in a range smaller than the growth rates in \cite{Klumpp2009a}), different strains used and very different methods for deducing the expected behavior (ref SI for further discussion?).
 \emph{ToDo: consider checking either for genes in the global cluster for which no regulatory elements are expected to exist or replicating similar experiments to those done by Klumpp.} 
 
-Many studies monitored the ribosome concentration in cells and its interdependence with growth rate \parencite{Scott2010, Bremer1987, Schaechter1958, 1974, Zaslaver2009, eco-sal}.
+Many studies monitored the ribosome concentration in cells and its interdependence with growth rate \cite{Scott2010, Bremer1987, Schaechter1958, 1974, Zaslaver2009, eco-sal}.
 While in all of these studies a linear dependence of ribosome concentration with growth rate was observed, in some cases different response strengths were found, compared with the observations in this study.
 A discussion for various reasons that may underlie these differences is in \ref{ribosomeconc}.
 \emph{ToDo - final paragraph on relation to other works}
@@ -372,6 +373,24 @@ Our analysis focused on the relations between different proteins and resource di
 \section{Acknowledgments}
 (preliminary list) Matthias Heinemann, Stephan Klumpp, 
 \section{Supplementary figures and data}
+\subsection{Threshold selection for defining strong correlation with growth rate}
+\label{corrthreshold}
+The data we use includes the concentrations of proteins under different growth conditions, and the growth rate for every condition.
+Given a threshold on the Pearson correlation with growth rate, one can focus on the group of proteins with a correlation with growth rate that is higher than the threshold.
+For this group of proteins, a linear regression response can be calculated.
+We define the explained variability by the growth rate, given a threshold, as the difference between the total variability of the group of proteins with a correlation higher than the threshold, and the variability remaining, when assuming these proteins scale with the growth rate according to the calculated linear response.
+Dividing the explained variability by the total variability of the entire data set quantifies what fraction of the total variability in the data set is explained by considering linear scaling with growth rate for all the proteins with a correlation with growth rate higher than the treshold.
+The optimal threshold is then defined as the threshold maximizing this fraction.
+Figure \ref{fig:threshold} shows the fraction of the variability explained as a function of the threshold used. 
+\begin{figure}[h]
+\centering
+\includegraphics{ExpVar2.pdf}
+\caption{
+  Statistics on the explained variability in the data set as a function of the threshold used for defining strong correlation with growth rate.
+}
+\label{fig:threshold}
+\end{figure}
+
 \subsection{Differences between the correlations found in the two data sets}
 \label{heinemannchemo}
 The lower correlation and higher variability found in the H data set partially results from the variability in the conditions it contains as well as the higher number of conditions measured across a similar rage of growth rates.
