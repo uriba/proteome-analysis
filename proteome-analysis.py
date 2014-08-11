@@ -38,22 +38,7 @@ coli_datas = {'Heinemman':ecoli_data_h,'Valgepea':ecoli_data_v}
 for db in dbs:
     coli_datas[db]= calc_gr_corr(coli_datas[db],cond_lists[db],grs[db])
 
-
-# Remove the unmapped proteins first and add them at the end so that they are stacked last in the histogram.
-if not remove_unmapped and "NotMapped" in categories:
-    categories.remove("NotMapped")
-categories = list(categories)
-categories.sort()
-categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes']
-
-if not just_ribosomes:
-    categories.append('NotMapped')
-
-figure(figsize=(5,3))
-
-p=subplot(111)
-ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
-coords = {'Heinemman':0.03,'Valgepea':0.65}
+categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes','NotMapped']
 
 def plot_corr_hist(p,db,conc_data,categories):
     bins = linspace(-1,1,21)
@@ -77,54 +62,59 @@ def plot_corr_hist(p,db,conc_data,categories):
     tight_layout()
     return handles,labels
 
-for db in dbs:
-    plot_corr_hist(ps[db],db,coli_datas[db],categories)
-    text(coords[db],0.8,"%s et. al." % db,fontsize=8,transform=p.transAxes)
 
-#assume both subplots have the same categories.
-handles,labels=ps['Heinemman'].get_legend_handles_labels()
+def plotCorrelationHistograms():
+    figure(figsize=(5,3))
 
-figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
+    p=subplot(111)
+    ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
+    coords = {'Heinemman':0.03,'Valgepea':0.65}
 
-subplots_adjust(top=0.83)
-savefig('GrowthRateCorrelation.pdf')
-savefig('GrowthRateCorrelation.png')
+    for db in dbs:
+        plot_corr_hist(ps[db],db,coli_datas[db],categories)
+        text(coords[db],0.8,"%s et. al." % db,fontsize=8,transform=p.transAxes)
 
-### Global cluster analysis:
-## The proteins that show a high correlation with growth rate have significant R^2 values.
-## They change by xx fold across conditions measured.
-## The correlation of each of the proteins with the global cluster is higher than with the GR (meaning it compensates for errors in GR measurements or degredation rates).
-figure(figsize=(5,3))
-def get_glob(db,df):
-    limits = get_limits(db)
-    glob = df[df['gr_cov']>limits[0]]
-    print "%s global cluster is %d out of %d measured proteins" % (db, len(glob),len(df[df['gr_cov']>-1.]))
-    return glob
- 
-def get_high_corr(db,df,gr,conds):
-    glob = get_glob(db,df)
-    glob_tot = glob[conds].sum()
-    alpha,beta,r_val,p_val,std_err = linregress(gr,glob_tot)
-    print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
-    print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
-    return (glob_tot,alpha,beta)
+    #assume both subplots have the same categories.
+    handles,labels=ps['Heinemman'].get_legend_handles_labels()
 
-colors = {'Heinemman':'blue','Valgepea':'green'}
-for db in dbs:
-    (glob,alpha,beta) = get_high_corr(db,coli_datas[db],grs[db],cond_lists[db])
-    plot(grs[db].values,glob.values,'o',label="%s et. al" % db,color=colors[db])
-    plot(grs[db].values,alpha*grs[db].values+beta,color=colors[db],label=("%s Trend,$R^2$=%.2f" % (db,grs[db].corr(glob)**2)))
+    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
 
-xlim(xmin=0.)
-ylim(ymin=0.)
-xlabel('Growth rate',fontsize=10)
-ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=10)
-legend(loc=2, prop={'size':8},numpoints=1)
-tick_params(axis='both', which='major', labelsize=8)
-tick_params(axis='both', which='minor', labelsize=8)
-tight_layout()
-savefig('GlobalClusterGRFit.pdf')
-savefig('GlobalClusterGRFit.png')
+    subplots_adjust(top=0.83)
+    savefig('GrowthRateCorrelation.pdf')
+    savefig('GrowthRateCorrelation.png')
+
+### Figure 3, Global cluster analysis:
+def plotGlobalResponse():
+    figure(figsize=(5,3))
+
+    colors = {'Heinemman':'blue','Valgepea':'green'}
+
+    for db in dbs:
+        conds = cond_lists[db]
+        coli_data = coli_datas[db]
+        glob = get_glob(db,coli_data)
+        gr = grs[db]
+
+        print "%s global cluster is %d out of %d measured proteins" % (db, len(glob),len(coli_data[coli_data['gr_cov']>-1.]))
+
+        glob_tot = glob[conds].sum()
+        alpha,beta,r_val,p_val,std_err = linregress(gr,glob_tot)
+
+        print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
+        print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
+        plot(gr.values,glob.values,'o',label="%s et. al" % db,color=colors[db])
+        plot(gr.values,alpha*gr.values+beta,color=colors[db],label=("%s Trend,$R^2$=%.2f" % (db,gr.corr(glob)**2)))
+
+    xlim(xmin=0.)
+    ylim(ymin=0.)
+    xlabel('Growth rate',fontsize=10)
+    ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=10)
+    legend(loc=2, prop={'size':8},numpoints=1)
+    tick_params(axis='both', which='major', labelsize=8)
+    tick_params(axis='both', which='minor', labelsize=8)
+    tight_layout()
+    savefig('GlobalClusterGRFit.pdf')
+    savefig('GlobalClusterGRFit.png')
 
 #gets values at cond_list and normalized in both axes
 def std_err_fit(gr,s):
@@ -150,7 +140,11 @@ def set_std_err(db,df,gr):
     df['conf_max'] = df.apply(lambda x: conf_int_max(len(cond_list)-2,x) ,axis=1)
     return df
 
-## Figure 3, global cluster slope vs. ribosomal slope
+## Figure 2, global cluster slope vs. ribosomal slope
+def get_glob(db,df):
+    limits = get_limits(db)
+    return df[df['gr_cov']>limits[0]]
+ 
 def set_alpha(db,df,gr):
     cond_list = cond_list_dict[db]
     df['alpha'] = df[cond_list].apply(lambda x: linregress(gr[cond_list]/gr[cond_list].mean(),x/x.mean())[0],axis=1)
@@ -220,57 +214,35 @@ savefig('AllProtsVSRibosomalNormalizedSlopes.png')
 #savefig('vhcorrcomp.pdf')
 
 # plot Heinemman data only for chemostat conditions.
+db = 'Heinemman-chemo'
 figure(figsize=(5,3))
-(cond_list,gr_chemo,ecoli_data_chemo) = get_annotated_prots('Heinemman-chemo')
+(cond_list,gr_chemo,ecoli_data_chemo) = get_annotated_prots(db)
 ecoli_data_chemo = calc_gr_corr(ecoli_data_chemo,cond_list,gr_chemo)
 
-categories = set(ecoli_data_chemo['group'].values)
-
-# Remove the unmapped proteins first and add them at the end so that they are stacked last in the histogram.
-if not remove_unmapped and "NotMapped" in categories:
-    categories.remove("NotMapped")
-categories = list(categories)
-categories.sort()
-categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes']
-
-if not just_ribosomes:
-    categories.append('NotMapped')
+categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes','NotMapped']
 
 p1=subplot(121)
 p2=subplot(122)
 
-def plot_corr_hist(p,conc_data,categories):
-    bins = linspace(-1,1,21)
-    covs = ndarray(shape=(len(categories),len(bins)-1))
-    sets = [] 
-
-    for x in categories:
-        sets.append(conc_data[conc_data['group']==x].gr_cov)
-
-    p.hist(sets,bins = bins, stacked = True,label=categories)
-    handles,labels=p.get_legend_handles_labels()
-    p.tick_params(axis='both', which='major', labelsize=8)
-    p.tick_params(axis='both', which='minor', labelsize=8)
-    p.set_xlabel('Pearson correlation with growth rate',fontsize=8)
-    p.set_ylabel('Number of proteins',fontsize=8)
-
-    #legend(loc=2,prop={'size':8})
-    tight_layout()
-    return handles,labels
-
-plot_corr_hist(p1,ecoli_data_chemo,categories)
+plot_corr_hist(p1,db,ecoli_data_chemo,categories)
 
 handles,labels=p1.get_legend_handles_labels()
 
 figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.05,0.8,0.5,0.2),ncol=2)
 
-(glob_chemo,alpha_chemo,beta_chemo) = get_high_corr('Heinemman-chemo',ecoli_data_chemo,gr_chemo,cond_list)
+glob_chemo = get_glob(db,ecoli_data_chemo)
+print "%s global cluster is %d out of %d measured proteins" % (db, len(glob_chemo),len(ecoli_data_chemo[ecoli_data_chemo['gr_cov']>-1.]))
 
-p2.plot(gr_chemo.values,glob_chemo.values,'o',label="Heinemann Chem.")
-p2.plot(gr_chemo.values,alpha_chemo*gr_chemo.values+beta_chemo,color='blue',label=("Heinemann Chem. Trend,$R^2$=%.2f" % (gr_chemo.corr(glob_chemo)**2)))
-(glob_v,alpha_v,beta_v) = get_high_corr('Valgepea',coli_datas['Valgepea'],grs['Valgepea'],cond_lists['Valgepea'])
-p2.plot(gr_v.values,glob_v.values,'o',label="Valgepea")
-p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_v)**2)))
+glob_tot_chemo = glob_chemo[cond_list].sum()
+alpha,beta,r_val,p_val,std_err = linregress(gr_chemo,glob_tot_chemo)
+
+print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
+print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
+p2.plot(gr_chemo.values,glob_tot_chemo.values,'o',label="%s et. al" % db,color='blue')
+p2.plot(gr_chemo.values,alpha*gr_chemo.values+beta,color='blue',label=("Heinemann Chem. Trend,$R^2$=%.2f" % (gr_chemo.corr(glob_tot_chemo)**2)))
+#(glob_v,alpha_v,beta_v) = get_high_corr('Valgepea',coli_datas['Valgepea'],grs['Valgepea'],cond_lists['Valgepea'])
+#p2.plot(gr_v.values,glob_v.values,'o',label="Valgepea")
+#p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_v)**2)))
 
 p2.set_xlim(xmin=0.)
 p2.set_ylim(ymin=0.)
@@ -320,203 +292,144 @@ savefig('HeinemmanChemostatGr.png')
 #subplots_adjust(top=0.83)
 #savefig('Anticorrelated.pdf')
 
-#plot rsq (or corr) vs slope.
-
-figure(figsize=(5,3))
-p1=subplot(121)
-p2=subplot(122)
-glob_conc = get_glob('Heinemman',ecoli_data_h)
-glob_conc = set_alpha('Heinemman',glob_conc,gr_h)
-p1.plot(glob_conc.gr_cov,glob_conc.alpha,'.')
-glob_conc = get_glob('Valgepea',ecoli_data_v)
-glob_conc = set_alpha('Valgepea',glob_conc,gr_v)
-p2.plot(glob_conc.gr_cov,glob_conc.alpha,'.')
-tight_layout()
-savefig('slopecorr.pdf')
-savefig('slopecorr.png')
-
-#plot slope vs std_err of estimate
-def count(x,df):
-    return float(len(df[(df['conf_min'] < x) & (df['conf_max'] > x)]))/len(df)
-
-figure(figsize=(5,3))
-p1=subplot(111)
-#p2=subplot(122)
-glob_conc_h = get_glob('Heinemman',ecoli_data_h)
-glob_conc_h = set_alpha('Heinemman',glob_conc_h,gr_h)
-glob_conc_h = set_std_err('Heinemman',glob_conc_h,gr_h)
-print "heinemann's data"
-alphas = glob_conc_h['alpha'].values
-mins = glob_conc_h['conf_min'].values
-intervals = array(alphas)-array(mins)
-alphas,intervals = (list (x) for x in zip(*sorted(zip(alphas,intervals))))
-#p1.errorbar(range(0,len(alphas)),alphas,yerr=intervals,fmt='.',markersize=1,elinewidth=0.25)
-p1.plot(glob_conc_h['std_err'],glob_conc_h[cond_list_dict['Heinemman']].mean(axis=1),'.',markersize=1)
-mins = sorted(glob_conc_h['conf_min'].values)
-maxs = sorted(glob_conc_h['conf_max'].values)
-allbound = sorted(mins + maxs)
-fracs = [count(x,glob_conc_h) for x in allbound]
-#p1.plot(allbound,fracs)
-#p1.axhline(y=0.95,xmin=0,xmax=3,ls='--',color='black',lw=0.5)
-p1.set_title('heinemann')
-p1.set_yscale('log')
-glob_conc_v = get_glob('Valgepea',ecoli_data_v)
-glob_conc_v = set_alpha('Valgepea',glob_conc_v,gr_v)
-glob_conc_v = set_std_err('Valgepea',glob_conc_v,gr_v)
-print "Valgepea's data"
-mins = sorted(glob_conc_v['conf_min'].values)
-maxs = sorted(glob_conc_v['conf_max'].values)
-allbound = sorted(mins + maxs)
-fracs = [count(x,glob_conc_v) for x in allbound]
-#p2.plot(allbound,fracs)
-#p2.set_title('Valgepea')
-#tight_layout()
-savefig('slopestderr.pdf')
-savefig('slopestderr.png')
-
 #check if for 95% of the slopes, the mean of all of the slopes lies in their 95% confidence interval
 
 #Plot variability explained (R^2)/Var? in global cluster and in proteome as function of threshold for HC proteins.
 
 corrs = linspace(-1,1,100)
 
-def plotRsqRel():
+# calculate variability explained in proteome, take 1 (1 free parameter - selection of global cluster and scaling accordingly.
+# calculate variability explained in global cluster, take 2 (1 free parameter - selection of global cluster and measurement of resulting variability reduction.
+def variabilityAndGlobClustSlopes():
     figure(figsize=(5,3))
-    p1=subplot(121)
-    p2=subplot(122)
-    plots = {'Valgepea':p1,'Heinemman':p2}
+    ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
     coli_data = {'Valgepea':ecoli_data_v,'Heinemman':ecoli_data_h}
     grs = {'Valgepea':gr_v,'Heinemman':gr_h}
+    alphas = {'Valgepea':[],'Heinemman':[]}
     for db in ['Valgepea','Heinemman']:
-        p=plots[db]
-        r_sq = []
+        p=ps[db]
         gr = grs[db]
         conds = cond_list_dict[db]
         glob_conc = coli_data[db]
-        tot_var = sqrt(glob_conc[conds].var(axis=1).sum())
+        glob_data = glob_conc[conds]
+        tot_means = glob_data.mean(axis=1)
+        tot_moved = glob_data.copy()
+        for col in tot_moved.columns:
+            tot_moved[col]=tot_moved[col]-tot_means
+        tot_var = tot_moved **2
+        tot_var = tot_var.sum()
+        tot_var = tot_var.sum()
+        print "tot_var is"
+        print tot_var
+        explained_glob = []
+        explained_tot = []
+        explained_compl_glob = []
+        explained_compl_tot = []
+        explained_normed = []
+        explained_scaled = []
         for threshold in corrs:
-            glob_conc = glob_conc[glob_conc['gr_cov']>threshold]
-            glob_tot = glob_conc[conds].sum()
+            #print "threshold is %f" % threshold
+            glob_cluster_idx = glob_conc['gr_cov']>threshold
+            glob_compl_idx = glob_conc['gr_cov']<threshold
+            glob_cluster_moved = tot_moved[glob_cluster_idx]
+            glob_var = glob_cluster_moved ** 2
+            glob_var = glob_var.sum().sum()
+            glob_compl_moved = tot_moved[glob_compl_idx]
+            glob_compl_var = glob_compl_moved ** 2
+            glob_compl_var = glob_compl_var.sum().sum()
+            #print "global cluster contains %d proteins and its variability is %f, compl variability is %f" % (len(glob_cluster_moved),glob_var,glob_compl_var)
+
+            glob_cluster = glob_data[glob_cluster_idx]
+            glob_tot = glob_cluster.sum()
             alpha,beta,r_val,p_val,std_err = linregress(gr,glob_tot)
-            r_sq.append(gr.corr(glob_tot)**2)
-        p.plot(corrs,r_sq)
+            #print "alpha %f, beta %f" % (alpha,beta)
+            vals = alpha*gr
+            vals = vals+beta
+            normed_vals = vals/vals.mean()
+            alpha,beta,r_val,p_val,std_err = linregress(gr,normed_vals)
+            alphas[db].append(alpha)
+            compl = vals-1
+            normed_compl = compl/compl.mean()
+            scaled = glob_tot
+            normed_scaled = scaled/scaled.mean()
+            compl_scaled = scaled-1
+            normed_compl_scaled = compl_scaled/compl_scaled.mean()
+
+            glob_response = glob_cluster.copy()
+            glob_scaled = glob_cluster.copy()
+            means = tot_means[glob_cluster_idx]
+            for col in glob_response.columns:
+                glob_response[col]=means * normed_vals[col]
+                glob_scaled[col]=means * normed_scaled[col]
+            glob_cluster_response_diff = glob_cluster-glob_response
+            glob_cluster_scaled_diff = glob_cluster-glob_scaled
+            remaining_var = glob_cluster_response_diff **2
+            remaining_var = remaining_var.sum().sum()
+            remaining_scaled = glob_cluster_scaled_diff **2
+            remaining_scaled = remaining_scaled.sum().sum()
+
+            glob_compl = glob_data[glob_compl_idx]
+            glob_compl_response = glob_compl.copy()
+            glob_compl_scaled = glob_compl.copy()
+            compl_means = tot_means[glob_compl_idx]
+            for col in glob_compl_response.columns:
+                glob_compl_response[col]=compl_means * normed_compl[col]
+                glob_compl_scaled[col]=compl_means * normed_compl_scaled[col]
+            glob_compl_response_diff = glob_compl-glob_compl_response
+            glob_compl_scaled_diff = glob_compl-glob_compl_scaled
+            remaining_compl_var = glob_compl_response_diff **2
+            remaining_compl_var = remaining_compl_var.sum().sum()
+            remaining_compl_scaled_var = glob_compl_scaled_diff **2
+            remaining_compl_scaled_var = remaining_compl_scaled_var.sum().sum()
+
+            explained_var = (glob_var-remaining_var)/glob_var
+            explained_compl_var = (glob_compl_var-remaining_compl_var)/glob_compl_var
+            explained_tot_frac = (glob_var-remaining_var)/tot_var
+            explained_compl_tot_frac = (glob_compl_var-remaining_compl_var)/tot_var
+            explained_tot_compl = ((glob_var-remaining_var)+(glob_compl_var-remaining_compl_var))/tot_var
+            explained_scaled_var = ((glob_var-remaining_scaled)+(glob_compl_var-remaining_compl_scaled_var))/tot_var
+
+            explained_glob.append(explained_var)
+            explained_compl_glob.append(explained_compl_var)
+            explained_tot.append(explained_tot_frac)
+            explained_compl_tot.append(explained_compl_tot_frac)
+            explained_normed.append(explained_tot_compl)
+            explained_scaled.append(explained_scaled_var)
+
+        p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
+        p.plot(corrs,explained_tot,markersize=1,label='Explained variability fraction of total data')
+        p.plot(corrs,explained_compl_glob,markersize=1,label='Explained complementary variability fraction of global cluster')
+        p.plot(corrs,explained_compl_tot,markersize=1,label='Explained complementary variability fraction of total data')
+        p.plot(corrs,explained_normed,markersize=1,label='Explained variability fraction when normalizing')
+        p.plot(corrs,explained_scaled,markersize=1,label='Explained variability fraction when scaling')
+        p.set_ylabel('Explained fraction of variability', fontsize=8)
+        p.set_xlabel('global cluster correlation threshold', fontsize=8)
+        p.set_ylim(0,1)
+        p.tick_params(axis='both', which='major', labelsize=6)
+        p.tick_params(axis='both', which='minor', labelsize=6)
+        p.axhline(xmin=0,xmax=1,y=0.5,ls='--',color='black',lw=0.5)
+        p.legend(loc=2,prop={'size':6})
         p.set_title(db)
 
-    savefig('thresholdRsqrelation.pdf')
-    savefig('thresholdRsqrelation.png')
+    tight_layout()
+    savefig('ExpVar2.pdf')
+    savefig('ExpVar2.png')
 
-# calculate variability explained in proteome, take 1 (1 free parameter - selection of global cluster and scaling accordingly.
-# calculate variability explained in global cluster, take 2 (1 free parameter - selection of global cluster and measurement of resulting variability reduction.
-figure(figsize=(5,3))
-p1=subplot(121)
-p2=subplot(122)
-plots = {'Valgepea':p1,'Heinemman':p2}
-coli_data = {'Valgepea':ecoli_data_v,'Heinemman':ecoli_data_h}
-grs = {'Valgepea':gr_v,'Heinemman':gr_h}
-for db in ['Valgepea','Heinemman']:
-    p=plots[db]
-    gr = grs[db]
-    conds = cond_list_dict[db]
-    glob_conc = coli_data[db]
-    glob_data = glob_conc[conds]
-    tot_means = glob_data.mean(axis=1)
-    tot_moved = glob_data.copy()
-    for col in tot_moved.columns:
-        tot_moved[col]=tot_moved[col]-tot_means
-    tot_var = tot_moved **2
-    tot_var = tot_var.sum()
-    tot_var = tot_var.sum()
-    print "tot_var is"
-    print tot_var
-    explained_glob = []
-    explained_tot = []
-    explained_normed = []
-    explained_scaled = []
-    for threshold in corrs:
-        #print "threshold is %f" % threshold
-        glob_cluster_idx = glob_conc['gr_cov']>threshold
-        glob_compl_idx = glob_conc['gr_cov']<threshold
-        glob_cluster_moved = tot_moved[glob_cluster_idx]
-        glob_var = glob_cluster_moved ** 2
-        glob_var = glob_var.sum().sum()
-        glob_compl_moved = tot_moved[glob_compl_idx]
-        glob_compl_var = glob_compl_moved ** 2
-        glob_compl_var = glob_compl_var.sum().sum()
-        #print "global cluster contains %d proteins and its variability is %f, compl variability is %f" % (len(glob_cluster_moved),glob_var,glob_compl_var)
+    figure(figsize=(5,3))
+    p=subplot(111)
+    ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
+    for db in dbs:
+        p = ps[db]
+        p.plot(corrs,alphas[db])
+        p.set_title(db)
+        p.tick_params(axis='both', which='major', labelsize=6)
+        p.tick_params(axis='both', which='minor', labelsize=6)
+        p.set_ylim(0,2)
+    tight_layout()
+    savefig('ThresholdSlopes.pdf')
+    savefig('ThresholdSlopes.png')
 
-        glob_cluster = glob_data[glob_cluster_idx]
-        glob_tot = glob_cluster.sum()
-        alpha,beta,r_val,p_val,std_err = linregress(gr,glob_tot)
-        #print "alpha %f, beta %f" % (alpha,beta)
-        vals = alpha*gr
-        vals = vals+beta
-        normed_vals = vals/vals.mean()
-        compl = vals-1
-        normed_compl = compl/compl.mean()
-        scaled = glob_tot
-        normed_scaled = scaled/scaled.mean()
-        compl_scaled = scaled-1
-        normed_compl_scaled = compl_scaled/compl_scaled.mean()
-
-        glob_response = glob_cluster.copy()
-        glob_scaled = glob_cluster.copy()
-        means = tot_means[glob_cluster_idx]
-        for col in glob_response.columns:
-            glob_response[col]=means * normed_vals[col]
-            glob_scaled[col]=means * normed_scaled[col]
-        glob_cluster_response_diff = glob_cluster-glob_response
-        glob_cluster_scaled_diff = glob_cluster-glob_scaled
-        remaining_var = glob_cluster_response_diff **2
-        remaining_var = remaining_var.sum().sum()
-        remaining_scaled = glob_cluster_scaled_diff **2
-        remaining_scaled = remaining_scaled.sum().sum()
-
-        glob_compl = glob_data[glob_compl_idx]
-        glob_compl_response = glob_compl.copy()
-        glob_compl_scaled = glob_compl.copy()
-        compl_means = tot_means[glob_compl_idx]
-        for col in glob_compl_response.columns:
-            glob_compl_response[col]=compl_means * normed_compl[col]
-            glob_compl_scaled[col]=compl_means * normed_compl_scaled[col]
-        glob_compl_response_diff = glob_compl-glob_compl_response
-        glob_compl_scaled_diff = glob_compl-glob_compl_scaled
-        remaining_compl_var = glob_compl_response_diff **2
-        remaining_compl_var = remaining_compl_var.sum().sum()
-        remaining_compl_scaled_var = glob_compl_scaled_diff **2
-        remaining_compl_scaled_var = remaining_compl_scaled_var.sum().sum()
-
-        explained_var = (glob_var-remaining_var)/glob_var
-        explained_tot_frac = (glob_var-remaining_var)/tot_var
-        explained_tot_compl = ((glob_var-remaining_var)+(glob_compl_var-remaining_compl_var))/tot_var
-        explained_scaled_var = ((glob_var-remaining_scaled)+(glob_compl_var-remaining_compl_scaled_var))/tot_var
-
-        explained_glob.append(explained_var)
-        explained_tot.append(explained_tot_frac)
-        explained_normed.append(explained_tot_compl)
-        explained_scaled.append(explained_scaled_var)
-        
-    p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
-    p.plot(corrs,explained_tot,markersize=1,label='Explained variability fraction of total data')
-    p.plot(corrs,explained_normed,markersize=1,label='Explained variability fraction when normalizing')
-    p.plot(corrs,explained_scaled,markersize=1,label='Explained variability fraction when scaling')
-    p.set_ylabel('Explained fraction of variability', fontsize=8)
-    p.set_xlabel('global cluster correlation threshold', fontsize=8)
-    p.tick_params(axis='both', which='major', labelsize=6)
-    p.tick_params(axis='both', which='minor', labelsize=6)
-    p.axhline(xmin=0,xmax=1,y=0.5,ls='--',color='black',lw=0.5)
-    p.legend(loc=2,prop={'size':6})
-    p.set_title(db)
-
-tight_layout()
-savefig('ExpVar2.pdf')
-savefig('ExpVar2.png')
-
-# compare to variability of modified proteome, where all proteins in global cluster are scaled(how) according to calculated fit, then calculating variability as above.
-
-
-#Demonstrate predictive power of model by showing 3 normalized genes + trendline and how an unrelated gene "fits" the same line.
-
-#For ron today - 6 panel graph - avg. exp. vs norm. slope, slope vs. r^2. non-global cluster avg. exp. vs. slope.
+#6 panel graph - avg. exp. vs norm. slope, slope vs. r^2. non-global cluster avg. exp. vs. slope.
 def plotMultiStats():
     figure(figsize=(5,3))
     p1=subplot(231)
@@ -607,6 +520,30 @@ def plotComulativeGraph():
     savefig('DistStatsHein.pdf')
     savefig('DistStatsHein.png')
 
+#plot the graphs for the 10 highest abundance proteins with their descriptions.
+def plotHighAbundance():
+    figure(figsize=(5,3))
+    ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
+    for db in dbs:
+        p = ps[db]
+        conds = cond_lists[db]
+        coli_data = coli_datas[db].copy()
+        gr = grs[db]
+        gr = gr[conds]
+        coli_data['avg']=coli_data[conds].mean(axis=1)
+        coli_data = coli_data.sort('avg',ascending=False)
+        coli_data_conds = coli_data[conds]
+        coli_data_conds = coli_data_conds.head(7)
+        for i in coli_data_conds.index:
+            desc = coli_data.ix[i]
+            desc = desc['func']+': ' + desc['prot']
+            p.plot(gr.values,coli_data_conds.ix[i].values,label=('%s' % desc))
+        p.legend(loc=2, prop={'size':6},numpoints=1)
+        p.set_ylim(0,0.1)
+    tight_layout()
+    savefig('highest.pdf')
+
+
 #randomly select a few proteins and plot their prediction vs the actual concentration of a different protein in the HC prots.
 
 def plotPrediction():
@@ -646,7 +583,6 @@ def plotPrediction():
         tight_layout()    
         savefig('RandEstimate%s.pdf' % db)
         savefig('RandEstimate%s.png' % db)
-plotPrediction()        
 
 #refactor all graphs to use for db in ['val','hein'].
 # k-means
@@ -658,3 +594,11 @@ plotPrediction()
 #coli_data = coli_data[conds]
 #coli_data = coli_data/coli_data.mean(axis=1)
 
+#plotCorrelationHistograms()
+#plotGlobalResponse()
+#plotMultiStats()
+#plotComulativeGraph()
+#plotHighAbundance()
+#plotPrediction()        
+#plotThresholdSlopes
+variabilityAndGlobClustSlopes()
