@@ -94,6 +94,7 @@ def plotGlobalResponse():
         coli_data = coli_datas[db]
         glob = get_glob(db,coli_data)
         gr = grs[db]
+        #gr = gr[conds]
 
         print "%s global cluster is %d out of %d measured proteins" % (db, len(glob),len(coli_data[coli_data['gr_cov']>-1.]))
 
@@ -102,8 +103,8 @@ def plotGlobalResponse():
 
         print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
         print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
-        plot(gr.values,glob.values,'o',label="%s et. al" % db,color=colors[db])
-        plot(gr.values,alpha*gr.values+beta,color=colors[db],label=("%s Trend,$R^2$=%.2f" % (db,gr.corr(glob)**2)))
+        plot(gr.values,glob_tot.values,'o',label="%s et. al" % db,color=colors[db])
+        plot(gr.values,alpha*gr.values+beta,color=colors[db],label=("%s Trend,$R^2$=%.2f" % (db,gr.corr(glob_tot)**2)))
 
     xlim(xmin=0.)
     ylim(ymin=0.)
@@ -160,8 +161,8 @@ def plot_response_hist(db,df,gr,p):
     #print "for db %s, plotted slopes histogram includes %d proteins" % (db,len(glob_conc))
     avg = glob_conc['alpha'].mean()
     std_err = glob_conc['std_err'].mean()
-    glob_conc_no_ribs = glob_conc[glob_conc['func'] != 'Ribosome']
-    ribs = glob_conc[glob_conc['func'] == 'Ribosome']
+    glob_conc_no_ribs = glob_conc[glob_conc['prot'] != 'Ribosome']
+    ribs = glob_conc[glob_conc['prot'] == 'Ribosome']
     p.hist([glob_conc_no_ribs['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['HC-proteins','Ribosomal proteins'])
     p.plot(xs,stats.t.pdf(xs,df=len(cond_list_dict[db])-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.1)
     p.set_xlim(-1.7,1.7)
@@ -497,6 +498,7 @@ def plotComulativeGraph():
     figure(figsize=(5,3))
     p1 = subplot(121)
     p2 = subplot(122)
+    conds = cond_lists['Heinemman']
     avgs = sorted(ecoli_data_h[conds].mean(axis=1).values)
 
     p1.plot(avgs,cumsum(avgs),'.',markersize=0.5)
@@ -594,11 +596,11 @@ def plotPrediction():
 #coli_data = coli_data[conds]
 #coli_data = coli_data/coli_data.mean(axis=1)
 
-#plotCorrelationHistograms()
-#plotGlobalResponse()
-#plotMultiStats()
-#plotComulativeGraph()
-#plotHighAbundance()
-#plotPrediction()        
-#plotThresholdSlopes
+plotCorrelationHistograms()
+plotGlobalResponse()
+plotMultiStats()
+plotComulativeGraph()
+plotHighAbundance()
+plotPrediction()        
+#plotThresholdSlopes()
 variabilityAndGlobClustSlopes()
