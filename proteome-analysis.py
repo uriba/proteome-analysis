@@ -430,6 +430,138 @@ def variabilityAndGlobClustSlopes():
     savefig('ThresholdSlopes.pdf')
     savefig('ThresholdSlopes.png')
 
+def variabilityAndGlobClustSlopesNormed():
+    figure(figsize=(5,3))
+    ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
+    coli_data = {'Valgepea':ecoli_data_v,'Heinemman':ecoli_data_h}
+    grs = {'Valgepea':gr_v,'Heinemman':gr_h}
+    alphas = {'Valgepea':[],'Heinemman':[]}
+    for db in ['Valgepea','Heinemman']:
+        p=ps[db]
+        gr = grs[db]
+        conds = cond_list_dict[db]
+        glob_conc = coli_data[db]
+        means = glob_conc[conds].mean(axis=1)
+        for cond in conds:
+            glob_conc[cond] = glob_conc[cond]/means
+        glob_data = glob_conc[conds]
+        tot_means = glob_data.mean(axis=1)
+        tot_moved = glob_data.copy()
+        for col in tot_moved.columns:
+            tot_moved[col]=tot_moved[col]-tot_means
+        tot_var = tot_moved **2
+        tot_var = tot_var.sum()
+        tot_var = tot_var.sum()
+        print "tot_var is"
+        print tot_var
+        explained_glob = []
+        explained_tot = []
+        explained_compl_glob = []
+        explained_compl_tot = []
+        explained_normed = []
+        explained_scaled = []
+        for threshold in corrs:
+            #print "threshold is %f" % threshold
+            glob_cluster_idx = glob_conc['gr_cov']>threshold
+            glob_compl_idx = glob_conc['gr_cov']<threshold
+            glob_cluster_moved = tot_moved[glob_cluster_idx]
+            glob_var = glob_cluster_moved ** 2
+            glob_var = glob_var.sum().sum()
+            glob_compl_moved = tot_moved[glob_compl_idx]
+            glob_compl_var = glob_compl_moved ** 2
+            glob_compl_var = glob_compl_var.sum().sum()
+            #print "global cluster contains %d proteins and its variability is %f, compl variability is %f" % (len(glob_cluster_moved),glob_var,glob_compl_var)
+
+            glob_cluster = glob_data[glob_cluster_idx]
+            glob_tot = glob_cluster.sum()
+            alpha,beta,r_val,p_val,std_err = linregress(gr,glob_tot)
+            #print "alpha %f, beta %f" % (alpha,beta)
+            vals = alpha*gr
+            vals = vals+beta
+            normed_vals = vals/vals.mean()
+            alpha,beta,r_val,p_val,std_err = linregress(gr,normed_vals)
+            alphas[db].append(alpha)
+            compl = vals-glob_data.sum()
+            normed_compl = compl/compl.mean()
+            scaled = glob_tot
+            normed_scaled = scaled/scaled.mean()
+            compl_scaled = scaled-1
+            normed_compl_scaled = compl_scaled/compl_scaled.mean()
+
+            glob_response = glob_cluster.copy()
+            glob_scaled = glob_cluster.copy()
+            means = tot_means[glob_cluster_idx]
+            for col in glob_response.columns:
+                glob_response[col]=means * normed_vals[col]
+                glob_scaled[col]=means * normed_scaled[col]
+            glob_cluster_response_diff = glob_cluster-glob_response
+            glob_cluster_scaled_diff = glob_cluster-glob_scaled
+            remaining_var = glob_cluster_response_diff **2
+            remaining_var = remaining_var.sum().sum()
+            remaining_scaled = glob_cluster_scaled_diff **2
+            remaining_scaled = remaining_scaled.sum().sum()
+
+            glob_compl = glob_data[glob_compl_idx]
+            glob_compl_response = glob_compl.copy()
+            glob_compl_scaled = glob_compl.copy()
+            compl_means = tot_means[glob_compl_idx]
+            for col in glob_compl_response.columns:
+                glob_compl_response[col]=compl_means * normed_compl[col]
+                glob_compl_scaled[col]=compl_means * normed_compl_scaled[col]
+            glob_compl_response_diff = glob_compl-glob_compl_response
+            glob_compl_scaled_diff = glob_compl-glob_compl_scaled
+            remaining_compl_var = glob_compl_response_diff **2
+            remaining_compl_var = remaining_compl_var.sum().sum()
+            remaining_compl_scaled_var = glob_compl_scaled_diff **2
+            remaining_compl_scaled_var = remaining_compl_scaled_var.sum().sum()
+
+            explained_var = (glob_var-remaining_var)/glob_var
+            explained_compl_var = (glob_compl_var-remaining_compl_var)/glob_compl_var
+            explained_tot_frac = (glob_var-remaining_var)/tot_var
+            explained_compl_tot_frac = (glob_compl_var-remaining_compl_var)/tot_var
+            explained_tot_compl = ((glob_var-remaining_var)+(glob_compl_var-remaining_compl_var))/tot_var
+            explained_scaled_var = ((glob_var-remaining_scaled)+(glob_compl_var-remaining_compl_scaled_var))/tot_var
+
+            explained_glob.append(explained_var)
+            explained_compl_glob.append(explained_compl_var)
+            explained_tot.append(explained_tot_frac)
+            explained_compl_tot.append(explained_compl_tot_frac)
+            explained_normed.append(explained_tot_compl)
+            explained_scaled.append(explained_scaled_var)
+
+        p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
+        p.plot(corrs,explained_tot,markersize=1,label='Explained variability fraction of total data')
+        p.plot(corrs,explained_compl_glob,markersize=1,label='Explained complementary variability fraction of global cluster')
+        p.plot(corrs,explained_compl_tot,markersize=1,label='Explained complementary variability fraction of total data')
+        p.plot(corrs,explained_normed,markersize=1,label='Explained variability fraction when normalizing')
+        p.plot(corrs,explained_scaled,markersize=1,label='Explained variability fraction when scaling')
+        p.set_ylabel('Explained fraction of variability', fontsize=8)
+        p.set_xlabel('global cluster correlation threshold', fontsize=8)
+        p.set_ylim(0,1)
+        p.tick_params(axis='both', which='major', labelsize=6)
+        p.tick_params(axis='both', which='minor', labelsize=6)
+        p.axhline(xmin=0,xmax=1,y=0.5,ls='--',color='black',lw=0.5)
+        p.legend(loc=2,prop={'size':6})
+        p.set_title(db)
+
+    tight_layout()
+    savefig('ExpVar3.pdf')
+    savefig('ExpVar3.png')
+
+    figure(figsize=(5,3))
+    p=subplot(111)
+    ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
+    for db in dbs:
+        p = ps[db]
+        p.plot(corrs,alphas[db])
+        p.set_title(db)
+        p.tick_params(axis='both', which='major', labelsize=6)
+        p.tick_params(axis='both', which='minor', labelsize=6)
+        p.set_ylim(0,2)
+    tight_layout()
+    savefig('ThresholdSlopes2.pdf')
+    savefig('ThresholdSlopes2.png')
+
 #6 panel graph - avg. exp. vs norm. slope, slope vs. r^2. non-global cluster avg. exp. vs. slope.
 def plotMultiStats():
     figure(figsize=(5,3))
@@ -604,3 +736,4 @@ plotHighAbundance()
 plotPrediction()        
 #plotThresholdSlopes()
 variabilityAndGlobClustSlopes()
+variabilityAndGlobClustSlopesNormed()
