@@ -9,7 +9,7 @@ from numpy.random import randn
 remove_unmapped = False
 just_ribosomes = False
 use_LB = False
-id_col_dict = { 'Valgepea':'ko_num', 'Heinemman':u'UP_AC' }
+id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC' }
 db_used = 'Valgepea'
 avg_conc_threshold = 0.00001
 
@@ -105,7 +105,7 @@ def uniprot_to_offset():
 
 # Define the list of conditions that will be relevant for the analysis, (and the description column), the growth rates and the cell volumes, according to the database used:
 cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
-                  'Heinemman':[
+                  'Heinemann':[
                       u'chemostat \u00b5=0.12', u'galactose',
                       u'chemostat \u00b5=0.20', u'acetate',
                       u'chemostat \u00b5=0.35', u'glucosamine',
@@ -113,18 +113,18 @@ cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
                       u'succinate', 
                       u'chemostat \u00b5=0.5',
                       u'anaerobic', u'glucose',],
-                  'Heinemman-chemo': [
+                  'Heinemann-chemo': [
                       u'chemostat \u00b5=0.12',
                       u'chemostat \u00b5=0.20',
                       u'chemostat \u00b5=0.35',
                       u'chemostat \u00b5=0.5']
                   }
 if use_LB:
-    cond_list_dict['Heinemman'].append(u'LB')
+    cond_list_dict['Heinemann'].append(u'LB')
 
 gr_dict = {'Valgepea':
     {u'11': 0.11, u'21':0.21, u'31':0.31, u'40':0.4, u'48':0.48},
-           'Heinemman':
+           'Heinemann':
     {u'chemostat \u00b5=0.12': 0.12, u'galactose':0.17, 
      u'chemostat \u00b5=0.20':0.2, u'acetate':0.29, 
      u'chemostat \u00b5=0.35':0.35, u'glucosamine':0.39, 
@@ -135,9 +135,9 @@ gr_dict = {'Valgepea':
 
 def get_coli_data(db_used,use_weight):
     cond_list = cond_list_dict[db_used]
-    if db_used == 'Heinemman-chemo':
-        db_used = 'Heinemman'
-    if db_used == 'Heinemman':
+    if db_used == 'Heinemann-chemo':
+        db_used = 'Heinemann'
+    if db_used == 'Heinemann':
         # As the file was exported from Excel, it uses Excel's encoding.
         ecoli_data = read_csv('coli_data.csv',header=1,encoding='iso-8859-1')
 
@@ -182,10 +182,10 @@ def get_coli_data(db_used,use_weight):
 def get_annotated_prots(db):
     coli_data = get_coli_data(db,use_weight=True)
     cond_list = cond_list_dict[db]
-    if db == 'Heinemman-chemo':
-        db = 'Heinemman'
+    if db == 'Heinemann-chemo':
+        db = 'Heinemann'
     #annotate coli_data according to db.
-    if db == 'Heinemman':
+    if db == 'Heinemann':
         ##uni_to_konum = uni_ko_dict()
         uniprot_to_locus = uni_to_locus()
         x=0
@@ -236,6 +236,6 @@ def calc_gr_corr(df,cond_list,gr):
     return df
 
 def add_loc_info(df):
-    if db_used == 'Heinemman':
+    if db_used == 'Heinemann':
         uni_to_loc = uniprot_to_offset()
         conc_data['loc']=conc_data.apply(lambda x: 0 if x[id_col_dict[db_used]] not in uni_to_loc else uni_to_loc[x[id_col_dict[db_used]]],axis=1)

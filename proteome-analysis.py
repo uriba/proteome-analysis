@@ -15,25 +15,25 @@ import random
 
 ### Results generation#####
 def get_limits(db):
-    if db == 'Heinemman' and not use_LB:
+    if db == 'Heinemann' and not use_LB:
         limits = (0.4,1.)
-    if db == 'Heinemman' and use_LB:
+    if db == 'Heinemann' and use_LB:
         limits = (0.6,1.)
     if db == 'Valgepea':
         limits = (0.8,1.)
-    if db == 'Heinemman-chemo':
+    if db == 'Heinemann-chemo':
         limits = (0.5,1.)
     return limits
 
 ### Figure 1 - Correlation to growth rate by functional group histogram.
 (cond_list_v,gr_v,ecoli_data_v) = get_annotated_prots('Valgepea')
-(cond_list_h,gr_h,ecoli_data_h) = get_annotated_prots('Heinemman')
+(cond_list_h,gr_h,ecoli_data_h) = get_annotated_prots('Heinemann')
 categories = set(ecoli_data_v['group'].values).union(set(ecoli_data_h['group'].values))
 
-dbs = ['Heinemman','Valgepea']
-cond_lists = {'Heinemman':cond_list_h,'Valgepea':cond_list_v}
-grs = {'Heinemman':gr_h,'Valgepea':gr_v}
-coli_datas = {'Heinemman':ecoli_data_h,'Valgepea':ecoli_data_v}
+dbs = ['Heinemann','Valgepea']
+cond_lists = {'Heinemann':cond_list_h,'Valgepea':cond_list_v}
+grs = {'Heinemann':gr_h,'Valgepea':gr_v}
+coli_datas = {'Heinemann':ecoli_data_h,'Valgepea':ecoli_data_v}
 
 for db in dbs:
     coli_datas[db]= calc_gr_corr(coli_datas[db],cond_lists[db],grs[db])
@@ -53,7 +53,7 @@ def writeCorrsHist(db):
         corr_means = tot_means[corred_idx]
         correlated = len(corr_means)
         func_stat.append(("{%s}" % func,tot,tot_means.sum()*100,correlated,corr_means.sum()*100))
-    with open('funcs.csv','wb') as csvfile:
+    with open('funcs%s.csv' % db,'wb') as csvfile:
         csvwriter = csv.writer(csvfile,delimiter=';')
         csvwriter.writerow(['Function','Number of proteins','totPrctP','Correlated proteins','corPrctP'])
         for row in func_stat:
@@ -92,15 +92,15 @@ def plotCorrelationHistograms():
     figure(figsize=(5,3))
 
     p=subplot(111)
-    ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
-    coords = {'Heinemman':0.03,'Valgepea':0.65}
+    ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
+    coords = {'Heinemann':0.03,'Valgepea':0.65}
 
     for db in dbs:
         plot_corr_hist(ps[db],db,coli_datas[db],categories)
         text(coords[db],0.8,"%s et. al." % db,fontsize=8,transform=p.transAxes)
 
     #assume both subplots have the same categories.
-    handles,labels=ps['Heinemman'].get_legend_handles_labels()
+    handles,labels=ps['Heinemann'].get_legend_handles_labels()
 
     figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
 
@@ -112,7 +112,7 @@ def plotCorrelationHistograms():
 def plotGlobalResponse():
     figure(figsize=(5,3))
 
-    colors = {'Heinemman':'blue','Valgepea':'green'}
+    colors = {'Heinemann':'blue','Valgepea':'green'}
 
     for db in dbs:
         conds = cond_lists[db]
@@ -203,8 +203,8 @@ def plot_response_hist(db,df,gr,p):
 figure(figsize=(5,3))
 
 p=subplot(111)
-ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
-coords = {'Heinemman':-0.01,'Valgepea':0.62}
+ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
+coords = {'Heinemann':-0.01,'Valgepea':0.62}
 for db in dbs:
     plot_response_hist(db,coli_datas[db],grs[db],ps[db])
     text(coords[db],0.9,"%s et. al" % db,fontsize=8,transform=p.transAxes)
@@ -239,8 +239,8 @@ savefig('AllProtsVSRibosomalNormalizedSlopes.png')
 
 #savefig('vhcorrcomp.pdf')
 
-# plot Heinemman data only for chemostat conditions.
-db = 'Heinemman-chemo'
+# plot Heinemann data only for chemostat conditions.
+db = 'Heinemann-chemo'
 figure(figsize=(5,3))
 (cond_list,gr_chemo,ecoli_data_chemo) = get_annotated_prots(db)
 ecoli_data_chemo = calc_gr_corr(ecoli_data_chemo,cond_list,gr_chemo)
@@ -280,8 +280,8 @@ p2.tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
 
 subplots_adjust(top=0.83)
-savefig('HeinemmanChemostatGr.pdf')
-savefig('HeinemmanChemostatGr.png')
+savefig('HeinemannChemostatGr.pdf')
+savefig('HeinemannChemostatGr.png')
 
 # plot slopes distribution for highly negatively correlated proteins from Valgepea dataset and sum of concentrations
 #figure(figsize=(5,3))
@@ -359,11 +359,11 @@ def calc_explained_var(df,gr):
 
 def variabilityAndGlobClustSlopes():
     figure(figsize=(5,3))
-    ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
-    coli_data = {'Valgepea':ecoli_data_v,'Heinemman':ecoli_data_h}
-    grs = {'Valgepea':gr_v,'Heinemman':gr_h}
-    alphas = {'Valgepea':[],'Heinemman':[]}
-    for db in ['Valgepea','Heinemman']:
+    ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
+    coli_data = {'Valgepea':ecoli_data_v,'Heinemann':ecoli_data_h}
+    grs = {'Valgepea':gr_v,'Heinemann':gr_h}
+    alphas = {'Valgepea':[],'Heinemann':[]}
+    for db in ['Valgepea','Heinemann']:
         p=ps[db]
         conds = cond_list_dict[db]
         gr = grs[db]
@@ -419,7 +419,7 @@ def variabilityAndGlobClustSlopes():
 
     figure(figsize=(5,3))
     p=subplot(111)
-    ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
+    ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
     for db in dbs:
         p = ps[db]
         p.plot(corrs,alphas[db])
@@ -433,11 +433,11 @@ def variabilityAndGlobClustSlopes():
 
 def variabilityAndGlobClustSlopesNormed():
     figure(figsize=(5,3))
-    ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
-    coli_data = {'Valgepea':ecoli_data_v,'Heinemman':ecoli_data_h}
-    grs = {'Valgepea':gr_v,'Heinemman':gr_h}
-    alphas = {'Valgepea':[],'Heinemman':[]}
-    for db in ['Valgepea','Heinemman']:
+    ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
+    coli_data = {'Valgepea':ecoli_data_v,'Heinemann':ecoli_data_h}
+    grs = {'Valgepea':gr_v,'Heinemann':gr_h}
+    alphas = {'Valgepea':[],'Heinemann':[]}
+    for db in ['Valgepea','Heinemann']:
         p=ps[db]
         conds = cond_list_dict[db]
         gr = grs[db]
@@ -497,7 +497,7 @@ def variabilityAndGlobClustSlopesNormed():
 
     figure(figsize=(5,3))
     p=subplot(111)
-    ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
+    ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
     for db in dbs:
         p = ps[db]
         p.plot(corrs,alphas[db])
@@ -522,7 +522,7 @@ def plotMultiStats():
 
     glob_conc = ecoli_data_h
     gr=gr_h
-    conds = cond_list_dict['Heinemman']
+    conds = cond_list_dict['Heinemann']
 
     p1.plot(glob_conc[conds].mean(axis=1), glob_conc['rsq'],'.', markersize=1)
     p1.set_xlabel('Average concentraion', fontsize=6)
@@ -539,8 +539,8 @@ def plotMultiStats():
     p2.tick_params(axis='both', which='minor', labelsize=6)
 
     glob_conc = glob_conc[glob_conc['gr_cov']>0.4]
-    glob_conc = set_alpha('Heinemman',glob_conc,gr)
-    glob_conc = set_std_err('Heinemman',glob_conc,gr)
+    glob_conc = set_alpha('Heinemann',glob_conc,gr)
+    glob_conc = set_std_err('Heinemann',glob_conc,gr)
 
     p3.plot(glob_conc[conds].mean(axis=1), glob_conc['alpha'],'.', markersize=1)
     p3.set_xlabel('Average concentraion (HC prots)', fontsize=6)
@@ -578,7 +578,7 @@ def plotComulativeGraph():
     figure(figsize=(5,3))
     p1 = subplot(121)
     p2 = subplot(122)
-    conds = cond_lists['Heinemman']
+    conds = cond_lists['Heinemann']
     avgs = sorted(ecoli_data_h[conds].mean(axis=1).values)
 
     p1.plot(avgs,cumsum(avgs),'.',markersize=0.5)
@@ -605,7 +605,7 @@ def plotComulativeGraph():
 #plot the graphs for the 10 highest abundance proteins with their descriptions.
 def plotHighAbundance():
     figure(figsize=(5,3))
-    ps = {'Heinemman':subplot(121),'Valgepea':subplot(122)}
+    ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
     for db in dbs:
         p = ps[db]
         conds = cond_lists[db]
@@ -672,7 +672,7 @@ def plotPrediction():
 #p=subplot(111)
 #coli_data = ecoli_data_h.copy()
 #gr = gr_h
-#conds = cond_list_dict['Heinemman']
+#conds = cond_list_dict['Heinemann']
 #coli_data = coli_data[conds]
 #coli_data = coli_data/coli_data.mean(axis=1)
 

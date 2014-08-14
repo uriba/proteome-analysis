@@ -72,7 +72,7 @@ A histogram of the distribution of the correlations is shown in Figure \ref{fig:
 We find that $\approx 1/3$ of the proteins ($724$ out of $1654$ measured in the data set from [ref Heinemann], hereafter referred to as H, and $296$ out of $919$ in the data set from \cite{Valgepea2013}, hereafter referred to as V) are strongly positively correlated with the growth rate, where a strong correlation with growth rate was defined as a correlation of $R\geq 0.8$ for the V data set, and $R\geq 0.4$ for the H data set.
 The thresholds for defining strong correlation with growth rate are the ones maximizing the explained variability in the data (See \ref{corrthreshold} for exact definition and calculation used).
 For further comparison and analysis of the causes underlying the differences between the two data sets as reflected in Figure \ref{fig:growthcorr} see section \ref{heinemannchemo}
-Notably, in both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups (See table in \ref{tab:corrbreakdown})
+Notably, in both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups (See tables \ref{tab:corrbreakdownh} and \ref{tab:corrbreakdownv})
 Previous studies already found that ribosomal proteins are strongly positively correlated with growth rate (refs).
 However, we find that the strongly positively correlated with growth rate group of proteins includes more proteins than the 56 ribosomal proteins, the vast majority of which we also find to be strongly correlated with the growth rate.
 Specifically, the proteins that we find to be strongly positively correlated with growth rate are not generally expected to be co-regulated.
@@ -373,7 +373,7 @@ Moreover, one can consider specific protein mass or molecule count per cell, thu
 Our analysis focused on the relations between different proteins and resource distribution inside the proteome, and thus avoided such metrics.
 \emph{ToDo - should we justify omitting such analysis?}
 \section{Acknowledgments}
-(preliminary list) Matthias Heinemann, Stephan Klumpp, 
+(preliminary list) Matthias Heinemann, Stephan Klumpp, Avi Flamholz
 \section{Supplementary figures and data}
 \subsection{Threshold selection for defining strong correlation with growth rate}
 \label{corrthreshold}
@@ -424,16 +424,35 @@ Therefore, and as it is known that ribosomes can operate even in the absence of 
 Proteins with unknown function (present in Figure \ref{fig:growthcorr}, in the Heinemann data set, right panel) show less correlation with growth rate, as well as proteins with low levels of expression (data not shown).
 
 \subsection{Breakdown by function of proteins strongly correlated with growth rate}
-\label{tab:corrbreakdown}
-{\hspace*{-4.5cm}
-%\resizebox{\paperwidth}{!}{
+\begin{table}[h]
+\centering
+%{\hspace*{-4.5cm}
+\resizebox{\textwidth}{!}{
 \pgfplotstabletypeset[
 col sep=semicolon,
 columns/Function/.style={string type,column type=l},
 columns/totPrctP/.style={column name={$\%$ of proteome}},
 columns/corPrctP/.style={column name={Correlated $\%$ of proteome}},
-]{funcs.csv}
+]{funcsHeinemann.csv}
+\label{tab:corrbreakdownh}
 }
+\caption{Breakdown by function of the strongly correlated with growth rate proteins in the Heinemann data set.}
+\end{table}
+
+\begin{table}[h]
+\centering
+%{\hspace*{-4.5cm}
+\resizebox{\textwidth}{!}{
+\pgfplotstabletypeset[
+col sep=semicolon,
+columns/Function/.style={string type,column type=l},
+columns/totPrctP/.style={column name={$\%$ of proteome}},
+columns/corPrctP/.style={column name={Correlated $\%$ of proteome}},
+]{funcsValgepea.csv}
+\label{tab:corrbreakdownv}
+}
+\caption{Breakdown by function of the strongly correlated with growth rate proteins in the Valgepea data set.}
+\end{table}
 
 \printbibliography
 \end{document}
