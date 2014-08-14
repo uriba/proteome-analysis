@@ -3,6 +3,8 @@
 \usepackage[citestyle=numeric,backend=bibtex]{biblatex}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{verbatim}
+\usepackage{pgfplotstable}
+
 \bibliography{library}
 
 \title{Increased concentration of proteins with growth rate can result from passive resource redistribution}
@@ -70,7 +72,7 @@ A histogram of the distribution of the correlations is shown in Figure \ref{fig:
 We find that $\approx 1/3$ of the proteins ($724$ out of $1654$ measured in the data set from [ref Heinemann], hereafter referred to as H, and $296$ out of $919$ in the data set from \cite{Valgepea2013}, hereafter referred to as V) are strongly positively correlated with the growth rate, where a strong correlation with growth rate was defined as a correlation of $R\geq 0.8$ for the V data set, and $R\geq 0.4$ for the H data set.
 The thresholds for defining strong correlation with growth rate are the ones maximizing the explained variability in the data (See \ref{corrthreshold} for exact definition and calculation used).
 For further comparison and analysis of the causes underlying the differences between the two data sets as reflected in Figure \ref{fig:growthcorr} see section \ref{heinemannchemo}
-Notably, in both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups \emph{ToDo refer to table with breakdown by function}.
+Notably, in both data sets, the proteins that have a high correlation with the growth rate are involved in different cellular functions and span different functional groups (See table in \ref{tab:corrbreakdown})
 Previous studies already found that ribosomal proteins are strongly positively correlated with growth rate (refs).
 However, we find that the strongly positively correlated with growth rate group of proteins includes more proteins than the 56 ribosomal proteins, the vast majority of which we also find to be strongly correlated with the growth rate.
 Specifically, the proteins that we find to be strongly positively correlated with growth rate are not generally expected to be co-regulated.
@@ -420,38 +422,18 @@ Therefore, and as it is known that ribosomes can operate even in the absence of 
 \end{figure}
 \subsection{Unannotated proteins in the Heinemann data set are less correlated with growth than annotated proteins}
 Proteins with unknown function (present in Figure \ref{fig:growthcorr}, in the Heinemann data set, right panel) show less correlation with growth rate, as well as proteins with low levels of expression (data not shown).
-\begin{comment}
-\begin{figure}[h]
-\centering
-\includegraphics{CoordinatedRSquareComparison.pdf}
-\caption{
-  Proteins in the global cluster fit reasonably well to the global cluster itself
-}
-\label{fig:globalfit}
-\end{figure}
 
-\begin{figure}[h]
-\centering
-\includegraphics{GlobalClusterCorr.pdf}
-\caption{
-Proteins that have a high correlation (0.4-0.8) with growth rate mostly have even higher correlation to the sum of these proteins (both weighted sum and normalized sum are presented).
-Weighted sum means the concentrations of all proteins in the group are summed.
-Normalized sum means every protein is first normalized to have an average concentration of 1 across the different growth conditions, and then all proteins in the group are summed.
-The higher correlation indicates that their response is coordinated (they scale by the same factor between conditions).
+\subsection{Breakdown by function of proteins strongly correlated with growth rate}
+\label{tab:corrbreakdown}
+{\hspace*{-4.5cm}
+%\resizebox{\paperwidth}{!}{
+\pgfplotstabletypeset[
+col sep=semicolon,
+columns/Function/.style={string type,column type=l},
+columns/totPrctP/.style={column name={$\%$ of proteome}},
+columns/corPrctP/.style={column name={Correlated $\%$ of proteome}},
+]{funcs.csv}
 }
-\label{globalcorr}
-\end{figure}
 
-\begin{figure}[h]
-\centering
-\includegraphics{GlobalClusterRSquare.pdf}
-\caption{
-Plotting the $r^2$ distribution shows that a large fraction of the variability of these proteins is captured by the global response.
-}
-\label{globalrsq}
-\end{figure}
-
-\end{comment}
 \printbibliography
 \end{document}
-%%% LaTeX-command: "pdflatex -enable-write18"

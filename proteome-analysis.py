@@ -38,6 +38,31 @@ coli_datas = {'Heinemman':ecoli_data_h,'Valgepea':ecoli_data_v}
 for db in dbs:
     coli_datas[db]= calc_gr_corr(coli_datas[db],cond_lists[db],grs[db])
 
+def writeCorrsHist(db):
+    conc_data = coli_datas[db]
+    conds = cond_lists[db]
+    limits = get_limits(db)
+    threshold = limits[0]
+    funcs = conc_data['func'].unique()
+    func_stat = []
+    for func in funcs:
+        conc_func = conc_data[conc_data['func']==func]
+        corred_idx = conc_func['gr_cov']>threshold
+        tot = len(conc_func)
+        tot_means = conc_func[conds].mean(axis=1)
+        corr_means = tot_means[corred_idx]
+        correlated = len(corr_means)
+        func_stat.append(("{%s}" % func,tot,tot_means.sum()*100,correlated,corr_means.sum()*100))
+    with open('funcs.csv','wb') as csvfile:
+        csvwriter = csv.writer(csvfile,delimiter=';')
+        csvwriter.writerow(['Function','Number of proteins','totPrctP','Correlated proteins','corPrctP'])
+        for row in func_stat:
+            csvwriter.writerow(row)
+
+def writeTables():
+    for db in dbs:
+        writeCorrsHist(db)
+
 categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes','NotMapped']
 
 def plot_corr_hist(p,db,conc_data,categories):
@@ -306,7 +331,7 @@ def calc_var(df):
     means = df.mean(axis=1)
     for col in df.columns:
         df[col]=df[col]-means
-    var = df **2
+    var = df**2
     var = var.sum().sum()
     return var
 
@@ -651,6 +676,7 @@ def plotPrediction():
 #coli_data = coli_data[conds]
 #coli_data = coli_data/coli_data.mean(axis=1)
 
+writeTables()
 plotCorrelationHistograms()
 plotGlobalResponse()
 plotMultiStats()
