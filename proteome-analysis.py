@@ -618,9 +618,9 @@ def plotHighAbundance():
         coli_data_conds = coli_data_conds.head(7)
         for i in coli_data_conds.index:
             desc = coli_data.ix[i]
-            desc = desc['func']+': ' + desc['prot']
+            desc = "%s: %s: %s" % (desc['func'],desc['prot'],desc['ID'])
             p.plot(gr.values,coli_data_conds.ix[i].values,label=('%s' % desc))
-        p.legend(loc=2, prop={'size':6},numpoints=1)
+        p.legend(loc=2, prop={'size':3},numpoints=1)
         p.set_ylim(0,0.1)
     tight_layout()
     savefig('highest.pdf')
@@ -666,22 +666,14 @@ def plotPrediction():
         savefig('RandEstimate%s.pdf' % db)
         savefig('RandEstimate%s.png' % db)
 
-#refactor all graphs to use for db in ['val','hein'].
 # k-means
-#figure(figsize=(5,3))
-#p=subplot(111)
-#coli_data = ecoli_data_h.copy()
-#gr = gr_h
-#conds = cond_list_dict['Heinemann']
-#coli_data = coli_data[conds]
-#coli_data = coli_data/coli_data.mean(axis=1)
 
 writeTables()
-plotCorrelationHistograms()
-plotGlobalResponse()
-plotMultiStats()
-plotComulativeGraph()
+#plotCorrelationHistograms()
+#plotGlobalResponse()
+#plotMultiStats()
+#plotComulativeGraph()
 plotHighAbundance()
-plotPrediction()        
-variabilityAndGlobClustSlopes()
-variabilityAndGlobClustSlopesNormed()
+#plotPrediction()        
+#variabilityAndGlobClustSlopes()
+#variabilityAndGlobClustSlopesNormed()

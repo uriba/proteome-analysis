@@ -173,7 +173,19 @@ def get_coli_data(db_used,use_weight):
 
     #Normalize to get concentrations 
     ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
-    #remove low abundance proteins
+    #remove irrelevant proteins
+    means = ecoli_data[cond_list].mean(axis=1)
+    ecoli_data = ecoli_data[means>0]
+    #analyze only middle half of proteins
+#    ecoli_data['means']=means
+#    ecoli_data = ecoli_data.sort('means',ascending=False)
+#    num = len(ecoli_data)
+#    print num
+#    print num/4
+#    ecoli_data = ecoli_data[:-num/4]
+#    ecoli_data = ecoli_data[num/4:]
+#    ecoli_data = ecoli_data.copy()
+    #remove scarce proteins
     ecoli_data = ecoli_data[ecoli_data[cond_list].mean(axis=1)>avg_conc_threshold]
     id_col = id_col_dict[db_used]
     ecoli_data[id_col] = ecoli_data[id_col].astype('string')
@@ -218,6 +230,7 @@ def get_annotated_prots(db):
     coli_data['group']=coli_data.apply(lambda x: 'NotMapped' if x[id_col] not in id_to_annot else (id_to_annot[x[id_col]])[0],axis=1)
     coli_data['func']=coli_data.apply(lambda x: 'NotMapped' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else (id_to_annot[x[id_col]])[1],axis=1)
     coli_data['prot']=coli_data.apply(lambda x: 'NotMapped' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else (id_to_annot[x[id_col]])[2],axis=1)
+    coli_data['ID']=coli_data.apply(lambda x: 'NotMapped' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else x[id_col],axis=1)
 
     if just_ribosomes:
         coli_data = coli_data[coli_data['func']=='Ribosome']
