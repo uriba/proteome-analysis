@@ -75,17 +75,17 @@ def writeTopProtsVar(db):
     high_abdc = conc_data.head(20)
     with open('varsOfAbdcs%s.csv' % db,'wb') as csvfile:
         csvwriter = csv.writer(csvfile,delimiter=';')
-        csvwriter.writerow(['Function','Sub Function','totPrctP','prctOfVar'])
+        csvwriter.writerow(['Function','Sub Function','Prot ID','totPrctP','prctOfVar'])
         for i,row in high_abdc.iterrows():
-            csvwriter.writerow((row['func'], row['prot'],row['avg']*100,row['vars']*100/tot_vars))
+            csvwriter.writerow((row['func'], row['prot'],row['Temp'],row['avg']*100,row['vars']*100/tot_vars))
 
     conc_data = conc_data.sort('vars',ascending=False)
     high_vars = conc_data.head(20)
     with open('varsOfVars%s.csv' % db,'wb') as csvfile:
         csvwriter = csv.writer(csvfile,delimiter=';')
-        csvwriter.writerow(['Function','Sub Function','totPrctP','prctOfVar'])
+        csvwriter.writerow(['Function','Sub Function','Prot ID','totPrctP','prctOfVar'])
         for i,row in high_vars.iterrows():
-            csvwriter.writerow((row['func'], row['prot'],row['avg']*100,row['vars']*100/tot_vars))
+            csvwriter.writerow((row['func'], row['prot'],row['Temp'],row['avg']*100,row['vars']*100/tot_vars))
 
 def writeTables():
     for db in dbs:

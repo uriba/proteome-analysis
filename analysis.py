@@ -231,6 +231,7 @@ def get_annotated_prots(db):
     coli_data['func']=coli_data.apply(lambda x: 'NotMapped' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else (id_to_annot[x[id_col]])[1],axis=1)
     coli_data['prot']=coli_data.apply(lambda x: 'NotMapped' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else (id_to_annot[x[id_col]])[2],axis=1)
     coli_data['ID']=coli_data.apply(lambda x: 'NotMapped' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else x[id_col],axis=1)
+    coli_data['Temp']=coli_data[id_col_dict[db]]
 
     if just_ribosomes:
         coli_data = coli_data[coli_data['func']=='Ribosome']
