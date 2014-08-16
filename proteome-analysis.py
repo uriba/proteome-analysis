@@ -40,7 +40,7 @@ for db in dbs:
     coli_data['avg']=coli_data[conds].mean(axis=1)
     coli_data= calc_gr_corr(coli_data,conds,grs[db])
 
-### Figure 1 - Correlation to growth rate by functional group histogram.
+#write tables data:
 def writeCorrsHist(db):
     conc_data = coli_datas[db]
     conds = cond_lists[db]
@@ -62,11 +62,37 @@ def writeCorrsHist(db):
         for row in func_stat:
             csvwriter.writerow(row)
 
+def writeTopProtsVar(db):
+    conc_data = coli_datas[db].copy()
+    conds = cond_lists[db]
+    for cond in conds:
+        conc_data[cond]=conc_data[cond]-conc_data['avg']
+    conc_data_vars = (conc_data[conds]**2).sum(axis=1)
+    conc_data['vars']=conc_data_vars
+    tot_vars = conc_data['vars'].sum()
+
+    conc_data = conc_data.sort('avg',ascending=False)
+    high_abdc = conc_data.head(20)
+    with open('varsOfAbdcs%s.csv' % db,'wb') as csvfile:
+        csvwriter = csv.writer(csvfile,delimiter=';')
+        csvwriter.writerow(['Function','Sub Function','totPrctP','prctOfVar'])
+        for i,row in high_abdc.iterrows():
+            csvwriter.writerow((row['func'], row['prot'],row['avg']*100,row['vars']*100/tot_vars))
+
+    conc_data = conc_data.sort('vars',ascending=False)
+    high_vars = conc_data.head(20)
+    with open('varsOfVars%s.csv' % db,'wb') as csvfile:
+        csvwriter = csv.writer(csvfile,delimiter=';')
+        csvwriter.writerow(['Function','Sub Function','totPrctP','prctOfVar'])
+        for i,row in high_vars.iterrows():
+            csvwriter.writerow((row['func'], row['prot'],row['avg']*100,row['vars']*100/tot_vars))
+
 def writeTables():
     for db in dbs:
         writeCorrsHist(db)
-        #writeTopProtsVar(db)
+        writeTopProtsVar(db)
 
+### Figure 1 - Correlation to growth rate by functional group histogram.
 categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes','NotMapped']
 
 def plot_corr_hist(p,db,conc_data,categories):
