@@ -5,7 +5,7 @@ from scipy.stats import gaussian_kde,linregress
 from scipy import stats
 from Bio import SeqIO
 from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,text,subplots
-from numpy import linspace,ndarray,arange,sum,square,array,cumsum
+from numpy import linspace,ndarray,arange,sum,square,array,cumsum,ones
 from numpy.random import randn
 from analysis import *
 import matplotlib
@@ -25,10 +25,9 @@ def get_limits(db):
         limits = (0.5,1.)
     return limits
 
-### Figure 1 - Correlation to growth rate by functional group histogram.
+#Initialize global data structures
 (cond_list_v,gr_v,ecoli_data_v) = get_annotated_prots('Valgepea')
 (cond_list_h,gr_h,ecoli_data_h) = get_annotated_prots('Heinemann')
-categories = set(ecoli_data_v['group'].values).union(set(ecoli_data_h['group'].values))
 
 dbs = ['Heinemann','Valgepea']
 cond_lists = {'Heinemann':cond_list_h,'Valgepea':cond_list_v}
@@ -36,8 +35,12 @@ grs = {'Heinemann':gr_h,'Valgepea':gr_v}
 coli_datas = {'Heinemann':ecoli_data_h,'Valgepea':ecoli_data_v}
 
 for db in dbs:
-    coli_datas[db]= calc_gr_corr(coli_datas[db],cond_lists[db],grs[db])
+    coli_data = coli_datas[db]
+    conds = cond_lists[db]
+    coli_data['avg']=coli_data[conds].mean(axis=1)
+    coli_data= calc_gr_corr(coli_data,conds,grs[db])
 
+### Figure 1 - Correlation to growth rate by functional group histogram.
 def writeCorrsHist(db):
     conc_data = coli_datas[db]
     conds = cond_lists[db]
@@ -49,7 +52,7 @@ def writeCorrsHist(db):
         conc_func = conc_data[conc_data['func']==func]
         corred_idx = conc_func['gr_cov']>threshold
         tot = len(conc_func)
-        tot_means = conc_func[conds].mean(axis=1)
+        tot_means = conc_func['avg']
         corr_means = tot_means[corred_idx]
         correlated = len(corr_means)
         func_stat.append(("{%s}" % func,tot,tot_means.sum()*100,correlated,corr_means.sum()*100))
@@ -62,6 +65,7 @@ def writeCorrsHist(db):
 def writeTables():
     for db in dbs:
         writeCorrsHist(db)
+        #writeTopProtsVar(db)
 
 categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes','NotMapped']
 
@@ -158,7 +162,7 @@ def conf_int_max(degfr,s):
     return  res[1]
 
 def set_std_err(db,df,gr):
-    cond_list = cond_list_dict[db]
+    cond_list = cond_lists[db]
     print "for db %s deg-free %d" %(db,len(cond_list)-2)
     df['std_err'] = df[cond_list].apply(lambda x: std_err_fit(gr[cond_list]/gr[cond_list].mean(),x/x.mean()),axis=1)
     
@@ -172,7 +176,7 @@ def get_glob(db,df):
     return df[df['gr_cov']>limits[0]]
  
 def set_alpha(db,df,gr):
-    cond_list = cond_list_dict[db]
+    cond_list = cond_lists[db]
     df['alpha'] = df[cond_list].apply(lambda x: linregress(gr[cond_list]/gr[cond_list].mean(),x/x.mean())[0],axis=1)
     return df
 
@@ -189,7 +193,7 @@ def plot_response_hist(db,df,gr,p):
     glob_conc_no_ribs = glob_conc[glob_conc['prot'] != 'Ribosome']
     ribs = glob_conc[glob_conc['prot'] == 'Ribosome']
     p.hist([glob_conc_no_ribs['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['HC-proteins','Ribosomal proteins'])
-    p.plot(xs,stats.t.pdf(xs,df=len(cond_list_dict[db])-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.1)
+    p.plot(xs,stats.t.pdf(xs,df=len(cond_lists[db])-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.1)
     p.set_xlim(-1.7,1.7)
     p.set_xlabel('Normalized slope',fontsize=8)
     p.set_ylabel('Number of proteins',fontsize=8)
@@ -244,8 +248,6 @@ db = 'Heinemann-chemo'
 figure(figsize=(5,3))
 (cond_list,gr_chemo,ecoli_data_chemo) = get_annotated_prots(db)
 ecoli_data_chemo = calc_gr_corr(ecoli_data_chemo,cond_list,gr_chemo)
-
-categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes','NotMapped']
 
 p1=subplot(121)
 p2=subplot(122)
@@ -326,19 +328,17 @@ corrs = linspace(-1,1,100)
 
 # calculate variability explained in proteome, take 1 (1 free parameter - selection of global cluster and scaling accordingly.
 # calculate variability explained in global cluster, take 2 (1 free parameter - selection of global cluster and measurement of resulting variability reduction.
-def calc_var(df):
+def calc_var(df,means):
     df = df.copy()
-    means = df.mean(axis=1)
     for col in df.columns:
         df[col]=df[col]-means
     var = df**2
     var = var.sum().sum()
     return var
 
-def calc_explained_var(df,gr):
-    tot_var = calc_var(df)
+def calc_explained_var(df,means,gr):
+    tot_var = calc_var(df,means)
     df = df.copy()
-    means = df.mean(axis=1)
     response = df.sum()
     scaled_response = response/response.mean()
     alpha,beta,r_val,p_val,std_err = linregress(gr,response)
@@ -350,9 +350,9 @@ def calc_explained_var(df,gr):
         pred[col]=means*normed_response[col]
         scaled[col]=means*scaled_response[col]
     remains = df-pred
-    remained_var = calc_var(remains)
+    remained_var = calc_var(remains,remains.mean(axis=1))
     scaled_remains = df-scaled
-    remained_scaled_var = calc_var(scaled_remains)
+    remained_scaled_var = calc_var(scaled_remains,scaled_remains.mean(axis=1))
     alpha,beta,r_val,p_val,std_err = linregress(gr,response/response.mean())
     return (alpha,tot_var,tot_var - remained_var,tot_var-remained_scaled_var)
 
@@ -360,17 +360,15 @@ def calc_explained_var(df,gr):
 def variabilityAndGlobClustSlopes():
     figure(figsize=(5,3))
     ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
-    coli_data = {'Valgepea':ecoli_data_v,'Heinemann':ecoli_data_h}
-    grs = {'Valgepea':gr_v,'Heinemann':gr_h}
     alphas = {'Valgepea':[],'Heinemann':[]}
     for db in ['Valgepea','Heinemann']:
         p=ps[db]
-        conds = cond_list_dict[db]
+        conds = cond_lists[db]
         gr = grs[db]
         gr = gr[conds]
-        glob_conc = coli_data[db]
+        glob_conc = coli_datas[db]
         glob_data = glob_conc[conds]
-        tot_var = calc_var(glob_data)
+        tot_var = calc_var(glob_data,glob_conc['avg'])
         print "tot_var is %f" % tot_var
         explained_glob = []
         explained_tot = []
@@ -381,8 +379,8 @@ def variabilityAndGlobClustSlopes():
         for threshold in corrs:
             glob_cluster_idx = glob_conc['gr_cov']>threshold
             glob_compl_idx = glob_conc['gr_cov']<threshold
-            alpha,glob_var,glob_explained,glob_scaled_explained = calc_explained_var(glob_data[glob_cluster_idx],gr)
-            a,compl_var,compl_explained,compl_scaled_explained = calc_explained_var(glob_data[glob_compl_idx],gr)
+            alpha,glob_var,glob_explained,glob_scaled_explained = calc_explained_var(glob_data[glob_cluster_idx],(glob_conc[glob_cluster_idx])['avg'],gr)
+            a,compl_var,compl_explained,compl_scaled_explained = calc_explained_var(glob_data[glob_compl_idx],glob_conc[glob_compl_idx]['avg'],gr)
             alphas[db].append(alpha)
             explained_var = glob_explained/glob_var
             explained_compl_var = compl_explained/compl_var
@@ -434,21 +432,20 @@ def variabilityAndGlobClustSlopes():
 def variabilityAndGlobClustSlopesNormed():
     figure(figsize=(5,3))
     ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
-    coli_data = {'Valgepea':ecoli_data_v,'Heinemann':ecoli_data_h}
-    grs = {'Valgepea':gr_v,'Heinemann':gr_h}
     alphas = {'Valgepea':[],'Heinemann':[]}
     for db in ['Valgepea','Heinemann']:
         p=ps[db]
-        conds = cond_list_dict[db]
+        conds = cond_lists[db]
         gr = grs[db]
         gr = gr[conds]
-        glob_conc = coli_data[db]
+        glob_conc = coli_datas[db]
         glob_data = glob_conc[conds]
         glob_data = glob_data.copy()
-        tot_means = glob_data.mean(axis=1)
+        tot_means = glob_conc['avg']
         for col in glob_data.columns:
             glob_data[col] = glob_data[col]/tot_means
-        tot_var = calc_var(glob_data)
+        tot_means = glob_data.mean(axis=1)
+        tot_var = calc_var(glob_data,tot_means)
         print "tot_var is %f" % tot_var
         explained_glob = []
         explained_tot = []
@@ -459,8 +456,8 @@ def variabilityAndGlobClustSlopesNormed():
         for threshold in corrs:
             glob_cluster_idx = glob_conc['gr_cov']>threshold
             glob_compl_idx = glob_conc['gr_cov']<threshold
-            alpha,glob_var,glob_explained,glob_scaled_explained = calc_explained_var(glob_data[glob_cluster_idx],gr)
-            a,compl_var,compl_explained,compl_scaled_explained = calc_explained_var(glob_data[glob_compl_idx],gr)
+            alpha,glob_var,glob_explained,glob_scaled_explained = calc_explained_var(glob_data[glob_cluster_idx],tot_means[glob_cluster_idx],gr)
+            a,compl_var,compl_explained,compl_scaled_explained = calc_explained_var(glob_data[glob_compl_idx],tot_means[glob_compl_idx],gr)
             alphas[db].append(alpha)
             explained_var = glob_explained/glob_var
             explained_compl_var = compl_explained/compl_var
@@ -522,16 +519,16 @@ def plotMultiStats():
 
     glob_conc = ecoli_data_h
     gr=gr_h
-    conds = cond_list_dict['Heinemann']
+    conds = cond_lists['Heinemann']
 
-    p1.plot(glob_conc[conds].mean(axis=1), glob_conc['rsq'],'.', markersize=1)
+    p1.plot(glob_conc['avg'], glob_conc['rsq'],'.', markersize=1)
     p1.set_xlabel('Average concentraion', fontsize=6)
     p1.set_ylabel('$R^2$ with GR', fontsize=6)
     p1.set_xscale('log')
     p1.tick_params(axis='both', which='major', labelsize=6)
     p1.tick_params(axis='both', which='minor', labelsize=6)
 
-    p2.plot(glob_conc[conds].mean(axis=1), glob_conc['gr_cov'],'.', markersize=1)
+    p2.plot(glob_conc['avg'], glob_conc['gr_cov'],'.', markersize=1)
     p2.set_xlabel('Average concentraion', fontsize=6)
     p2.set_ylabel('Pearson corr. with GR', fontsize=6)
     p2.set_xscale('log')
@@ -542,14 +539,14 @@ def plotMultiStats():
     glob_conc = set_alpha('Heinemann',glob_conc,gr)
     glob_conc = set_std_err('Heinemann',glob_conc,gr)
 
-    p3.plot(glob_conc[conds].mean(axis=1), glob_conc['alpha'],'.', markersize=1)
+    p3.plot(glob_conc['avg'], glob_conc['alpha'],'.', markersize=1)
     p3.set_xlabel('Average concentraion (HC prots)', fontsize=6)
     p3.set_ylabel('Norm. Slope', fontsize=6)
     p3.set_xscale('log')
     p3.tick_params(axis='both', which='major', labelsize=6)
     p3.tick_params(axis='both', which='minor', labelsize=6)
 
-    p4.plot(glob_conc[conds].mean(axis=1), glob_conc['std_err'],'.', markersize=1)
+    p4.plot(glob_conc['avg'], glob_conc['std_err'],'.', markersize=1)
     p4.set_xlabel('Average concentraion (HC prots)', fontsize=6)
     p4.set_ylabel('std err of fit', fontsize=6)
     p4.set_xscale('log')
@@ -579,7 +576,7 @@ def plotComulativeGraph():
     p1 = subplot(121)
     p2 = subplot(122)
     conds = cond_lists['Heinemann']
-    avgs = sorted(ecoli_data_h[conds].mean(axis=1).values)
+    avgs = sorted(ecoli_data_h['avg'].values)
 
     p1.plot(avgs,cumsum(avgs),'.',markersize=0.5)
     p1.set_xscale('log')
@@ -612,7 +609,6 @@ def plotHighAbundance():
         coli_data = coli_datas[db].copy()
         gr = grs[db]
         gr = gr[conds]
-        coli_data['avg']=coli_data[conds].mean(axis=1)
         coli_data = coli_data.sort('avg',ascending=False)
         coli_data_conds = coli_data[conds]
         coli_data_conds = coli_data_conds.head(7)
@@ -669,11 +665,11 @@ def plotPrediction():
 # k-means
 
 writeTables()
-#plotCorrelationHistograms()
-#plotGlobalResponse()
-#plotMultiStats()
-#plotComulativeGraph()
+plotCorrelationHistograms()
+plotGlobalResponse()
+plotMultiStats()
+plotComulativeGraph()
 plotHighAbundance()
-#plotPrediction()        
-#variabilityAndGlobClustSlopes()
-#variabilityAndGlobClustSlopesNormed()
+plotPrediction()        
+variabilityAndGlobClustSlopes()
+variabilityAndGlobClustSlopesNormed()
