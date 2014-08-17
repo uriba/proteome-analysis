@@ -72,10 +72,14 @@ def writeTopProtsVar(db):
     tot_vars = conc_data['vars'].sum()
 
     conc_data = conc_data.sort('avg',ascending=False)
+
+    if db == 'Heinemann':
+        conc_data['Temp']=conc_data['protName']
+
     high_abdc = conc_data.head(20)
     with open('varsOfAbdcs%s.csv' % db,'wb') as csvfile:
         csvwriter = csv.writer(csvfile,delimiter=';')
-        csvwriter.writerow(['Function','Sub Function','Prot ID','totPrctP','prctOfVar'])
+        csvwriter.writerow(['Function','Sub Function','Name','totPrctP','prctOfVar'])
         for i,row in high_abdc.iterrows():
             csvwriter.writerow((row['func'], row['prot'],row['Temp'],row['avg']*100,row['vars']*100/tot_vars))
 
@@ -83,7 +87,7 @@ def writeTopProtsVar(db):
     high_vars = conc_data.head(20)
     with open('varsOfVars%s.csv' % db,'wb') as csvfile:
         csvwriter = csv.writer(csvfile,delimiter=';')
-        csvwriter.writerow(['Function','Sub Function','Prot ID','totPrctP','prctOfVar'])
+        csvwriter.writerow(['Function','Sub Function','Name','totPrctP','prctOfVar'])
         for i,row in high_vars.iterrows():
             csvwriter.writerow((row['func'], row['prot'],row['Temp'],row['avg']*100,row['vars']*100/tot_vars))
 
@@ -354,16 +358,22 @@ corrs = linspace(-1,1,100)
 
 # calculate variability explained in proteome, take 1 (1 free parameter - selection of global cluster and scaling accordingly.
 # calculate variability explained in global cluster, take 2 (1 free parameter - selection of global cluster and measurement of resulting variability reduction.
-def calc_var(df,means):
+def square_dist_func(df):
+    return df**2
+
+def abs_dist_func(df):
+    return abs(df)
+
+def calc_var(f,df,means):
     df = df.copy()
     for col in df.columns:
         df[col]=df[col]-means
-    var = df**2
+    var = f(df)
     var = var.sum().sum()
     return var
 
-def calc_explained_var(df,means,gr):
-    tot_var = calc_var(df,means)
+def calc_explained_var(f,df,means,gr):
+    tot_var = calc_var(f,df,means)
     df = df.copy()
     response = df.sum()
     scaled_response = response/response.mean()
@@ -376,12 +386,41 @@ def calc_explained_var(df,means,gr):
         pred[col]=means*normed_response[col]
         scaled[col]=means*scaled_response[col]
     remains = df-pred
-    remained_var = calc_var(remains,remains.mean(axis=1))
+    remained_var = calc_var(f,remains,remains.mean(axis=1))
     scaled_remains = df-scaled
-    remained_scaled_var = calc_var(scaled_remains,scaled_remains.mean(axis=1))
+    remained_scaled_var = calc_var(f,scaled_remains,scaled_remains.mean(axis=1))
     alpha,beta,r_val,p_val,std_err = linregress(gr,response/response.mean())
     return (alpha,tot_var,tot_var - remained_var,tot_var-remained_scaled_var)
 
+def calc_var_stats(f,conds,gr,glob_conc):
+    alphas = []
+    glob_data = glob_conc[conds]
+    tot_var = calc_var(f,glob_data,glob_conc['avg'])
+    print "tot_var is %f" % tot_var
+    explained_glob = []
+    explained_tot = []
+    explained_compl_glob = []
+    explained_compl_tot = []
+    explained_scaled = []
+    for threshold in corrs:
+        glob_cluster_idx = glob_conc['gr_cov']>threshold
+        glob_compl_idx = glob_conc['gr_cov']<threshold
+        alpha,glob_var,glob_explained,glob_scaled_explained = calc_explained_var(f,glob_data[glob_cluster_idx],(glob_conc[glob_cluster_idx])['avg'],gr)
+        a,compl_var,compl_explained,compl_scaled_explained = calc_explained_var(f,glob_data[glob_compl_idx],glob_conc[glob_compl_idx]['avg'],gr)
+        alphas.append(alpha)
+        explained_var = glob_explained/glob_var
+        explained_compl_var = compl_explained/compl_var
+        explained_tot_frac = glob_explained/tot_var
+        explained_compl_tot_frac = compl_explained/tot_var
+        explained_scaled_var = (glob_scaled_explained+compl_scaled_explained)/tot_var
+
+        explained_glob.append(explained_var)
+        explained_compl_glob.append(explained_compl_var)
+        explained_tot.append(explained_tot_frac)
+        explained_compl_tot.append(explained_compl_tot_frac)
+        explained_scaled.append(explained_scaled_var)
+
+    return (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas)
 
 def variabilityAndGlobClustSlopes():
     figure(figsize=(5,3))
@@ -393,39 +432,12 @@ def variabilityAndGlobClustSlopes():
         gr = grs[db]
         gr = gr[conds]
         glob_conc = coli_datas[db]
-        glob_data = glob_conc[conds]
-        tot_var = calc_var(glob_data,glob_conc['avg'])
-        print "tot_var is %f" % tot_var
-        explained_glob = []
-        explained_tot = []
-        explained_compl_glob = []
-        explained_compl_tot = []
-        explained_normed = []
-        explained_scaled = []
-        for threshold in corrs:
-            glob_cluster_idx = glob_conc['gr_cov']>threshold
-            glob_compl_idx = glob_conc['gr_cov']<threshold
-            alpha,glob_var,glob_explained,glob_scaled_explained = calc_explained_var(glob_data[glob_cluster_idx],(glob_conc[glob_cluster_idx])['avg'],gr)
-            a,compl_var,compl_explained,compl_scaled_explained = calc_explained_var(glob_data[glob_compl_idx],glob_conc[glob_compl_idx]['avg'],gr)
-            alphas[db].append(alpha)
-            explained_var = glob_explained/glob_var
-            explained_compl_var = compl_explained/compl_var
-            explained_tot_frac = glob_explained/tot_var
-            explained_compl_tot_frac = compl_explained/tot_var
-            explained_tot_compl = (glob_explained+compl_explained)/tot_var
-            explained_scaled_var = (glob_scaled_explained+compl_scaled_explained)/tot_var
-
-            explained_glob.append(explained_var)
-            explained_compl_glob.append(explained_compl_var)
-            explained_tot.append(explained_tot_frac)
-            explained_compl_tot.append(explained_compl_tot_frac)
-            explained_normed.append(explained_tot_compl)
-            explained_scaled.append(explained_scaled_var)
-
+        (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas[db]) = calc_var_stats(square_dist_func,conds,gr,glob_conc)
         p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
         p.plot(corrs,explained_tot,markersize=1,label='Explained variability fraction of total data')
         p.plot(corrs,explained_compl_glob,markersize=1,label='Explained complementary variability fraction of global cluster')
         p.plot(corrs,explained_compl_tot,markersize=1,label='Explained complementary variability fraction of total data')
+        explained_normed = [x+y for x,y in zip(explained_tot,explained_compl_tot)]
         p.plot(corrs,explained_normed,markersize=1,label='Explained variability fraction when normalizing')
         p.plot(corrs,explained_scaled,markersize=1,label='Explained variability fraction when scaling')
         p.set_ylabel('Explained fraction of variability', fontsize=8)
@@ -455,6 +467,71 @@ def variabilityAndGlobClustSlopes():
     savefig('ThresholdSlopes.pdf')
     savefig('ThresholdSlopes.png')
 
+def norm_glob_conc(glob_conc,conds):
+    glob_conc = glob_conc.copy()
+    tot_means = glob_conc['avg']
+    for col in conds:
+        glob_conc[col] = glob_conc[col]/tot_means
+    glob_conc['avg'] = glob_conc[conds].mean(axis=1)
+    return glob_conc
+
+def keep_middle(glob_conc,conds):
+    glob_conc = glob_conc.copy().sort('avg',ascending=False)
+    num = len(glob_conc)
+    #glob_conc = glob_conc[:-num/8]
+    glob_conc = glob_conc[num/4:]
+    return glob_conc
+
+def drop_head(glob_conc,conds,num):
+    glob_conc = glob_conc.copy().sort('avg',ascending=False)
+    glob_conc = glob_conc[num:]
+    return glob_conc
+
+def variablityComparisonHein():
+    figure(figsize=(8,5))
+    db = 'Heinemann'
+    conds = cond_lists[db]
+    gr = grs[db]
+    gr = gr[conds]
+    globs = []
+    titles = []
+    funcs = [square_dist_func,square_dist_func,square_dist_func,abs_dist_func,abs_dist_func,square]
+    globs.append(coli_datas[db])
+    titles.append('all prots')
+    globs.append(norm_glob_conc(globs[0],conds))
+    titles.append('all prots, normalized')
+    globs.append(keep_middle(globs[0],conds))
+    titles.append('prots excl. top $\\frac{1}{4}$')
+    globs.append(globs[0])
+    titles.append('all prots, abs')
+    globs.append(globs[2])
+    titles.append('prots excl. top $\\frac{1}{4}$, abs')
+    globs.append(drop_head(globs[0],conds,10))
+    titles.append('prots excl. top 10')
+    for i in range(0,6):
+        p = subplot(231+i)
+        (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,temp) = calc_var_stats(funcs[i],conds,gr,globs[i])
+
+        p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
+        p.plot(corrs,explained_tot,markersize=1,label='Explained variability fraction of total data')
+        p.plot(corrs,explained_compl_glob,markersize=1,label='Explained complementary variability fraction of global cluster')
+        p.plot(corrs,explained_compl_tot,markersize=1,label='Explained complementary variability fraction of total data')
+        explained_normed = [x+y for x,y in zip(explained_tot,explained_compl_tot)]
+        p.plot(corrs,explained_normed,markersize=1,label='Explained variability fraction when normalizing')
+        p.plot(corrs,explained_scaled,markersize=1,label='Explained variability fraction when scaling')
+        p.set_ylabel('Explained fraction of variability', fontsize=8)
+        p.set_xlabel('global cluster correlation threshold', fontsize=8)
+        p.set_ylim(0,1)
+        p.tick_params(axis='both', which='major', labelsize=6)
+        p.tick_params(axis='both', which='minor', labelsize=6)
+        p.axhline(xmin=0,xmax=1,y=0.5,ls='--',color='black',lw=0.5)
+        if i==0:
+            p.legend(loc=2,prop={'size':6})
+        p.set_title(titles[i],fontsize=8)
+
+    tight_layout()
+    savefig('ExpVarComp.pdf')
+
 def variabilityAndGlobClustSlopesNormed():
     figure(figsize=(5,3))
     ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
@@ -464,45 +541,18 @@ def variabilityAndGlobClustSlopesNormed():
         conds = cond_lists[db]
         gr = grs[db]
         gr = gr[conds]
-        glob_conc = coli_datas[db]
-        glob_data = glob_conc[conds]
-        glob_data = glob_data.copy()
+        glob_conc = coli_datas[db].copy()
         tot_means = glob_conc['avg']
-        for col in glob_data.columns:
-            glob_data[col] = glob_data[col]/tot_means
-        tot_means = glob_data.mean(axis=1)
-        tot_var = calc_var(glob_data,tot_means)
-        print "tot_var is %f" % tot_var
-        explained_glob = []
-        explained_tot = []
-        explained_compl_glob = []
-        explained_compl_tot = []
-        explained_normed = []
-        explained_scaled = []
-        for threshold in corrs:
-            glob_cluster_idx = glob_conc['gr_cov']>threshold
-            glob_compl_idx = glob_conc['gr_cov']<threshold
-            alpha,glob_var,glob_explained,glob_scaled_explained = calc_explained_var(glob_data[glob_cluster_idx],tot_means[glob_cluster_idx],gr)
-            a,compl_var,compl_explained,compl_scaled_explained = calc_explained_var(glob_data[glob_compl_idx],tot_means[glob_compl_idx],gr)
-            alphas[db].append(alpha)
-            explained_var = glob_explained/glob_var
-            explained_compl_var = compl_explained/compl_var
-            explained_tot_frac = glob_explained/tot_var
-            explained_compl_tot_frac = compl_explained/tot_var
-            explained_tot_compl = (glob_explained+compl_explained)/tot_var
-            explained_scaled_var = (glob_scaled_explained+compl_scaled_explained)/tot_var
-
-            explained_glob.append(explained_var)
-            explained_compl_glob.append(explained_compl_var)
-            explained_tot.append(explained_tot_frac)
-            explained_compl_tot.append(explained_compl_tot_frac)
-            explained_normed.append(explained_tot_compl)
-            explained_scaled.append(explained_scaled_var)
+        for col in conds:
+            glob_conc[col] = glob_conc[col]/tot_means
+        glob_conc['avg'] = glob_conc[conds].mean(axis=1)
+        (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas[db]) = calc_var_stats(square_dist_func,conds,gr,glob_conc)
 
         p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
         p.plot(corrs,explained_tot,markersize=1,label='Explained variability fraction of total data')
         p.plot(corrs,explained_compl_glob,markersize=1,label='Explained complementary variability fraction of global cluster')
         p.plot(corrs,explained_compl_tot,markersize=1,label='Explained complementary variability fraction of total data')
+        explained_normed = [x+y for x,y in zip(explained_tot,explained_compl_tot)]
         p.plot(corrs,explained_normed,markersize=1,label='Explained variability fraction when normalizing')
         p.plot(corrs,explained_scaled,markersize=1,label='Explained variability fraction when scaling')
         p.set_ylabel('Explained fraction of variability', fontsize=8)
@@ -633,6 +683,8 @@ def plotHighAbundance():
         p = ps[db]
         conds = cond_lists[db]
         coli_data = coli_datas[db].copy()
+        if db == 'Heinemann':
+            coli_data['ID']=coli_data['protName']
         gr = grs[db]
         gr = gr[conds]
         coli_data = coli_data.sort('avg',ascending=False)
@@ -690,12 +742,13 @@ def plotPrediction():
 
 # k-means
 
-writeTables()
-plotCorrelationHistograms()
-plotGlobalResponse()
-plotMultiStats()
-plotComulativeGraph()
+#writeTables()
+#plotCorrelationHistograms()
+#plotGlobalResponse()
+#plotMultiStats()
+#plotComulativeGraph()
 plotHighAbundance()
-plotPrediction()        
-variabilityAndGlobClustSlopes()
-variabilityAndGlobClustSlopesNormed()
+#plotPrediction()        
+#variabilityAndGlobClustSlopes()
+#variabilityAndGlobClustSlopesNormed()
+#variablityComparisonHein()

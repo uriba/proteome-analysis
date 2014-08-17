@@ -58,7 +58,7 @@ def uni_ko_dict():
 
 def uniprot_to_desc_dict():
     ##uni_konum_dict = uni_ko_dict()
-    uni_locus_dict = uni_to_locus()
+    uni_locus_dict = uni_to_locus()[0]
     #load the ko annotation tree:
     ##ko_annot_dict = ko_to_desc_dict()
     b_annot_dict = b_to_desc_dict()
@@ -81,9 +81,11 @@ def uniprot_to_desc_dict():
 
 def uni_to_locus():
     uniprot_to_locus = {}
+    uniprot_to_name = {}
     for row in open('all_ecoli_genes.txt','r'):
         uniprot_to_locus[row[48:54]]=row[0:5]
-    return uniprot_to_locus
+        uniprot_to_name[row[48:54]]=row[84:-1].replace(';',',')
+    return (uniprot_to_locus,uniprot_to_name)
 
 def uniprot_to_offset():
     #load location information for genes:
@@ -94,7 +96,7 @@ def uniprot_to_offset():
         if feat.type == 'CDS':
            locus_to_offset[feat.qualifiers['locus_tag'][0]]=feat.location.start.real
 
-    uniprot_to_locus = uni_to_locus()
+    uniprot_to_locus = uni_to_locus()[0]
     uniprot_to_location = {}
     for uni in uniprot_to_locus.keys():
         if uniprot_to_locus[uni] in locus_to_offset.keys():
@@ -176,15 +178,6 @@ def get_coli_data(db_used,use_weight):
     #remove irrelevant proteins
     means = ecoli_data[cond_list].mean(axis=1)
     ecoli_data = ecoli_data[means>0]
-    #analyze only middle half of proteins
-#    ecoli_data['means']=means
-#    ecoli_data = ecoli_data.sort('means',ascending=False)
-#    num = len(ecoli_data)
-#    print num
-#    print num/4
-#    ecoli_data = ecoli_data[:-num/4]
-#    ecoli_data = ecoli_data[num/4:]
-#    ecoli_data = ecoli_data.copy()
     #remove scarce proteins
     ecoli_data = ecoli_data[ecoli_data[cond_list].mean(axis=1)>avg_conc_threshold]
     id_col = id_col_dict[db_used]
@@ -199,7 +192,7 @@ def get_annotated_prots(db):
     #annotate coli_data according to db.
     if db == 'Heinemann':
         ##uni_to_konum = uni_ko_dict()
-        uniprot_to_locus = uni_to_locus()
+        uniprot_to_locus,uniprot_to_name = uni_to_locus()
         x=0
         with open('unmappeduni.txt','w+') as f:
             for i,r in coli_data.iterrows():
@@ -210,6 +203,7 @@ def get_annotated_prots(db):
             print "unmapped uniprots:%d" % x
         ##coli_data['ko_num']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uni_to_konum else uni_to_konum[x[u'UP_AC']],axis=1)
         coli_data['b_num']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uniprot_to_locus else uniprot_to_locus[x[u'UP_AC']],axis=1)
+        coli_data['protName']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uniprot_to_name else uniprot_to_name[x[u'UP_AC']],axis=1)
         id_to_annot = b_to_desc_dict()
         id_col = 'b_num'
     if db == 'Valgepea':
