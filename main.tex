@@ -86,11 +86,9 @@ These proteins span many functional groups.
 }
 \label{fig:growthcorr}
 \end{figure}
-From this point on, we focus our analysis on the group of proteins that are strongly positively correlated with growth rate.
-\emph{ToDo:is this sentence needed? should it be moved to the next section?}
 \subsubsection{Proteins positively correlated with growth rate share a similar response}
 \label{propchange}
-Following the identification of the group of strongly positively correlated with growth rate proteins, we wished to examine how similar is the behavior with growth rate for these different proteins.
+Following the identification of the group of strongly positively correlated with growth rate proteins, we examined how similar is the behavior with growth rate for these different proteins.
 We note that similar correlation with growth rate for different proteins does not imply that such proteins share the same scaling with growth rate, that is,  they may have very different slopes or fold changes with an increasing growth rate.
 
 In order to compare the responses of different proteins across conditions, we therefore, for every protein, divided its concentration under every condition by its average concentration across all of the conditions (see \ref{concacrossconds} for further details).
@@ -99,10 +97,10 @@ We note that, under this metric, sharing similar responses among a group of prot
 We refer to proteins that share a similar normalized response across different conditions as being coordinated or coordinately regulated.
 
 To assess the coordination between the proteins that were found to be strongly positively correlated with growth rate we therefore calculated the slope of a linear regression line for the normalized concentration vs. the growth rate for every one of these proteins.
-The results are presented in Figure \ref{fig:globalfit} (Further details on the calculation are in section \ref{concacrossconds}).
-Further more, for every slope obtained for any protein, we calculated the $95\%$ confidence interval of that slope.
-We find that the distribution of estimated slopes can result from having a common, single response slope, given the experimental noise in the measurements (For further discussion see SI)\emph{ToDo: The red line in the figure, representing the expected distribution given the average slope and noise does not fit the results very well, more thought is needed to settle this}.
-\emph{ToDo: add relevant refs, leeat and japanese arxiv paper that found similar coordination}
+The results are presented in Figure \ref{fig:globalfit}, alongside the expected distribution, given the experimental noise in measurements (Further details on the calculation are in section \ref{concacrossconds}).
+Further more, we calculated the $95\%$ confidence interval for every slope obtained for any protein.
+While the expected distribution of slopes, given the experimental noise, deviates from the observed one, the calculation of confidence intervals reveals that the observed distribution can result from a single response (See SI for further discussion).
+These results extend the scope of similar results obtained for \emph{S.cerevisiae} in \cite{Keren2013a} and for expression levels in \emph{E.coli} under stress conditions in \cite{Kaneko2014}.
 This analysis thus reveals that, not only is a significant fraction of the proteome strongly positively correlated with the growth rate, but that, as is shown in Figure \ref{fig:globalfit}, this response is coordinated.
 
 Furthermore, we examined how the response of the strongly correlated proteins relates to the well-studied response of ribosomes concentration.
@@ -129,7 +127,6 @@ We find that, on average, strongly correlated proteins scale in the same way as 
 \subsubsection{Changes in the proteome across environmental conditions are dominated by proteins that are positively correlated with growth rate}
 Lastly, we assessed the significance of the positive correlation with growth rate of proteins, out of the total change in proteome composition across conditions.
 To that end, we summed the concentrations of all of the proteins that are strongly correlated with growth rate across the conditions measured and plotted their total concentration against the growth rate in Figure \ref{fig:globalgrcorr}.
-\emph{ToDo: consider clustering using PCA or some other method instead of arbitrarily selecting high correlation boundaries, if not then at least add figures demonstrating validity of results even under different boundaries}.
 Both data sets show that the concentration of these proteins change significantly across the different conditions ($\approx 2$ fold change in total concentration across $\approx 5$ fold change of the growth rate).
 Moreover, most of the variability of the total concentration of these proteins can be explained by the growth rate ($R^2$ of $0.78$ in H and $0.99$ in V). 
 For further analysis of the differences between the two data sets see section \ref{heinemannchemo}.
@@ -144,12 +141,12 @@ Thus, when considering the changes in proteome composition across conditions, we
 The sum of the concentrations of the strongly correlated proteins (defined as having a correlation above 0.8 for the V data set and a correlation above 0.4 for the H data set) in each of the data sets, with linear regression lines, is shown.
 These proteins form a large fraction ($>50\%$) out of the proteome at higher growth rates.
 The change in the concentration of the strongly correlated proteins follows trend lines with slopes of $\approx 0.5$ meaning their total concentration doubles itself as the growth rate changes by about 5-fold.
-\emph{ToDo: Comment on the estimated degradation rates (horizontal intercepts, -0.44 for H and -0.34 for V) and rate changes as noted in the model. confidence intervals?}
+Assuming constant degradation rates, these trend lines correspond to protein half life times of 1.5 and 2 hours for the Heinemann and Valgepea data sets respectively.
 }
 \label{fig:globalgrcorr}
 \end{figure}
 
-To conclude, we observe that a large fraction of the change in the proteome composition across conditions is the result of scaling with growth rate of many proteins \emph{ToDo:make concrete by calculating}.
+To conclude, we observe that a large fraction of the change in the proteome composition across conditions is the result of scaling with growth rate of many proteins \emph{ToDo:current estimates are ~ 20 percent at best. Select proper metric and consider if reasonable}.
 This scaling with growth rate is coordinated, meaning the proteins maintain their relative abundances.
 Finally, this fraction of proteins encompasses many proteins from different functional groups and cellular mechanisms.
 
@@ -434,9 +431,9 @@ columns/Function/.style={string type,column type=l},
 columns/totPrctP/.style={column name={$\%$ of proteome}},
 columns/corPrctP/.style={column name={Correlated $\%$ of proteome}},
 ]{funcsHeinemann.csv}
-\label{tab:corrbreakdownh}
 }
 \caption{Breakdown by function of the strongly correlated with growth rate proteins in the Heinemann data set.}
+\label{tab:corrbreakdownh}
 \end{table}
 
 \begin{table}[h]
@@ -449,9 +446,9 @@ columns/Function/.style={string type,column type=l},
 columns/totPrctP/.style={column name={$\%$ of proteome}},
 columns/corPrctP/.style={column name={Correlated $\%$ of proteome}},
 ]{funcsValgepea.csv}
-\label{tab:corrbreakdownv}
 }
 \caption{Breakdown by function of the strongly correlated with growth rate proteins in the Valgepea data set.}
+\label{tab:corrbreakdownv}
 \end{table}
 
 \printbibliography

@@ -742,13 +742,13 @@ def plotPrediction():
 
 # k-means
 
-#writeTables()
-#plotCorrelationHistograms()
-#plotGlobalResponse()
-#plotMultiStats()
-#plotComulativeGraph()
+writeTables()
+plotCorrelationHistograms()
+plotGlobalResponse()
+plotMultiStats()
+plotComulativeGraph()
 plotHighAbundance()
-#plotPrediction()        
-#variabilityAndGlobClustSlopes()
-#variabilityAndGlobClustSlopesNormed()
-#variablityComparisonHein()
+plotPrediction()        
+variabilityAndGlobClustSlopes()
+variabilityAndGlobClustSlopesNormed()
+variablityComparisonHein()
