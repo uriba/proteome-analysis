@@ -28,6 +28,8 @@ def get_limits(db):
 #Initialize global data structures
 (cond_list_v,gr_v,ecoli_data_v) = get_annotated_prots('Valgepea')
 (cond_list_h,gr_h,ecoli_data_h) = get_annotated_prots('Heinemann')
+ecoli_data_h = ecoli_data_h[ecoli_data_h['prot']=='Ribosome']
+ecoli_data_v = ecoli_data_v[ecoli_data_v['prot']=='Ribosome']
 
 dbs = ['Heinemann','Valgepea']
 cond_lists = {'Heinemann':cond_list_h,'Valgepea':cond_list_v}
@@ -699,9 +701,35 @@ def plotHighAbundance():
     tight_layout()
     savefig('highest.pdf')
 
+def plotRibosomal():
+    figure(figsize=(5,3))
+    ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
+    for db in dbs:
+        p = ps[db]
+        conds = cond_lists[db]
+        coli_data = coli_datas[db].copy()
+        if db == 'Heinemann':
+            coli_data['ID']=coli_data['protName']
+        gr = grs[db]
+        gr = gr[conds]
+        coli_data = coli_data[coli_data['prot']=='Ribosome']
+        coli_data_conds = coli_data[conds].copy()
+        tot = coli_data_conds.sum()
+        means = coli_data_conds.mean(axis=1)
+        for col in conds:
+            coli_data_conds[col] = coli_data_conds[col]/means
+        for i in coli_data_conds.index:
+            desc = coli_data.ix[i]
+            desc = "%s" % (desc['ID'])
+            p.plot(gr.values,coli_data_conds.ix[i].values,label=('%s' % desc))
+        tot = tot/tot.mean()
+        p.plot(gr.values,tot,'o')
+        p.set_ylim(0,3)
+    tight_layout()
+    savefig('ribosomal.pdf')
+
 
 #randomly select a few proteins and plot their prediction vs the actual concentration of a different protein in the HC prots.
-
 def plotPrediction():
     for db in dbs:
         figure(figsize=(5,5))
@@ -742,13 +770,14 @@ def plotPrediction():
 
 # k-means
 
-writeTables()
-plotCorrelationHistograms()
-plotGlobalResponse()
-plotMultiStats()
-plotComulativeGraph()
-plotHighAbundance()
-plotPrediction()        
+#writeTables()
+#plotCorrelationHistograms()
+#plotGlobalResponse()
+#plotMultiStats()
+#plotComulativeGraph()
+#plotHighAbundance()
+#plotPrediction()        
 variabilityAndGlobClustSlopes()
 variabilityAndGlobClustSlopesNormed()
 variablityComparisonHein()
+plotRibosomal()
