@@ -28,8 +28,8 @@ def get_limits(db):
 #Initialize global data structures
 (cond_list_v,gr_v,ecoli_data_v) = get_annotated_prots('Valgepea')
 (cond_list_h,gr_h,ecoli_data_h) = get_annotated_prots('Heinemann')
-ecoli_data_h = ecoli_data_h[ecoli_data_h['prot']=='Ribosome']
-ecoli_data_v = ecoli_data_v[ecoli_data_v['prot']=='Ribosome']
+#ecoli_data_h = ecoli_data_h[ecoli_data_h['prot']=='Ribosome']
+#ecoli_data_v = ecoli_data_v[ecoli_data_v['prot']=='Ribosome']
 
 dbs = ['Heinemann','Valgepea']
 cond_lists = {'Heinemann':cond_list_h,'Valgepea':cond_list_v}
