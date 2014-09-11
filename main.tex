@@ -4,6 +4,9 @@
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{verbatim}
 \usepackage{pgfplotstable}
+\usepackage[textsize=small]{todonotes}
+\usepackage{soul}
+\newcommand{\hlfix}[2]{\texthl{#1}\todo{#2}}
 
 \bibliography{library}
 
@@ -19,7 +22,7 @@
 Furthermore, many of these changes seem to be coordinated with the growth rate rather than the specific environment.
 However, although cellular growth rates, gene expression levels and gene regulation have been at the center of biological research for decades, the quantitative interdependence between growth rate and proteome composition is not yet fully understood.
 
-We analyzed the relationship between growth rate and proteome composition for the model microorganism \emph{E.coli} as reflected in two recently published proteomics data sets spanning various growth conditions.
+We analyzed the relationship between growth rate and proteome composition for the model microorganism \emph{E.coli} as reflected in two recently \hlfix{published}{one is not yet published} proteomics data sets spanning various growth conditions.
 We found that the cellular concentration of a large fraction of the proteins proportionally increases with the growth rate.
 This fraction includes proteins that are involved in different cellular processes.
 Notably, ribosomal proteins are only a small fraction of this group of proteins.
@@ -132,7 +135,7 @@ Moreover, most of the variability of the total concentration of these proteins c
 For further analysis of the differences between the two data sets see section \ref{heinemannchemo}.
 Importantly, the strongly correlated proteins form a large fraction of the proteome mass-wise, exceeding $50\%$ of the proteome at the higher growth rates measured.
 Thus, when considering the changes in proteome composition across conditions, we find that, at higher growth rates, more than $50\%$ of the proteome composition is affected by the positive correlation with growth rate of the same group of proteins.
-\emph{ToDo: This analysis, unlike the one done in Leeat's work, does not try to identify the scaling between every two conditions and then cluster genes according to conditions where specific regulation occurred, I'm now thinking of ways of modifying this analysis in that direction as it can potentially be much more interesting and strong so generally I believe this paragraph and accompanying figure will be replaced}
+\emph{ToDo: This analysis, unlike the one done in Leeat's work, does not try to identify the scaling between every two conditions and then cluster genes according to conditions where specific regulation occurred, modifying the analysis in that direction can potentially yield stronger results as, instead of identifying only the proteins for which no regulation takes place across ALL conditions, it can identify all level-changes reflecting no regulation out of all the level-changes of all the proteins across all conditions}
 
 \begin{figure}[h]
 \centering
