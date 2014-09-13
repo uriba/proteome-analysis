@@ -240,10 +240,10 @@ figure(figsize=(5,3))
 
 p=subplot(111)
 ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
-coords = {'Heinemann':-0.01,'Valgepea':0.62}
+coords = {'Heinemann':0.0,'Valgepea':0.62}
 for db in dbs:
     plot_response_hist(db,coli_datas[db],grs[db],ps[db])
-    text(coords[db],0.9,"%s et. al" % db,fontsize=8,transform=p.transAxes)
+    text(coords[db],0.93,"%s et. al" % db,fontsize=8,transform=p.transAxes)
 
 tight_layout()
 savefig('AllProtsVSRibosomalNormalizedSlopes.pdf')
@@ -770,13 +770,13 @@ def plotPrediction():
 
 # k-means
 
-#writeTables()
-#plotCorrelationHistograms()
-#plotGlobalResponse()
-#plotMultiStats()
-#plotComulativeGraph()
-#plotHighAbundance()
-#plotPrediction()        
+writeTables()
+plotCorrelationHistograms()
+plotGlobalResponse()
+plotMultiStats()
+plotComulativeGraph()
+plotHighAbundance()
+plotPrediction()        
 variabilityAndGlobClustSlopes()
 variabilityAndGlobClustSlopesNormed()
 variablityComparisonHein()
