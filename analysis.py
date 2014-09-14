@@ -180,6 +180,9 @@ def get_coli_data(db_used,use_weight):
     ecoli_data = ecoli_data[means>0]
     #remove scarce proteins
     ecoli_data = ecoli_data[ecoli_data[cond_list].mean(axis=1)>avg_conc_threshold]
+    #renormalize
+    ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
+
     id_col = id_col_dict[db_used]
     ecoli_data[id_col] = ecoli_data[id_col].astype('string')
     return ecoli_data

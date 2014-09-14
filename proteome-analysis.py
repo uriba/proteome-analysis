@@ -16,13 +16,13 @@ import random
 ### Results generation#####
 def get_limits(db):
     if db == 'Heinemann' and not use_LB:
-        limits = (0.4,1.)
+        limits = (0.25,1.)
     if db == 'Heinemann' and use_LB:
         limits = (0.6,1.)
     if db == 'Valgepea':
         limits = (0.8,1.)
     if db == 'Heinemann-chemo':
-        limits = (0.5,1.)
+        limits = (0.8,1.)
     return limits
 
 #Initialize global data structures
@@ -534,9 +534,21 @@ def variablityComparisonHein():
     tight_layout()
     savefig('ExpVarComp.pdf')
 
+for db in dbs:
+    plot_corr_hist(ps[db],db,coli_datas[db],categories)
+
+#assume both subplots have the same categories.
+handles,labels=ps['Heinemann'].get_legend_handles_labels()
+
+figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
+
+
 def variabilityAndGlobClustSlopesNormed():
     figure(figsize=(5,3))
+    p=subplot(111)
     ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
+    coords = {'Heinemann':0.03,'Valgepea':0.03}
+
     alphas = {'Valgepea':[],'Heinemann':[]}
     for db in ['Valgepea','Heinemann']:
         p=ps[db]
@@ -552,21 +564,27 @@ def variabilityAndGlobClustSlopesNormed():
 
         p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
         p.plot(corrs,explained_tot,markersize=1,label='Explained variability fraction of total data')
-        p.plot(corrs,explained_compl_glob,markersize=1,label='Explained complementary variability fraction of global cluster')
-        p.plot(corrs,explained_compl_tot,markersize=1,label='Explained complementary variability fraction of total data')
+        #p.plot(corrs,explained_compl_glob,markersize=1,label='Explained complementary variability fraction of global cluster')
+        #p.plot(corrs,explained_compl_tot,markersize=1,label='Explained complementary variability fraction of total data')
         explained_normed = [x+y for x,y in zip(explained_tot,explained_compl_tot)]
-        p.plot(corrs,explained_normed,markersize=1,label='Explained variability fraction when normalizing')
-        p.plot(corrs,explained_scaled,markersize=1,label='Explained variability fraction when scaling')
+        #p.plot(corrs,explained_normed,markersize=1,label='Explained variability fraction when normalizing')
+        #p.plot(corrs,explained_scaled,markersize=1,label='Explained variability fraction when scaling')
         p.set_ylabel('Explained fraction of variability', fontsize=8)
         p.set_xlabel('global cluster correlation threshold', fontsize=8)
         p.set_ylim(0,1)
         p.tick_params(axis='both', which='major', labelsize=6)
         p.tick_params(axis='both', which='minor', labelsize=6)
-        p.axhline(xmin=0,xmax=1,y=0.5,ls='--',color='black',lw=0.5)
-        p.legend(loc=2,prop={'size':6})
-        p.set_title(db)
+        p.axhline(xmin=0,xmax=1,y=0.09,ls='--',color='black',lw=0.5)
+        #p.axvline(ymin=0,ymax=1,x=get_limits(db)[0],ls='--',color='black',lw=0.5)
+        text(coords[db],0.9,"%s et. al." % db,fontsize=8,transform=p.transAxes)
 
+    handles,labels=ps['Heinemann'].get_legend_handles_labels()
+
+    figlegend(handles,labels,fontsize=6,loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2))
+
+    subplots_adjust(top=0.83)
     tight_layout()
+
     savefig('ExpVar3.pdf')
     savefig('ExpVar3.png')
 
@@ -763,7 +781,7 @@ def plotPrediction():
             p.set_xlim(0,0.7)
             p.tick_params(axis='both', which='major', labelsize=8)
             p.tick_params(axis='both', which='minor', labelsize=8)
-            p.set_title("%.2f" % est.corr(linpred)**2,fontsize=8)
+            p.set_title("$R^2$=%.2f" % est.corr(linpred)**2,fontsize=8)
         tight_layout()    
         savefig('RandEstimate%s.pdf' % db)
         savefig('RandEstimate%s.png' % db)
