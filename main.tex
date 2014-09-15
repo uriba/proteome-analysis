@@ -95,7 +95,7 @@ These proteins span many functional groups.
 Following the identification of the group of strongly positively correlated with growth rate proteins, we examined how similar is the behavior with growth rate for these different proteins.
 We note that similar correlation with growth rate for different proteins does not imply that such proteins share the same scaling with growth rate, that is,  they may have very different slopes or fold changes with an increasing growth rate.
 
-In order to compare the responses of different proteins across conditions, we therefore, for every protein, \todo{Alternatively, only write here that we've normalized the responses with reference to further explation in the methods/SI} divided its concentration under every condition by its average concentration across all of the conditions (see \ref{concacrossconds} for further details).
+In order to compare the responses of different proteins across conditions, we therefore, for every protein, \todo{Alternatively, only write here that we've normalized the responses with reference to further explanation in the methods/SI} divided its concentration under every condition by its average concentration across all of the conditions (see \ref{concacrossconds} for further details).
 This normalized concentration across conditions represents a specific protein, concentration independent, response to the different conditions under which the protein was measured.
 We note that, under this metric, sharing similar responses among a group of proteins implies that proteins in that group maintain their relative ratios, ratios that are determined by the average concentration of each of these proteins across the different environmental conditions.
 We refer to proteins that share a similar normalized response across different conditions as being \emph{coordinated} or \emph{coordinately regulated}.
@@ -124,7 +124,7 @@ This analysis thus reveals that, not only is a significant fraction of the prote
 
 Furthermore, we examined how the response of the strongly correlated proteins relates to the well-studied response of ribosomes concentration.
 To that end, we performed the same analysis of slopes, restricting it to ribosomal proteins alone, as is shown by the green bars in Figure \ref{fig:globalfit}.
-We find that, on average, strongly correlated proteins scale in the same way as ribosomal proteins do\todo{missing a statistical measure for the similarity}, implying that the observed response of ribosomal proteins to growth rate is coordinated with a much larger fraction of the proteome, encompassing many more cellular components.
+We find that, on average, strongly correlated proteins scale in the same way as ribosomal proteins do (see also Figure \ref{fig:ribsnonribs})\todo{consider adding a statistical measure for the similarity}, implying that the observed response of ribosomal proteins to growth rate is coordinated with a much larger fraction of the proteome, encompassing many more cellular components.
 \begin{comment}
 \emph{ToDo: literature survey on mechanisms suggested to control ribosomes concentration to check whether they are for RNA to protein coordination, rRNA to mRNA control, or ribosomal protein control, with our findings highlighting questions on the last ones}.
 \end{comment}
@@ -194,7 +194,7 @@ We denote the affinity of gene $i$ under growth condition $c$ by $w_i(c)$ (the n
 Our model assumes that the bio-synthetic resources of the cell (Ribosomes, RNA Polymerases, etc.) are distributed among the genes according to their affinities under the condition at hand.
 The notion of affinities can thus reduce the number of parameters needed to predict expression levels markedly.
 Instead of an expression level for every gene under each condition, there is only a need for the characterization of the affinities a gene may obtain under relevant environmental cues, a parameter set that is expected to be much smaller and easily characterized.
-Figure \ref{fig:randpred} shows the prediction versus the actual concentration values of 9 random proteins in the dataset from [ref Heinemann].\todo{Does our current data make this figure convincing?}
+Figure \ref{fig:randpred} shows the prediction versus the actual concentration values of 9 random proteins in the data set from [ref Heinemann].\todo{Does our current data make this figure convincing?}
 
 The resulting protein fraction, under a specific condition, is therefore its specific affinity under the condition, divided by the sum of all the affinities of all of the genes under that same condition.
 Thus, if two proteins have the same affinity under some condition, they will occupy identical fractions out of the proteome under that condition.
@@ -314,7 +314,7 @@ We note that the exact parameters of this dependency may depend on factors such 
 We point out that, as non-differentially regulated proteins maintain their relative abundances, one can overcome the lack of knowledge of these factors and use the scaling of most of the proteins in the proteome to infer these expected default dependency parameters as is demonstrated in Figure \ref{fig:randpred}.
 
 Interestingly, our model demonstrates that no specific control mechanisms need to exist in order to achieve a linear correlation between ribosomal proteins and the growth rate.
-However, many such mechanisms have been described before (\emph{ToDo: add refs}).
+However, many such mechanisms have been described before \cite{Nomura1984}.
 We stress that the model does not contradict the existence of such mechanisms.
 They may still be needed to achieve faster response under changing environmental conditions or a tighter regulation to avoid unnecessary production and reduce translational noise.
 Furthermore, such mechanisms may be crucial for synchronizing the amount of rRNA with ribosomal proteins as the two go through different bio-synthesis pathways.
@@ -334,7 +334,7 @@ Many studies monitored the ribosome concentration in cells and its interdependen
 While in all of these studies a linear dependence of ribosome concentration with growth rate was observed, in some cases different response strengths were found, compared with the observations in this study.
 A discussion for various reasons that may underlie these differences is in \ref{ribosomeconc}.
 Conducting similar analysis on the data sets used in this study reveals that, while a linear relation exists, it is not unique to ribosomal proteins but is in fact shared among many more genes.
-Furthermore, the variability in the concentration levels of proteins explained by linear correlation with growth rate is similar among the ribosomal proteins versus all the proteins with high correlation with the growth rate\todo{need a figure to show this}.
+Furthermore, the variability in the concentration levels of proteins explained by linear correlation with growth rate is similar among the ribosomal proteins versus all the proteins with high correlation with the growth rate as is shown in Figure \ref{fig:ribsnonribs}.
 
 The expected availability of increasing amounts of whole proteome data sets, with higher accuracy levels, following advancements in experimental methods and measurement techniques, will enable further investigation of the details of cellular resource distribution and the responses microorganisms have for various environmental changes.
 The analysis of such future data sets will help shed more light on the extent to which carefully calibrated responses dictate the composition of the proteome, versus global, passive effects.
@@ -379,7 +379,6 @@ There are different, alternative ways to assess the resources consumed by a spec
 On top of the measures listed above, one could consider either the total mass or molecule count of a specific protein out of the biomass, or out of the dry weight of the cell, both of which take into account the ratio of total protein to biomass or dry weight which was neglected in our analysis.
 Moreover, one can consider specific protein mass or molecule count per cell, thus reflecting changes in cell size across conditions.
 Our analysis focused on the relations between different proteins and resource distribution inside the proteome, and thus avoided such metrics.
-\emph{ToDo - should we justify omitting such analysis?}
 \section{Acknowledgments}
 (preliminary list) Matthias Heinemann, Stephan Klumpp, Avi Flamholz
 \section{Supplementary figures and data}
@@ -389,9 +388,9 @@ The data we use includes the concentrations of proteins under different growth c
 Given a threshold on the Pearson correlation with growth rate, one can focus on the group of proteins with a correlation with growth rate that is higher than the threshold.
 For this group of proteins, a linear regression response can be calculated.
 We define the explained variability by the growth rate, given a threshold, as the difference between the total variability of the group of proteins with a correlation higher than the threshold, and the variability remaining, when assuming these proteins scale with the growth rate according to the calculated linear response.
-Dividing the explained variability by the total variability of the entire data set quantifies what fraction of the total variability in the data set is explained by considering linear scaling with growth rate for all the proteins with a correlation with growth rate higher than the treshold.
+Dividing the explained variability by the total variability of the entire data set quantifies what fraction of the total variability in the data set is explained by considering linear scaling with growth rate for all the proteins with a correlation with growth rate higher than the threshold.
 The optimal threshold is then defined as the threshold maximizing this fraction.
-As different proteins have very different average concentrations, the aformentioned calculation may be biased towards proteins with higher average concentrations.
+As different proteins have very different average concentrations, the aforementioned calculation may be biased towards proteins with higher average concentrations.
 To avoid this effect, the analysis was performed on the normalized concentrations as defined in \ref{concacrossconds}.
 Figure \ref{fig:threshold} shows the fraction of the variability explained as a function of the threshold used, as well as the fraction of the variability of the proteins included in the group for which the regression was calculated explained by the same regression line.
 \begin{figure}[h]
@@ -436,7 +435,7 @@ Therefore, and as it is known that ribosomes can operate even in the absence of 
 \centering
 \includegraphics{RandEstimateHeinemann.pdf}
 \caption{
-  A selection of random predictions of protein concentrations from the highely correlated with growth rate fraction, taken from the data set of \cite{Heinemann2014}.
+  A selection of random predictions of protein concentrations from the highly correlated with growth rate fraction, taken from the data set of \cite{Heinemann2014}.
   Each panel shows the average concentration of 10 random proteins that are highly correlated with growth (blue dots), a regression line that best fits the data, and the concentration of a different random protein (green dots).
   The $R^2$ value for the trend line and the different protein is given.
 }
@@ -473,6 +472,19 @@ columns/corPrctP/.style={column name={Correlated $\%$ of proteome}},
 \caption{Breakdown by function of the strongly correlated with growth rate proteins in the Valgepea data set.}
 \label{tab:corrbreakdownv}
 \end{table}
+
+\subsection{Ribosomal proteins scale in a similarly to non-ribosomal proteins that are strongly positively correlated with growth rate}
+Comparing the normalized sum of ribosomal proteins to the normalized sum of the positively correlated with growth rate proteins that are non-ribosomal shows that these two groups scale in the same way with the growth rate, as is seen in Figure \ref{fig:ribsnonribs}
+\begin{figure}[H]
+\centering
+\includegraphics{RibsVsGlob.pdf}
+\caption{
+  The scaling with growth rate of ribosomal proteins and non-ribosomal, but highly correlated with growth rate proteins is shown.
+Trend lines for the two groups of proteins are plotted.
+The scaling with growth rate is similar between the two groups of proteins.
+}
+\label{fig:ribsnonribs}
+\end{figure}
 
 \printbibliography
 \end{document}
