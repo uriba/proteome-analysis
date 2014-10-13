@@ -289,7 +289,6 @@ plot_corr_hist(p1,db,ecoli_data_chemo,categories)
 handles,labels=p1.get_legend_handles_labels()
 
 figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.05,0.8,0.5,0.2),ncol=2)
-
 glob_chemo = get_glob(db,ecoli_data_chemo)
 print "%s global cluster is %d out of %d measured proteins" % (db, len(glob_chemo),len(ecoli_data_chemo[ecoli_data_chemo['gr_cov']>-1.]))
 
@@ -298,11 +297,16 @@ alpha,beta,r_val,p_val,std_err = linregress(gr_chemo,glob_tot_chemo)
 
 print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
 print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
-p2.plot(gr_chemo.values,glob_tot_chemo.values,'o',label="%s et. al" % db,color='blue')
+p2.plot(gr_chemo.values,glob_tot_chemo.values,'o',label="Heinemann et. al Chem",color='blue')
 p2.plot(gr_chemo.values,alpha*gr_chemo.values+beta,color='blue',label=("Heinemann Chem. Trend,$R^2$=%.2f" % (gr_chemo.corr(glob_tot_chemo)**2)))
-#(glob_v,alpha_v,beta_v) = get_high_corr('Valgepea',coli_datas['Valgepea'],grs['Valgepea'],cond_lists['Valgepea'])
-#p2.plot(gr_v.values,glob_v.values,'o',label="Valgepea")
-#p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_v)**2)))
+
+glob_v = get_glob("Valgepea",coli_datas['Valgepea'])
+cond_list = cond_lists["Valgepea"]
+gr_v = grs["Valgepea"]
+glob_tot_v = glob_v[cond_list].sum()
+alpha_v,beta_v,r_val,p_val,std_err = linregress(gr_v,glob_tot_v)
+p2.plot(gr_v.values,glob_tot_v.values,'o',label="Valgepea",color='green')
+p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_tot_v)**2)))
 
 p2.set_xlim(xmin=0.)
 p2.set_ylim(ymin=0.)
@@ -786,6 +790,41 @@ def plotPrediction():
         savefig('RandEstimate%s.pdf' % db)
         savefig('RandEstimate%s.png' % db)
 
+#plot ribosomal proteins vs. global cluster proteins with trendlines and R^2 estimates.
+def plotRibosomalVsGlobTrend():
+    figure(figsize=(5,3))
+    ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
+    coords = {'Heinemann':0.03,'Valgepea':0.03}
+    for db in dbs:
+        conds = cond_lists[db]
+        coli_data = coli_datas[db]
+        gr = grs[db]
+        gr = gr[conds]
+        glob = get_glob(db,coli_data)
+        no_ribs = glob[glob['prot'] != 'Ribosome']
+        ribs = glob[glob['prot'] == 'Ribosome']
+        colors = ['blue','green']
+        p = ps[db]
+        ser = ['Non ribosomal proteins','Ribosomal proteins']
+        for j,d in enumerate([no_ribs,ribs]):
+            c = colors[j]
+            d = d[conds].sum()
+            d = d/d.mean()
+            p.plot(gr.values,d.values,'o',color=c,label=ser[j])
+            alpha,beta,r_val,p_val,std_err = linregress(gr,d)
+            p.plot(gr.values,alpha*gr.values+beta,color=c,label="Trend line $R^2$=%.2f" % (gr.corr(d)**2))
+            p.set_xlim(xmin=0.)
+            p.set_ylim(ymin=0.)
+            p.set_xlabel('Growth rate',fontsize=10)
+            p.set_ylabel('Normalized concentration',fontsize=10)
+        p.legend(loc='lower left', prop={'size':8},numpoints=1)
+        p.tick_params(axis='both', which='major', labelsize=8)
+        p.tick_params(axis='both', which='minor', labelsize=8)
+        text(coords[db],0.93,"%s et. al" % db,fontsize=8,transform=p.transAxes)
+    tight_layout()
+    savefig('RibsVsGlob.pdf')
+
+        
 # k-means
 
 writeTables()
@@ -799,3 +838,4 @@ variabilityAndGlobClustSlopes()
 variabilityAndGlobClustSlopesNormed()
 variablityComparisonHein()
 plotRibosomal()
+plotRibosomalVsGlobTrend()
