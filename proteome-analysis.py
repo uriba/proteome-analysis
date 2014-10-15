@@ -28,6 +28,16 @@ def get_limits(db):
 #Initialize global data structures
 (cond_list_v,gr_v,ecoli_data_v) = get_annotated_prots('Valgepea')
 (cond_list_h,gr_h,ecoli_data_h) = get_annotated_prots('Heinemann')
+ecoli_data_v['mean'] = ecoli_data_v[cond_list_v].mean(axis=1)
+ecoli_data_v['std'] = ecoli_data_v[cond_list_v].std(axis=1)
+ecoli_data_h['mean'] = ecoli_data_h[cond_list_h].mean(axis=1)
+ecoli_data_h['std'] = ecoli_data_h[cond_list_h].std(axis=1)
+v_CV = (ecoli_data_v['std']/ecoli_data_v['mean']).mean()
+h_CV = (ecoli_data_h['std']/ecoli_data_h['mean']).mean()
+
+print "v_cv %f" % v_CV
+print "h_CV %f" % h_CV
+
 #ecoli_data_h = ecoli_data_h[ecoli_data_h['prot']=='Ribosome']
 #ecoli_data_v = ecoli_data_v[ecoli_data_v['prot']=='Ribosome']
 
