@@ -11,8 +11,7 @@
 \begin{frame}
 \frametitle{Cell physiology changes dramatically across different growth conditions}
 \begin{itemize}
-\item For glucose-limited chemostat growth at rates ranging from $0.11 [h^{-1}]$ to $0.49 [h^{-1}]$
-\footnote{Data from Valgepea et. al. 2013}
+\item For glucose-limited chemostat growth\footnote{Data from Valgepea et. al. 2013} at rates ranging from $0.11 [h^{-1}]$ to $0.49 [h^{-1}]$
 \begin{itemize}
 \item Cell volume varies between $0.73 [fL]$ and $1.69 [fL]$.
 \item Protein fraction out of the cell dry weight changes from $61\%$ to $50\%$.
@@ -80,22 +79,37 @@
 \begin{frame}
 \frametitle{Linear, coordinated increase in concentration with growth rate is an expected result of passive resource redistribution}
 \begin{itemize}
-\item Improved growth conditions eliminates the need for expression of specific proteins.
+\item Improved growth conditions eliminate the need for expression of specific proteins.
 \item Freed translational and transcriptional resources are evenly distributed across the expression program of the cell.
 \item The growth rate increases as the ratio of macro-molecular synthesizing components to the biomass increases.
+\item the predicted concentration of essential components at zero growth rate is 0.
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Non-zero intercept can result from protein degradation}
+\frametitle{Non-zero concentration at zero growth can result from protein degradation}
+\begin{itemize}
+\item Even at zero growth rate, macromolecules are synthesized and degraded.
+\item The macromolecular synthesis rate is the growth rate plus the degradation rate.
+\item The proteome composition reflects the macromolecular synthesis rate and not the observed growth rate.
+\end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{However, linear, coordinated correlation accounts only for a small fraction of the observed data}
-%% possible reasons are experimental noise and false assumptions
+\frametitle{Linear, coordinated correlation accounts only for a small fraction of the observed variability in proteome composition}
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.9]{ExpVar3.pdf}
+\end{figure}
 \end{frame}
 \begin{frame}
 \frametitle{Conclusions}
+\begin{itemize}
+\item Many proteins are positively highly correlated with growth rate, even under different carbon sources.
+\item The normalized slopes of the responses of these proteins are relatively similar.
+\item However, for current data sets, correlation with growth rate does not explain a significant fraction of overall variability observed in the proteome.
+\item Lacking information regarding experimental noise implies one cannot distinguish between false assumptions and measurement errors.
+\end{itemize}
 \end{frame}
 
 \end{document}
