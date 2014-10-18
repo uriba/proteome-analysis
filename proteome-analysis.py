@@ -206,7 +206,8 @@ def conf_int_max(degfr,s):
 def set_std_err(db,df,gr):
     cond_list = cond_lists[db]
     print "for db %s deg-free %d" %(db,len(cond_list)-2)
-    df['std_err'] = df[cond_list].apply(lambda x: std_err_fit(gr[cond_list]/gr[cond_list].mean(),x/x.mean()),axis=1)
+    #df['std_err'] = df[cond_list].apply(lambda x: std_err_fit(gr[cond_list]/gr[cond_list].mean(),x/x.mean()),axis=1)
+    df['std_err'] = df[cond_list].apply(lambda x: std_err_fit(gr[cond_list],x/x.mean()),axis=1)
     
     df['conf_min'] = df.apply(lambda x: conf_int_min(len(cond_list)-2,x) ,axis=1)
     df['conf_max'] = df.apply(lambda x: conf_int_max(len(cond_list)-2,x) ,axis=1)
@@ -219,12 +220,13 @@ def get_glob(db,df):
  
 def set_alpha(db,df,gr):
     cond_list = cond_lists[db]
-    df['alpha'] = df[cond_list].apply(lambda x: linregress(gr[cond_list]/gr[cond_list].mean(),x/x.mean())[0],axis=1)
+    #df['alpha'] = df[cond_list].apply(lambda x: linregress(gr[cond_list]/gr[cond_list].mean(),x/x.mean())[0],axis=1)
+    df['alpha'] = df[cond_list].apply(lambda x: linregress(gr[cond_list],x/x.mean())[0],axis=1)
     return df
 
-def plot_response_hist(db,df,gr,p):
-    bins = linspace(-1.7,1.7,35)
-    xs = linspace(-1.75,1.75,100)
+def plot_response_hist(db,df,gr,p,total,estimate):
+    bins = linspace(-5,5,41)
+    xs = linspace(-5,5,200)
     glob_conc = get_glob(db,df)
     glob_conc = set_alpha(db,glob_conc,gr)
     glob_conc = set_std_err(db,glob_conc,gr)
@@ -232,19 +234,22 @@ def plot_response_hist(db,df,gr,p):
     #print "for db %s, plotted slopes histogram includes %d proteins" % (db,len(glob_conc))
     avg = glob_conc['alpha'].mean()
     std_err = glob_conc['std_err'].mean()
-    glob_conc_no_ribs = glob_conc[glob_conc['prot'] != 'Ribosome']
-    ribs = glob_conc[glob_conc['prot'] == 'Ribosome']
-    p.hist([glob_conc_no_ribs['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['HC-proteins','Ribosomal proteins'])
-    p.plot(xs,stats.t.pdf(xs,df=len(cond_lists[db])-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.1)
-    p.set_xlim(-1.7,1.7)
+    if not total:
+        glob_conc_no_ribs = glob_conc[glob_conc['prot'] != 'Ribosome']
+        ribs = glob_conc[glob_conc['prot'] == 'Ribosome']
+        p.hist([glob_conc_no_ribs['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['HC-proteins','Ribosomal proteins'])
+    else:
+        p.hist(glob_conc['alpha'].values,bins=bins)
+    if estimate:
+        p.plot(xs,stats.t.pdf(xs,df=len(cond_lists[db])-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.2)
+    p.set_xlim(-5,5)
+    p.axvline(x=0,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
+    p.axvline(x=1,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
+    p.axvline(x=2,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
     p.set_xlabel('Normalized slope',fontsize=8)
     p.set_ylabel('Number of proteins',fontsize=8)
-    p.axvline(x=0,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
-    p.axvline(x=0.5,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
-    p.axvline(x=1,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
     p.tick_params(axis='both', which='major', labelsize=8)
     p.tick_params(axis='both', which='minor', labelsize=8)
-    
 
 figure(figsize=(5,3))
 
@@ -252,12 +257,33 @@ p=subplot(111)
 ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
 coords = {'Heinemann':0.0,'Valgepea':0.62}
 for db in dbs:
-    plot_response_hist(db,coli_datas[db],grs[db],ps[db])
+    plot_response_hist(db,coli_datas[db],grs[db],ps[db],True,False)
+    text(coords[db],0.93,"%s et. al" % db,fontsize=8,transform=p.transAxes)
+
+tight_layout()
+savefig('AllProtsNormalizedSlopes.pdf')
+figure(figsize=(5,3))
+
+p=subplot(111)
+ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
+
+for db in dbs:
+    plot_response_hist(db,coli_datas[db],grs[db],ps[db],False,False)
+    text(coords[db],0.93,"%s et. al" % db,fontsize=8,transform=p.transAxes)
+
+tight_layout()
+savefig('AllProtsVSRibosomalNoExpNormalizedSlopes.pdf')
+figure(figsize=(5,3))
+
+p=subplot(111)
+ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
+
+for db in dbs:
+    plot_response_hist(db,coli_datas[db],grs[db],ps[db],False,True)
     text(coords[db],0.93,"%s et. al" % db,fontsize=8,transform=p.transAxes)
 
 tight_layout()
 savefig('AllProtsVSRibosomalNormalizedSlopes.pdf')
-savefig('AllProtsVSRibosomalNormalizedSlopes.png')
 
 #### plot figure of gr corr comparison by ko_num.
 #hgr = []
