@@ -130,7 +130,6 @@ def plot_corr_hist(p,db,conc_data,categories):
     p.axvline(x=limits[1],ymin=0,ymax=250,ls='--',color='black',lw=0.5)
 
     #legend(loc=2,prop={'size':8})
-    tight_layout()
     return handles,labels
 
 
@@ -138,8 +137,22 @@ def plotCorrelationHistograms():
     figure(figsize=(5,3))
 
     p=subplot(111)
-    ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
+    ps = {'Valgepea':subplot(122)}
     coords = {'Heinemann':0.03,'Valgepea':0.65}
+
+    plot_corr_hist(ps['Valgepea'],'Valgepea',coli_datas['Valgepea'],categories)
+    text(coords['Valgepea'],0.8,"%s et. al." % 'Valgepea',fontsize=8,transform=p.transAxes)
+    handles,labels=ps['Valgepea'].get_legend_handles_labels()
+    tight_layout()
+
+    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
+
+    subplots_adjust(top=0.83)
+    savefig('GrowthRateCorrelationVal.pdf')
+
+    figure(figsize=(5,3))
+    p=subplot(111)
+    ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
 
     for db in dbs:
         plot_corr_hist(ps[db],db,coli_datas[db],categories)
@@ -148,6 +161,7 @@ def plotCorrelationHistograms():
     #assume both subplots have the same categories.
     handles,labels=ps['Heinemann'].get_legend_handles_labels()
 
+    tight_layout()
     figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
 
     subplots_adjust(top=0.83)
@@ -239,7 +253,7 @@ def plot_response_hist(db,df,gr,p,total,estimate):
         ribs = glob_conc[glob_conc['prot'] == 'Ribosome']
         p.hist([glob_conc_no_ribs['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['High correlation proteins','Ribosomal proteins'])
     else:
-        p.hist(glob_conc['alpha'].values,bins=bins)
+        p.hist(glob_conc['alpha'].values,bins=bins,label=['High correlation proteins'])
     if estimate:
         p.plot(xs,stats.t.pdf(xs,df=len(cond_lists[db])-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.25)
     p.set_xlim(-5,5)
@@ -259,9 +273,12 @@ coords = {'Heinemann':0.0,'Valgepea':0.62}
 for db in dbs:
     plot_response_hist(db,coli_datas[db],grs[db],ps[db],True,False)
     text(coords[db],0.93,"%s et. al" % db,fontsize=8,transform=p.transAxes)
+    handles,labels=ps[db].get_legend_handles_labels()
+    if db == 'Valgepea':
+        ps[db].set_ylim(0,100)
 
+figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.25,0.8,0.5,0.2),ncol=2)
 tight_layout()
-
 savefig('AllProtsNormalizedSlopes.pdf')
 figure(figsize=(5,3))
 
@@ -272,6 +289,8 @@ for db in dbs:
     plot_response_hist(db,coli_datas[db],grs[db],ps[db],False,False)
     text(coords[db],0.93,"%s et. al" % db,fontsize=8,transform=p.transAxes)
     handles,labels=ps[db].get_legend_handles_labels()
+    if db == 'Valgepea':
+        ps[db].set_ylim(0,100)
 
 figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.25,0.8,0.5,0.2),ncol=2)
 tight_layout()
@@ -285,6 +304,8 @@ for db in dbs:
     plot_response_hist(db,coli_datas[db],grs[db],ps[db],False,True)
     text(coords[db],0.93,"%s et. al" % db,fontsize=8,transform=p.transAxes)
     handles,labels=ps[db].get_legend_handles_labels()
+    if db == 'Valgepea':
+        ps[db].set_ylim(0,100)
 
 figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.25,0.8,0.5,0.2),ncol=2)
 tight_layout()

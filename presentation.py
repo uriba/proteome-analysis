@@ -21,9 +21,10 @@ params = [(0.5,0.8),(1.5,0.5),(3,-0.3)]
 xlim(0,1)
 xlabel("Growth rate")
 ylabel("Protein concentration")
-for a,b in params:
-    plot(xs,a*xs+b,'o')
+for i,(a,b) in enumerate(params):
+    plot(xs,a*xs+b,'o',label='Protein %d' % (i+1))
 
+legend(loc=1, prop={'size':6},numpoints=1)
 tight_layout()
 
 savefig('Noncorrelated.pdf')
