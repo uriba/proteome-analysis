@@ -92,9 +92,21 @@ def writeTopProtsVar(db):
     with open('varsOfAbdcs%s.csv' % db,'wb') as csvfile:
         csvwriter = csv.writer(csvfile,delimiter=';')
         csvwriter.writerow(['Function','Sub Function','Name','totPrctP','prctOfVar','cov'])
+        j = 0
         for i,row in high_abdc.iterrows():
             csvwriter.writerow((row['func'], row['prot'],row['Temp'],row['avg']*100,row['vars']*100/tot_vars,row['gr_cov']))
-
+            if (j == 1) and (db == 'Valgepea'):
+                print "figureing"
+                figure(figsize=(5,3))
+                plot(grs[db],row[conds]+row['avg'],'o',label="metE, Correlation: %.2f" % grs[db].corr(row[conds]))
+                ylim(0,0.04)
+                xlim(0,0.6)
+                xlabel("Growth rate")
+                ylabel("Fraction of total proteome")
+                legend(loc=2, prop={'size':8},numpoints=1)
+                tight_layout()
+                savefig('SingleProt%s.pdf' % row['Temp'])
+            j+=1
     conc_data = conc_data.sort('vars',ascending=False)
     high_vars = conc_data.head(20)
     with open('varsOfVars%s.csv' % db,'wb') as csvfile:

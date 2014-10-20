@@ -29,3 +29,30 @@ tight_layout()
 
 savefig('Noncorrelated.pdf')
 
+figure(figsize=(6,3))
+p = subplot(1,2,1)
+labels = ['Education','Health','Social\nwelfare','Infrastructure']
+fracs = [35,15,20,30]
+patches, texts, autotexts = p.pie(fracs,labels=labels,autopct='%1.1f%%',radius=0.8)
+for t in texts:
+    t.set_size('smaller')
+tight_layout()
+savefig('SimpleBudget.pdf')
+
+figure(figsize=(6,3))
+p = subplot(1,2,1)
+labels = ['Education','Health','Social\nwelfare','Infrastructure']
+fracs = [35,15,20,30]
+patches, texts, autotexts = p.pie(fracs,labels=labels,autopct='%1.1f%%',radius=0.8)
+for t in texts:
+    t.set_size('smaller')
+
+p = subplot(1,2,2)
+labels = ['Education','Health','Social\nwelfare','Infrastructure','Defence']
+fracs = [35,15,20,30,25]
+explode = [0,0,0,0,0.05]
+patches, texts, autotexts = p.pie(fracs,labels=labels,autopct='%1.1f%%',radius=0.8,explode=explode)
+for t in texts:
+    t.set_size('smaller')
+tight_layout()
+savefig('SimpleBudget2.pdf')
