@@ -9,9 +9,13 @@ from numpy import linspace,ndarray,arange,sum,square,array,cumsum,ones
 from numpy.random import randn
 from analysis import *
 import matplotlib
+from matplotlib.pyplot import gcf
 from math import sqrt,isnan,log
 import random
+import plotly.plotly as py
 
+
+py.sign_in("uri.barenholz", "hvi3ma3m30")
 
 figure(figsize=(5,3))
 
@@ -26,7 +30,8 @@ for i,(a,b) in enumerate(params):
 
 legend(loc=1, prop={'size':6},numpoints=1)
 tight_layout()
-
+fig = gcf()
+#print py.plot_mpl(fig,filename="presentation1")
 savefig('Noncorrelated.pdf')
 
 figure(figsize=(6,3))

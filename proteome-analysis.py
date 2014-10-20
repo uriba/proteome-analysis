@@ -11,7 +11,7 @@ from analysis import *
 import matplotlib
 from math import sqrt,isnan,log
 import random
-
+from matplotlib.ticker import FuncFormatter
 
 ### Results generation#####
 def get_limits(db):
@@ -98,11 +98,12 @@ def writeTopProtsVar(db):
             if (j == 1) and (db == 'Valgepea'):
                 print "figureing"
                 figure(figsize=(5,3))
-                plot(grs[db],row[conds]+row['avg'],'o',label="metE, Correlation: %.2f" % grs[db].corr(row[conds]))
-                ylim(0,0.04)
-                xlim(0,0.6)
-                xlabel("Growth rate")
-                ylabel("Fraction of total proteome")
+                ax = subplot(111)
+                ax.plot(grs[db],100*(row[conds]+row['avg']),'o',label="metE, Correlation: %.2f" % grs[db].corr(row[conds]))
+                ax.set_ylim(0,5)
+                ax.set_xlim(0,0.6)
+                ax.set_xlabel("Growth rate")
+                ax.set_ylabel("% of total proteome")
                 legend(loc=2, prop={'size':8},numpoints=1)
                 tight_layout()
                 savefig('SingleProt%s.pdf' % row['Temp'])
