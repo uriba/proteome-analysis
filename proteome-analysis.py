@@ -4,7 +4,7 @@ from pandas.io.parsers import read_csv
 from scipy.stats import gaussian_kde,linregress
 from scipy import stats
 from Bio import SeqIO
-from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,text,subplots
+from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,text,subplots,gcf
 from numpy import linspace,ndarray,arange,sum,square,array,cumsum,ones
 from numpy.random import randn
 from analysis import *
@@ -12,6 +12,7 @@ import matplotlib
 from math import sqrt,isnan,log
 import random
 from matplotlib.ticker import FuncFormatter
+#import plotly.plotly as py
 
 ### Results generation#####
 def get_limits(db):
@@ -106,6 +107,8 @@ def writeTopProtsVar(db):
                 ax.set_ylabel("% of total proteome")
                 legend(loc=2, prop={'size':8},numpoints=1)
                 tight_layout()
+                #fig = gcf()
+                #py.plot_mpl(fig,filename="metE chemostat")
                 savefig('SingleProt%s.pdf' % row['Temp'])
             j+=1
     conc_data = conc_data.sort('vars',ascending=False)
@@ -178,6 +181,8 @@ def plotCorrelationHistograms():
     figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
 
     subplots_adjust(top=0.83)
+    #fig = gcf()
+    #py.plot_mpl(fig,filename="Growth rate Correlation histograms")
     savefig('GrowthRateCorrelation.pdf')
     savefig('GrowthRateCorrelation.png')
 
@@ -212,6 +217,8 @@ def plotGlobalResponse():
     tick_params(axis='both', which='major', labelsize=8)
     tick_params(axis='both', which='minor', labelsize=8)
     tight_layout()
+    #fig = gcf()
+    #py.plot_mpl(fig,filename="Global cluster growth rate correlation")
     savefig('GlobalClusterGRFit.pdf')
     savefig('GlobalClusterGRFit.png')
 
@@ -322,6 +329,8 @@ for db in dbs:
 
 figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.25,0.8,0.5,0.2),ncol=2)
 tight_layout()
+#fig = gcf()
+#py.plot_mpl(fig,filename="Normalized slopes distribution")
 savefig('AllProtsVSRibosomalNormalizedSlopes.pdf')
 
 #### plot figure of gr corr comparison by ko_num.
@@ -393,6 +402,8 @@ p2.tick_params(axis='both', which='minor', labelsize=8)
 tight_layout()
 
 subplots_adjust(top=0.83)
+#fig = gcf()
+#py.plot_mpl(fig,filename="Heinemann chemostat graphs")
 savefig('HeinemannChemostatGr.pdf')
 savefig('HeinemannChemostatGr.png')
 
@@ -531,6 +542,8 @@ def variabilityAndGlobClustSlopes():
         p.set_title(db)
 
     tight_layout()
+    #fig = gcf()
+    #py.plot_mpl(fig,filename="Non normalized variability statistics")
     savefig('ExpVar2.pdf')
     savefig('ExpVar2.png')
 
@@ -545,6 +558,8 @@ def variabilityAndGlobClustSlopes():
         p.tick_params(axis='both', which='minor', labelsize=6)
         p.set_ylim(0,2)
     tight_layout()
+    #fig = gcf()
+    #py.plot_mpl(fig,filename="Global response slope dependence on threshold")
     savefig('ThresholdSlopes.pdf')
     savefig('ThresholdSlopes.png')
 
@@ -611,6 +626,8 @@ def variablityComparisonHein():
         p.set_title(titles[i],fontsize=8)
 
     tight_layout()
+    #fig = gcf()
+    #py.plot_mpl(fig,filename="Various heuristics on explained variability for Heinemann data set")
     savefig('ExpVarComp.pdf')
 
 for db in dbs:
@@ -664,6 +681,8 @@ def variabilityAndGlobClustSlopesNormed():
     subplots_adjust(top=0.83)
     tight_layout()
 
+    #fig = gcf()
+    #py.plot_mpl(fig,filename="Explained variability statistics on normalized concentrations")
     savefig('ExpVar3.pdf')
     savefig('ExpVar3.png')
 
@@ -678,6 +697,8 @@ def variabilityAndGlobClustSlopesNormed():
         p.tick_params(axis='both', which='minor', labelsize=6)
         p.set_ylim(0,2)
     tight_layout()
+    #fig = gcf()
+    #py.plot_mpl(fig,filename="Dependence on threshold of global response slopes for normalized concentrations")
     savefig('ThresholdSlopes2.pdf')
     savefig('ThresholdSlopes2.png')
 
@@ -742,6 +763,8 @@ def plotMultiStats():
 
     tight_layout()
 
+    #fig = gcf()
+    #py.plot_mpl(fig,filename="Proteins statistics for Heinemann dataset")
     savefig('AvgConcStatsHein.pdf')
     savefig('AvgConcStatsHein.png')
 
@@ -771,6 +794,8 @@ def plotComulativeGraph():
     p2.tick_params(axis='both', which='minor', labelsize=6)
 
     tight_layout()
+    #fig = gcf()
+    #py.plot_mpl(fig,filename="Cumulative proteome concentration distribution for Heinemann")
     savefig('DistStatsHein.pdf')
     savefig('DistStatsHein.png')
 
@@ -796,6 +821,8 @@ def plotHighAbundance():
         p.legend(loc=2, prop={'size':3},numpoints=1)
         p.set_ylim(0,0.1)
     tight_layout()
+    #fig = gcf()
+    #py.plot_mpl(fig,filename="Most abundant proteins concentration vs growth rate")
     savefig('highest.pdf')
 
 def plotRibosomal():
@@ -823,6 +850,8 @@ def plotRibosomal():
         p.plot(gr.values,tot,'o')
         p.set_ylim(0,3)
     tight_layout()
+    #fig = gcf()
+    #py.plot_mpl(fig,filename="Ribosomal proteins concentration vs growth")
     savefig('ribosomal.pdf')
 
 
@@ -862,6 +891,8 @@ def plotPrediction():
             p.tick_params(axis='both', which='minor', labelsize=8)
             p.set_title("$R^2$=%.2f" % est.corr(linpred)**2,fontsize=8)
         tight_layout()    
+        #fig = gcf()
+        #py.plot_mpl(fig,filename="Random proteins estimations, 10 proteins at a time, %s" % db)
         savefig('RandEstimate%s.pdf' % db)
         savefig('RandEstimate%s.png' % db)
 
@@ -897,6 +928,8 @@ def plotRibosomalVsGlobTrend():
         p.tick_params(axis='both', which='minor', labelsize=8)
         text(coords[db],0.93,"%s et. al" % db,fontsize=8,transform=p.transAxes)
     tight_layout()
+    #fig = gcf()
+    #py.plot_mpl(fig,filename="Ribosomal proteins vs global cluster")
     savefig('RibsVsGlob.pdf')
 
         
