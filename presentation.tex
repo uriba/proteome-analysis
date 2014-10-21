@@ -65,7 +65,14 @@
 \href{https://plot.ly/~uri.barenholz/0/protein-concentration-vs-growth-rate/}
     {\includegraphics[scale=0.9]{Noncorrelated.pdf}}
 \end{figure}
+\end{frame}
 
+\begin{frame}
+\frametitle{Normalization can be applied to identify coordination between proteins}
+Assuming $g_i$ are the growth rates, $p_i$ are the concentrations of one protein at these growth rates, and $q_i$ are the concentrations of another protein at these growth rates, the proteins are coordinated if for all $i$, $\frac{p_i}{q_i}=C$ some constant that is independent of $i$.
+This also implies that $\bar{p_i}=\bar{q_i}C$.
+Therefore, normalizing each protein by assigning $p'_i=p_i/\bar{p_i}$ and $q'_i=q_i/\bar{q_i}$ results in $p'_i=q'_i$
+Specifically, for linear correlations, the linear parameters should be identical.
 \end{frame}
 
 \begin{frame}
@@ -124,6 +131,7 @@
 \item Even at zero growth rate, macromolecules are synthesized and degraded.
 \item The macromolecular synthesis rate is the growth rate plus the degradation rate.
 \item The proteome composition reflects the macromolecular synthesis rate and not the observed growth rate.
+\item Following this assumption, the degradation rate corresponds to half life time of $\approx 1.7[h]$.
 \end{itemize}
 \end{frame}
 
@@ -134,12 +142,28 @@
 \includegraphics[scale=0.9]{ExpVar3.pdf}
 \end{figure}
 \end{frame}
+
+\begin{frame}
+\frametitle{Linear, coordinated correlation accounts only for a small fraction of the observed variability in proteome composition}
+\begin{itemize}
+\item Proteins with high abundance have high contribution to proteome variability but are also likely to have specific regulation.
+\item Assuming some proteins increase in concentration requires others to decrease, but knowing which is non-trivial.
+\item Unknown level of experimental noise may account for much of the variability.
+\end{itemize}
+\end{frame}
+
 \begin{frame}
 \frametitle{Conclusions}
 \begin{itemize}
 \item Many proteins are positively highly correlated with growth rate, even under different carbon sources.
+\begin{itemize}
+\item 296 out of 919 in chemostat conditions, 881 out of 1654 under different carbon sources.
+\end{itemize}
 \item The normalized slopes of the responses of these proteins are relatively similar.
 \item However, for current data sets, correlation with growth rate does not explain a significant fraction of overall variability observed in the proteome.
+\begin{itemize}
+\item Only $5-10\%$ of total variability is explained by linear correlation with growth rate.
+\end{itemize}
 \item Lacking information regarding experimental noise implies one cannot distinguish between false assumptions and measurement errors.
 \end{itemize}
 \end{frame}
