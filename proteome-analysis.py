@@ -14,6 +14,7 @@ import random
 from matplotlib.ticker import FuncFormatter
 #import plotly.plotly as py
 
+py.sign_in("uri.barenholz", "hvi3ma3m30")
 ### Results generation#####
 def get_limits(db):
     if db == 'Heinemann' and not use_LB:
@@ -225,9 +226,11 @@ def plotGlobalResponse():
 #gets values at cond_list and normalized in both axes
 def std_err_fit(gr,s):
     alpha,beta,r,p,st = linregress(gr,s)
-    n = sqrt(sum(square(s-(alpha * gr + beta)))/(len(s)-2))
-    d = sqrt(sum(square(gr-gr.mean())))
-    return n/d
+    #n = sqrt(sum(square(s-(alpha * gr + beta)))/(len(s)-2))
+    #d = sqrt(sum(square(gr-gr.mean())))
+    #print "%f \t %f" % (st, n/d)
+    #return n/d
+    return st
     
 def conf_int_min(degfr,s):
     res = stats.t.interval(0.95,degfr,loc=s['alpha'],scale=s['std_err'])
@@ -704,7 +707,7 @@ def variabilityAndGlobClustSlopesNormed():
 
 
 #6 panel graph - avg. exp. vs norm. slope, slope vs. r^2. non-global cluster avg. exp. vs. slope.
-def plotMultiStats():
+def plotMultiStats(db):
     figure(figsize=(5,3))
     p1=subplot(231)
     p2=subplot(232)
@@ -713,9 +716,9 @@ def plotMultiStats():
     p5=subplot(235)
     p6=subplot(236)
 
-    glob_conc = ecoli_data_h
-    gr=gr_h
-    conds = cond_lists['Heinemann']
+    glob_conc = coli_datas[db]
+    gr=grs[db]
+    conds = cond_lists[db]
 
     p1.plot(glob_conc['avg'], glob_conc['rsq'],'.', markersize=1)
     p1.set_xlabel('Average concentraion', fontsize=6)
@@ -732,8 +735,8 @@ def plotMultiStats():
     p2.tick_params(axis='both', which='minor', labelsize=6)
 
     glob_conc = glob_conc[glob_conc['gr_cov']>0.4]
-    glob_conc = set_alpha('Heinemann',glob_conc,gr)
-    glob_conc = set_std_err('Heinemann',glob_conc,gr)
+    glob_conc = set_alpha(db,glob_conc,gr)
+    glob_conc = set_std_err(db,glob_conc,gr)
 
     p3.plot(glob_conc['avg'], glob_conc['alpha'],'.', markersize=1)
     p3.set_xlabel('Average concentraion (HC prots)', fontsize=6)
@@ -765,8 +768,9 @@ def plotMultiStats():
 
     #fig = gcf()
     #py.plot_mpl(fig,filename="Proteins statistics for Heinemann dataset")
-    savefig('AvgConcStatsHein.pdf')
-    savefig('AvgConcStatsHein.png')
+    glob_conc.to_csv('stats.csv')
+    savefig('AvgConcStats%s.pdf' % db)
+    #savefig('AvgConcStatsHein.png')
 
 #comulative graph - x axis - avg. prot. conc. (or molecule count per cell), y axis, comulative % out of proteome.
 def plotComulativeGraph():
@@ -938,7 +942,7 @@ def plotRibosomalVsGlobTrend():
 writeTables()
 plotCorrelationHistograms()
 plotGlobalResponse()
-plotMultiStats()
+plotMultiStats('Valgepea')
 plotComulativeGraph()
 plotHighAbundance()
 plotPrediction()        
