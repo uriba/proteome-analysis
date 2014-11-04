@@ -1,15 +1,39 @@
+\documentclass[notitlepage]{article}
+\usepackage{amsmath,graphicx}
+\usepackage[citestyle=numeric,backend=bibtex]{biblatex}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{verbatim}
+\usepackage{pgfplotstable}
+\usepackage[textsize=small]{todonotes}
+\usepackage{soul}
+\usepackage{float}
+\newcommand{\hlfix}[2]{\texthl{#1}\todo{#2}}
+
+\bibliography{library}
+
+\title{Interim report}
+\author{Uri Barenholz}
+
+\begin{document}
+\maketitle
 
 \abstract{
 Microorganisms are highly adaptable, self replicating, chemical processing machines.
 A huge body of work has characterized many of their internal components, and the processes through which they proliferate.
 Despite the vast knowledge obtained for these creatures, our understanding of many basic questions regarding their ability to dynamically adjust their physiology to changing environmental conditions is still far from complete.
-While essential knowledge on the extent to which cell size and macromolecular composition change as a function of the environmental conditions and the growth rate has been collected for decates, quantifying  and characterizing the variability of the proteome composition has only started being addressed in recent years.
-Specifially, how many degrees of freedom a cell has for controlling its expression program is not well known.
+While essential knowledge on the extent to which cell size and macromolecular composition change as a function of the environmental conditions and the growth rate has been collected for decades, quantifying  and characterizing the variability of the proteome composition has only started being addressed in recent years.
+Specifically, the amount of degrees of freedom a cell has for controlling its expression program is not well known.
 Furthermore, how much of the observed adaptation is due to active regulation of the expression program of the cell and how much is a passive, inevitable, global side-effect of that active regulation is not yet fully understood.
 
 Here we present an extensive analysis of two proteomics data sets collected for the model organism \emph{E.Coli} under various environmental conditions.
-Our analysis focuses on changes to the proteome that are correlated with the growth rate.
+Our analysis focuses on changes in the proteome that are correlated with the growth rate.
 We find that the concentrations of between a third and a half of the proteins increase with the growth rate.
 We describe a model that explains why the observed phenomena can result from basic physiological considerations, under some trivial assumptions.
+We show that, despite the magnitude of this phenomena, it only accounts for $\approx 10 \%$ of the variability observed in the proteome in these data sets.
 
+We are currently building a turbidostat/chemostat system that will be used to collect further data on the proteome composition under different growth rates and nutrient types.
+We plan on using this data to re-evaluate our current model as well as address questions regarding the physiological changes occurring under varying nutrient concentrations and the rigidity of the transcriptome/proteome relation.
 }
+\section{Results}
+\section{Future plans}
+\end{document}
