@@ -14,7 +14,7 @@ import random
 from matplotlib.ticker import FuncFormatter
 #import plotly.plotly as py
 
-py.sign_in("uri.barenholz", "hvi3ma3m30")
+#py.sign_in("uri.barenholz", "hvi3ma3m30")
 ### Results generation#####
 def get_limits(db):
     if db == 'Heinemann' and not use_LB:
