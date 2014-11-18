@@ -262,6 +262,48 @@ This assumption fails if the rate at which the bio-synthetic machinery operates 
 Replacing this assumption by a dependence of bio-synthesis rate with growth rate (such that, the faster the growth, the faster the synthesis rates), will affect the resulting predictions as well.
 Slower bio-synthesis rates under slower growth rates imply that, compared with the model prediction, higher fraction of bio-synthesis proteins is needed to achieve a given growth rate.
 Thus, lower synthesis rates under slower growth rates will be reflected by a lower slope and higher interception point for non-regulated proteins than those predicted by the model, as is indeed the case in Figure \ref{fig:globalgrcorr}.
+\subsection{Discussion}
+We characterized a significant, coordinated response in \emph{E.coli} between many proteins and the growth rate.
+This response spans proteins from various functional groups and is not related to the specific medium of growth.
+A similar phenomena is observed for \emph{S.cerevisiae} as was reported in \cite{Keren2013a} and may thus be conserved across various organisms and domains of life.
+Our analysis suggests that, while changes in the proteome composition may seem complex, they can, to some extent, be attributed to the linear increase with growth rate of a large number of proteins, at the expense of a few, down-regulated proteins.
+The well studied scaling of ribosomes concentration with growth rate can be considered one manifestation of the more general phenomena we describe here.
+We find that this response, when considering ribosomal proteins fraction out of the proteome, is not unique and is, in fact, shared with many other proteins spanning different functional groups.
+
+We re-introduce the notion of intrinsic affinity for expression, first presented in \cite{Maaloe1969}, though not widely known.
+We show that integrating this notion with the limited bio-synthesis capacity of cells results in a parsimonious mechanism that can explain the response observed in recent experimental data, data that was unavailable at the time this notion was first introduced, nearly 50 years ago.
+
+The framework we present emphasizes the importance of accounting for global factors, that are reflected in the growth rate, when analyzing gene expression and proteomics data.
+Specifically, we suggest that the default response of a protein (that is, the change in the observed expression of a protein, given that no specific regulation was applied to it) is to linearly increase with growth rate.
+We note that the exact parameters of this dependency may depend on factors such as the degradation rate and the global rate of bio-synthesis mechanisms, as well as the specific affinity of the protein.
+We point out that, as non-differentially regulated proteins maintain their relative abundances, one can overcome the lack of knowledge of these factors and use the scaling of most of the proteins in the proteome to infer these expected default dependency parameters as is demonstrated in Figure \ref{fig:randpred}.
+
+Interestingly, our model demonstrates that no specific control mechanisms need to exist in order to achieve a linear correlation between ribosomal proteins and the growth rate.
+However, many such mechanisms have been described before \cite{Nomura1984}.
+We stress that the model does not contradict the existence of such mechanisms.
+They may still be needed to achieve faster response under changing environmental conditions or a tighter regulation to avoid unnecessary production and reduce translational noise.
+Furthermore, such mechanisms may be crucial for synchronizing the amount of rRNA with ribosomal proteins as the two go through different bio-synthesis pathways.
+Nevertheless, the fact that many non-ribosomal proteins share the same response as ribosomal proteins do, poses interesting questions regarding the scope of such control mechanisms, their necessity and the trade-offs involved in their deployment.
+
+\subsubsection{Relation to other studies}
+The findings in this study support and broaden the findings in other recent studies.
+Specifically, for \emph{S.cerevisiae} a few recent studies found that the concentration of the majority of the proteins is coordinated across conditions \cite{Keren2013a, Gasch2000, Brauer2008a} and increases with growth rate. %\emph{ToDo:verify this for these references and add numbers} 
+In principle, the model we suggest here can be applied to any microorganism and may thus also serve as a potential explanation for the phenomena observed in these studies.
+
+Other recently published studies in \emph{E.coli} have suggested different models and in some cases have results  and predictions that do not coincide with those presented in this study.
+Notably, in \cite{Klumpp2009a} the opposite behavior for unregulated genes is predicted.
+A few differences can explain this seeming discrepancy, among which are different ranges of growth rates observed (the growth rates in this study lie in a range smaller than the growth rates in \cite{Klumpp2009a}), different strains used and very different methods for deducing the expected behavior. %(ref SI for further discussion?).
+%\emph{ToDo: consider checking either for genes in the global cluster for which no regulatory elements are expected to exist or replicating similar experiments to those done by Klumpp.} 
+
+Many studies monitored the ribosome concentration in cells and its interdependence with growth rate \cite{Scott2010, Bremer1987, Schaechter1958, ingraham1983growth, Zaslaver2009}.
+While in all of these studies a linear dependence of ribosome concentration with growth rate was observed, in some cases different response strengths were found, compared with the observations in this study.
+%A discussion for various reasons that may underlie these differences is in \ref{ribosomeconc}.
+Conducting similar analysis on the data sets used in this study reveals that, while a linear relation exists, it is not unique to ribosomal proteins but is in fact shared among many more genes.
+Furthermore, the variability in the concentration levels of proteins explained by linear correlation with growth rate is similar among the ribosomal proteins versus all the proteins with high correlation with the growth rate as is shown in Figure \ref{fig:ribsnonribs}.
+
+The expected availability of increasing amounts of whole proteome data sets, with higher accuracy levels, following advancements in experimental methods and measurement techniques, will enable further investigation of the details of cellular resource distribution and the responses microorganisms have for various environmental changes.
+The analysis of such future data sets will help shed more light on the extent to which carefully calibrated responses dictate the composition of the proteome, versus global, passive effects.
+
 \section{Future plans}
 Despite the development of various whole proteome measurement techniques in recent years, very few data sets for \emph{E.Coli} have been published.
 As such data sets are essential in order to answer systems-level physiological questions, my main future aim is to collect further data on the proteome of \emph{E.Coli} under various growth conditions.
