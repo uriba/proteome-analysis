@@ -1,6 +1,6 @@
 \documentclass[notitlepage]{article}
 \usepackage{amsmath,graphicx}
-\usepackage[citestyle=numeric,backend=bibtex]{biblatex}
+\usepackage[citestyle=numeric,backend=bibtex,doi=false,url=false,sorting=none]{biblatex}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{verbatim}
 \usepackage{pgfplotstable}
@@ -31,8 +31,7 @@ We find that the concentrations of between a third and a half of the proteins in
 We describe a model that explains why the observed phenomena can result from basic physiological considerations, under some trivial assumptions.
 We show that, despite the magnitude of this phenomena, it only accounts for $\approx 10 \%$ of the variability observed in the proteome in these data sets.
 
-We are currently building a turbidostat/chemostat system that will be used to collect further data on the proteome composition under different growth rates and nutrient types.
-We plan on using this data to re-evaluate our current model as well as address questions regarding the physiological changes occurring under varying nutrient concentrations and the rigidity of the transcriptome/proteome relation.
+We are currently building a turbidostat/chemostat system can be used to collect further data on physiological changes and the proteome composition under different growth rates and nutrient types.
 }
 \section{Results}
 \subsection{Analysis of proteomic data sets}
@@ -284,7 +283,7 @@ We point out that, as non-differentially regulated proteins maintain their relat
 Interestingly, our model demonstrates that no specific control mechanisms need to exist in order to achieve a linear correlation between ribosomal proteins and the growth rate.
 However, many such mechanisms have been described before \cite{Nomura1984}.
 We stress that the model does not contradict the existence of such mechanisms.
-They may still be needed to achieve faster response under changing environmental conditions or a tighter regulation to avoid unnecessary production and reduce translational noise.
+Ribosomal proteins expression control mechanisms may still be needed to achieve faster response under changing environmental conditions or a tighter regulation to avoid unnecessary production and reduce translational noise.
 Furthermore, such mechanisms may be crucial for synchronizing the amount of rRNA with ribosomal proteins as the two go through different bio-synthesis pathways.
 Nevertheless, the fact that many non-ribosomal proteins share the same response as ribosomal proteins do, poses interesting questions regarding the scope of such control mechanisms, their necessity and the trade-offs involved in their deployment.
 
@@ -304,20 +303,16 @@ While in all of these studies a linear dependence of ribosome concentration with
 Conducting similar analysis on the data sets used in this study reveals that, while a linear relation exists, it is not unique to ribosomal proteins but is in fact shared among many more genes.
 Furthermore, the variability in the concentration levels of proteins explained by linear correlation with growth rate is similar among the ribosomal proteins versus all the proteins with high correlation with the growth rate as is shown in Figure \ref{fig:ribsnonribs}.
 
-The expected availability of increasing amounts of whole proteome data sets, with higher accuracy levels, following advancements in experimental methods and measurement techniques, will enable further investigation of the details of cellular resource distribution and the responses microorganisms have for various environmental changes.
-The analysis of such future data sets will help shed more light on the extent to which carefully calibrated responses dictate the composition of the proteome, versus global, passive effects.
+The expected availability of increasing amounts of whole proteome data sets, with higher accuracy levels, following advances in experimental methods and measurement techniques, will enable further investigation of the details of cellular resource distribution and the responses microorganisms have for various environmental changes.
+The analysis of such future data sets will shed more light on the relative roles of carefully tuned response mechanisms versus global, passive effects in shaping the proteome composition under different growth environments.
 
 \section{Future plans}
-Despite the development of various whole proteome measurement techniques in recent years, very few data sets for \emph{E.Coli} have been published.
-As such data sets are essential in order to answer systems-level physiological questions, my main future aim is to collect further data on the proteome of \emph{E.Coli} under various growth conditions.
-To that end, we are currently building a chemostat/turbidostat system that will enable us to cultivate up to 8 cultures in dedicated containers as sources for exponentially growing cultures.
-We are currently assessing two methods for measuring the proteome composition of such cultures, namely, mass spectrometry and ribosome profiling.
-Our goal is to construct a data set that will include $10-20$ environmental conditions spanning various growth rates and carbon sources, each of which will be measured as a triplicate to assess biological and measurement errors.
-
-Once the data is collected we aim to use it to address the following research questions:
-1. Dispute or validate our assumptions regarding the extent of passive redistribution effects being a dominant effector on proteome composition.
-2. Assess the variability in the proteome across conditions and compare it with the variability in cell size and macro-molecular composition.
-3. Investigate the changes in enzyme efficiencies and apparent catalytic rates across conditions and their inter-dependence with the growth rate.
+\begin{itemize}
+\item Construct central dogma and major components in-scilico model.
+\item Use turbidostats and proteomics to assess changes in the proteome across conditions and nutrient levels.
+\item Check various optimal ribosomes concentration values as functions of different effects.
+\item Use convexity and monotonicity of kinetics to predict relations between Km's in different metabolical contexts.
+\end{itemize}
 \section{Supplementary information}
 \subsection{Calculation of protein concentration}
 \label{protconc}
