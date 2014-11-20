@@ -45,8 +45,8 @@ We find that a significant fraction of the proteome, spanning distinct functiona
 
 \clearpage        
 \subsection*{Proteins that are positively correlated with growth rate share a similar, significant response}
-We examined how large is the response of the proteins that have a significant positive correlation with the growth rate\footnote{High correlation proteins were defined as those with a Pearson correlation in the range $(0.4,0.8)$ and $(0.8,1)$ for date sets \parencite{Heinemann2014} and \parencite{Valgepea2013}, respectively.} across the conditions measured (referred to as high correlation proteins) (Figure \ref{fig:globalgrcorr}).
-Both data sets presented a significant response ($\approx 2$ fold change in total concentration across $\approx 5$ fold change of the growth rate) with most of the variability of the total concentration being explained by the growth rate ($R^2$ of $0.75$ for data from \parencite{Heinemann2014} and $0.99$ for data from \parencite{Valgepea2013}). 
+We examined how large is the response of the proteins that have a significant positive correlation with the growth rate\footnote{High correlation proteins were defined as those with a Pearson correlation higher than $0.25$ and $0.8$ for date sets \parencite{Heinemann2014} and \parencite{Valgepea2013}, respectively.} across the conditions measured (referred to as high correlation proteins) (Figure \ref{fig:globalgrcorr}).
+Both data sets presented a significant response ($\approx 2$ fold change in total concentration across $\approx 5$ fold change of the growth rate) with most of the variability of the total concentration being explained by the growth rate ($R^2$ of $0.8$ for data from \parencite{Heinemann2014} and $0.99$ for data from \parencite{Valgepea2013}). 
 
 To examine the similarity in response to growth rate of different proteins, we calculated the slope of a linear regression line with the growth rate for every high correlation protein (Figure \ref{fig:globalfit}).
 The analysis reveals that most proteins respond in a similar manner across the different growth conditions.
@@ -62,7 +62,7 @@ The analysis shows that, on average, high correlation proteins scale in the same
 \includegraphics[scale=1.7]{GlobalClusterGRFit.pdf}
 \caption{\linespread{0.5}\selectfont{}
 The sum of the concentrations (as fractions out of the proteome) of high correlation proteins in each of the data sets, with linear regression lines, is shown.
-High correlation proteins form a large fraction out of the proteome at higher growth rates ($>40\%$ for data from \parencite{Heinemann2014} and $>50\%$ for data from \parencite{Valgepea2013}).
+High correlation proteins form a large fraction  ($>50\%$) out of the proteome at higher growth rates.
 }
 
 \label{fig:globalgrcorr}
@@ -75,7 +75,8 @@ High correlation proteins form a large fraction out of the proteome at higher gr
     A histogram of the normalized slopes of the trend lines for every high correlation protein (blue), and for every ribosomal protein (green) is shown for the two data sets analyzed.
     Left panel - data from \parencite{Valgepea2013}, right panel - data from \parencite{Heinemann2014}.
     High correlation proteins all share a relatively similar response, meaning they maintain their relative ratios.
-    Ribosomal proteins respond in a similar manner to the rest of the high correlation proteins .
+    Ribosomal proteins respond in a similar manner to the rest of the high correlation proteins.
+    Red line represents the expected distribution given the estimated experimental noise.
 }
 \label{fig:globalfit}
 \end{figure}
@@ -111,8 +112,8 @@ The growth rate therefore increases as well, due to the fact that the ratio of b
 \centering
 \includegraphics[scale=0.9]{Figures7-trieste.pdf}
 \caption{\linespread{0.5}\selectfont{}
-  A minimalistic model predicts up regulation of environmental genes reduces the concentration of other proteins (Panel A).
-As a result, the ratio of bio-synthesis machinery genes to the rest of the proteome decreases, resulting in slower growth (Panel B).
+  A minimalistic model predicts down regulation of environmental genes increases the concentration of other proteins (Panel A).
+As a result, the ratio of bio-synthesis machinery genes to the rest of the proteome increases, resulting in faster growth (Panel B).
 }
 \label{fig:model}
 \end{figure}
