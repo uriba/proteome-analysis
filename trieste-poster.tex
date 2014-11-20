@@ -36,7 +36,7 @@ The model thus suggests that, although the concentrations of many proteins chang
 \centering
 \includegraphics[scale=1.7]{GrowthRateCorrelation.pdf}
 \caption{\linespread{0.5}\selectfont{}
-  We analyzed two data sets in which \emph{E.coli} was grown at different growth rates and carbon sources, and its proteome composition was assessed by mass spectrometry (\parencite{Valgepea2013}, left panel, and \parencite{Heinemann2014}, right panel).
+  We analyzed two data sets in which \emph{E.coli} was grown at different growth rates and carbon sources, and its proteome composition was assessed by mass spectrometry (\parencite{Heinemann2014}, left panel, and \parencite{Valgepea2013}, right panel).
 The Pearson correlation between the concentration of every protein and the growth rate was calculated for each of these data sets.
 We find that a significant fraction of the proteome, spanning distinct functional groups, has a high correlation with the growth rate.
 }
@@ -70,10 +70,10 @@ High correlation proteins form a large fraction  ($>50\%$) out of the proteome a
 \clearpage        
 \begin{figure}[h]
 \centering
-\includegraphics[scale=1.9]{AllProtsVSRibosomalNormalizedSlopes.pdf}
+\includegraphics[scale=1.8]{AllProtsVSRibosomalNormalizedSlopes.pdf}
 \caption{\linespread{0.5}\selectfont{}
     A histogram of the normalized slopes of the trend lines for every high correlation protein (blue), and for every ribosomal protein (green) is shown for the two data sets analyzed.
-    Left panel - data from \parencite{Valgepea2013}, right panel - data from \parencite{Heinemann2014}.
+    Left panel - data from \parencite{Heinemann2014}, right panel - data from \parencite{Valgepea2013}.
     High correlation proteins all share a relatively similar response, meaning they maintain their relative ratios.
     Ribosomal proteins respond in a similar manner to the rest of the high correlation proteins.
     Red line represents the expected distribution given the estimated experimental noise.
@@ -86,7 +86,7 @@ High correlation proteins form a large fraction  ($>50\%$) out of the proteome a
 \centering
 \includegraphics[scale=1.9]{HeinmannChemostatGr.pdf}
 \caption{\linespread{0.5}\selectfont{}
-  Restricting the analysis of the Schmidt/Heinemann data set to chemostat conditions yields similar results to those obtained for data set \parencite{Valgepea2013}.
+  Restricting the analysis of the data from \cite{Heinemann2014} to chemostat conditions yields similar results to those obtained for data set \parencite{Valgepea2013}.
 }
 \label{fig:growthcorrchemo}
 \end{figure}
@@ -97,6 +97,7 @@ High correlation proteins form a large fraction  ($>50\%$) out of the proteome a
 \item The concentration of a large fraction of the proteome increases with growth rate (Figures \ref{fig:growthcorr}, \ref{fig:globalgrcorr}).
 \item This behavior is shared by functionally distinct groups of genes and quantitatively resembles the previously described increase of ribosomal proteins with growth rate (Figures \ref{fig:growthcorr}, \ref{fig:globalfit}).
 \item A similar change with growth rate implies that these proteins maintain proportionality across different conditions.
+\item The fraction of the variability in the proteome composition accounted for by this model is $\approx 9\%$, possibly due to experimental noise.
 \end{itemize}
 
 \clearpage        
