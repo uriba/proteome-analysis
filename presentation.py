@@ -12,11 +12,11 @@ import matplotlib
 from matplotlib.pyplot import gcf
 from math import sqrt,isnan,log
 import random
-import plotly.plotly as py
+#import plotly.plotly as py
 
 ## a*0.5+b=1
 ##
-py.sign_in("uri.barenholz", "hvi3ma3m30")
+#py.sign_in("uri.barenholz", "hvi3ma3m30")
 
 figure(figsize=(5,3))
 
@@ -32,7 +32,7 @@ for i,(a,b) in enumerate(params):
 
 legend(loc=1, prop={'size':6},numpoints=1)
 tight_layout()
-fig = gcf()
+#fig = gcf()
 #print py.plot_mpl(fig,filename="presentation1")
 savefig('Noncorrelated.pdf')
 
