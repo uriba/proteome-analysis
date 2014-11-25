@@ -340,13 +340,45 @@ The analysis of such future data sets will shed more light on the relative roles
 
 
 \section{Future plans}
-\begin{itemize}
-\item Construct central dogma and major components in-scilico model and use to analyze sensitivities and identify dominant factors in the proteome.
-\item Use turbidostats and proteomics to assess changes in the proteome across conditions and nutrient levels both to track monod curves and to extend our current work.
-\item Check various optimal ribosomes concentration values as functions of different effects and figure out which fits experimental observations.
+Following are descriptions of numerous directions I consider pursuing next in my research with short discussions for each.
+\subsection{Measure the proteome composition of \emph{E.Coli} under various growth conditions to further establish current results}
+Our lab is currently building a system for growing in parallel up to 8 cultures in chemostat/turbidostat conditions \cite{Takahashi2014}.
+This system, alongside the proteomic measurement capabilities of the institute, can be used to construct a proteomic data set spanning more conditions and being more statistically robust than the data sets used thus far.
+Such a data set can be used to further investigate the growth-rate related global trends in the proteome composition as described above.
+In can also be used to investigate other biological phenomena such as modifications to the observed kinetic rates of enzymes under various growth media and conditions, and the general dynamic range and plasticity of the proteome.
+
+One major issue to consider are the limitations and noise in such proteomic measurements.
+Current techniques have $\approx 30\%$ experimental noise for every protein and do not allow direct comparisons between the amounts of different proteins for the same sample.
+While some of the experimental noise can be compensated for by biological replications, the MS machine needs to be re-calibrated every $7-10$ days, limiting the total number of samples one can measure for comparative analysis to a few dozens.
+The need for re-calibration thus imposes a strict trade-off between replicate numbers per condition and the number of different growth conditions analyzed.
+Ribosome profiling methods are also reported to have similar noise of $\approx 1.3$ fold \cite{Li2014}.
+
+Our current results suggest that this noise is of the same order of magnitude as the effect which we are trying to quantify, given the dynamic range of growth rates achieved in \cite{Heinemann2014} as described above and the $\approx 2$ fold change observed in the concentration of specific proteins across that range. 
+
+\subsection{Quantitatively model central dogma and major cellular components in-scilico for sensitivity analysis and exploration of the phenotypic space}
+The major components and qualitative structure of the central dogma has been known for decades.
+However, there is currently no quantitative gross model for the macromolecular composition and fractions of different functional units as a function of the growth condition despite the accumulated knowledge about the key factors that determine such quantities.
+The best known example for existing knowledge that can be used in such a model is the relative consistency of translation rate and the known mass and composition of ribosomes.
+This knowledge can be summarized by the following simple equations:
+\begin{eqnarray}
+    T_d=\frac{P}{P_r}\tau\\
+    \text{rRNA}=2P_r
+\end{eqnarray}
+Where $T_d$ is the doubling time, $P$ the protein mass per cell, $P_r$ the ribosomal protein mass per cell, $\tau$ the translation rate in units of protein mass synthesized per unit time per ribosomal protein mass and rRNA the mass of ribosomal RNA per cell.
+Similar equations and quantitative relations can be derived for other components of the central dogma as well as major cellular functions and components.
+While the rates and dynamics of many of these processes are not as well characterized as those of the translation machinery, use of proteomic data sets and simplistic assumptions can provide gross estimations for the relevant parameters.
+
+Once such a model is constructed, it can be used to conduct sensitivity analysis for key cellular components.
+Such analysis can help shed light on the different trade-offs and evolutionary pressures acting on different cellular components.
+Another question that can be addressed by such a model is that of identifying distinct archtypes and constraints operating on cells when faced with different environmental conditions.
+Further more, such a model can be used to assess the validity and implications of different scaling rules and models of various cellular aspects allowing to quickly see what their implications are expected to be in terms of expected cell composition and physiology.
+
+\subsection{Measure monod curves and dissect different explenatory models}
+\subsection{Model expected effects of differeing ribosomoal characteristics on ribosome concentration and use existing data to quantify their significance}
+\begin{comment}
 \item Use convexity and monotonicity of kinetics to predict relations between Km's in different metabolical contexts, and specifically in autocatalytic cycles.
 \item Find theoretical bounds on rates of reactions at functions of substrates and products to compare biological systems to man-made ones
-\end{itemize}
+\end{comment}
 \section{Supplementary information}
 \subsection{Calculation of protein concentration}
 \label{protconc}
