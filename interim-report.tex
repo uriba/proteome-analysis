@@ -340,65 +340,89 @@ The analysis of such future data sets will shed more light on the relative roles
 
 
 \section{Future plans}
-Following are descriptions of numerous directions I consider pursuing next in my research with short discussions for each.
+Following are short discussions of several directions I consider pursuing next in my research with some background on each.
 \subsection{Measure the proteome composition of \emph{E.coli} under various growth conditions to further establish current results}
-Our lab is currently building a system for growing in parallel up to 8 cultures in chemostat/turbidostat conditions \cite{Takahashi2014}.
-This system, alongside the proteomic measurement capabilities of the institute, can be used to construct a proteomic data set spanning more conditions and being more statistically robust than the data sets used thus far.
-Such a data set can be used to further investigate the growth-rate related global trends in the proteome composition as described above.
+Our lab is currently building a chemostat/turbidostat system that can maintain up to 8 cultures in parallel \cite{Takahashi2014}.
+This system, alongside the proteomic measurement capabilities of the INCPM, can be used to construct a proteomic data set spanning more conditions and being more statistically robust than the data sets used thus far.
+Specifically, the current data sets lack data on noise in experimental repeats and span a relatively narrow range of growth rates.
+
+Such a data set, if constructed, can be used to further investigate the growth-rate related global trends in the proteome composition as described above.
 It can also be used to investigate other biological phenomena such as modifications to the observed kinetic rates of enzymes under various growth media and conditions \cite{Valgepea2013}, and the general dynamic range and plasticity of the proteome.
 
 One major issue to consider are the limitations and noise in such proteomic measurements.
-Current techniques have $\approx 30\%$ experimental noise for every protein and do not allow direct comparisons between the amounts of different proteins for the same sample.
+Current techniques have $\approx 30\%$ experimental noise for every protein measurement across biological repeats and do not allow direct comparisons between the amounts of different proteins for the same sample.
 While some of the experimental noise can be compensated for by biological replications, the MS machine needs to be re-calibrated every $7-10$ days, limiting the total number of samples one can measure for comparative analysis to a few dozens.
 The need for re-calibration thus imposes a strict trade-off between replicate numbers per condition and the number of different growth conditions analyzed.
-Ribosome profiling methods are also reported to have similar noise of $\approx 1.3$ fold \cite{Li2014}.
+An alternative assessment method, ribosome profiling, is also reported to have similar noise of $\approx 1.3$ fold \cite{Li2014}.
 
 Our current results suggest that this noise is of the same order of magnitude as the effect which we are trying to quantify, given the dynamic range of growth rates achieved in \cite{Heinemann2014} as described above and the $\approx 2$ fold change observed in the concentration of specific proteins across that range. 
+It is thus unclear to what extent conducting such measurements will increase our ability to analyze whole proteome trends.
 
 \subsection{Investigate mechanisms underlying the Monod equation using proteomics data}
 The Monod equation, first suggested in \cite{Monod1949}, relates the concentration of specific nutrients to the bacterial growth rate.
-Several studies have measured these curves for different carbon sources throughout the years, and a few mechanisms have been suggested to underly this relation.
-Our chemostat/turbidostat system will allow us to monitor such growth relatively easily and modern enzymatic essays can determine low nutrient concentrations relatively accurately.
-Combining such an experimental setup with whole proteome measurements may help us characterize the changes occurring in the proteome under nutrient-limited growth and thus identify what cellular components react to low nutrient concentration and how.
-Such an analysis may be used to compare the different models underlying the Monod equation and help identify which better agrees with experimental results.
+Several studies have measured these curves for different carbon sources throughout the years, and a few mechanisms have been suggested to underly this relation as is summarized in \cite{Senn1994}.
 
-\subsection{Quantitatively model central dogma and major cellular components in-scilico for sensitivity analysis and exploration of the phenotypic space}
+Our chemostat/turbidostat system will allow us to monitor such growth relatively easily and modern enzymatic essays can determine low nutrient concentrations relatively accurately.
+Combining such an experimental setup with whole proteome measurements may help us characterize the changes occurring in the proteome composition under nutrient-limited growth and thus identify what cellular components react to low nutrient concentration and how, which seems to be one of the areas in which experimental data is lacking \cite{Ferenci1999a}.
+Such an analysis may be used to compare the different models underlying the Monod relation and help identify which better agrees with experimental results.
+
+\subsection{Quantitatively model central dogma and major cellular components in-silico for sensitivity analysis and exploration of the phenotypic space}
 The major components and qualitative structure of the central dogma has been established for decades.
-However, there is currently no quantitative gross model for the macromolecular composition and fractions of different functional units as a function of the growth condition, despite the accumulated knowledge about the key factors that determine such quantities.
+However, there is currently no quantitative gross model for the macromolecular composition and fractions of different functional units as a function of the growth condition, despite the accumulated knowledge about key factors that determine such quantities.
 The best known example for existing knowledge that can be used in such a model is the relative consistency of translation rate and the known mass and composition of ribosomes.
 This knowledge can be summarized by the following simple equations:
 \begin{eqnarray}
-    \text{rRNA}=2P_r
-    T_d=\frac{P}{P_r}\tau\\
+    R_r=2R_p \\
+    R=R_r+R_p \\
+    P=RT_d\alpha
 \end{eqnarray}
-Where the first relation states the ratio between ribosomal RNA and ribosomal protein, denoted by $P_r$, per cell, and the second equation relates the doubling time, $T_d$, to the ratio of total protein per cell, $P$, to the ribosomal protein per cell, and the translation rate, $\tau$, in units of protein mass synthesized per unit time per ribosomal protein mass.
+Where the first relation states the mass ratio between ribosomal RNA, $R_r$, and ribosomal protein, $R_p$, per cell, is 2, the second equation states that the total ribosomal mass in the cell is the sum of the ribosomal RNA and ribosomal protein, and the third equation states that the entire protein mass of the cell, $P$, must be produced by the ribosomes in the cell during one doubling time, $T_d$, at a translation rate $\alpha$ (in units of protein mass synthesized per ribosomal mass per unit time.
 
-Similar equations and quantitative relations can be derived for other components of the central dogma as well as major cellular functions and components.
+Similar equations and quantitative relations can be derived for other components of the central dogma as well as other major cellular functions and components.
+The main scheme for generating this model is by considering cellular tasks that need to be performed for a cell to replicate versus the cellular mechanisms that perform these tasks and their rates of operation.
+Examples of such tasks-mechanisms pairs are the production of the proteome of the cell by ribosomes, production of RNA by RNA polymerase, replication of DNA by DNA polymerase, etc. but also other, non trivial tasks such as protein folding by protein-folding proteins and energy consumption by the different cellular processes.
+A set of equations can then be written that relates the magnitude of each cellular task (determined by summing over the demands for that task by each cellular component) to the amount of cellular component that performs that task times its rate of operation, times the doubling time.
+In the example above, that would add the demand that $P=R_p$ as ribosomes are the only cellular components considered in this simplistic model that have a protein mass.
 While the rates and dynamics of many of these processes are not as well characterized as those of the translation machinery, use of proteomic data sets and simplistic assumptions can provide gross estimations for the relevant parameters.
 
-Once such a model is constructed, it can be used to conduct sensitivity analysis for key cellular components.
-Such analysis can help shed light on the different trade-offs and evolutionary and environmental pressures acting on different cellular components.
+Once such a model is constructed, it can be used to conduct sensitivity analysis for key cellular components and their expected influence on the growth rate and cellular composition.
+Such analysis can help shed light on the different trade-offs and evolutionary and environmental pressures acting on different cellular machineries.
 Another question that can be addressed by such a model is that of identifying distinct archtypes and constraints operating on cells when faced with different environmental conditions.
 Further more, such a model can be used to assess the validity and implications of different scaling rules and models of various cellular aspects allowing to quickly see what their implications are expected to be in terms of estimated cell composition and physiology.
 
-\subsection{Model expected effects of differeing ribosomoal characteristics on ribosome concentration and use existing data to quantify their significance}
+\subsection{Model expected effects of different ribosomoal characteristics on ribosome concentration and use existing data to assess their significance}
 The relative steady state at which ribosomes translate mRNA is a common assumption in various cellular models \cite{Scott2010}.
-However, different assumptions can be made regarding this rate as well as other effects that may affect the optimal ribosome number for different growth rates and conditions.
+However, different assumptions can be made regarding this rate as well as other effects that may affect the optimal ribosomal content for different growth rates and conditions.
 
-For example, growth rate can be assumed to change between 10 to 20 amino acids per second per ribosome as a function of the growth rate.
+For example, translation rate can be assumed to change between 10 to 20 amino acids per second per ribosome as a function of the growth rate.
 Protein degradation implies that ribosomes not only need to produce proteins for a daughter cell, but also compensate for protein turnover.
 Being an essential component for cell growth, cells may enforce a strict lower bound on ribosome concentration even under slow growth rates to enable fast reaction once nutrients become available.
-Modeling the expected ribosome concentration under such assumptions and comparing the expected optimal ribosome concentration to the one measured in different studies may imply to what extent such factors and others account for deviations of actual ribosome concentration measurements from the naive linear model.
+
+Calculating the expected optimal behavior of ribosome concentration under such assumptions and comparing it to the one measured in different studies may imply to what extent such factors and others account for deviations of actual ribosomal content measurements from the naive linear model.
+
 \subsection{Model population dynamics characteristics based on metagenomic sequencing coverage ratios}
 A recent interesting phenomena characterized in the Segal lab relates coverage ratios in sequencing data to the location of the origin of replication and the growth phase of different populations in the microbiome.
 Briefly, replicating bacteria with a single circular chromosome harbor more copies of their genetic material close to the origin of replication versus their genetic material next to the terminus due to the serial nature of DNA replication.
 This effect is detectable in sequencing data and can be used as an additional parameter characterizing the different populations in the microbiome.
 
-This data can be used to estimate the growth rate of each population, assuming the DNA replication rate and genome length are known.
+Such data can be used to estimate the growth rate of each population, assuming the DNA replication rate and genome length are known.
 Combining the growth rate of each population with its size can characterize the stability and frequency at which that population changes, assuming both are at similar levels to those prevailing in the gut.
 
+\subsection{Characterize possible metabolic network motifs arising from the concavity of reaction kinetics}
+Reaction rates tend to monotonically increase as a function of the substrate concentration, and decrease as a function of the concentration of the products.
+Moreover, most kinetic relations are concave and converge to some maximal reaction rate per enzyme unit.
+These observations impose constraints on the dynamic behavior of metabolic networks near their equilibrium points and specifically limit the flux modifications that can be achieved by transcriptional regulation alone \cite{Chubukov2013}.
+Combining biological objectives with such dynamic constraints can be used to extract relations between kinetic parameters and possibly also identify metabolic network motifs.
+
+As a simple example, consider a single substrate, $S$, that is used by two reactions $R_1$ and $R_2$, catalyzed by two enzymes, $E_1$ and $E_2$, to form two products, $P_1$ and $P_2$, respectively.
+If a cell needs to maintain a relatively constant flux for $R_1$ as a function of the concentration of $S$, then that concentration must be kept high w.r.t. $K_m^{E_1}$.
+Thus, if $K_m^{E_1} \le K_m^{E_2}$ then the flux through $R_2$ will also be relatively stable w.r.t. changes in the concentration of $S$.
+
+While control of the actual fluxes through $R_1$ and $R_2$ by changing the expression levels of $E_1$ and $E_2$ allow the cell to set any ratio between these fluxes, such changes do not affect the $K_m$ values of these enzymes.
+Thus, this method of control has limited effect on the dynamic behavior of the fluxes around the steady state concentration of $S$, a limitation that, if colliding with biological objective functions, can be used to infer more details about kinetic parameters and possible regulation mechanisms acting on these enzymes.
+
 \subsection{Derive theoretical bounds on chemical reaction rates}
-Nearly all of the energy humanity uses is generated via conversion of heat energy through the Carnot cycle.
+Nearly all of the energy humanity uses is generated via conversion of heat energy subject to the limitations imposed by the Carnot cycle.
 This is in striking contrast to biological systems which almost never use heat as in intermediate energy form in their life cycle.
 
 Whereas a solid, general, theoretic framework exists for the efficiencies, rates and limitations of heat as an energy conversion mechanism, for chemical reactions much less is known.
@@ -406,18 +430,6 @@ For example - no theoretical limit exists for the rate and efficiency in conserv
 
 Deriving such theoretical limits is of key importance for understanding efficiencies of biological reactions and enzymes, as well as for comparing alternative reaction pathways, both natural and synthetic.
 
-\subsection{Map possible metabolic network motifs arising from the convexity of reaction kinetics}
-Reaction rates tend to monotonically increase as a function of the substrate concentration, and decrease as a function of the concentration of the products.
-Moreover, most kinetic equations are concave and converge to some maximal reaction rate per enzyme unit.
-
-These observations can be used to map constraints on the dynamic behavior of metabolic networks near their equilibrium points and extract expected expression patterns, as well as kinetic parameters relations needed to satisfy certain biological objectives.
-
-As a simple example, consider a single substrate, $S$, that is used by two reactions $R_1$ and $R_2$, catalyzed by two enzymes, $E_1$ and $E_2$, to form two products, $P_1$ and $P_2$ respectively.
-If a cell needs to maintain a relatively constant flux for $R_1$ as a function of the concentration of $S$, then 
-that concentration must be kept high w.r.t. $K_m^{E_1}$.
-Thus, if $K_m^{E_1} \le K_m^{E_2}$ then the flux through $R_2$ will also be relatively stable w.r.t. changes in the concentration of $S$.
-It is worthwhile noting that the easiest biological control over reaction rates, control through the expression levels of enzymes, changes the maximal flux through a given reaction, but not its $K_m$.
-Thus, such control has limited effect on the dynamic behavior of the system around steady states, a limitation that can be used to infer more details about kinetic parameters and constraints on the topology of metabolic networks.
 \section{Supplementary information}
 \subsection{Calculation of protein concentration}
 \label{protconc}
