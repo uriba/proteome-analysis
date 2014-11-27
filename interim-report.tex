@@ -345,7 +345,7 @@ Following are descriptions of numerous directions I consider pursuing next in my
 Our lab is currently building a system for growing in parallel up to 8 cultures in chemostat/turbidostat conditions \cite{Takahashi2014}.
 This system, alongside the proteomic measurement capabilities of the institute, can be used to construct a proteomic data set spanning more conditions and being more statistically robust than the data sets used thus far.
 Such a data set can be used to further investigate the growth-rate related global trends in the proteome composition as described above.
-It can also be used to investigate other biological phenomena such as modifications to the observed kinetic rates of enzymes under various growth media and conditions, and the general dynamic range and plasticity of the proteome.
+It can also be used to investigate other biological phenomena such as modifications to the observed kinetic rates of enzymes under various growth media and conditions \cite{Valgepea2013}, and the general dynamic range and plasticity of the proteome.
 
 One major issue to consider are the limitations and noise in such proteomic measurements.
 Current techniques have $\approx 30\%$ experimental noise for every protein and do not allow direct comparisons between the amounts of different proteins for the same sample.
@@ -396,10 +396,28 @@ This effect is detectable in sequencing data and can be used as an additional pa
 
 This data can be used to estimate the growth rate of each population, assuming the DNA replication rate and genome length are known.
 Combining the growth rate of each population with its size can characterize the stability and frequency at which that population changes, assuming both are at similar levels to those prevailing in the gut.
-\begin{comment}
-\item Use convexity and monotonicity of kinetics to predict relations between Km's in different metabolical contexts, and specifically in autocatalytic cycles.
-\item Find theoretical bounds on rates of reactions at functions of substrates and products to compare biological systems to man-made ones
-\end{comment}
+
+\subsection{Derive theoretical bounds on chemical reaction rates}
+Nearly all of the energy humanity uses is generated via conversion of heat energy through the Carnot cycle.
+This is in striking contrast to biological systems which almost never use heat as in intermediate energy form in their life cycle.
+
+Whereas a solid, general, theoretic framework exists for the efficiencies, rates and limitations of heat as an energy conversion mechanism, for chemical reactions much less is known.
+For example - no theoretical limit exists for the rate and efficiency in conservation of the Gibbs free energy for a given, non-equilibrium, chemical reaction under a given chemical context.
+
+Deriving such theoretical limits is of key importance for understanding efficiencies of biological reactions and enzymes, as well as for comparing alternative reaction pathways, both natural and synthetic.
+
+\subsection{Map possible metabolic network motifs arising from the convexity of reaction kinetics}
+Reaction rates tend to monotonically increase as a function of the substrate concentration, and decrease as a function of the concentration of the products.
+Moreover, most kinetic equations are concave and converge to some maximal reaction rate per enzyme unit.
+
+These observations can be used to map constraints on the dynamic behavior of metabolic networks near their equilibrium points and extract expected expression patterns, as well as kinetic parameters relations needed to satisfy certain biological objectives.
+
+As a simple example, consider a single substrate, $S$, that is used by two reactions $R_1$ and $R_2$, catalyzed by two enzymes, $E_1$ and $E_2$, to form two products, $P_1$ and $P_2$ respectively.
+If a cell needs to maintain a relatively constant flux for $R_1$ as a function of the concentration of $S$, then 
+that concentration must be kept high w.r.t. $K_m^{E_1}$.
+Thus, if $K_m^{E_1} \le K_m^{E_2}$ then the flux through $R_2$ will also be relatively stable w.r.t. changes in the concentration of $S$.
+It is worthwhile noting that the easiest biological control over reaction rates, control through the expression levels of enzymes, changes the maximal flux through a given reaction, but not its $K_m$.
+Thus, such control has limited effect on the dynamic behavior of the system around steady states, a limitation that can be used to infer more details about kinetic parameters and constraints on the topology of metabolic networks.
 \section{Supplementary information}
 \subsection{Calculation of protein concentration}
 \label{protconc}
