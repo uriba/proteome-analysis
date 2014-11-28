@@ -25,16 +25,17 @@ While essential knowledge on the extent to which cell size and macromolecular co
 Specifically, the amount of degrees of freedom a cell has for controlling its expression program is not well known.
 Furthermore, how much of the observed adaptation is due to active regulation of the expression program of the cell and how much is a passive, inevitable, global side-effect of that active regulation is not yet fully understood.
 
-Here we present an extensive analysis of two proteomics data sets collected for the model organism \emph{E.coli} under various environmental conditions.
-Our analysis focuses on changes in the proteome that are correlated with the growth rate.
-We find that the concentrations of between a third to a half of the proteins increase with the growth rate.
-We describe a model that explains why the observed phenomena can result from basic physiological considerations, under some trivial assumptions.
-We show that, despite the magnitude of this phenomena, it only accounts for $\approx 10 \%$ of the variability observed in the proteome in these data sets.
+My intermediate results present an extensive analysis of two proteomics data sets collected for the model organism \emph{E.coli} under various environmental conditions.
+This analysis focuses on changes in the proteome that are correlated with the growth rate.
+The main finding of the analysis is that the concentrations of between a third to a half of the proteins increase with the growth rate.
+I present a model that explains why the observed phenomena can result from basic physiological considerations, under some trivial assumptions.
+However, despite the magnitude of this phenomena, it only accounts for $\approx 10 \%$ of the variability observed in the proteome in these data sets.
 
-We are currently building a turbidostat/chemostat system can be used to collect further data on physiological changes and the proteome composition under different growth rates and nutrient types.
+Our lab currently builds a turbidostat/chemostat system can be used to collect further data on physiological changes and the proteome composition under different growth rates and nutrient types.
+This data can be used both to strengthen existing results as well as to investigate other phenomena as described in the future plans section.
 }
-\section{Results}
-\subsection{Introduction}
+\clearpage        
+\section{Introduction}
 A fundamental system-level challenge for cell physiology is the achievement of proper function in the face of diverse environmental conditions.
 It has been established for many years that in different environments cells differ in many properties, including their shape, size, growth rate, and macro-molecular composition \cite{Schaechter1958, Maaloe1969, Churchward1982, Pedersen1978a, ingraham1983growth,Bremer1987}, with strong interdependence between these parameters.
 
@@ -66,6 +67,7 @@ We present a parsimonious model, which does not require fine-tuning according to
 Our model provides a baseline for the behavior of endogenous genes in conditions between which they are not differentially regulated, on top of which different regulatory aspects can be added.
 It suggests that positive correlation of protein concentration with growth rate is a system-emerging property that is the result of passive redistribution of resources, without need for specific regulation mechanisms.
 
+\section{Results}
 \subsection{Analysis of proteomic data sets}
 To examine the interdependence of protein concentration and growth rate across expressed genes we analyzed two proteomics data sets of \emph{E.coli}, \cite{Valgepea2013} and \cite{Heinemann2014}.
 These data sets use mass spectrometry to evaluate the proteomic composition of \emph{E.coli} under $5$ different growth rates using a chemostat, in \cite{Valgepea2013}, and $19$ different growth conditions, spanning both different carbon sources and chemostat-controlled growth rates, in \cite{Heinemann2014}.
@@ -492,7 +494,7 @@ Figure \ref{fig:threshold} shows the fraction of the variability explained as a 
 \end{figure}
 \subsection{Differences between the correlations found in the two data sets}
 \label{heinemannchemo}
-The lower correlation and higher variability found in the H data set partially results from the variability in the conditions it contains as well as the higher number of conditions measured across a similar range of growth rates.
+The lower correlation and higher variability found in the data set from \cite{Heinemann2014} partially results from the variability in the conditions it contains as well as the higher number of conditions measured across a similar range of growth rates.
 Specifically, as this data set includes measurements under different carbon sources, as opposed to the data set from \cite{Valgepea2013}, that uses the same carbon source on all measurements, a larger variability in expression patterns is expected.
 Restricting the analysis of the data set from \cite{Heinemann2014} only to chemostat conditions supports this suggestion and shows much less variability as is shown in Figure \ref{fig:growthcorrchemo}.
 
@@ -535,7 +537,7 @@ columns/corPrctP/.style={column name={Correlated $\%$ of proteome}},
 \caption{Breakdown by function of the strongly correlated with growth rate proteins in the Valgepea data set.}
 \label{tab:corrbreakdownv}
 \end{table}
-\subsection{Ribosomal proteins scale in a similarly to non-ribosomal proteins that are strongly positively correlated with growth rate}
+\subsection{Ribosomal proteins scale similarly to non-ribosomal proteins that are strongly positively correlated with growth rate}
 Comparing the normalized sum of ribosomal proteins to the normalized sum of the positively correlated with growth rate proteins that are non-ribosomal shows that these two groups scale in the same way with the growth rate, as is seen in Figure \ref{fig:ribsnonribs}
 \begin{figure}[H]
 \centering
