@@ -33,7 +33,10 @@ However, despite the magnitude of this phenomena, it only accounts for $\approx 
 
 Following the intermediate results, I present several future directions for my research.
 Some of these directions rely on a turbidostat/chemostat system that is currently being built in our lab, a system that can be used to collect further data on physiological changes and the proteome composition under different growth rates and nutrient types.
+Other directions are: constructing a gross cellular physiology model to address various physiological questions, asses the effects of different ribosomal control mechanisms on their expected cellular content, model population dynamics in the microbiome based on recent meta-genomic data from the Segal lab, characterize possible metabolic network motifs based on the concavity of reaction kinetics functions, and investigating theoretical bounds on chemical reaction rates and efficiencies.
 }
+\clearpage        
+\tableofcontents
 \clearpage        
 \section{Introduction}
 A fundamental system-level challenge for cell physiology is the achievement of proper function in the face of diverse environmental conditions.
@@ -403,7 +406,7 @@ Figure \ref{fig:threshold} shows the fraction of the variability explained as a 
 \end{figure}
 \section{Future plans}
 Following are short discussions of several directions I consider pursuing next in my research with short background on each.
-\subsection{Measure the proteome composition of \emph{E.coli} under various growth conditions to further establish current results}
+\subsection{Measure the proteome composition of \emph{E.coli} under various growth conditions to support or refute the theoretical model}
 Our lab is currently building a chemostat/turbidostat system that can maintain up to 8 cultures in parallel \cite{Takahashi2014}.
 This system, alongside the proteomic measurement capabilities of the INCPM, can be used to construct a proteomic data set spanning more conditions and being more statistically robust than the data sets used thus far.
 Specifically, the current data sets lack data on noise in experimental repeats and span a relatively narrow range of growth rates.
@@ -436,9 +439,9 @@ This knowledge can be summarized by the following simple equations:
 \begin{eqnarray}
     R_r=2R_p \\
     R=R_r+R_p \\
-    P=\frac{RT_d\alpha}{\text{ln}(2)}
+    P=\frac{RT_d\lambda}{\text{ln}(2)}
 \end{eqnarray}
-Where the first relation states the mass ratio between ribosomal RNA, $R_r$, and ribosomal protein, $R_p$, per cell, is 2, the second equation states that the total ribosomal mass in the cell is the sum of the ribosomal RNA and ribosomal protein, and the third equation states that the entire protein mass of the cell, $P$, must be produced by the ribosomes in the cell during one doubling time, $T_d$, at a translation rate $\alpha$ (in units of protein mass synthesized per ribosomal mass per unit time).
+Where the first equation relates the ribosomal RNA mass per cell, $R_r$, to the ribosomal protein mass per cell, $R_p$ (a relation that is $\approx 2$ for \emph{E.coli}), the second equation states that the total ribosomal mass in the cell is the sum of the ribosomal RNA and ribosomal protein, and the third equation states that the entire protein mass of the cell, $P$, must be produced by the ribosomes in the cell during one doubling time, $T_d$, at a translation rate $\lambda$ (in units of protein mass synthesized per ribosomal mass per unit time).
 The $\frac{1}{\text{ln}(2)}$ factor accounts for the fact that the number of ribosomes increases during the replication cycle.
 
 Similar equations and quantitative relations can be derived for other components of the central dogma as well as other major cellular functions and components.
@@ -450,10 +453,10 @@ While the rates and dynamics of many of these processes are not as well characte
 
 Once such a model is constructed, it can be used to conduct sensitivity analysis for key cellular components and their expected influence on the growth rate and cellular composition.
 Such analysis can help shed light on the different trade-offs and evolutionary and environmental pressures acting on different cellular machineries.
-Another question that can be addressed by such a model is that of identifying distinct archtypes and constraints operating on cells when faced with different environmental conditions.
+Another question that can be addressed by such a model is that of identifying distinct archetypes and constraints operating on cells when faced with different environmental conditions.
 Further more, such a model can be used to assess the validity and implications of different scaling rules and models of various cellular aspects allowing to quickly see what their implications are expected to be in terms of estimated cell composition and physiology.
 
-\subsection{Model expected effects of different ribosomoal characteristics on ribosome concentration and use existing data to assess their significance}
+\subsection{Model expected effects of different ribosomal characteristics on ribosome concentration and use existing data to assess their significance}
 The relative steady state at which ribosomes translate mRNA is a common assumption in various cellular models \cite{Scott2010}.
 However, different assumptions can be made regarding this rate as well as other effects that may affect the optimal ribosomal content for different growth rates and conditions.
 
@@ -464,7 +467,7 @@ Being an essential component for cell growth, cells may enforce a strict lower b
 
 Calculating the expected optimal behavior of ribosome concentration under such assumptions and comparing it to the one measured in different studies may imply to what extent such factors and others account for deviations of actual ribosomal content measurements from the naive linear model.
 
-\subsection{Model population dynamics characteristics based on metagenomic sequencing coverage ratios}
+\subsection{Model population dynamics characteristics based on meta-gnomic sequencing coverage ratios}
 A recent interesting phenomena characterized in the Segal lab relates coverage ratios in sequencing data to the location of the origin of replication and the growth phase of different populations in the microbiome.
 Briefly, replicating bacteria with a single circular chromosome harbor more copies of their genetic material close to the origin of replication versus their genetic material next to the terminus due to the serial nature of DNA replication.
 This effect is detectable in sequencing data and can be used as an additional parameter characterizing the different populations in the microbiome.
@@ -487,7 +490,7 @@ Thus, this method of control has limited effect on the dynamic behavior of the f
 
 \subsection{Derive theoretical bounds on chemical reaction rates}
 Nearly all of the energy humanity uses is generated via conversion of heat energy subject to the limitations imposed by the Carnot cycle.
-This is in striking contrast to biological systems which almost never use heat as in intermediate energy form in their life cycle.
+This is in striking contrast to biological systems which almost never use heat as an intermediate energy form in their life cycle.
 
 Whereas a solid, general, theoretic framework exists for the efficiencies, rates and limitations of heat as an energy conversion mechanism, for chemical reactions much less is known.
 For example - no theoretical limit exists for the rate and efficiency in conservation of the Gibbs free energy for a given, non-equilibrium, chemical reaction under a given chemical context.
