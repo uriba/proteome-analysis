@@ -104,7 +104,7 @@ def writeTopProtsVar(db):
                 ax.plot(grs[db],100*(row[conds]+row['avg']),'o',label="metE, Correlation: %.2f" % grs[db].corr(row[conds]))
                 ax.set_ylim(0,5)
                 ax.set_xlim(0,0.6)
-                ax.set_xlabel("Growth rate")
+                ax.set_xlabel("Growth rate [$h^{-1}$]")
                 ax.set_ylabel("% of total proteome")
                 legend(loc=2, prop={'size':8},numpoints=1)
                 tight_layout()
