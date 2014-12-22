@@ -155,10 +155,10 @@ def plotCorrelationHistograms():
 
     p=subplot(111)
     ps = {'Valgepea':subplot(122)}
-    coords = {'Heinemann':0.03,'Valgepea':0.65}
+    coords = {'Heinemann':0.01,'Valgepea':0.625}
 
     plot_corr_hist(ps['Valgepea'],'Valgepea',coli_datas['Valgepea'],categories)
-    text(coords['Valgepea'],0.8,"%s et. al." % 'Valgepea',fontsize=8,transform=p.transAxes)
+    text(coords['Valgepea'],0.8,"data from %s et. al." % 'Valgepea',fontsize=8,transform=p.transAxes)
     handles,labels=ps['Valgepea'].get_legend_handles_labels()
     tight_layout()
 
@@ -173,7 +173,7 @@ def plotCorrelationHistograms():
 
     for db in dbs:
         plot_corr_hist(ps[db],db,coli_datas[db],categories)
-        text(coords[db],0.8,"%s et. al." % db,fontsize=8,transform=p.transAxes)
+        text(coords[db],0.8,"data from %s et. al." % db,fontsize=8,transform=p.transAxes)
 
     #assume both subplots have the same categories.
     handles,labels=ps['Heinemann'].get_legend_handles_labels()
@@ -207,12 +207,12 @@ def plotGlobalResponse():
 
         print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
         print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
-        plot(gr.values,glob_tot.values,'o',label="%s et. al" % db,color=colors[db])
+        plot(gr.values,glob_tot.values,'o',label="data from %s et. al" % db,color=colors[db])
         plot(gr.values,alpha*gr.values+beta,color=colors[db],label=("%s Trend,$R^2$=%.2f" % (db,gr.corr(glob_tot)**2)))
 
     xlim(xmin=0.)
     ylim(ymin=0.)
-    xlabel('Growth rate',fontsize=10)
+    xlabel('Growth rate [$h^{-1}$]',fontsize=10)
     ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=10)
     legend(loc=2, prop={'size':8},numpoints=1)
     tick_params(axis='both', which='major', labelsize=8)
@@ -295,7 +295,7 @@ ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
 coords = {'Heinemann':0.0,'Valgepea':0.62}
 for db in dbs:
     plot_response_hist(db,coli_datas[db],grs[db],ps[db],True,False)
-    text(coords[db],0.93,"%s et. al" % db,fontsize=8,transform=p.transAxes)
+    text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
     handles,labels=ps[db].get_legend_handles_labels()
     if db == 'Valgepea':
         ps[db].set_ylim(0,100)
@@ -310,7 +310,7 @@ ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
 
 for db in dbs:
     plot_response_hist(db,coli_datas[db],grs[db],ps[db],False,False)
-    text(coords[db],0.93,"%s et. al" % db,fontsize=8,transform=p.transAxes)
+    text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
     handles,labels=ps[db].get_legend_handles_labels()
     if db == 'Valgepea':
         ps[db].set_ylim(0,100)
@@ -325,7 +325,7 @@ ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
 
 for db in dbs:
     plot_response_hist(db,coli_datas[db],grs[db],ps[db],False,True)
-    text(coords[db],0.93,"%s et. al" % db,fontsize=8,transform=p.transAxes)
+    text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
     handles,labels=ps[db].get_legend_handles_labels()
     if db == 'Valgepea':
         ps[db].set_ylim(0,100)
@@ -675,7 +675,7 @@ def variabilityAndGlobClustSlopesNormed():
         p.tick_params(axis='both', which='minor', labelsize=6)
         p.axhline(xmin=0,xmax=1,y=0.09,ls='--',color='black',lw=0.5)
         #p.axvline(ymin=0,ymax=1,x=get_limits(db)[0],ls='--',color='black',lw=0.5)
-        text(coords[db],0.9,"%s et. al." % db,fontsize=8,transform=p.transAxes)
+        text(coords[db],0.9,"data from %s et. al." % db,fontsize=8,transform=p.transAxes)
 
     handles,labels=ps['Heinemann'].get_legend_handles_labels()
 
@@ -930,7 +930,7 @@ def plotRibosomalVsGlobTrend():
         p.legend(loc='lower left', prop={'size':8},numpoints=1)
         p.tick_params(axis='both', which='major', labelsize=8)
         p.tick_params(axis='both', which='minor', labelsize=8)
-        text(coords[db],0.93,"%s et. al" % db,fontsize=8,transform=p.transAxes)
+        text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Ribosomal proteins vs global cluster")
