@@ -182,8 +182,8 @@ Specifically, for linear correlations, the linear parameters should be identical
 \begin{frame}
 \frametitle{Collecting proteomics data to further investigate existing model and other phenomena}
 \begin{itemize}
-\item Existing data sets lack error estimations and span relatively narrow growth rates.
-\item Our lab is currently constructing a multi chemostat/turbidostat system.
+\item Existing proteomics data sets lack error estimations and span relatively narrow growth rates.
+\item Our lab is currently constructing a multi chemostat/turbidostat system that can be used to collect samples in exponential growth under various conditions.
 \item The INCPM has whole proteome measuring capabilities.
 \item Technical constraints limit the ability to span many conditions at low noise levels.
 \item No ability to compare amounts of different peptides across the same sample.
@@ -203,16 +203,43 @@ Specifically, for linear correlations, the linear parameters should be identical
 \begin{frame}
 \frametitle{Quantitatively model central dogma and major cellular components in-silico for sensitivity analysis and exploration of the phenotypic space}
 \begin{itemize}
-\item Current cellular models are either simple, but constrained to limited aspects, or extremely complicated and verbose
-\item A whole cell gross model can include major cellular components and processes and link them via simple equations
-\item such a model can be used to quantify the sensitivity to different biological parameters and to explore the phenotypic space
+\item Current cellular models are either simple, but constrained to limited aspects or cellular subsystems, or extremely complicated and verbose
+\item A gross, whole cell model can include major cellular components and processes and link them via simple equations
+\item Such a model can be used to quantify the sensitivity to different biological parameters and to explore the phenotypic space
 \end{itemize}
 \end{frame}
 \begin{frame}
 \frametitle{Compare expected effects of different ribosomal characteristics on ribosome concentration as measured in existing data sets}
 \begin{itemize}
-\item Different assumptions can be made regarding translation rates, degradation of ribosomes and proteins, and minimal concentration of ribosomes in cells
-\item Existing experimental measurements of ribosomes concentration under different growth conditions can be used to asses the significance of such effects
+\item Different physiological aspects such as variability in translation rates, degradation of ribosomes and proteins, and minimal concentration of ribosomes in cells may affect optimal ribosome concentration
+\item Existing experimental measurements of ribosomes concentration under different growth conditions can be compared with optimal assumptions, as predicted by the interplay of such factors
+\item These comparisons may help quantify the extent to which such different aspects play an actual role in determining the ribosomal concentration in vivo 
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Explore population dynamics in the gut microbiome by inferring growth rates from peak to trough ratios in sequencing data}
+\begin{itemize}
+\item Recent results from the Segal lab show varying peak to trough ratios in sequencing data
+\item The peak to trough ratio is suggested to reflect the number of replication origins and can thus be used to estimate the growth rate
+\item Initial results suggest a much faster growth rate in samples than the expected $\approx 1-2$ day doubling time in the gut
+\item Modelling the different growth rates and relative abundances of sub populations may thus increase our understanding of population dynamics in the gut
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Characterize possible metabolic network motifs arising from the concavity of reaction kinetics}
+\begin{itemize}
+\item Reaction rates tend to monotonically and concavely increase as a function of substrate concentration
+\item This characteristic constrains the available responses to changes in metabolite levels around steady state levels
+\item Combining these constraints with biological objective functions may help characterize kinetic parameters around steady state points and possibly also metabolic network motifs
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Derive theoretical bounds on chemical reaction rates}
+\begin{itemize}
+\item While catalysis is a cornerstone in every  biological process, very little is known about the theoretical bounds on catalysis rate and efficiency under given physiological constrains
+\item Obtaining such constraints for various reactions may shed light on the relative efficiency of biological systems compared with theoretical bounds as well as the constraints biological systems face
 \end{itemize}
 \end{frame}
 \end{document}
