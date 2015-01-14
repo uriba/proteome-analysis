@@ -497,6 +497,7 @@ def calc_var_stats(f,conds,gr,glob_conc):
     explained_compl_glob = []
     explained_compl_tot = []
     explained_scaled = []
+    glob_frac = []
     for threshold in corrs:
         glob_cluster_idx = glob_conc['gr_cov']>threshold
         glob_compl_idx = glob_conc['gr_cov']<threshold
@@ -514,8 +515,9 @@ def calc_var_stats(f,conds,gr,glob_conc):
         explained_tot.append(explained_tot_frac)
         explained_compl_tot.append(explained_compl_tot_frac)
         explained_scaled.append(explained_scaled_var)
+        glob_frac.append(float(len(glob_data[glob_cluster_idx]))/len(glob_data))
 
-    return (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas)
+    return (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas,glob_frac)
 
 def variabilityAndGlobClustSlopes():
     figure(figsize=(5,3))
@@ -527,7 +529,7 @@ def variabilityAndGlobClustSlopes():
         gr = grs[db]
         gr = gr[conds]
         glob_conc = coli_datas[db]
-        (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas[db]) = calc_var_stats(square_dist_func,conds,gr,glob_conc)
+        (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas[db],x) = calc_var_stats(square_dist_func,conds,gr,glob_conc)
         p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
         p.plot(corrs,explained_tot,markersize=1,label='Explained variability fraction of total data')
         p.plot(corrs,explained_compl_glob,markersize=1,label='Explained complementary variability fraction of global cluster')
@@ -609,7 +611,7 @@ def variablityComparisonHein():
     titles.append('prots excl. top 10')
     for i in range(0,6):
         p = subplot(231+i)
-        (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,temp) = calc_var_stats(funcs[i],conds,gr,globs[i])
+        (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,temp,x) = calc_var_stats(funcs[i],conds,gr,globs[i])
 
         p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
         p.plot(corrs,explained_tot,markersize=1,label='Explained variability fraction of total data')
@@ -659,10 +661,11 @@ def variabilityAndGlobClustSlopesNormed():
         for col in conds:
             glob_conc[col] = glob_conc[col]/tot_means
         glob_conc['avg'] = glob_conc[conds].mean(axis=1)
-        (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas[db]) = calc_var_stats(square_dist_func,conds,gr,glob_conc)
+        (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas[db],glob_frac) = calc_var_stats(square_dist_func,conds,gr,glob_conc)
 
         p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
         p.plot(corrs,explained_tot,markersize=1,label='Explained variability fraction of total data')
+        p.plot(corrs,glob_frac,markersize=1,label='Correlated proteins fraction of proteome')
         #p.plot(corrs,explained_compl_glob,markersize=1,label='Explained complementary variability fraction of global cluster')
         #p.plot(corrs,explained_compl_tot,markersize=1,label='Explained complementary variability fraction of total data')
         explained_normed = [x+y for x,y in zip(explained_tot,explained_compl_tot)]
@@ -681,8 +684,8 @@ def variabilityAndGlobClustSlopesNormed():
 
     figlegend(handles,labels,fontsize=6,loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2))
 
-    subplots_adjust(top=0.83)
     tight_layout()
+    subplots_adjust(top=0.83)
 
     #fig = gcf()
     #py.plot_mpl(fig,filename="Explained variability statistics on normalized concentrations")
