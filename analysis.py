@@ -4,7 +4,7 @@ from pandas.io.parsers import read_csv
 from Bio import SeqIO
 from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust
 from numpy import linspace,ndarray,arange
-from numpy.random import randn
+from numpy.random import randn,shuffle
 
 remove_unmapped = False
 just_ribosomes = False
@@ -173,6 +173,11 @@ def get_coli_data(db_used,use_weight):
     if db_used == 'Valgepea':
         ecoli_data = read_csv('valgepea.csv',header=0,encoding='iso-8859-1')
 
+    ## Randomize rows:
+    #for i in ecoli_data.index:
+    #    y = ecoli_data[cond_list].loc[i]
+    #    shuffle(y)
+    #    ecoli_data.loc[i,cond_list] = y
     #Normalize to get concentrations 
     ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
     #remove irrelevant proteins
