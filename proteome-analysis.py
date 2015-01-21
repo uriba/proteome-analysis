@@ -37,7 +37,7 @@ ecoli_data_h['std'] = ecoli_data_h[cond_list_h].std(axis=1)
 v_CV = (ecoli_data_v['std']/ecoli_data_v['mean']).mean()
 h_CV = (ecoli_data_h['std']/ecoli_data_h['mean']).mean()
 
-print "v_cv %f" % v_CV
+print "v_CV %f" % v_CV
 print "h_CV %f" % h_CV
 
 #ecoli_data_h = ecoli_data_h[ecoli_data_h['prot']=='Ribosome']
@@ -940,8 +940,6 @@ def plotRibosomalVsGlobTrend():
     savefig('RibsVsGlob.pdf')
 
         
-# k-means
-
 writeTables()
 plotCorrelationHistograms()
 plotGlobalResponse()
