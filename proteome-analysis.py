@@ -32,6 +32,7 @@ dbs = ['Heinemann','Valgepea']
 datas = {}
 for db in dbs:
     (conds,gr,coli_data) = get_annotated_prots(db) #cond, gr, data
+    gr = gr[conds]
     coli_data['avg']=coli_data[conds].mean(axis=1)
     coli_data['std']=coli_data[conds].std(axis=1)
     coli_data = calc_gr_corr(coli_data,conds,gr)
@@ -452,7 +453,6 @@ def variabilityAndGlobClustSlopes():
     for db in ['Valgepea','Heinemann']:
         p=ps[db]
         conds,gr,glob_conc = datas[db]
-        gr = gr[conds]
         (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas[db],x) = calc_var_stats(square_dist_func,conds,gr,glob_conc)
         p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
         p.plot(corrs,explained_tot,markersize=1,label='Explained variability fraction of total data')
@@ -512,7 +512,6 @@ def variablityComparisonHein():
     figure(figsize=(8,5))
     db = 'Heinemann'
     conds,gr,glob_conc = datas[db]
-    gr = gr[conds]
     globs = []
     titles = []
     funcs = [square_dist_func,square_dist_func,square_dist_func,abs_dist_func,abs_dist_func,square]
@@ -563,7 +562,6 @@ def variabilityAndGlobClustSlopesNormed():
     for db in ['Valgepea','Heinemann']:
         p=ps[db]
         conds,gr,glob_conc = datas[db]
-        gr = gr[conds]
         glob_conc = glob_conc.copy()
         tot_means = glob_conc['avg']
         for col in conds:
@@ -664,25 +662,23 @@ def plotMultiStats(db):
 #comulative graph - x axis - avg. prot. conc. (or molecule count per cell), y axis, comulative % out of proteome.
 def plotComulativeGraph():
     figure(figsize=(5,3))
-    p1 = subplot(121)
-    p2 = subplot(122)
+    sp = [subplot(121),subplot(122)]
+
     conds,gr,coli_data = datas['Heinemann']
     avgs = sorted(coli_data['avg'].values)
 
-    p1.plot(avgs,cumsum(avgs),'.',markersize=0.5)
-    p1.set_xscale('log')
-    p1.set_xlabel('Avg. prot. conc.',fontsize=6)
-    p1.set_ylabel('accumulated fraction \n out of proteome',fontsize=6)
-    p1.axhline(xmin=0,xmax=1,y=0.05,ls='--',color='black',lw=0.5)
-    p1.axhline(xmin=0,xmax=1,y=0.01,ls='--',color='black',lw=0.5)
-    set_ticks(p1,6)
+    sp[0].plot(avgs,cumsum(avgs),'.',markersize=0.5)
+    sp[0].set_xlabel('Avg. prot. conc.',fontsize=6)
+    sp[0].set_xscale('log')
 
-    p2.plot(arange(0,len(avgs)),cumsum(avgs),'.',markersize=0.5)
-    p2.set_xlabel('num. of prots',fontsize=6)
-    p2.set_ylabel('accumulated fraction \n out of proteome',fontsize=6)
-    p2.axhline(xmin=0,xmax=2000,y=0.05,ls='--',color='black',lw=0.5)
-    p2.axhline(xmin=0,xmax=2000,y=0.01,ls='--',color='black',lw=0.5)
-    set_ticks(p2,6)
+    sp[1].plot(arange(0,len(avgs)),cumsum(avgs),'.',markersize=0.5)
+    sp[1].set_xlabel('num. of prots',fontsize=6)
+
+    for i in range(2):
+        sp[i].set_ylabel('accumulated fraction \n out of proteome',fontsize=6)
+        sp[i].axhline(xmin=0,xmax=i*2000+1,y=0.05,ls='--',color='black',lw=0.5)
+        sp[i].axhline(xmin=0,xmax=i*2000+1,y=0.01,ls='--',color='black',lw=0.5)
+        set_ticks(sp[i],6)
 
     tight_layout()
     #fig = gcf()
@@ -699,7 +695,6 @@ def plotHighAbundance():
         coli_data = coli_data.copy()
         if db == 'Heinemann':
             coli_data['ID']=coli_data['protName']
-        gr = gr[conds]
         coli_data = coli_data.sort('avg',ascending=False)
         coli_data_conds = coli_data[conds]
         coli_data_conds = coli_data_conds.head(7)
@@ -721,7 +716,6 @@ def plotRibosomal():
         p = ps[db]
         conds,gr,coli_data = datas[db]
         coli_data = coli_data.copy()
-        gr = gr[conds]
         if db == 'Heinemann':
             coli_data['ID']=coli_data['protName']
         coli_data = coli_data[coli_data['prot']=='Ribosome']
@@ -748,7 +742,6 @@ def plotPrediction():
     for db in dbs:
         figure(figsize=(5,5))
         conds,gr,coli_data = datas[db]
-        gr = gr[conds]
         glob = get_glob(db,coli_data)
         for i in range(1,10):
             p = subplot(330+i)
@@ -757,8 +750,7 @@ def plotPrediction():
             est = samp[-1]
             pred = glob.ix[pred]
             est = glob.ix[est]
-            pred = pred[conds]
-            pred = pred.sum()
+            pred = pred[conds].sum()
             pred = pred/pred.mean()
             est = est[conds]
             est = est/est.mean()
@@ -787,7 +779,6 @@ def plotRibosomalVsGlobTrend():
     coords = {'Heinemann':0.03,'Valgepea':0.03}
     for db in dbs:
         conds,gr,coli_data = datas[db]
-        gr = gr[conds]
         glob = get_glob(db,coli_data)
         no_ribs = glob[glob['prot'] != 'Ribosome']
         ribs = glob[glob['prot'] == 'Ribosome']
