@@ -28,29 +28,24 @@ def get_limits(db):
     return limits
 
 #Initialize global data structures
-(cond_list_v,gr_v,ecoli_data_v) = get_annotated_prots('Valgepea')
-(cond_list_h,gr_h,ecoli_data_h) = get_annotated_prots('Heinemann')
+dbs = ['Heinemann','Valgepea']
+datas = {}
+for db in dbs:
+    (conds,gr,coli_data) = get_annotated_prots(db) #cond, gr, data
+    coli_data['avg']=coli_data[conds].mean(axis=1)
+    coli_data['std']=coli_data[conds].std(axis=1)
+    coli_data = calc_gr_corr(coli_data,conds,gr)
+    CV = (coli_data['std']/coli_data['avg']).mean()
+    datas[db] = (conds,gr,coli_data)
+    print "%s CV: %f" % (db,CV)
+
 #ecoli_data_h = ecoli_data_h[ecoli_data_h['prot']=='Ribosome']
 #ecoli_data_v = ecoli_data_v[ecoli_data_v['prot']=='Ribosome']
 
-dbs = ['Heinemann','Valgepea']
-cond_lists = {'Heinemann':cond_list_h,'Valgepea':cond_list_v}
-grs = {'Heinemann':gr_h,'Valgepea':gr_v}
-coli_datas = {'Heinemann':ecoli_data_h,'Valgepea':ecoli_data_v}
-
-for db in dbs:
-    coli_data = coli_datas[db]
-    conds = cond_lists[db]
-    coli_data['avg']=coli_data[conds].mean(axis=1)
-    coli_data['std']=coli_data[conds].std(axis=1)
-    coli_data= calc_gr_corr(coli_data,conds,grs[db])
-    CV = (coli_data['std']/coli_data['avg']).mean()
-    print "%s CV: %f" % (db,CV)
 
 #write tables data:
 def writeCorrsHist(db):
-    conc_data = coli_datas[db]
-    conds = cond_lists[db]
+    conds,gr,conc_data = datas[db]
     limits = get_limits(db)
     threshold = limits[0]
     funcs = conc_data['func'].unique()
@@ -70,8 +65,8 @@ def writeCorrsHist(db):
             csvwriter.writerow(row)
 
 def writeTopProtsVar(db):
-    conc_data = coli_datas[db].copy()
-    conds = cond_lists[db]
+    conds,gr,conc_data = datas[db]
+    conc_data = conc_data.copy()
     for cond in conds:
         conc_data[cond]=conc_data[cond]-conc_data['avg']
     conc_data_vars = (conc_data[conds]**2).sum(axis=1)
@@ -91,7 +86,7 @@ def writeTopProtsVar(db):
             if (j == 1) and (db == 'Valgepea'):
                 figure(figsize=(5,3))
                 ax = subplot(111)
-                ax.plot(grs[db],100*(row[conds]+row['avg']),'o',label="metE, Correlation: %.2f" % grs[db].corr(row[conds]))
+                ax.plot(gr,100*(row[conds]+row['avg']),'o',label="metE, Correlation: %.2f" % gr.corr(row[conds]))
                 ax.set_ylim(0,5)
                 ax.set_xlim(0,0.6)
                 ax.set_xlabel("Growth rate [$h^{-1}$]")
@@ -151,7 +146,8 @@ def plotCorrelationHistograms(dbs,suffix):
         ps['Heinemann'] = subplot(121)
 
     for db in dbs:
-        plot_corr_hist(ps[db],db,coli_datas[db],categories)
+        conds,gr,conc_data = datas[db]
+        plot_corr_hist(ps[db],db,conc_data,categories)
         text(coords[db],0.8,"data from %s et. al." % db,fontsize=8,transform=p.transAxes)
 
     #assume both subplots have the same categories.
@@ -168,23 +164,18 @@ def plotCorrelationHistograms(dbs,suffix):
 ### Figure 3, Global cluster analysis:
 def plotGlobalResponse():
     figure(figsize=(5,3))
-
     colors = {'Heinemann':'blue','Valgepea':'green'}
 
     for db in dbs:
-        conds = cond_lists[db]
-        coli_data = coli_datas[db]
+        conds,gr,coli_data = datas[db]
         glob = get_glob(db,coli_data)
-        gr = grs[db]
-        #gr = gr[conds]
-
         print "%s global cluster is %d out of %d measured proteins" % (db, len(glob),len(coli_data[coli_data['gr_cov']>-1.]))
 
         glob_tot = glob[conds].sum()
         alpha,beta,r_val,p_val,std_err = linregress(gr,glob_tot)
-
         print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
         print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
+
         plot(gr.values,glob_tot.values,'o',label="data from %s et. al" % db,color=colors[db])
         plot(gr.values,alpha*gr.values+beta,color=colors[db],label=("%s Trend,$R^2$=%.2f" % (db,gr.corr(glob_tot)**2)))
 
@@ -200,13 +191,9 @@ def plotGlobalResponse():
     #py.plot_mpl(fig,filename="Global cluster growth rate correlation")
     savefig('GlobalClusterGRFit.pdf')
 
-#gets values at cond_list and normalized in both axes
+#gets values at cond_list normalized in y axis
 def std_err_fit(gr,s):
     alpha,beta,r,p,st = linregress(gr,s)
-    #n = sqrt(sum(square(s-(alpha * gr + beta)))/(len(s)-2))
-    #d = sqrt(sum(square(gr-gr.mean())))
-    #print "%f \t %f" % (st, n/d)
-    #return n/d
     return st
     
 def conf_int_min(degfr,s):
@@ -217,9 +204,7 @@ def conf_int_max(degfr,s):
     res = stats.t.interval(0.95,degfr,loc=s['alpha'],scale=s['std_err'])
     return  res[1]
 
-def set_std_err(db,df,gr):
-    cond_list = cond_lists[db]
-    print "for db %s deg-free %d" %(db,len(cond_list)-2)
+def set_std_err(df,gr,cond_list):
     #df['std_err'] = df[cond_list].apply(lambda x: std_err_fit(gr[cond_list]/gr[cond_list].mean(),x/x.mean()),axis=1)
     df['std_err'] = df[cond_list].apply(lambda x: std_err_fit(gr[cond_list],x/x.mean()),axis=1)
     
@@ -232,18 +217,17 @@ def get_glob(db,df):
     limits = get_limits(db)
     return df[df['gr_cov']>limits[0]]
  
-def set_alpha(db,df,gr):
-    cond_list = cond_lists[db]
+def set_alpha(df,gr,cond_list):
     #df['alpha'] = df[cond_list].apply(lambda x: linregress(gr[cond_list]/gr[cond_list].mean(),x/x.mean())[0],axis=1)
     df['alpha'] = df[cond_list].apply(lambda x: linregress(gr[cond_list],x/x.mean())[0],axis=1)
     return df
 
-def plot_response_hist(db,df,gr,p,total,estimate):
+def plot_response_hist(db,df,gr,conds,p,total,estimate):
     bins = linspace(-5,5,41)
     xs = linspace(-5,5,200)
     glob_conc = get_glob(db,df)
-    glob_conc = set_alpha(db,glob_conc,gr)
-    glob_conc = set_std_err(db,glob_conc,gr)
+    glob_conc = set_alpha(glob_conc,gr,conds)
+    glob_conc = set_std_err(glob_conc,gr,conds)
     #glob_conc = glob_conc[glob_conc['std_err']<0.4]
     #print "for db %s, plotted slopes histogram includes %d proteins" % (db,len(glob_conc))
     avg = glob_conc['alpha'].mean()
@@ -255,7 +239,7 @@ def plot_response_hist(db,df,gr,p,total,estimate):
     else:
         p.hist(glob_conc['alpha'].values,bins=bins,label=['High correlation proteins'])
     if estimate:
-        p.plot(xs,stats.t.pdf(xs,df=len(cond_lists[db])-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.25)
+        p.plot(xs,stats.t.pdf(xs,df=len(conds)-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.25)
     p.set_xlim(-5,5)
     p.axvline(x=0,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
     p.axvline(x=1,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
@@ -270,7 +254,8 @@ p=subplot(111)
 ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
 coords = {'Heinemann':0.0,'Valgepea':0.62}
 for db in dbs:
-    plot_response_hist(db,coli_datas[db],grs[db],ps[db],True,False)
+    conds,gr,conc_data = datas[db]
+    plot_response_hist(db,conc_data,gr,conds,ps[db],True,False)
     text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
     handles,labels=ps[db].get_legend_handles_labels()
     if db == 'Valgepea':
@@ -285,7 +270,8 @@ p=subplot(111)
 ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
 
 for db in dbs:
-    plot_response_hist(db,coli_datas[db],grs[db],ps[db],False,False)
+    conds,gr,conc_data = datas[db]
+    plot_response_hist(db,conc_data,gr,conds,ps[db],False,False)
     text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
     handles,labels=ps[db].get_legend_handles_labels()
     if db == 'Valgepea':
@@ -300,7 +286,8 @@ p=subplot(111)
 ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
 
 for db in dbs:
-    plot_response_hist(db,coli_datas[db],grs[db],ps[db],False,True)
+    conds,gr,conc_data = datas[db]
+    plot_response_hist(db,conc_data,gr,conds,ps[db],False,True)
     text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
     handles,labels=ps[db].get_legend_handles_labels()
     if db == 'Valgepea':
@@ -363,9 +350,8 @@ print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-b
 p2.plot(gr_chemo.values,glob_tot_chemo.values,'o',label="Heinemann et. al Chem",color='blue')
 p2.plot(gr_chemo.values,alpha*gr_chemo.values+beta,color='blue',label=("Heinemann Chem. Trend,$R^2$=%.2f" % (gr_chemo.corr(glob_tot_chemo)**2)))
 
-glob_v = get_glob("Valgepea",coli_datas['Valgepea'])
-cond_list = cond_lists["Valgepea"]
-gr_v = grs["Valgepea"]
+cond_list,gr_v,conc_data = datas['Valgepea']
+glob_v = get_glob("Valgepea",conc_data)
 glob_tot_v = glob_v[cond_list].sum()
 alpha_v,beta_v,r_val,p_val,std_err = linregress(gr_v,glob_tot_v)
 p2.plot(gr_v.values,glob_tot_v.values,'o',label="Valgepea",color='green')
@@ -498,10 +484,8 @@ def variabilityAndGlobClustSlopes():
     alphas = {'Valgepea':[],'Heinemann':[]}
     for db in ['Valgepea','Heinemann']:
         p=ps[db]
-        conds = cond_lists[db]
-        gr = grs[db]
+        conds,gr,glob_conc = datas[db]
         gr = gr[conds]
-        glob_conc = coli_datas[db]
         (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas[db],x) = calc_var_stats(square_dist_func,conds,gr,glob_conc)
         p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
         p.plot(corrs,explained_tot,markersize=1,label='Explained variability fraction of total data')
@@ -560,13 +544,12 @@ def drop_head(glob_conc,conds,num):
 def variablityComparisonHein():
     figure(figsize=(8,5))
     db = 'Heinemann'
-    conds = cond_lists[db]
-    gr = grs[db]
+    conds,gr,glob_conc = datas[db]
     gr = gr[conds]
     globs = []
     titles = []
     funcs = [square_dist_func,square_dist_func,square_dist_func,abs_dist_func,abs_dist_func,square]
-    globs.append(coli_datas[db])
+    globs.append(glob_conc)
     titles.append('all prots')
     globs.append(norm_glob_conc(globs[0],conds))
     titles.append('all prots, normalized')
@@ -604,7 +587,8 @@ def variablityComparisonHein():
     savefig('ExpVarComp.pdf')
 
 for db in dbs:
-    plot_corr_hist(ps[db],db,coli_datas[db],categories)
+    conds,gr,glob_conc = datas[db]
+    plot_corr_hist(ps[db],db,glob_conc,categories)
 
 #assume both subplots have the same categories.
 handles,labels=ps['Heinemann'].get_legend_handles_labels()
@@ -621,10 +605,9 @@ def variabilityAndGlobClustSlopesNormed():
     alphas = {'Valgepea':[],'Heinemann':[]}
     for db in ['Valgepea','Heinemann']:
         p=ps[db]
-        conds = cond_lists[db]
-        gr = grs[db]
+        conds,gr,glob_conc = datas[db]
         gr = gr[conds]
-        glob_conc = coli_datas[db].copy()
+        glob_conc = glob_conc.copy()
         tot_means = glob_conc['avg']
         for col in conds:
             glob_conc[col] = glob_conc[col]/tot_means
@@ -683,9 +666,7 @@ def plotMultiStats(db):
     p5=subplot(235)
     p6=subplot(236)
 
-    glob_conc = coli_datas[db]
-    gr=grs[db]
-    conds = cond_lists[db]
+    conds,gr,glob_conc = datas[db]
 
     p1.plot(glob_conc['avg'], glob_conc['rsq'],'.', markersize=1)
     p1.set_xlabel('Average concentraion', fontsize=6)
@@ -700,8 +681,8 @@ def plotMultiStats(db):
     set_ticks(p2,6)
 
     glob_conc = glob_conc[glob_conc['gr_cov']>0.4]
-    glob_conc = set_alpha(db,glob_conc,gr)
-    glob_conc = set_std_err(db,glob_conc,gr)
+    glob_conc = set_alpha(glob_conc,gr,conds)
+    glob_conc = set_std_err(glob_conc,gr,conds)
 
     p3.plot(glob_conc['avg'], glob_conc['alpha'],'.', markersize=1)
     p3.set_xlabel('Average concentraion (HC prots)', fontsize=6)
@@ -737,8 +718,8 @@ def plotComulativeGraph():
     figure(figsize=(5,3))
     p1 = subplot(121)
     p2 = subplot(122)
-    conds = cond_lists['Heinemann']
-    avgs = sorted(ecoli_data_h['avg'].values)
+    conds,gr,coli_data = datas['Heinemann']
+    avgs = sorted(coli_data['avg'].values)
 
     p1.plot(avgs,cumsum(avgs),'.',markersize=0.5)
     p1.set_xscale('log')
@@ -766,11 +747,10 @@ def plotHighAbundance():
     ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
     for db in dbs:
         p = ps[db]
-        conds = cond_lists[db]
-        coli_data = coli_datas[db].copy()
+        conds,gr,coli_data = datas[db]
+        coli_data = coli_data.copy()
         if db == 'Heinemann':
             coli_data['ID']=coli_data['protName']
-        gr = grs[db]
         gr = gr[conds]
         coli_data = coli_data.sort('avg',ascending=False)
         coli_data_conds = coli_data[conds]
@@ -791,12 +771,11 @@ def plotRibosomal():
     ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
     for db in dbs:
         p = ps[db]
-        conds = cond_lists[db]
-        coli_data = coli_datas[db].copy()
+        conds,gr,coli_data = datas[db]
+        coli_data = coli_data.copy()
+        gr = gr[conds]
         if db == 'Heinemann':
             coli_data['ID']=coli_data['protName']
-        gr = grs[db]
-        gr = gr[conds]
         coli_data = coli_data[coli_data['prot']=='Ribosome']
         coli_data_conds = coli_data[conds].copy()
         tot = coli_data_conds.sum()
@@ -820,9 +799,7 @@ def plotRibosomal():
 def plotPrediction():
     for db in dbs:
         figure(figsize=(5,5))
-        conds = cond_lists[db]
-        coli_data = coli_datas[db]
-        gr = grs[db]
+        conds,gr,coli_data = datas[db]
         gr = gr[conds]
         glob = get_glob(db,coli_data)
         for i in range(1,10):
@@ -861,9 +838,7 @@ def plotRibosomalVsGlobTrend():
     ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
     coords = {'Heinemann':0.03,'Valgepea':0.03}
     for db in dbs:
-        conds = cond_lists[db]
-        coli_data = coli_datas[db]
-        gr = grs[db]
+        conds,gr,coli_data = datas[db]
         gr = gr[conds]
         glob = get_glob(db,coli_data)
         no_ribs = glob[glob['prot'] != 'Ribosome']
