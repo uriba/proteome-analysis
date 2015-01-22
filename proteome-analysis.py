@@ -294,49 +294,48 @@ def plot_response_hist_graphs():
 #savefig('vhcorrcomp.pdf')
 
 # plot Heinemann data only for chemostat conditions.
-db = 'Heinemann-chemo'
-figure(figsize=(5,3))
-(cond_list,gr_chemo,ecoli_data_chemo) = get_annotated_prots(db)
-ecoli_data_chemo = calc_gr_corr(ecoli_data_chemo,cond_list,gr_chemo)
+def heinmann_chemo_plot():
+    db = 'Heinemann-chemo'
+    figure(figsize=(5,3))
+    (cond_list,gr_chemo,ecoli_data_chemo) = get_annotated_prots(db)
+    ecoli_data_chemo = calc_gr_corr(ecoli_data_chemo,cond_list,gr_chemo)
 
-p1=subplot(121)
-p2=subplot(122)
+    p1=subplot(121)
+    p2=subplot(122)
+    plot_corr_hist(p1,db,ecoli_data_chemo,categories)
 
-plot_corr_hist(p1,db,ecoli_data_chemo,categories)
+    handles,labels=p1.get_legend_handles_labels()
+    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.05,0.8,0.5,0.2),ncol=2)
+    glob_chemo = get_glob(db,ecoli_data_chemo)
+    print "%s global cluster is %d out of %d measured proteins" % (db, len(glob_chemo),len(ecoli_data_chemo[ecoli_data_chemo['gr_cov']>-1.]))
 
-handles,labels=p1.get_legend_handles_labels()
+    glob_tot_chemo = glob_chemo[cond_list].sum()
+    alpha,beta,r_val,p_val,std_err = linregress(gr_chemo,glob_tot_chemo)
 
-figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.05,0.8,0.5,0.2),ncol=2)
-glob_chemo = get_glob(db,ecoli_data_chemo)
-print "%s global cluster is %d out of %d measured proteins" % (db, len(glob_chemo),len(ecoli_data_chemo[ecoli_data_chemo['gr_cov']>-1.]))
+    print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
+    print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
+    p2.plot(gr_chemo.values,glob_tot_chemo.values,'o',label="Heinemann et. al Chem",color='blue')
+    p2.plot(gr_chemo.values,alpha*gr_chemo.values+beta,color='blue',label=("Heinemann Chem. Trend,$R^2$=%.2f" % (gr_chemo.corr(glob_tot_chemo)**2)))
 
-glob_tot_chemo = glob_chemo[cond_list].sum()
-alpha,beta,r_val,p_val,std_err = linregress(gr_chemo,glob_tot_chemo)
+    cond_list,gr_v,conc_data = datas['Valgepea']
+    glob_v = get_glob("Valgepea",conc_data)
+    glob_tot_v = glob_v[cond_list].sum()
+    alpha_v,beta_v,r_val,p_val,std_err = linregress(gr_v,glob_tot_v)
+    p2.plot(gr_v.values,glob_tot_v.values,'o',label="Valgepea",color='green')
+    p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_tot_v)**2)))
 
-print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
-print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
-p2.plot(gr_chemo.values,glob_tot_chemo.values,'o',label="Heinemann et. al Chem",color='blue')
-p2.plot(gr_chemo.values,alpha*gr_chemo.values+beta,color='blue',label=("Heinemann Chem. Trend,$R^2$=%.2f" % (gr_chemo.corr(glob_tot_chemo)**2)))
+    p2.set_xlim(xmin=0.)
+    p2.set_ylim(ymin=0.)
+    p2.set_xlabel('Growth rate',fontsize=8)
+    p2.set_ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=8)
+    legend(loc=3, prop={'size':6},numpoints=1)
+    set_ticks(p2,8)
+    tight_layout()
 
-cond_list,gr_v,conc_data = datas['Valgepea']
-glob_v = get_glob("Valgepea",conc_data)
-glob_tot_v = glob_v[cond_list].sum()
-alpha_v,beta_v,r_val,p_val,std_err = linregress(gr_v,glob_tot_v)
-p2.plot(gr_v.values,glob_tot_v.values,'o',label="Valgepea",color='green')
-p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_tot_v)**2)))
-
-p2.set_xlim(xmin=0.)
-p2.set_ylim(ymin=0.)
-p2.set_xlabel('Growth rate',fontsize=8)
-p2.set_ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=8)
-legend(loc=3, prop={'size':6},numpoints=1)
-set_ticks(p2,8)
-tight_layout()
-
-subplots_adjust(top=0.83)
+    subplots_adjust(top=0.83)
 #fig = gcf()
 #py.plot_mpl(fig,filename="Heinemann chemostat graphs")
-savefig('HeinemannChemostatGr.pdf')
+    savefig('HeinemannChemostatGr.pdf')
 
 # plot slopes distribution for highly negatively correlated proteins from Valgepea dataset and sum of concentrations
 #figure(figsize=(5,3))
@@ -617,53 +616,44 @@ def variabilityAndGlobClustSlopesNormed():
 #6 panel graph - avg. exp. vs norm. slope, slope vs. r^2. non-global cluster avg. exp. vs. slope.
 def plotMultiStats(db):
     figure(figsize=(5,3))
-    p1=subplot(231)
-    p2=subplot(232)
-    p3=subplot(233)
-    p4=subplot(234)
-    p5=subplot(235)
-    p6=subplot(236)
-
     conds,gr,glob_conc = datas[db]
+    sp = []
+    for i in range(6):
+        sp.append(subplot(231+i))
 
-    p1.plot(glob_conc['avg'], glob_conc['rsq'],'.', markersize=1)
-    p1.set_xlabel('Average concentraion', fontsize=6)
-    p1.set_ylabel('$R^2$ with GR', fontsize=6)
-    p1.set_xscale('log')
-    set_ticks(p1,6)
+    sp[0].plot(glob_conc['avg'], glob_conc['rsq'],'.', markersize=1)
+    sp[0].set_xlabel('Average concentraion', fontsize=6)
+    sp[0].set_ylabel('$R^2$ with GR', fontsize=6)
 
-    p2.plot(glob_conc['avg'], glob_conc['gr_cov'],'.', markersize=1)
-    p2.set_xlabel('Average concentraion', fontsize=6)
-    p2.set_ylabel('Pearson corr. with GR', fontsize=6)
-    p2.set_xscale('log')
-    set_ticks(p2,6)
+    sp[1].plot(glob_conc['avg'], glob_conc['gr_cov'],'.', markersize=1)
+    sp[1].set_xlabel('Average concentraion', fontsize=6)
+    sp[1].set_ylabel('Pearson corr. with GR', fontsize=6)
 
-    glob_conc = glob_conc[glob_conc['gr_cov']>0.4]
+    glob_conc = glob_conc[glob_conc['gr_cov']>get_limits(db)[0]]
     glob_conc = set_alpha(glob_conc,gr,conds)
     glob_conc = set_std_err(glob_conc,gr,conds)
 
-    p3.plot(glob_conc['avg'], glob_conc['alpha'],'.', markersize=1)
-    p3.set_xlabel('Average concentraion (HC prots)', fontsize=6)
-    p3.set_ylabel('Norm. Slope', fontsize=6)
-    p3.set_xscale('log')
-    set_ticks(p3,6)
+    sp[2].plot(glob_conc['avg'], glob_conc['alpha'],'.', markersize=1)
+    sp[2].set_xlabel('Average concentraion (HC prots)', fontsize=6)
+    sp[2].set_ylabel('Norm. Slope', fontsize=6)
 
-    p4.plot(glob_conc['avg'], glob_conc['std_err'],'.', markersize=1)
-    p4.set_xlabel('Average concentraion (HC prots)', fontsize=6)
-    p4.set_ylabel('std err of fit', fontsize=6)
-    p4.set_xscale('log')
-    set_ticks(p4,6)
+    sp[3].plot(glob_conc['avg'], glob_conc['std_err'],'.', markersize=1)
+    sp[3].set_xlabel('Average concentraion (HC prots)', fontsize=6)
+    sp[3].set_ylabel('std err of fit', fontsize=6)
 
-    p5.plot(glob_conc['alpha'], glob_conc['std_err'],'.', markersize=1)
-    p5.set_xlabel('Norm. slope (HC)', fontsize=6)
-    p5.set_ylabel('std err of fit', fontsize=6)
-    set_ticks(p5,6)
+    for i in range(4):
+        sp[i].set_xscale('log')
 
-    p6.plot(glob_conc['alpha'], glob_conc['rsq'],'.', markersize=1)
-    p6.set_xlabel('Norm. slope (HC)', fontsize=6)
-    p6.set_ylabel('$R^2$ with GR', fontsize=6)
-    set_ticks(p6,6)
+    sp[4].plot(glob_conc['alpha'], glob_conc['std_err'],'.', markersize=1)
+    sp[4].set_xlabel('Norm. slope (HC)', fontsize=6)
+    sp[4].set_ylabel('std err of fit', fontsize=6)
 
+    sp[5].plot(glob_conc['alpha'], glob_conc['rsq'],'.', markersize=1)
+    sp[5].set_xlabel('Norm. slope (HC)', fontsize=6)
+    sp[5].set_ylabel('$R^2$ with GR', fontsize=6)
+
+    for i in range(6):
+        set_ticks(sp[i],6)
     tight_layout()
 
     #fig = gcf()
@@ -830,6 +820,7 @@ plotCorrelationHistograms(["Valgepea"],"Val")
 plotCorrelationHistograms(dbs,"")
 plotGlobalResponse()
 plot_response_hist_graphs()
+heinmann_chemo_plot()
 plotMultiStats('Valgepea')
 plotComulativeGraph()
 plotHighAbundance()
