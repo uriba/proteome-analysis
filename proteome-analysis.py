@@ -228,8 +228,6 @@ def plot_response_hist(db,df,gr,conds,p,total,estimate):
     glob_conc = get_glob(db,df)
     glob_conc = set_alpha(glob_conc,gr,conds)
     glob_conc = set_std_err(glob_conc,gr,conds)
-    #glob_conc = glob_conc[glob_conc['std_err']<0.4]
-    #print "for db %s, plotted slopes histogram includes %d proteins" % (db,len(glob_conc))
     avg = glob_conc['alpha'].mean()
     std_err = glob_conc['std_err'].mean()
     if not total:
@@ -241,63 +239,33 @@ def plot_response_hist(db,df,gr,conds,p,total,estimate):
     if estimate:
         p.plot(xs,stats.t.pdf(xs,df=len(conds)-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.25)
     p.set_xlim(-5,5)
-    p.axvline(x=0,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
-    p.axvline(x=1,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
-    p.axvline(x=2,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
+    for x in range(3):
+        p.axvline(x=x,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
     p.set_xlabel('Normalized slope',fontsize=8)
     p.set_ylabel('Number of proteins',fontsize=8)
     set_ticks(p,8)
 
-figure(figsize=(5,3))
+def plot_response_hist_graphs():
+    plots = {"AllProtsNormalizedSlopes":(True,False),"AllProtsVSRibosomalNoExpNormalizedSlopes":(False,False),"AllProtsVSRibosomalNormalizedSlopes":(False,True)}
+    for (name,vals) in plots.iteritems():
+        figure(figsize=(5,3))
+        p = subplot(111)
+        ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
+        coords = {'Heinemann':0.0,'Valgepea':0.62}
+        for db in dbs:
+            conds,gr,conc_data = datas[db]
+            plot_response_hist(db,conc_data,gr,conds,ps[db],vals[0],vals[1])
+            text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
+            handles,labels=ps[db].get_legend_handles_labels()
+            if db == 'Valgepea':
+                ps[db].set_ylim(0,100)
 
-p=subplot(111)
-ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
-coords = {'Heinemann':0.0,'Valgepea':0.62}
-for db in dbs:
-    conds,gr,conc_data = datas[db]
-    plot_response_hist(db,conc_data,gr,conds,ps[db],True,False)
-    text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
-    handles,labels=ps[db].get_legend_handles_labels()
-    if db == 'Valgepea':
-        ps[db].set_ylim(0,100)
-
-figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.25,0.8,0.5,0.2),ncol=2)
-tight_layout()
-savefig('AllProtsNormalizedSlopes.pdf')
-figure(figsize=(5,3))
-
-p=subplot(111)
-ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
-
-for db in dbs:
-    conds,gr,conc_data = datas[db]
-    plot_response_hist(db,conc_data,gr,conds,ps[db],False,False)
-    text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
-    handles,labels=ps[db].get_legend_handles_labels()
-    if db == 'Valgepea':
-        ps[db].set_ylim(0,100)
-
-figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.25,0.8,0.5,0.2),ncol=2)
-tight_layout()
-savefig('AllProtsVSRibosomalNoExpNormalizedSlopes.pdf')
-figure(figsize=(5,3))
-
-p=subplot(111)
-ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
-
-for db in dbs:
-    conds,gr,conc_data = datas[db]
-    plot_response_hist(db,conc_data,gr,conds,ps[db],False,True)
-    text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
-    handles,labels=ps[db].get_legend_handles_labels()
-    if db == 'Valgepea':
-        ps[db].set_ylim(0,100)
-
-figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.25,0.8,0.5,0.2),ncol=2)
-tight_layout()
+        figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.25,0.8,0.5,0.2),ncol=2)
+        tight_layout()
 #fig = gcf()
 #py.plot_mpl(fig,filename="Normalized slopes distribution")
-savefig('AllProtsVSRibosomalNormalizedSlopes.pdf')
+        savefig('%s.pdf' % name)
+
 
 #### plot figure of gr corr comparison by ko_num.
 #hgr = []
@@ -586,16 +554,6 @@ def variablityComparisonHein():
     #py.plot_mpl(fig,filename="Various heuristics on explained variability for Heinemann data set")
     savefig('ExpVarComp.pdf')
 
-for db in dbs:
-    conds,gr,glob_conc = datas[db]
-    plot_corr_hist(ps[db],db,glob_conc,categories)
-
-#assume both subplots have the same categories.
-handles,labels=ps['Heinemann'].get_legend_handles_labels()
-
-figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
-
-
 def variabilityAndGlobClustSlopesNormed():
     figure(figsize=(5,3))
     p=subplot(111)
@@ -871,6 +829,7 @@ writeTables()
 plotCorrelationHistograms(["Valgepea"],"Val")
 plotCorrelationHistograms(dbs,"")
 plotGlobalResponse()
+plot_response_hist_graphs()
 plotMultiStats('Valgepea')
 plotComulativeGraph()
 plotHighAbundance()
