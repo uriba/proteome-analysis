@@ -30,16 +30,6 @@ def get_limits(db):
 #Initialize global data structures
 (cond_list_v,gr_v,ecoli_data_v) = get_annotated_prots('Valgepea')
 (cond_list_h,gr_h,ecoli_data_h) = get_annotated_prots('Heinemann')
-ecoli_data_v['mean'] = ecoli_data_v[cond_list_v].mean(axis=1)
-ecoli_data_v['std'] = ecoli_data_v[cond_list_v].std(axis=1)
-ecoli_data_h['mean'] = ecoli_data_h[cond_list_h].mean(axis=1)
-ecoli_data_h['std'] = ecoli_data_h[cond_list_h].std(axis=1)
-v_CV = (ecoli_data_v['std']/ecoli_data_v['mean']).mean()
-h_CV = (ecoli_data_h['std']/ecoli_data_h['mean']).mean()
-
-print "v_CV %f" % v_CV
-print "h_CV %f" % h_CV
-
 #ecoli_data_h = ecoli_data_h[ecoli_data_h['prot']=='Ribosome']
 #ecoli_data_v = ecoli_data_v[ecoli_data_v['prot']=='Ribosome']
 
@@ -52,7 +42,10 @@ for db in dbs:
     coli_data = coli_datas[db]
     conds = cond_lists[db]
     coli_data['avg']=coli_data[conds].mean(axis=1)
+    coli_data['std']=coli_data[conds].std(axis=1)
     coli_data= calc_gr_corr(coli_data,conds,grs[db])
+    CV = (coli_data['std']/coli_data['avg']).mean()
+    print "%s CV: %f" % (db,CV)
 
 #write tables data:
 def writeCorrsHist(db):
@@ -84,12 +77,9 @@ def writeTopProtsVar(db):
     conc_data_vars = (conc_data[conds]**2).sum(axis=1)
     conc_data['vars']=conc_data_vars
     tot_vars = conc_data['vars'].sum()
-
     conc_data = conc_data.sort('avg',ascending=False)
-
     if db == 'Heinemann':
         conc_data['Temp']=conc_data['protName']
-
     high_abdc = conc_data.head(20)
     with open('varsOfAbdcs%s.csv' % db,'wb') as csvfile:
         csvwriter = csv.writer(csvfile,delimiter=';')
@@ -97,8 +87,8 @@ def writeTopProtsVar(db):
         j = 0
         for i,row in high_abdc.iterrows():
             csvwriter.writerow((row['func'], row['prot'],row['Temp'],row['avg']*100,row['vars']*100/tot_vars,row['gr_cov']))
+            #plot protein with second highest abundance in valgepea data set
             if (j == 1) and (db == 'Valgepea'):
-                print "figureing"
                 figure(figsize=(5,3))
                 ax = subplot(111)
                 ax.plot(grs[db],100*(row[conds]+row['avg']),'o',label="metE, Correlation: %.2f" % grs[db].corr(row[conds]))
@@ -127,6 +117,9 @@ def writeTables():
 
 ### Figure 1 - Correlation to growth rate by functional group histogram.
 categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes','NotMapped']
+def set_ticks(p,size):
+    p.tick_params(axis='both', which='major', labelsize=size)
+    p.tick_params(axis='both', which='minor', labelsize=size)
 
 def plot_corr_hist(p,db,conc_data,categories):
     bins = linspace(-1,1,21)
@@ -138,45 +131,31 @@ def plot_corr_hist(p,db,conc_data,categories):
 
     p.hist(sets,bins = bins, stacked = True,label=categories)
     handles,labels=p.get_legend_handles_labels()
-    p.tick_params(axis='both', which='major', labelsize=8)
-    p.tick_params(axis='both', which='minor', labelsize=8)
+    set_ticks(p,8)
     p.set_xlabel('Pearson correlation with growth rate',fontsize=8)
     p.set_ylabel('Number of proteins',fontsize=8)
-    limits = get_limits(db)
-    p.axvline(x=limits[0],ymin=0,ymax=250,ls='--',color='black',lw=0.5)
-    p.axvline(x=limits[1],ymin=0,ymax=250,ls='--',color='black',lw=0.5)
+    for limit in get_limits(db):
+        p.axvline(x=limit,ymin=0,ymax=250,ls='--',color='black',lw=0.5)
 
     #legend(loc=2,prop={'size':8})
     return handles,labels
 
 
-def plotCorrelationHistograms():
+def plotCorrelationHistograms(dbs,suffix):
     figure(figsize=(5,3))
 
+    coords = {'Heinemann':0.01,'Valgepea':0.625}
     p=subplot(111)
     ps = {'Valgepea':subplot(122)}
-    coords = {'Heinemann':0.01,'Valgepea':0.625}
-
-    plot_corr_hist(ps['Valgepea'],'Valgepea',coli_datas['Valgepea'],categories)
-    text(coords['Valgepea'],0.8,"data from %s et. al." % 'Valgepea',fontsize=8,transform=p.transAxes)
-    handles,labels=ps['Valgepea'].get_legend_handles_labels()
-    tight_layout()
-
-    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
-
-    subplots_adjust(top=0.83)
-    savefig('GrowthRateCorrelationVal.pdf')
-
-    figure(figsize=(5,3))
-    p=subplot(111)
-    ps = {'Heinemann':subplot(121),'Valgepea':subplot(122)}
+    if(len(dbs)>1):
+        ps['Heinemann'] = subplot(121)
 
     for db in dbs:
         plot_corr_hist(ps[db],db,coli_datas[db],categories)
         text(coords[db],0.8,"data from %s et. al." % db,fontsize=8,transform=p.transAxes)
 
     #assume both subplots have the same categories.
-    handles,labels=ps['Heinemann'].get_legend_handles_labels()
+    handles,labels=ps[dbs[0]].get_legend_handles_labels()
 
     tight_layout()
     figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
@@ -184,8 +163,7 @@ def plotCorrelationHistograms():
     subplots_adjust(top=0.83)
     #fig = gcf()
     #py.plot_mpl(fig,filename="Growth rate Correlation histograms")
-    savefig('GrowthRateCorrelation.pdf')
-    savefig('GrowthRateCorrelation.png')
+    savefig('GrowthRateCorrelation%s.pdf' % suffix)
 
 ### Figure 3, Global cluster analysis:
 def plotGlobalResponse():
@@ -221,7 +199,6 @@ def plotGlobalResponse():
     #fig = gcf()
     #py.plot_mpl(fig,filename="Global cluster growth rate correlation")
     savefig('GlobalClusterGRFit.pdf')
-    savefig('GlobalClusterGRFit.png')
 
 #gets values at cond_list and normalized in both axes
 def std_err_fit(gr,s):
@@ -285,8 +262,7 @@ def plot_response_hist(db,df,gr,p,total,estimate):
     p.axvline(x=2,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
     p.set_xlabel('Normalized slope',fontsize=8)
     p.set_ylabel('Number of proteins',fontsize=8)
-    p.tick_params(axis='both', which='major', labelsize=8)
-    p.tick_params(axis='both', which='minor', labelsize=8)
+    set_ticks(p,8)
 
 figure(figsize=(5,3))
 
@@ -400,15 +376,13 @@ p2.set_ylim(ymin=0.)
 p2.set_xlabel('Growth rate',fontsize=8)
 p2.set_ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=8)
 legend(loc=3, prop={'size':6},numpoints=1)
-p2.tick_params(axis='both', which='major', labelsize=8)
-p2.tick_params(axis='both', which='minor', labelsize=8)
+set_ticks(p2,8)
 tight_layout()
 
 subplots_adjust(top=0.83)
 #fig = gcf()
 #py.plot_mpl(fig,filename="Heinemann chemostat graphs")
 savefig('HeinemannChemostatGr.pdf')
-savefig('HeinemannChemostatGr.png')
 
 # plot slopes distribution for highly negatively correlated proteins from Valgepea dataset and sum of concentrations
 #figure(figsize=(5,3))
@@ -438,8 +412,7 @@ savefig('HeinemannChemostatGr.png')
 #p2.set_xlabel('Growth rate',fontsize=8)
 #p2.set_ylabel('Protein fraction out of proteome',fontsize=8)
 #legend(loc=3, prop={'size':6},numpoints=1)
-#p2.tick_params(axis='both', which='major', labelsize=8)
-#p2.tick_params(axis='both', which='minor', labelsize=8)
+#set_ticks(p2,8)
 #tight_layout()
 
 #subplots_adjust(top=0.83)
@@ -540,8 +513,7 @@ def variabilityAndGlobClustSlopes():
         p.set_ylabel('Explained fraction of variability', fontsize=8)
         p.set_xlabel('global cluster correlation threshold', fontsize=8)
         p.set_ylim(0,1)
-        p.tick_params(axis='both', which='major', labelsize=6)
-        p.tick_params(axis='both', which='minor', labelsize=6)
+        set_ticks(p,6)
         p.axhline(xmin=0,xmax=1,y=0.5,ls='--',color='black',lw=0.5)
         p.legend(loc=2,prop={'size':6})
         p.set_title(db)
@@ -550,7 +522,6 @@ def variabilityAndGlobClustSlopes():
     #fig = gcf()
     #py.plot_mpl(fig,filename="Non normalized variability statistics")
     savefig('ExpVar2.pdf')
-    savefig('ExpVar2.png')
 
     figure(figsize=(5,3))
     p=subplot(111)
@@ -559,14 +530,12 @@ def variabilityAndGlobClustSlopes():
         p = ps[db]
         p.plot(corrs,alphas[db])
         p.set_title(db)
-        p.tick_params(axis='both', which='major', labelsize=6)
-        p.tick_params(axis='both', which='minor', labelsize=6)
+        set_ticks(p,6)
         p.set_ylim(0,2)
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Global response slope dependence on threshold")
     savefig('ThresholdSlopes.pdf')
-    savefig('ThresholdSlopes.png')
 
 def norm_glob_conc(glob_conc,conds):
     glob_conc = glob_conc.copy()
@@ -623,8 +592,7 @@ def variablityComparisonHein():
         p.set_ylabel('Explained fraction of variability', fontsize=8)
         p.set_xlabel('global cluster correlation threshold', fontsize=8)
         p.set_ylim(0,1)
-        p.tick_params(axis='both', which='major', labelsize=6)
-        p.tick_params(axis='both', which='minor', labelsize=6)
+        set_ticks(p,6)
         p.axhline(xmin=0,xmax=1,y=0.5,ls='--',color='black',lw=0.5)
         if i==0:
             p.legend(loc=2,prop={'size':6})
@@ -674,8 +642,7 @@ def variabilityAndGlobClustSlopesNormed():
         p.set_ylabel('Explained fraction of variability', fontsize=8)
         p.set_xlabel('global cluster correlation threshold', fontsize=8)
         p.set_ylim(0,1)
-        p.tick_params(axis='both', which='major', labelsize=6)
-        p.tick_params(axis='both', which='minor', labelsize=6)
+        set_ticks(p,6)
         p.axhline(xmin=0,xmax=1,y=0.09,ls='--',color='black',lw=0.5)
         #p.axvline(ymin=0,ymax=1,x=get_limits(db)[0],ls='--',color='black',lw=0.5)
         text(coords[db],0.9,"data from %s et. al." % db,fontsize=8,transform=p.transAxes)
@@ -690,7 +657,6 @@ def variabilityAndGlobClustSlopesNormed():
     #fig = gcf()
     #py.plot_mpl(fig,filename="Explained variability statistics on normalized concentrations")
     savefig('ExpVar3.pdf')
-    savefig('ExpVar3.png')
 
     figure(figsize=(5,3))
     p=subplot(111)
@@ -699,14 +665,12 @@ def variabilityAndGlobClustSlopesNormed():
         p = ps[db]
         p.plot(corrs,alphas[db])
         p.set_title(db)
-        p.tick_params(axis='both', which='major', labelsize=6)
-        p.tick_params(axis='both', which='minor', labelsize=6)
+        set_ticks(p,6)
         p.set_ylim(0,2)
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Dependence on threshold of global response slopes for normalized concentrations")
     savefig('ThresholdSlopes2.pdf')
-    savefig('ThresholdSlopes2.png')
 
 
 #6 panel graph - avg. exp. vs norm. slope, slope vs. r^2. non-global cluster avg. exp. vs. slope.
@@ -727,15 +691,13 @@ def plotMultiStats(db):
     p1.set_xlabel('Average concentraion', fontsize=6)
     p1.set_ylabel('$R^2$ with GR', fontsize=6)
     p1.set_xscale('log')
-    p1.tick_params(axis='both', which='major', labelsize=6)
-    p1.tick_params(axis='both', which='minor', labelsize=6)
+    set_ticks(p1,6)
 
     p2.plot(glob_conc['avg'], glob_conc['gr_cov'],'.', markersize=1)
     p2.set_xlabel('Average concentraion', fontsize=6)
     p2.set_ylabel('Pearson corr. with GR', fontsize=6)
     p2.set_xscale('log')
-    p2.tick_params(axis='both', which='major', labelsize=6)
-    p2.tick_params(axis='both', which='minor', labelsize=6)
+    set_ticks(p2,6)
 
     glob_conc = glob_conc[glob_conc['gr_cov']>0.4]
     glob_conc = set_alpha(db,glob_conc,gr)
@@ -745,27 +707,23 @@ def plotMultiStats(db):
     p3.set_xlabel('Average concentraion (HC prots)', fontsize=6)
     p3.set_ylabel('Norm. Slope', fontsize=6)
     p3.set_xscale('log')
-    p3.tick_params(axis='both', which='major', labelsize=6)
-    p3.tick_params(axis='both', which='minor', labelsize=6)
+    set_ticks(p3,6)
 
     p4.plot(glob_conc['avg'], glob_conc['std_err'],'.', markersize=1)
     p4.set_xlabel('Average concentraion (HC prots)', fontsize=6)
     p4.set_ylabel('std err of fit', fontsize=6)
     p4.set_xscale('log')
-    p4.tick_params(axis='both', which='major', labelsize=6)
-    p4.tick_params(axis='both', which='minor', labelsize=6)
+    set_ticks(p4,6)
 
     p5.plot(glob_conc['alpha'], glob_conc['std_err'],'.', markersize=1)
     p5.set_xlabel('Norm. slope (HC)', fontsize=6)
     p5.set_ylabel('std err of fit', fontsize=6)
-    p5.tick_params(axis='both', which='major', labelsize=6)
-    p5.tick_params(axis='both', which='minor', labelsize=6)
+    set_ticks(p5,6)
 
     p6.plot(glob_conc['alpha'], glob_conc['rsq'],'.', markersize=1)
     p6.set_xlabel('Norm. slope (HC)', fontsize=6)
     p6.set_ylabel('$R^2$ with GR', fontsize=6)
-    p6.tick_params(axis='both', which='major', labelsize=6)
-    p6.tick_params(axis='both', which='minor', labelsize=6)
+    set_ticks(p6,6)
 
     tight_layout()
 
@@ -773,7 +731,6 @@ def plotMultiStats(db):
     #py.plot_mpl(fig,filename="Proteins statistics for Heinemann dataset")
     glob_conc.to_csv('stats.csv')
     savefig('AvgConcStats%s.pdf' % db)
-    #savefig('AvgConcStatsHein.png')
 
 #comulative graph - x axis - avg. prot. conc. (or molecule count per cell), y axis, comulative % out of proteome.
 def plotComulativeGraph():
@@ -789,22 +746,19 @@ def plotComulativeGraph():
     p1.set_ylabel('accumulated fraction \n out of proteome',fontsize=6)
     p1.axhline(xmin=0,xmax=1,y=0.05,ls='--',color='black',lw=0.5)
     p1.axhline(xmin=0,xmax=1,y=0.01,ls='--',color='black',lw=0.5)
-    p1.tick_params(axis='both', which='major', labelsize=6)
-    p1.tick_params(axis='both', which='minor', labelsize=6)
+    set_ticks(p1,6)
 
     p2.plot(arange(0,len(avgs)),cumsum(avgs),'.',markersize=0.5)
     p2.set_xlabel('num. of prots',fontsize=6)
     p2.set_ylabel('accumulated fraction \n out of proteome',fontsize=6)
     p2.axhline(xmin=0,xmax=2000,y=0.05,ls='--',color='black',lw=0.5)
     p2.axhline(xmin=0,xmax=2000,y=0.01,ls='--',color='black',lw=0.5)
-    p2.tick_params(axis='both', which='major', labelsize=6)
-    p2.tick_params(axis='both', which='minor', labelsize=6)
+    set_ticks(p2,6)
 
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Cumulative proteome concentration distribution for Heinemann")
     savefig('DistStatsHein.pdf')
-    savefig('DistStatsHein.png')
 
 #plot the graphs for the 10 highest abundance proteins with their descriptions.
 def plotHighAbundance():
@@ -894,14 +848,12 @@ def plotPrediction():
             p.plot(gr.values,est,'o',color='green',markersize=2)
             p.set_ylim(0,3)
             p.set_xlim(0,0.7)
-            p.tick_params(axis='both', which='major', labelsize=8)
-            p.tick_params(axis='both', which='minor', labelsize=8)
+            set_ticks(p,8)
             p.set_title("$R^2$=%.2f" % est.corr(linpred)**2,fontsize=8)
         tight_layout()    
         #fig = gcf()
         #py.plot_mpl(fig,filename="Random proteins estimations, 10 proteins at a time, %s" % db)
         savefig('RandEstimate%s.pdf' % db)
-        savefig('RandEstimate%s.png' % db)
 
 #plot ribosomal proteins vs. global cluster proteins with trendlines and R^2 estimates.
 def plotRibosomalVsGlobTrend():
@@ -931,8 +883,7 @@ def plotRibosomalVsGlobTrend():
             p.set_xlabel('Growth rate',fontsize=10)
             p.set_ylabel('Normalized concentration',fontsize=10)
         p.legend(loc='lower left', prop={'size':8},numpoints=1)
-        p.tick_params(axis='both', which='major', labelsize=8)
-        p.tick_params(axis='both', which='minor', labelsize=8)
+        set_ticks(p,8)
         text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
     tight_layout()
     #fig = gcf()
@@ -941,7 +892,9 @@ def plotRibosomalVsGlobTrend():
 
         
 writeTables()
-plotCorrelationHistograms()
+#Single histogram for presentation
+plotCorrelationHistograms(["Valgepea"],"Val")
+plotCorrelationHistograms(dbs,"")
 plotGlobalResponse()
 plotMultiStats('Valgepea')
 plotComulativeGraph()
