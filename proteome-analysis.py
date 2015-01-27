@@ -235,11 +235,11 @@ def plot_response_hist(db,df,gr,conds,p,total,estimate):
     if not total:
         glob_conc_no_ribs = glob_conc[glob_conc['prot'] != 'Ribosome']
         ribs = glob_conc[glob_conc['prot'] == 'Ribosome']
-        p.hist([glob_conc_no_ribs['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['High correlation proteins','Ribosomal proteins'])
+        p.hist([glob_conc_no_ribs['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['High correlation proteins','Ribosomal proteins'],color=['blue','#20ff20'])
     else:
         p.hist(glob_conc['alpha'].values,bins=bins,label=['High correlation proteins'])
     if estimate:
-        p.plot(xs,stats.t.pdf(xs,df=len(conds)-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.25)
+        p.plot(xs,stats.t.pdf(xs,df=len(conds)-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.25,linestyle='-',color='0.5')
     p.set_xlim(-5,5)
     for x in range(3):
         p.axvline(x=x,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
