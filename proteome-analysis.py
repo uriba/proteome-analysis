@@ -25,7 +25,8 @@ def get_limits(db):
         limits = (0.8,1.)
     if db == 'Heinemann-chemo':
         limits = (0.8,1.)
-    return limits
+    #return limits
+    return (0.5,1.)
 
 #Initialize global data structures
 dbs = ['Heinemann','Valgepea']
