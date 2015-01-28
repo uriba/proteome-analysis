@@ -570,8 +570,8 @@ def variabilityAndGlobClustSlopesNormed():
         glob_conc['avg'] = glob_conc[conds].mean(axis=1)
         (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas[db],glob_frac) = calc_var_stats(square_dist_func,conds,gr,glob_conc)
 
-        p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
         p.plot(corrs,explained_tot,markersize=1,label='Explained variability fraction of total data')
+        p.plot(corrs,explained_glob,markersize=1,label='Explained variability fraction of global cluster')
         p.plot(corrs,glob_frac,markersize=1,label='Correlated proteins fraction of proteome')
         #p.plot(corrs,explained_compl_glob,markersize=1,label='Explained complementary variability fraction of global cluster')
         #p.plot(corrs,explained_compl_tot,markersize=1,label='Explained complementary variability fraction of total data')
