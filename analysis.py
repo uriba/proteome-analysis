@@ -4,7 +4,7 @@ from pandas.io.parsers import read_csv
 from Bio import SeqIO
 from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust
 from numpy import linspace,ndarray,arange
-from numpy.random import randn,shuffle
+from numpy.random import randn,shuffle,normal
 
 remove_unmapped = False
 just_ribosomes = False
@@ -135,7 +135,7 @@ gr_dict = {'Valgepea':
      u'anaerobic' : 0.55, u'glucose': 0.6, u'LB':1.61}
            }
 
-def get_coli_data(db_used,use_weight):
+def get_coli_data(db_used,use_weight,rand):
     cond_list = cond_list_dict[db_used]
     if db_used == 'Heinemann-chemo':
         db_used = 'Heinemann'
@@ -173,11 +173,20 @@ def get_coli_data(db_used,use_weight):
     if db_used == 'Valgepea':
         ecoli_data = read_csv('valgepea.csv',header=0,encoding='iso-8859-1')
 
+    #for rand_method in ["simulated"]:
     ## Randomize rows:
-    #for i in ecoli_data.index:
-    #    y = ecoli_data[cond_list].loc[i]
-    #    shuffle(y)
-    #    ecoli_data.loc[i,cond_list] = y
+    if rand == "shuffle":
+        for i in ecoli_data.index:
+            y = ecoli_data[cond_list].loc[i]
+            shuffle(y)
+            ecoli_data.loc[i,cond_list] = y
+    if rand == "rand":
+        for i in ecoli_data.index:
+            m = ecoli_data[cond_list].loc[i].mean()
+            s = ecoli_data[cond_list].loc[i].std()
+            if m > 0:
+                y = normal(m,s,len(cond_list))
+                ecoli_data.loc[i,cond_list] = y
     #Normalize to get concentrations 
     ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
     #remove irrelevant proteins
@@ -192,8 +201,8 @@ def get_coli_data(db_used,use_weight):
     ecoli_data[id_col] = ecoli_data[id_col].astype('string')
     return ecoli_data
 
-def get_annotated_prots(db):
-    coli_data = get_coli_data(db,use_weight=True)
+def get_annotated_prots(db,rand):
+    coli_data = get_coli_data(db,use_weight=True,rand=rand)
     cond_list = cond_list_dict[db]
     if db == 'Heinemann-chemo':
         db = 'Heinemann'

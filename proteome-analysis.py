@@ -31,15 +31,17 @@ def get_limits(db):
 #Initialize global data structures
 dbs = ['Heinemann','Valgepea']
 datas = {}
-for db in dbs:
-    (conds,gr,coli_data) = get_annotated_prots(db) #cond, gr, data
-    gr = gr[conds]
-    coli_data['avg']=coli_data[conds].mean(axis=1)
-    coli_data['std']=coli_data[conds].std(axis=1)
-    coli_data = calc_gr_corr(coli_data,conds,gr)
-    CV = (coli_data['std']/coli_data['avg']).mean()
-    datas[db] = (conds,gr,coli_data)
-    print "%s CV: %f" % (db,CV)
+rand_prefix = ""
+def init_datasets(rand_method):
+    for db in dbs:
+        (conds,gr,coli_data) = get_annotated_prots(db,rand_method)
+        gr = gr[conds]
+        coli_data['avg']=coli_data[conds].mean(axis=1)
+        coli_data['std']=coli_data[conds].std(axis=1)
+        coli_data = calc_gr_corr(coli_data,conds,gr)
+        CV = (coli_data['std']/coli_data['avg']).mean()
+        datas[db] = (conds,gr,coli_data)
+        print "%s CV: %f" % (db,CV)
 
 #ecoli_data_h = ecoli_data_h[ecoli_data_h['prot']=='Ribosome']
 #ecoli_data_v = ecoli_data_v[ecoli_data_v['prot']=='Ribosome']
@@ -161,7 +163,7 @@ def plotCorrelationHistograms(dbs,suffix):
     subplots_adjust(top=0.83)
     #fig = gcf()
     #py.plot_mpl(fig,filename="Growth rate Correlation histograms")
-    savefig('GrowthRateCorrelation%s.pdf' % suffix)
+    savefig('%sGrowthRateCorrelation%s.pdf' % (rand_prefix,suffix))
 
 ### Figure 3, Global cluster analysis:
 def plotGlobalResponse():
@@ -191,7 +193,7 @@ def plotGlobalResponse():
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Global cluster growth rate correlation")
-    savefig('GlobalClusterGRFit.pdf')
+    savefig('%sGlobalClusterGRFit.pdf' % rand_prefix)
 
 #gets values at cond_list normalized in y axis
 def std_err_fit(gr,s):
@@ -266,7 +268,7 @@ def plot_response_hist_graphs():
         tight_layout()
 #fig = gcf()
 #py.plot_mpl(fig,filename="Normalized slopes distribution")
-        savefig('%s.pdf' % name)
+        savefig('%s%s.pdf' % (rand_prefix,name))
 
 
 #### plot figure of gr corr comparison by ko_num.
@@ -299,7 +301,7 @@ def plot_response_hist_graphs():
 def heinmann_chemo_plot():
     db = 'Heinemann-chemo'
     figure(figsize=(5,3))
-    (cond_list,gr_chemo,ecoli_data_chemo) = get_annotated_prots(db)
+    (cond_list,gr_chemo,ecoli_data_chemo) = get_annotated_prots(db,"")
     ecoli_data_chemo = calc_gr_corr(ecoli_data_chemo,cond_list,gr_chemo)
 
     p1=subplot(121)
@@ -337,7 +339,7 @@ def heinmann_chemo_plot():
     subplots_adjust(top=0.83)
 #fig = gcf()
 #py.plot_mpl(fig,filename="Heinemann chemostat graphs")
-    savefig('HeinemannChemostatGr.pdf')
+    savefig('%sHeinemannChemostatGr.pdf' % rand_prefix)
 
 # plot slopes distribution for highly negatively correlated proteins from Valgepea dataset and sum of concentrations
 #figure(figsize=(5,3))
@@ -473,7 +475,7 @@ def variabilityAndGlobClustSlopes():
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Non normalized variability statistics")
-    savefig('ExpVar2.pdf')
+    savefig('%sExpVar2.pdf' % rand_prefix)
 
     figure(figsize=(5,3))
     p=subplot(111)
@@ -487,7 +489,7 @@ def variabilityAndGlobClustSlopes():
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Global response slope dependence on threshold")
-    savefig('ThresholdSlopes.pdf')
+    savefig('%sThresholdSlopes.pdf' % rand_prefix)
 
 def norm_glob_conc(glob_conc,conds):
     glob_conc = glob_conc.copy()
@@ -551,7 +553,7 @@ def variablityComparisonHein():
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Various heuristics on explained variability for Heinemann data set")
-    savefig('ExpVarComp.pdf')
+    savefig('%sExpVarComp.pdf' % rand_prefix)
 
 def variabilityAndGlobClustSlopesNormed():
     figure(figsize=(5,3))
@@ -595,7 +597,7 @@ def variabilityAndGlobClustSlopesNormed():
 
     #fig = gcf()
     #py.plot_mpl(fig,filename="Explained variability statistics on normalized concentrations")
-    savefig('ExpVar3.pdf')
+    savefig('%sExpVar3.pdf' % rand_prefix)
 
     figure(figsize=(5,3))
     p=subplot(111)
@@ -609,7 +611,7 @@ def variabilityAndGlobClustSlopesNormed():
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Dependence on threshold of global response slopes for normalized concentrations")
-    savefig('ThresholdSlopes2.pdf')
+    savefig('%sThresholdSlopes2.pdf' % rand_prefix)
 
 
 #6 panel graph - avg. exp. vs norm. slope, slope vs. r^2. non-global cluster avg. exp. vs. slope.
@@ -658,7 +660,7 @@ def plotMultiStats(db):
     #fig = gcf()
     #py.plot_mpl(fig,filename="Proteins statistics for Heinemann dataset")
     glob_conc.to_csv('stats.csv')
-    savefig('AvgConcStats%s.pdf' % db)
+    savefig('%sAvgConcStats%s.pdf' % (rand_prefix,db))
 
 #comulative graph - x axis - avg. prot. conc. (or molecule count per cell), y axis, comulative % out of proteome.
 def plotComulativeGraph():
@@ -684,7 +686,7 @@ def plotComulativeGraph():
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Cumulative proteome concentration distribution for Heinemann")
-    savefig('DistStatsHein.pdf')
+    savefig('%sDistStatsHein.pdf' % rand_prefix)
 
 #plot the graphs for the 10 highest abundance proteins with their descriptions.
 def plotHighAbundance():
@@ -708,7 +710,7 @@ def plotHighAbundance():
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Most abundant proteins concentration vs growth rate")
-    savefig('highest.pdf')
+    savefig('%shighest.pdf' % rand_prefix)
 
 def plotRibosomal():
     figure(figsize=(5,3))
@@ -735,7 +737,7 @@ def plotRibosomal():
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Ribosomal proteins concentration vs growth")
-    savefig('ribosomal.pdf')
+    savefig('%sribosomal.pdf' % rand_prefix)
 
 
 #randomly select a few proteins and plot their prediction vs the actual concentration of a different protein in the HC prots.
@@ -771,7 +773,7 @@ def plotPrediction():
         tight_layout()    
         #fig = gcf()
         #py.plot_mpl(fig,filename="Random proteins estimations, 10 proteins at a time, %s" % db)
-        savefig('RandEstimate%s.pdf' % db)
+        savefig('%sRandEstimate%s.pdf' % (rand_prefix,db))
 
 #plot ribosomal proteins vs. global cluster proteins with trendlines and R^2 estimates.
 def plotRibosomalVsGlobTrend():
@@ -803,22 +805,25 @@ def plotRibosomalVsGlobTrend():
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Ribosomal proteins vs global cluster")
-    savefig('RibsVsGlob.pdf')
+    savefig('%sRibsVsGlob.pdf' % rand_prefix)
 
         
-writeTables()
+for rand_method in ["shuffle","rand","simulated",""]:
+    rand_prefix = rand_method
+    init_datasets(rand_method)
+    writeTables()
 #Single histogram for presentation
-plotCorrelationHistograms(["Valgepea"],"Val")
-plotCorrelationHistograms(dbs,"")
-plotGlobalResponse()
-plot_response_hist_graphs()
-heinmann_chemo_plot()
-plotMultiStats('Valgepea')
-plotComulativeGraph()
-plotHighAbundance()
-plotPrediction()        
-variabilityAndGlobClustSlopes()
-variabilityAndGlobClustSlopesNormed()
-variablityComparisonHein()
-plotRibosomal()
-plotRibosomalVsGlobTrend()
+    plotCorrelationHistograms(["Valgepea"],"Val")
+    plotCorrelationHistograms(dbs,"")
+    plotGlobalResponse()
+    plot_response_hist_graphs()
+    heinmann_chemo_plot()
+    plotMultiStats('Valgepea')
+    plotComulativeGraph()
+    plotHighAbundance()
+    plotPrediction()        
+    variabilityAndGlobClustSlopes()
+    variabilityAndGlobClustSlopesNormed()
+    variablityComparisonHein()
+    plotRibosomal()
+    plotRibosomalVsGlobTrend()
