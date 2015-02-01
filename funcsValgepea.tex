@@ -1,0 +1,23 @@
+\documentclass[notitlepage]{article}
+\usepackage{amsmath,graphicx}
+\usepackage{verbatim}
+\usepackage{pgfplotstable}
+\usepackage{float}
+\usepackage[landscape]{geometry}
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{table}[p]
+\centering
+%{\hspace*{-4.5cm}
+\resizebox{\textwidth}{!}{
+\pgfplotstabletypeset[
+font=\Huge,
+col sep=semicolon,
+columns/Function/.style={string type,column type=l},
+columns/totPrctP/.style={column name={$\%$ of proteome}},
+columns/corPrctP/.style={column name={Correlated $\%$ of proteome}},
+]{funcsValgepea.csv}
+}
+\end{table}
+\end{document}
