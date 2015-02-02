@@ -112,9 +112,9 @@ cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
                       u'chemostat \u00b5=0.20', u'acetate',
                       u'chemostat \u00b5=0.35', u'glucosamine',
                       u'pyruvate', u'glycerol', u'fumarate',
-                      u'succinate', 
+                      u'succinate',
                       u'chemostat \u00b5=0.5',
-                      u'anaerobic', u'glucose',],
+                      u'anaerobic', u'glucose', u'50 mM NaCl'],
                   'Heinemann-chemo': [
                       u'chemostat \u00b5=0.12',
                       u'chemostat \u00b5=0.20',
@@ -132,7 +132,7 @@ gr_dict = {'Valgepea':
      u'chemostat \u00b5=0.35':0.35, u'glucosamine':0.39, 
      u'pyruvate':0.4, u'glycerol':0.47, u'fumarate':0.47, 
      u'succinate':0.49, u'chemostat \u00b5=0.5':0.5, 
-     u'anaerobic' : 0.55, u'glucose': 0.6, u'LB':1.61}
+     u'anaerobic' : 0.55, u'glucose': 0.6, u'50 mM NaCl':0.65, u'LB':1.61}
            }
 
 def get_coli_data(db_used,use_weight,rand):

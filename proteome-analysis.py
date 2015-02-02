@@ -808,7 +808,8 @@ def plotRibosomalVsGlobTrend():
     savefig('%sRibsVsGlob.pdf' % rand_prefix)
 
         
-for rand_method in ["shuffle","rand","simulated",""]:
+for rand_method in ["shuffle",""]:
+#for rand_method in ["shuffle","rand","simulated",""]:
     rand_prefix = rand_method
     init_datasets(rand_method)
     writeTables()
