@@ -9,6 +9,21 @@ from numpy.random import randn,shuffle,normal
 remove_unmapped = False
 just_ribosomes = False
 use_LB = False
+
+def set_LB(x):
+    if x:
+        cond_list_dict['Heinemann'].append(u'LB')
+    else:
+        cond_list_dict['Heinemann']=[
+                      u'chemostat \u00b5=0.12', u'galactose',
+                      u'chemostat \u00b5=0.20', u'acetate',
+                      u'chemostat \u00b5=0.35', u'glucosamine',
+                      u'pyruvate', u'glycerol', u'fumarate',
+                      u'succinate',
+                      u'chemostat \u00b5=0.5', u'pH 6',
+                      u'anaerobic', u'glucose', u'50 mM NaCl']
+    use_LB = x
+
 id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC' }
 db_used = 'Valgepea'
 avg_conc_threshold = 0.00001
@@ -113,7 +128,7 @@ cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
                       u'chemostat \u00b5=0.35', u'glucosamine',
                       u'pyruvate', u'glycerol', u'fumarate',
                       u'succinate',
-                      u'chemostat \u00b5=0.5',
+                      u'chemostat \u00b5=0.5', u'pH 6',
                       u'anaerobic', u'glucose', u'50 mM NaCl'],
                   'Heinemann-chemo': [
                       u'chemostat \u00b5=0.12',
@@ -131,7 +146,7 @@ gr_dict = {'Valgepea':
      u'chemostat \u00b5=0.20':0.2, u'acetate':0.29, 
      u'chemostat \u00b5=0.35':0.35, u'glucosamine':0.39, 
      u'pyruvate':0.4, u'glycerol':0.47, u'fumarate':0.47, 
-     u'succinate':0.49, u'chemostat \u00b5=0.5':0.5, 
+     u'succinate':0.49, u'chemostat \u00b5=0.5':0.5, u'pH 6':0.5, 
      u'anaerobic' : 0.55, u'glucose': 0.6, u'50 mM NaCl':0.65, u'LB':1.61}
            }
 

@@ -80,7 +80,7 @@ def writeTopProtsVar(db):
     if db == 'Heinemann':
         conc_data['Temp']=conc_data['protName']
     high_abdc = conc_data.head(20)
-    with open('varsOfAbdcs%s.csv' % db,'wb') as csvfile:
+    with open('%svarsOfAbdcs%s.csv' % (rand_method,db),'wb') as csvfile:
         csvwriter = csv.writer(csvfile,delimiter=';')
         csvwriter.writerow(['Function','Sub Function','Name','totPrctP','prctOfVar','cov'])
         j = 0
@@ -808,7 +808,12 @@ def plotRibosomalVsGlobTrend():
     savefig('%sRibsVsGlob.pdf' % rand_prefix)
 
         
-for rand_method in ["shuffle",""]:
+for rand_method in ["shuffle","LB",""]:
+#for rand_method in ["LB",""]:
+    set_LB(False)
+    if rand_method == "LB":
+        print("LBLBLBLBLBLBLB")
+        set_LB(True)
 #for rand_method in ["shuffle","rand","simulated",""]:
     rand_prefix = rand_method
     init_datasets(rand_method)
