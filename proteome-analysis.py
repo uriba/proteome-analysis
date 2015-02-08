@@ -298,8 +298,11 @@ def plot_response_hist_graphs():
 #savefig('vhcorrcomp.pdf')
 
 # plot Heinemann data only for chemostat conditions.
-def heinmann_chemo_plot():
-    db = 'Heinemann-chemo'
+    
+def corr_andGR_plot(db):
+    if db == "LB":
+        db = "Heinemann"
+    suffix = {"Heinemann":"LB","Heinemann-chemo":"Chem"}
     figure(figsize=(5,3))
     (cond_list,gr_chemo,ecoli_data_chemo) = get_annotated_prots(db,"")
     ecoli_data_chemo = calc_gr_corr(ecoli_data_chemo,cond_list,gr_chemo)
@@ -318,8 +321,8 @@ def heinmann_chemo_plot():
 
     print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
     print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
-    p2.plot(gr_chemo.values,glob_tot_chemo.values,'o',label="Heinemann et. al Chem",color='blue')
-    p2.plot(gr_chemo.values,alpha*gr_chemo.values+beta,color='blue',label=("Heinemann Chem. Trend,$R^2$=%.2f" % (gr_chemo.corr(glob_tot_chemo)**2)))
+    p2.plot(gr_chemo.values,glob_tot_chemo.values,'o',label="Heinemann et. al %s" % suffix[db],color='blue')
+    p2.plot(gr_chemo.values,alpha*gr_chemo.values+beta,color='blue',label=("Heinemann %s. Trend,$R^2$=%.2f" % (suffix[db],gr_chemo.corr(glob_tot_chemo)**2)))
 
     cond_list,gr_v,conc_data = datas['Valgepea']
     glob_v = get_glob("Valgepea",conc_data)
@@ -339,7 +342,7 @@ def heinmann_chemo_plot():
     subplots_adjust(top=0.83)
 #fig = gcf()
 #py.plot_mpl(fig,filename="Heinemann chemostat graphs")
-    savefig('%sHeinemannChemostatGr.pdf' % rand_prefix)
+    savefig('%ssummaryHistAndGr.pdf' % db)
 
 # plot slopes distribution for highly negatively correlated proteins from Valgepea dataset and sum of concentrations
 #figure(figsize=(5,3))
@@ -808,22 +811,22 @@ def plotRibosomalVsGlobTrend():
     savefig('%sRibsVsGlob.pdf' % rand_prefix)
 
         
-for rand_method in ["shuffle","LB",""]:
-#for rand_method in ["LB",""]:
-    set_LB(False)
-    if rand_method == "LB":
-        print("LBLBLBLBLBLBLB")
-        set_LB(True)
+
+for rand_method in ["shuffle",""]:
 #for rand_method in ["shuffle","rand","simulated",""]:
     rand_prefix = rand_method
     init_datasets(rand_method)
+    if rand_method == "":
+        for db in ['Heinemann-chemo','LB']:
+            set_LB(db == "LB")
+            corr_andGR_plot(db)
+        set_LB(False)
     writeTables()
 #Single histogram for presentation
     plotCorrelationHistograms(["Valgepea"],"Val")
     plotCorrelationHistograms(dbs,"")
     plotGlobalResponse()
     plot_response_hist_graphs()
-    heinmann_chemo_plot()
     plotMultiStats('Valgepea')
     plotComulativeGraph()
     plotHighAbundance()
