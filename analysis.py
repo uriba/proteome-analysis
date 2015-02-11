@@ -195,13 +195,6 @@ def get_coli_data(db_used,use_weight,rand):
             y = ecoli_data[cond_list].loc[i]
             shuffle(y)
             ecoli_data.loc[i,cond_list] = y
-    if rand == "rand":
-        for i in ecoli_data.index:
-            m = ecoli_data[cond_list].loc[i].mean()
-            s = ecoli_data[cond_list].loc[i].std()
-            if m > 0:
-                y = normal(m,s,len(cond_list))
-                ecoli_data.loc[i,cond_list] = y
     #Normalize to get concentrations 
     ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
     #remove irrelevant proteins
@@ -211,6 +204,23 @@ def get_coli_data(db_used,use_weight,rand):
     ecoli_data = ecoli_data[ecoli_data[cond_list].mean(axis=1)>avg_conc_threshold]
     #renormalize
     ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
+    ## create emulated data set based on actual average concentrations and noise.
+    if rand == "simulated":
+        ecoli_data['avg'] = ecoli_data[cond_list].mean(axis=1)
+        ecoli_data = ecoli_data.sort('avg',ascending=False)
+        # assume even entries scale and odd entries dont.
+        gr = gr_dict[db_used]
+        gr = pd.Series(gr)
+        gr = gr[cond_list]
+        response = gr/gr.mean()
+        print(response)
+        for i in range(0,len(ecoli_data)/2):
+###### split to two operations to avoid copying problem
+            print(ecoli_data.iloc[i*2][cond_list])
+            print(ecoli_data.iloc[i*2]['avg'])
+            ecoli_data.ix[i*2,cond_list] = ecoli_data.ix[i*2,'avg']
+            print(ecoli_data.iloc[i*2][cond_list])
+            ecoli_data.ix[i*2+1,cond_list] = ecoli_data.ix[i*2+1,'avg']*response
 
     id_col = id_col_dict[db_used]
     ecoli_data[id_col] = ecoli_data[id_col].astype('string')
