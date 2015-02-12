@@ -212,16 +212,19 @@ def get_coli_data(db_used,use_weight,rand):
         gr = gr_dict[db_used]
         gr = pd.Series(gr)
         gr = gr[cond_list]
-        response = gr/gr.mean()
-        print(response)
-        for i in range(0,len(ecoli_data)/2):
-###### split to two operations to avoid copying problem
-            print(ecoli_data.iloc[i*2][cond_list])
-            print(ecoli_data.iloc[i*2]['avg'])
-            ecoli_data.ix[i*2,cond_list] = ecoli_data.ix[i*2,'avg']
-            print(ecoli_data.iloc[i*2][cond_list])
-            ecoli_data.ix[i*2+1,cond_list] = ecoli_data.ix[i*2+1,'avg']*response
-
+        response = gr/(2*gr.mean())+1.0/2
+        print response
+        even = True
+        for i,row in ecoli_data.iterrows():
+            avg = ecoli_data.ix[i,'avg']
+            noise = normal(loc=0,scale = avg*0.25,size=len(cond_list)) # assume 20% noise
+            if even:
+                ecoli_data.ix[i,cond_list] = avg+noise
+            else:
+                ecoli_data.ix[i,cond_list] = avg*response+noise
+            even = not even
+        #renormalize
+        #ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
     id_col = id_col_dict[db_used]
     ecoli_data[id_col] = ecoli_data[id_col].astype('string')
     return ecoli_data

@@ -812,7 +812,8 @@ def plotRibosomalVsGlobTrend():
 
         
 
-for rand_method in ["simulated","shuffle",""]:
+for rand_method in ["simulated"]:
+#for rand_method in ["simulated","shuffle",""]:
 #for rand_method in ["shuffle","rand","simulated",""]:
     rand_prefix = rand_method
     init_datasets(rand_method)
