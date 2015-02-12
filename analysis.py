@@ -223,8 +223,7 @@ def get_coli_data(db_used,use_weight,rand):
             else:
                 ecoli_data.ix[i,cond_list] = avg*response+noise
             even = not even
-        #renormalize
-        #ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
+# not renormalizing as that creates anti-correlation effect.
     id_col = id_col_dict[db_used]
     ecoli_data[id_col] = ecoli_data[id_col].astype('string')
     return ecoli_data
