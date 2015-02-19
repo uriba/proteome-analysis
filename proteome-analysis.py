@@ -227,6 +227,9 @@ def set_alpha(df,gr,cond_list):
     return df
 
 def plot_response_hist(db,df,gr,conds,p,total,estimate):
+    all_ribs = df[df['prot']=='Ribosome']
+    print "total ribosomal proteins in db %s, %d, strongly positively correlated: %d" % (db,len(all_ribs),len(all_ribs[all_ribs['gr_cov']>get_limits(db)[0]]))
+
     bins = linspace(-5,5,41)
     xs = linspace(-5,5,200)
     glob_conc = get_glob(db,df)
