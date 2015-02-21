@@ -234,6 +234,7 @@ def plot_response_hist(db,df,gr,conds,p,total,estimate):
     xs = linspace(-5,5,200)
     glob_conc = get_glob(db,df)
     glob_conc = set_alpha(glob_conc,gr,conds)
+    print "out of %d proteins, %d have slopes in the range 0.5 to 2" % (len(glob_conc),len(glob_conc[(glob_conc['alpha']>=0.5) & (glob_conc['alpha']<=2)]))
     glob_conc = set_std_err(glob_conc,gr,conds)
     avg = glob_conc['alpha'].mean()
     std_err = glob_conc['std_err'].mean()
@@ -246,7 +247,7 @@ def plot_response_hist(db,df,gr,conds,p,total,estimate):
     if estimate:
         p.plot(xs,stats.t.pdf(xs,df=len(conds)-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.25,linestyle='-',color='0.5')
     p.set_xlim(-5,5)
-    for x in range(3):
+    for x in (0.5,2):
         p.axvline(x=x,ymin=0,ymax=100,ls='--',color='black',lw=0.5)
     p.set_xlabel('Normalized slope',fontsize=8)
     p.set_ylabel('Number of proteins',fontsize=8)
@@ -859,7 +860,8 @@ def plotRibosomalVsGlobTrend():
 
         
 
-for rand_method in ["simulated","shuffle",""]:
+for rand_method in [""]:
+#for rand_method in ["simulated","shuffle",""]:
 #for rand_method in ["simulated"]:
     rand_prefix = rand_method
     init_datasets(rand_method)
