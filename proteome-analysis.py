@@ -635,7 +635,12 @@ def variabilityAndGlobClustSlopesNormed():
         p.set_xlabel('global cluster correlation threshold', fontsize=8)
         p.set_ylim(0,1)
         set_ticks(p,6)
-        p.axhline(xmin=0,xmax=1,y=0.09,ls='--',color='black',lw=0.5)
+        print "Maximum explained variability for db %s is %f" % (db,max(explained_tot))
+        if db == 'Heinemann':
+            exp_var = 0.09
+        else:
+            exp_var = 0.04
+        p.axhline(xmin=0,xmax=1,y=exp_var,ls='--',color='black',lw=0.5)
         #p.axvline(ymin=0,ymax=1,x=get_limits(db)[0],ls='--',color='black',lw=0.5)
         text(coords[db],0.9,"data from %s et. al." % db,fontsize=8,transform=p.transAxes)
 
