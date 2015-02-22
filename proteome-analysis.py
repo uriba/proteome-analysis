@@ -825,8 +825,42 @@ def plotRibosomalVsGlobTrend():
     #py.plot_mpl(fig,filename="Ribosomal proteins vs global cluster")
     savefig('%sRibsVsGlob.pdf' % rand_prefix)
 
+def model_effects_plot():
+    grs = linspace(0.01,1,15)
+    simple = grs
+    neg = linspace(-0.4,0.01,6)
+    simple = simple/simple.mean()
+    degraded = grs+0.4
+    degmean = degraded.mean()
+    degraded = degraded/degmean
+    neg_deg = neg+0.4
+    neg_deg = neg_deg/degmean
+    rate = 1/(1+0.2/grs)
+    rate_effect = grs/rate
+    rate_effect = rate_effect/rate_effect.mean()
+    figure(figsize=(5,3))
+    ax = subplot(111)
+    ax.plot(grs,simple,'o',label="Simple model")
+    ax.plot(grs,degraded,'o',label="Model with deradatation")
+    ax.plot(neg,neg_deg,'--g')
+    ax.plot(grs,rate_effect,'o',label="Model with decreasing biosynthesis rate")
+    ax.plot(grs,rate,'--r',label="Biosynthesis rate")
+    ax.annotate("degradation rate", xy=(-0.4,0),xytext=(-0.2,.6),arrowprops=dict(facecolor='black',shrink=0.05,width=1,headwidth=4),horizontalalignment='center',fontsize=8)
+    ax.set_xlim(xmin=-0.5)
+    ax.set_ylim(ymin=0.)
+    ax.set_xlabel('Growth rate [$h^{-1}$]',fontsize=8)
+    ax.set_ylabel('Normalized protein concentration',fontsize=8)
+    legend(loc=1, prop={'size':6},numpoints=1)
+    set_ticks(ax,6)
+    ax.spines['left'].set_position('zero')
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+    tight_layout()
+    savefig('TheoreticalModelEffects.pdf')
+
         
 
+model_effects_plot()
 for rand_method in [""]:
 #for rand_method in ["simulated","shuffle",""]:
 #for rand_method in ["simulated"]:
