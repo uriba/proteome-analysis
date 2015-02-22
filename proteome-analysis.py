@@ -303,12 +303,18 @@ def plot_response_hist_graphs():
 
 # plot Heinemann data only for chemostat conditions.
     
-def corr_andGR_plot(db):
+def corr_andGR_plot(db,ref):
+    suffix = 'Chem'
     if db == "LB":
         db = "Heinemann"
-    suffix = {"Heinemann":"LB","Heinemann-chemo":"Chem"}
+        suffix = 'LB'
+    rand = ''
+    if db == 'Simulated':
+        rand = 'simulated'
+        db = 'Heinemann'
+        suffix = 'simulated'
     figure(figsize=(5,3))
-    (cond_list,gr_chemo,ecoli_data_chemo) = get_annotated_prots(db,"")
+    (cond_list,gr_chemo,ecoli_data_chemo) = get_annotated_prots(db,rand)
     ecoli_data_chemo = calc_gr_corr(ecoli_data_chemo,cond_list,gr_chemo)
 
     p1=subplot(121)
@@ -325,15 +331,15 @@ def corr_andGR_plot(db):
 
     print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
     print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
-    p2.plot(gr_chemo.values,glob_tot_chemo.values,'o',label="Heinemann et. al %s" % suffix[db],color='blue')
-    p2.plot(gr_chemo.values,alpha*gr_chemo.values+beta,color='blue',label=("Heinemann %s. Trend,$R^2$=%.2f" % (suffix[db],gr_chemo.corr(glob_tot_chemo)**2)))
+    p2.plot(gr_chemo.values,glob_tot_chemo.values,'o',label="Heinemann et. al %s" % suffix,color='blue')
+    p2.plot(gr_chemo.values,alpha*gr_chemo.values+beta,color='blue',label=("Heinemann %s. Trend,$R^2$=%.2f" % (suffix,gr_chemo.corr(glob_tot_chemo)**2)))
 
-    cond_list,gr_v,conc_data = datas['Valgepea']
-    glob_v = get_glob("Valgepea",conc_data)
+    cond_list,gr_v,conc_data = datas[ref]
+    glob_v = get_glob(ref,conc_data)
     glob_tot_v = glob_v[cond_list].sum()
     alpha_v,beta_v,r_val,p_val,std_err = linregress(gr_v,glob_tot_v)
-    p2.plot(gr_v.values,glob_tot_v.values,'o',label="Valgepea",color='green')
-    p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Valgepea Trend,$R^2$=%.2f" % (gr_v.corr(glob_tot_v)**2)))
+    p2.plot(gr_v.values,glob_tot_v.values,'o',label=ref,color='green')
+    p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("%s Trend,$R^2$=%.2f" % (ref,gr_v.corr(glob_tot_v)**2)))
 
     p2.set_xlim(xmin=0.)
     p2.set_ylim(ymin=0.)
@@ -346,51 +352,7 @@ def corr_andGR_plot(db):
     subplots_adjust(top=0.83)
 #fig = gcf()
 #py.plot_mpl(fig,filename="Heinemann chemostat graphs")
-    savefig('%ssummaryHistAndGr.pdf' % db)
-
-#ugly hack for figure...
-def corr_andGR_plot_rand():
-    db = "Heinemann"
-    print "simulated analysis"
-    figure(figsize=(5,3))
-    (cond_list,gr,ecoli_data_simulated) = get_annotated_prots("Heinemann","simulated")
-    ecoli_data_simulated = calc_gr_corr(ecoli_data_simulated,cond_list,gr)
-
-    p1=subplot(121)
-    p2=subplot(122)
-    plot_corr_hist(p1,"Heinemann, simulated",ecoli_data_simulated,categories)
-
-    handles,labels=p1.get_legend_handles_labels()
-    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.05,0.8,0.5,0.2),ncol=2)
-    glob_simulated = get_glob(db,ecoli_data_simulated)
-    print "%s global cluster is %d out of %d measured proteins" % (db, len(glob_simulated),len(ecoli_data_simulated[ecoli_data_simulated['gr_cov']>-1.]))
-
-    glob_tot_simulated = glob_simulated[cond_list].sum()
-    alpha,beta,r_val,p_val,std_err = linregress(gr,glob_tot_simulated)
-
-    print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
-    print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
-    p2.plot(gr.values,glob_tot_simulated.values,'o',label="Heinemann et. al, simulated",color='blue')
-    p2.plot(gr.values,alpha*gr.values+beta,color='blue',label=("Simulated Trend,$R^2$=%.2f" % (gr.corr(glob_tot_simulated)**2)))
-
-    cond_list,gr_v,conc_data = datas['Heinemann']
-    glob_v = get_glob("Heinemann",conc_data)
-    glob_tot_v = glob_v[cond_list].sum()
-    alpha_v,beta_v,r_val,p_val,std_err = linregress(gr_v,glob_tot_v)
-    p2.plot(gr_v.values,glob_tot_v.values,'o',label="Heinemann et. al, real",color='green')
-    p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("Trend,$R^2$=%.2f" % (gr_v.corr(glob_tot_v)**2)))
-
-    p2.set_xlim(xmin=0.)
-    p2.set_ylim(ymin=0.)
-    p2.set_xlabel('Growth rate',fontsize=8)
-    p2.set_ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=8)
-    legend(loc=3, prop={'size':6},numpoints=1)
-    set_ticks(p2,8)
-    tight_layout()
-
-    subplots_adjust(top=0.83)
-    savefig('SimulatedsummaryHistAndGr.pdf')
-
+    savefig('%s%ssummaryHistAndGr.pdf' % (db,rand))
 
 # plot slopes distribution for highly negatively correlated proteins from Valgepea dataset and sum of concentrations
 #figure(figsize=(5,3))
@@ -871,10 +833,10 @@ for rand_method in [""]:
     rand_prefix = rand_method
     init_datasets(rand_method)
     if rand_method == "":
-        corr_andGR_plot_rand()
+        corr_andGR_plot('Simulated','Heinemann')
         for db in ['Heinemann-chemo','LB']:
             set_LB(db == "LB")
-            corr_andGR_plot(db)
+            corr_andGR_plot(db,'Valgepea')
         set_LB(False)
     writeTables()
 #Single histogram for presentation
