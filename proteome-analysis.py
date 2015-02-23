@@ -850,7 +850,7 @@ def model_effects_plot():
     ax.set_ylim(ymin=0.)
     ax.set_xlabel('Growth rate [$h^{-1}$]',fontsize=8)
     ax.set_ylabel('Normalized protein concentration',fontsize=8)
-    legend(loc=1, prop={'size':6},numpoints=1)
+    legend(loc='upper center', prop={'size':6},numpoints=1)
     set_ticks(ax,6)
     ax.spines['left'].set_position('zero')
     ax.spines['right'].set_color('none')
