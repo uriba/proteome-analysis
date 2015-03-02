@@ -228,7 +228,10 @@ def set_alpha(df,gr,cond_list):
 
 def plot_response_hist(db,df,gr,conds,p,total,estimate):
     all_ribs = df[df['prot']=='Ribosome']
-    print "total ribosomal proteins in db %s, %d, strongly positively correlated: %d" % (db,len(all_ribs),len(all_ribs[all_ribs['gr_cov']>get_limits(db)[0]]))
+    all_ribs = set_alpha(all_ribs,gr,conds)
+    all_ribs = set_std_err(all_ribs,gr,conds)
+    if not total:
+        print "total ribosomal proteins in db %s, %d, strongly positively correlated: %d" % (db,len(all_ribs),len(all_ribs[all_ribs['gr_cov']>get_limits(db)[0]]))
 
     bins = linspace(-5,5,41)
     xs = linspace(-5,5,200)
@@ -241,6 +244,12 @@ def plot_response_hist(db,df,gr,conds,p,total,estimate):
     if not total:
         glob_conc_no_ribs = glob_conc[glob_conc['prot'] != 'Ribosome']
         ribs = glob_conc[glob_conc['prot'] == 'Ribosome']
+        print "mean slope of strongly correlated prots: %.2f, std. dev. of slopes: %.2f, mean std.err of slope %.2f" % (glob_conc['alpha'].mean(), glob_conc['alpha'].std(), glob_conc['std_err'].mean())
+        print "mean slope of ribosomal: %d proteins, %.2f, std. dev. of slopes: %.2f, mean std.err of slope %.2f" % (len(ribs),ribs['alpha'].mean(), ribs['alpha'].std(), ribs['std_err'].mean())
+        (alpha,b,r,pv,st)   = linregress(gr[conds], glob_conc[conds].sum()/glob_conc[conds].sum().mean())
+        print "slope of sum of prots: %.2f, r-sq, %.2f" % (alpha,r**2)
+        (ribs_alpha,b,ribs_r,pv,st)   = linregress(gr[conds], ribs[conds].sum()/ribs[conds].sum().mean())
+        print "slope of sum of ribosomal prots: %.2f, r-sq, %.2f" % (ribs_alpha,ribs_r**2)
         p.hist([glob_conc_no_ribs['alpha'].values,ribs['alpha'].values],bins=bins,stacked = True,label=['High correlation proteins','Ribosomal proteins'],color=['blue','#20ff20'])
     else:
         p.hist(glob_conc['alpha'].values,bins=bins,label=['High correlation proteins'])
@@ -840,10 +849,10 @@ def model_effects_plot():
     rate_effect = rate_effect/rate_effect.mean()
     figure(figsize=(5,3))
     ax = subplot(111)
-    ax.plot(grs,simple,'o',label="Simple model")
-    ax.plot(grs,degraded,'o',label="Model with deradatation")
+    ax.plot(grs,simple,'o',label="Unregulate protein - basic model")
+    ax.plot(grs,degraded,'o',label="Unregulated protein - with deradatation")
     ax.plot(neg,neg_deg,'--g')
-    ax.plot(grs,rate_effect,'o',label="Model with decreasing biosynthesis rate")
+    ax.plot(grs,rate_effect,'o',label="Unregulated protein - under decreasing biosynthesis rate")
     ax.plot(grs,rate,'--r',label="Biosynthesis rate")
     ax.annotate("degradation rate", xy=(-0.4,0),xytext=(-0.2,.6),arrowprops=dict(facecolor='black',shrink=0.05,width=1,headwidth=4),horizontalalignment='center',fontsize=8)
     ax.set_xlim(xmin=-0.5)
