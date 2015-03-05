@@ -5,12 +5,13 @@ from scipy.stats import gaussian_kde,linregress
 from scipy import stats
 from Bio import SeqIO
 from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,text,subplots,gcf
-from numpy import linspace,ndarray,arange,sum,square,array,cumsum,ones
+from numpy import linspace,ndarray,arange,sum,square,array,cumsum,ones,mean,std
 from numpy.random import randn
 from analysis import *
 import matplotlib
 from math import sqrt,isnan,log
 import random
+from numpy.random import randn,shuffle,normal
 from matplotlib.ticker import FuncFormatter
 #import plotly.plotly as py
 
@@ -246,6 +247,14 @@ def plot_response_hist(db,df,gr,conds,p,total,estimate):
         ribs = glob_conc[glob_conc['prot'] == 'Ribosome']
         print "mean slope of strongly correlated prots: %.2f, std. dev. of slopes: %.2f, mean std.err of slope %.2f" % (glob_conc['alpha'].mean(), glob_conc['alpha'].std(), glob_conc['std_err'].mean())
         print "mean slope of ribosomal: %d proteins, %.2f, std. dev. of slopes: %.2f, mean std.err of slope %.2f" % (len(ribs),ribs['alpha'].mean(), ribs['alpha'].std(), ribs['std_err'].mean())
+        idx = list(glob_conc.index)
+        size = len(ribs)
+        alphas = []
+        for i in range(1000):
+            shuffle(idx) 
+            elems = idx[1:size]
+            alphas.append(glob_conc.loc[elems,'alpha'].mean())
+        print "for db %s, mean slope of randomly sampled data is %.2f, std_dev of slopes is %.2f. " % (db,mean(alphas),std(alphas))
         (alpha,b,r,pv,st)   = linregress(gr[conds], glob_conc[conds].sum()/glob_conc[conds].sum().mean())
         print "slope of sum of prots: %.2f, r-sq, %.2f" % (alpha,r**2)
         (ribs_alpha,b,ribs_r,pv,st)   = linregress(gr[conds], ribs[conds].sum()/ribs[conds].sum().mean())
