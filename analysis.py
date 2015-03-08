@@ -24,7 +24,7 @@ def set_LB(x):
                       u'anaerobic', u'glucose', u'50 mM NaCl']
     use_LB = x
 
-id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC' }
+id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC','Valgepea2':'Gene name' }
 db_used = 'Valgepea'
 avg_conc_threshold = 0.00001
 
@@ -134,8 +134,20 @@ cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
                       u'chemostat \u00b5=0.12',
                       u'chemostat \u00b5=0.20',
                       u'chemostat \u00b5=0.35',
-                      u'chemostat \u00b5=0.5']
-                  }
+                      u'chemostat \u00b5=0.5'],
+                  'Valgepea2': [u'0.21.1', u'0.31.1',
+                                u'0.41.1', u'0.51.2',
+                                u'0.22.3', u'0.26.1',
+                                u'0.36.1', u'0.46.1',
+                                u'0.51.3', u'0.22.4',
+                                u'0.25.1', u'0.35.1',
+                                u'0.45.1', u'0.55.1',
+                                u'0.65.1', u'0.74.1',
+                                u'0.82.1', u'0.22.5',
+                                u'0.42.1', u'0.53.1',
+                                u'0.63.1', u'0.73.1',
+                                u'0.78.1']
+                      }
 if use_LB:
     cond_list_dict['Heinemann'].append(u'LB')
 
@@ -147,8 +159,21 @@ gr_dict = {'Valgepea':
      u'chemostat \u00b5=0.35':0.35, u'glucosamine':0.39, 
      u'pyruvate':0.4, u'glycerol':0.47, u'fumarate':0.47, 
      u'succinate':0.49, u'chemostat \u00b5=0.5':0.5, u'pH 6':0.5, 
-     u'anaerobic' : 0.55, u'glucose': 0.6, u'50 mM NaCl':0.65, u'LB':1.61}
-           }
+     u'anaerobic' : 0.55, u'glucose': 0.6, u'50 mM NaCl':0.65, u'LB':1.61},
+     'Valgepea2': { u'0.21.1':0.21, u'0.31.1':0.31,
+                    u'0.41.1':0.41, u'0.51.2':0.51,
+                    u'0.22.3':0.22, u'0.26.1':0.26,
+                    u'0.36.1':0.36, u'0.46.1':0.46,
+                    u'0.51.3':0.51, u'0.22.4':0.22,
+                    u'0.25.1':0.25, u'0.35.1':0.35,
+                    u'0.45.1':0.45, u'0.55.1':0.55,
+                    u'0.65.1':0.65, u'0.74.1':0.74,
+                    u'0.82.1':0.82, u'0.22.5':0.22,
+                    u'0.42.1':0.42, u'0.53.1':0.53,
+                    u'0.63.1':0.63, u'0.73.1':0.73,
+                    u'0.78.1':0.78
+         }
+   }
 
 def get_coli_data(db_used,use_weight,rand):
     cond_list = cond_list_dict[db_used]
@@ -187,6 +212,8 @@ def get_coli_data(db_used,use_weight,rand):
 
     if db_used == 'Valgepea':
         ecoli_data = read_csv('valgepea.csv',header=0,encoding='iso-8859-1')
+    if db_used == 'Valgepea2':
+        ecoli_data = read_csv('valgepea2.csv',header=0,encoding='iso-8859-1')
 
     #for rand_method in ["simulated"]:
     ## Randomize rows:
@@ -230,6 +257,8 @@ def get_coli_data(db_used,use_weight,rand):
 
 def get_annotated_prots(db,rand):
     coli_data = get_coli_data(db,use_weight=True,rand=rand)
+    if db == 'Valgepea2':
+        print coli_data
     cond_list = cond_list_dict[db]
     if db == 'Heinemann-chemo':
         db = 'Heinemann'
@@ -253,6 +282,9 @@ def get_annotated_prots(db,rand):
     if db == 'Valgepea':
         id_to_annot = ko_to_desc_dict()
         id_col = 'ko_num'
+    if db == 'Valgepea2':
+        id_to_annot = {}#ko_to_desc_dict()
+        id_col = 'Gene name'
     x=0
     y=0
     with open('unmappedko.txt','w+') as f:
