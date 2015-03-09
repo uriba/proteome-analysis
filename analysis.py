@@ -24,7 +24,7 @@ def set_LB(x):
                       u'anaerobic', u'glucose', u'50 mM NaCl']
     use_LB = x
 
-id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC','Valgepea2':'Gene name' }
+id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC','Valgepea2':'B number identifier' }
 db_used = 'Valgepea'
 avg_conc_threshold = 0.00001
 
@@ -258,7 +258,8 @@ def get_coli_data(db_used,use_weight,rand):
 def get_annotated_prots(db,rand):
     coli_data = get_coli_data(db,use_weight=True,rand=rand)
     if db == 'Valgepea2':
-        print coli_data
+        id_to_annot = b_to_desc_dict()
+        id_col = 'B number identifier'
     cond_list = cond_list_dict[db]
     if db == 'Heinemann-chemo':
         db = 'Heinemann'
@@ -283,8 +284,8 @@ def get_annotated_prots(db,rand):
         id_to_annot = ko_to_desc_dict()
         id_col = 'ko_num'
     if db == 'Valgepea2':
-        id_to_annot = {}#ko_to_desc_dict()
-        id_col = 'Gene name'
+        id_to_annot = b_to_desc_dict()
+        id_col = 'B number identifier'
     x=0
     y=0
     with open('unmappedko.txt','w+') as f:
@@ -307,8 +308,6 @@ def get_annotated_prots(db,rand):
         coli_data = coli_data[coli_data['func']=='Ribosome']
     if remove_unmapped:
         coli_data = coli_data[coli_data['group'] != 'NotMapped']
-
-    coli_data = coli_data.dropna()
     gr = gr_dict[db]
     gr = pd.Series(gr)
     gr = gr[cond_list]
