@@ -33,6 +33,7 @@ def get_limits(db):
 dbs = ['Heinemann','Valgepea2']
 datas = {}
 rand_prefix = ""
+db_name = { 'Heinemann':'Heinemann','Valgepea':'Valgepea','Valgepea2':'Valgepea'}
 def init_datasets(rand_method):
     for db in dbs:
         (conds,gr,coli_data) = get_annotated_prots(db,rand_method)
@@ -153,7 +154,7 @@ def plotCorrelationHistograms(dbs,suffix):
     for db in dbs:
         conds,gr,conc_data = datas[db]
         plot_corr_hist(ps[db],db,conc_data,categories)
-        text(coords[db],0.8,"data from %s et. al." % db,fontsize=8,transform=p.transAxes)
+        text(coords[db],0.8,"data from %s et. al." % db_name[db],fontsize=8,transform=p.transAxes)
 
     #assume both subplots have the same categories.
     handles,labels=ps[dbs[0]].get_legend_handles_labels()
@@ -181,8 +182,8 @@ def plotGlobalResponse():
         print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
         print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
 
-        plot(gr.values,glob_tot.values,'o',label="data from %s et. al" % db,color=colors[db])
-        plot(gr.values,alpha*gr.values+beta,color=colors[db],label=("%s Trend,$R^2$=%.2f" % (db,gr.corr(glob_tot)**2)))
+        plot(gr.values,glob_tot.values,'o',label="data from %s et. al" % db_name[db],color=colors[db])
+        plot(gr.values,alpha*gr.values+beta,color=colors[db],label=("%s Trend,$R^2$=%.2f" % (db_name[db],gr.corr(glob_tot)**2)))
 
     xlim(xmin=0.)
     ylim(ymin=0.)
@@ -281,7 +282,7 @@ def plot_response_hist_graphs():
         for db in dbs:
             conds,gr,conc_data = datas[db]
             plot_response_hist(db,conc_data,gr,conds,ps[db],vals[0],vals[1])
-            text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
+            text(coords[db],0.93,"data from %s et. al" % db_name[db],fontsize=8,transform=p.transAxes)
             handles,labels=ps[db].get_legend_handles_labels()
             if db == 'Valgepea2':
                 ps[db].set_ylim(0,100)
@@ -622,7 +623,7 @@ def variabilityAndGlobClustSlopesNormed():
             exp_var = 0.04
         p.axhline(xmin=0,xmax=1,y=exp_var,ls='--',color='black',lw=0.5)
         #p.axvline(ymin=0,ymax=1,x=get_limits(db)[0],ls='--',color='black',lw=0.5)
-        text(coords[db],0.9,"data from %s et. al." % db,fontsize=8,transform=p.transAxes)
+        text(coords[db],0.9,"data from %s et. al." % db_name[db],fontsize=8,transform=p.transAxes)
 
     handles,labels=ps['Heinemann'].get_legend_handles_labels()
 
@@ -837,7 +838,7 @@ def plotRibosomalVsGlobTrend():
             p.set_ylabel('Normalized concentration',fontsize=10)
         p.legend(loc='lower left', prop={'size':8},numpoints=1)
         set_ticks(p,8)
-        text(coords[db],0.93,"data from %s et. al" % db,fontsize=8,transform=p.transAxes)
+        text(coords[db],0.93,"data from %s et. al" % db_name[db],fontsize=8,transform=p.transAxes)
     tight_layout()
     #fig = gcf()
     #py.plot_mpl(fig,filename="Ribosomal proteins vs global cluster")
@@ -896,9 +897,9 @@ for rand_method in [""]:
     plotCorrelationHistograms(dbs,"")
     plotGlobalResponse()
     plot_response_hist_graphs()
-    plotMultiStats('Valgepea')
-    plotComulativeGraph()
-    plotHighAbundance()
+    #plotMultiStats('Valgepea')
+    #plotComulativeGraph()
+    #plotHighAbundance()
     plotPrediction()        
     #variabilityAndGlobClustSlopes()
     variabilityAndGlobClustSlopesNormed()
