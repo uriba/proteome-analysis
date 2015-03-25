@@ -883,8 +883,11 @@ def model_effects_plot():
 
 model_effects_plot()
 analyzed_dbs = ['Heinemann','Peebo']
-for rand_method in [""]:
+#for rand_method in [""]:
 #for rand_method in ["simulated","shuffle",""]:
+for rand_method in ["shuffle",""]:
+    print "----------------------------------------------------------"
+    print rand_method
 #for rand_method in ["simulated"]:
     rand_prefix = rand_method
     init_datasets(rand_method)
@@ -892,7 +895,7 @@ for rand_method in [""]:
         #corr_andGR_plot('Simulated','Heinemann')
         for db in ['Heinemann-chemo','LB']:
             set_LB(db == "LB")
-            #corr_andGR_plot(db,'Valgepea')
+            corr_andGR_plot(db,'Peebo')
         set_LB(False)
     writeTables()
 #Single histogram for presentation
@@ -903,7 +906,7 @@ for rand_method in [""]:
     #plotMultiStats('Valgepea')
     #plotComulativeGraph()
     #plotHighAbundance()
-    plotPrediction()        
+    #plotPrediction()        
     #variabilityAndGlobClustSlopes(analyzed_dbs)
     variabilityAndGlobClustSlopesNormed(analyzed_dbs)
     #variablityComparisonHein()
