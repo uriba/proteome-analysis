@@ -189,7 +189,7 @@ def plotGlobalResponse(dbs):
     ylim(ymin=0.)
     xlabel('Growth rate [$h^{-1}$]',fontsize=10)
     ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=10)
-    legend(loc=2, prop={'size':8},numpoints=1)
+    legend(loc=4, prop={'size':8},numpoints=1)
     tick_params(axis='both', which='major', labelsize=8)
     tick_params(axis='both', which='minor', labelsize=8)
     tight_layout()
