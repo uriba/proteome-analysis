@@ -24,7 +24,7 @@ def set_LB(x):
                       u'anaerobic', u'glucose', u'50 mM NaCl']
     use_LB = x
 
-id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC','Valgepea2':'B number identifier' }
+id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC','Peebo':'B number identifier' }
 db_used = 'Valgepea'
 avg_conc_threshold = 0.00001
 
@@ -135,7 +135,7 @@ cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
                       u'chemostat \u00b5=0.20',
                       u'chemostat \u00b5=0.35',
                       u'chemostat \u00b5=0.5'],
-                  'Valgepea2': [u'0.21.1', u'0.31.1',
+                  'Peebo': [u'0.21.1', u'0.31.1',
                                 u'0.41.1', u'0.51.2',
                                 u'0.22.3', u'0.26.1',
                                 u'0.36.1', u'0.46.1',
@@ -160,7 +160,7 @@ gr_dict = {'Valgepea':
      u'pyruvate':0.4, u'glycerol':0.47, u'fumarate':0.47, 
      u'succinate':0.49, u'chemostat \u00b5=0.5':0.5, u'pH 6':0.5, 
      u'anaerobic' : 0.55, u'glucose': 0.6, u'50 mM NaCl':0.65, u'LB':1.61},
-     'Valgepea2': { u'0.21.1':0.21, u'0.31.1':0.31,
+     'Peebo': { u'0.21.1':0.21, u'0.31.1':0.31,
                     u'0.41.1':0.41, u'0.51.2':0.51,
                     u'0.22.3':0.22, u'0.26.1':0.26,
                     u'0.36.1':0.36, u'0.46.1':0.46,
@@ -212,7 +212,7 @@ def get_coli_data(db_used,use_weight,rand):
 
     if db_used == 'Valgepea':
         ecoli_data = read_csv('valgepea.csv',header=0,encoding='iso-8859-1')
-    if db_used == 'Valgepea2':
+    if db_used == 'Peebo':
         ecoli_data = read_csv('valgepea2.csv',header=0,encoding='iso-8859-1')
 
     #for rand_method in ["simulated"]:
@@ -257,7 +257,7 @@ def get_coli_data(db_used,use_weight,rand):
 
 def get_annotated_prots(db,rand):
     coli_data = get_coli_data(db,use_weight=True,rand=rand)
-    if db == 'Valgepea2':
+    if db == 'Peebo':
         id_to_annot = b_to_desc_dict()
         id_col = 'B number identifier'
     cond_list = cond_list_dict[db]
@@ -283,7 +283,7 @@ def get_annotated_prots(db,rand):
     if db == 'Valgepea':
         id_to_annot = ko_to_desc_dict()
         id_col = 'ko_num'
-    if db == 'Valgepea2':
+    if db == 'Peebo':
         id_to_annot = b_to_desc_dict()
         id_col = 'B number identifier'
     x=0

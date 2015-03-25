@@ -30,10 +30,10 @@ def get_limits(db):
     return (0.5,1.)
 
 #Initialize global data structures
-dbs = ['Heinemann','Valgepea2']
+dbs = ['Heinemann','Peebo','Valgepea']
 datas = {}
 rand_prefix = ""
-db_name = { 'Heinemann':'Heinemann','Valgepea':'Valgepea','Valgepea2':'Valgepea'}
+db_name = { 'Heinemann':'Heinemann','Valgepea':'Valgepea','Peebo':'Peebo'}
 def init_datasets(rand_method):
     for db in dbs:
         (conds,gr,coli_data) = get_annotated_prots(db,rand_method)
@@ -145,9 +145,9 @@ def plot_corr_hist(p,db,conc_data,categories):
 def plotCorrelationHistograms(dbs,suffix):
     figure(figsize=(5,3))
 
-    coords = {'Heinemann':0.01,'Valgepea2':0.625}
+    coords = {'Heinemann':0.01,'Peebo':0.625,'Valgepea':0.625}
     p=subplot(111)
-    ps = {'Valgepea2':subplot(122)}
+    ps = {'Peebo':subplot(122),'Valgepea':subplot(122)}
     if(len(dbs)>1):
         ps['Heinemann'] = subplot(121)
 
@@ -168,9 +168,9 @@ def plotCorrelationHistograms(dbs,suffix):
     savefig('%sGrowthRateCorrelation%s.pdf' % (rand_prefix,suffix))
 
 ### Figure 3, Global cluster analysis:
-def plotGlobalResponse():
+def plotGlobalResponse(dbs):
     figure(figsize=(5,3))
-    colors = {'Heinemann':'blue','Valgepea2':'green'}
+    colors = {'Heinemann':'blue','Peebo':'green','Valgepea':'magenta'}
 
     for db in dbs:
         conds,gr,coli_data = datas[db]
@@ -272,19 +272,19 @@ def plot_response_hist(db,df,gr,conds,p,total,estimate):
     p.set_ylabel('Number of proteins',fontsize=8)
     set_ticks(p,8)
 
-def plot_response_hist_graphs():
+def plot_response_hist_graphs(dbs):
     plots = {"AllProtsNormalizedSlopes":(True,False),"AllProtsVSRibosomalNoExpNormalizedSlopes":(False,False),"AllProtsVSRibosomalNormalizedSlopes":(False,True)}
     for (name,vals) in plots.iteritems():
         figure(figsize=(5,3))
         p = subplot(111)
-        ps = {'Heinemann':subplot(121),'Valgepea2':subplot(122)}
-        coords = {'Heinemann':0.0,'Valgepea2':0.62}
+        ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122)}
+        coords = {'Heinemann':0.0,'Peebo':0.62,'Valgepea':0.62}
         for db in dbs:
             conds,gr,conc_data = datas[db]
             plot_response_hist(db,conc_data,gr,conds,ps[db],vals[0],vals[1])
             text(coords[db],0.93,"data from %s et. al" % db_name[db],fontsize=8,transform=p.transAxes)
             handles,labels=ps[db].get_legend_handles_labels()
-            if db == 'Valgepea2':
+            if db in ['Peebo','Valgepea']:
                 ps[db].set_ylim(0,100)
 
         figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.25,0.8,0.5,0.2),ncol=2)
@@ -481,11 +481,12 @@ def calc_var_stats(f,conds,gr,glob_conc):
 
     return (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas,glob_frac)
 
-def variabilityAndGlobClustSlopes():
+def variabilityAndGlobClustSlopes(dbs):
     figure(figsize=(5,3))
-    ps = {'Heinemann':subplot(121),'Valgepea2':subplot(122)}
-    alphas = {'Valgepea2':[],'Heinemann':[]}
-    for db in ['Valgepea2','Heinemann']:
+    ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122)}
+    alphas = {}
+    for db in dbs:
+        alphas[db]=[]
         p=ps[db]
         conds,gr,glob_conc = datas[db]
         (explained_glob,explained_tot,explained_compl_glob,explained_compl_tot,explained_scaled,alphas[db],x) = calc_var_stats(square_dist_func,conds,gr,glob_conc)
@@ -511,7 +512,7 @@ def variabilityAndGlobClustSlopes():
 
     figure(figsize=(5,3))
     p=subplot(111)
-    ps = {'Heinemann':subplot(121),'Valgepea2':subplot(122)}
+    ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122)}
     for db in dbs:
         p = ps[db]
         p.plot(corrs,alphas[db])
@@ -587,14 +588,15 @@ def variablityComparisonHein():
     #py.plot_mpl(fig,filename="Various heuristics on explained variability for Heinemann data set")
     savefig('%sExpVarComp.pdf' % rand_prefix)
 
-def variabilityAndGlobClustSlopesNormed():
+def variabilityAndGlobClustSlopesNormed(dbs):
     figure(figsize=(5,3))
     p=subplot(111)
-    ps = {'Heinemann':subplot(121),'Valgepea2':subplot(122)}
-    coords = {'Heinemann':0.03,'Valgepea2':0.03}
+    ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122)}
+    coords = {'Heinemann':0.03,'Peebo':0.03,'Valgepea':0.03}
 
-    alphas = {'Valgepea2':[],'Heinemann':[]}
-    for db in ['Valgepea2','Heinemann']:
+    alphas = {}
+    for db in dbs:
+        alphas[db] = []
         p=ps[db]
         conds,gr,glob_conc = datas[db]
         glob_conc = glob_conc.copy()
@@ -638,7 +640,7 @@ def variabilityAndGlobClustSlopesNormed():
 
     figure(figsize=(5,3))
     p=subplot(111)
-    ps = {'Heinemann':subplot(121),'Valgepea2':subplot(122)}
+    ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122)}
     for db in dbs:
         p = ps[db]
         p.plot(corrs,alphas[db])
@@ -728,7 +730,7 @@ def plotComulativeGraph():
 #plot the graphs for the 10 highest abundance proteins with their descriptions.
 def plotHighAbundance():
     figure(figsize=(5,3))
-    ps = {'Heinemann':subplot(121),'Valgepea2':subplot(122)}
+    ps = {'Heinemann':subplot(131),'Peebo':subplot(132),'Valgepea':subplot(133)}
     for db in dbs:
         p = ps[db]
         conds,gr,coli_data = datas[db]
@@ -749,9 +751,9 @@ def plotHighAbundance():
     #py.plot_mpl(fig,filename="Most abundant proteins concentration vs growth rate")
     savefig('%shighest.pdf' % rand_prefix)
 
-def plotRibosomal():
+def plotRibosomal(dbs):
     figure(figsize=(5,3))
-    ps = {'Heinemann':subplot(121),'Valgepea2':subplot(122)}
+    ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122)}
     for db in dbs:
         p = ps[db]
         conds,gr,coli_data = datas[db]
@@ -813,10 +815,10 @@ def plotPrediction():
         savefig('%sRandEstimate%s.pdf' % (rand_prefix,db))
 
 #plot ribosomal proteins vs. global cluster proteins with trendlines and R^2 estimates.
-def plotRibosomalVsGlobTrend():
+def plotRibosomalVsGlobTrend(dbs):
     figure(figsize=(5,3))
-    ps = {'Heinemann':subplot(121),'Valgepea2':subplot(122)}
-    coords = {'Heinemann':0.03,'Valgepea2':0.03}
+    ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122)}
+    coords = {'Heinemann':0.03,'Peebo':0.03,'Valgepea':0.03}
     for db in dbs:
         conds,gr,coli_data = datas[db]
         glob = get_glob(db,coli_data)
@@ -880,6 +882,7 @@ def model_effects_plot():
         
 
 model_effects_plot()
+analyzed_dbs = ['Heinemann','Peebo']
 for rand_method in [""]:
 #for rand_method in ["simulated","shuffle",""]:
 #for rand_method in ["simulated"]:
@@ -894,15 +897,15 @@ for rand_method in [""]:
     writeTables()
 #Single histogram for presentation
     #plotCorrelationHistograms(["Valgepea"],"Val")
-    plotCorrelationHistograms(dbs,"")
-    plotGlobalResponse()
-    plot_response_hist_graphs()
+    plotCorrelationHistograms(analyzed_dbs,"")
+    plotGlobalResponse(analyzed_dbs)
+    plot_response_hist_graphs(analyzed_dbs)
     #plotMultiStats('Valgepea')
     #plotComulativeGraph()
     #plotHighAbundance()
     plotPrediction()        
-    #variabilityAndGlobClustSlopes()
-    variabilityAndGlobClustSlopesNormed()
+    #variabilityAndGlobClustSlopes(analyzed_dbs)
+    variabilityAndGlobClustSlopesNormed(analyzed_dbs)
     #variablityComparisonHein()
-    plotRibosomal()
-    plotRibosomalVsGlobTrend()
+    plotRibosomal(analyzed_dbs)
+    plotRibosomalVsGlobTrend(analyzed_dbs)
