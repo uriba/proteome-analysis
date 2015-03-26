@@ -892,6 +892,7 @@ for rand_method in ["shuffle",""]:
     rand_prefix = rand_method
     init_datasets(rand_method)
     if rand_method == "":
+        plotPrediction()        
         #corr_andGR_plot('Simulated','Heinemann')
         for db in ['Heinemann-chemo','LB']:
             set_LB(db == "LB")
@@ -906,7 +907,6 @@ for rand_method in ["shuffle",""]:
     #plotMultiStats('Valgepea')
     #plotComulativeGraph()
     #plotHighAbundance()
-    #plotPrediction()        
     #variabilityAndGlobClustSlopes(analyzed_dbs)
     variabilityAndGlobClustSlopesNormed(analyzed_dbs)
     #variablityComparisonHein()
