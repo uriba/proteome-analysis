@@ -5,6 +5,7 @@ from scipy.stats import gaussian_kde,linregress
 from scipy import stats
 from Bio import SeqIO
 from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,text,subplots,gcf
+from matplotlib.markers import MarkerStyle
 from numpy import linspace,ndarray,arange,sum,square,array,cumsum,ones,mean,std
 from numpy.random import randn
 from analysis import *
@@ -168,8 +169,8 @@ def plotCorrelationHistograms(dbs,suffix):
     savefig('%sGrowthRateCorrelation%s.pdf' % (rand_prefix,suffix))
 
 ### Figure 3, Global cluster analysis:
-def plotGlobalResponse(dbs):
-    figure(figsize=(5,3))
+def plotGlobalResponse(dbs,rand_method):
+    globalResponse[rand_method] = {}
     colors = {'Heinemann':'blue','Peebo':'green','Valgepea':'magenta'}
 
     for db in dbs:
@@ -181,21 +182,31 @@ def plotGlobalResponse(dbs):
         alpha,beta,r_val,p_val,std_err = linregress(gr,glob_tot)
         print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
         print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
+        globalResponse[rand_method][db] = {}
+        globalResponse[rand_method][db]['Rsq']=gr.corr(glob_tot)**2
+        globalResponse[rand_method][db]['gr']=gr.values
+        globalResponse[rand_method][db]['dots']=glob_tot.values
+        globalResponse[rand_method][db]['line']=alpha*gr.values+beta
 
-        plot(gr.values,glob_tot.values,'o',label="data from %s et. al" % db_name[db],color=colors[db])
-        plot(gr.values,alpha*gr.values+beta,color=colors[db],label=("%s Trend,$R^2$=%.2f" % (db_name[db],gr.corr(glob_tot)**2)))
+    if "shuffle" in globalResponse and "" in globalResponse:
+        figure(figsize=(5,3))
+        for db in dbs:
+            print db_name
+            plot(globalResponse[""][db]['gr'],globalResponse[""][db]['dots'],'o',label=("data from %s et. al, $R^2$=%.2f" % (db_name[db],globalResponse[""][db]['Rsq'])),color=colors[db])
+            plot(globalResponse[""][db]['gr'],globalResponse[""][db]['line'],color=colors[db])
+            plot(globalResponse["shuffle"][db]['gr'],globalResponse["shuffle"][db]['dots'],linestyle='None',marker="o",markerfacecolor='none',markeredgecolor=colors[db],label=("%s, shuffled" % db_name[db]))
 
-    xlim(xmin=0.)
-    ylim(ymin=0.)
-    xlabel('Growth rate [$h^{-1}$]',fontsize=10)
-    ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=10)
-    legend(loc=4, prop={'size':8},numpoints=1)
-    tick_params(axis='both', which='major', labelsize=8)
-    tick_params(axis='both', which='minor', labelsize=8)
-    tight_layout()
-    #fig = gcf()
-    #py.plot_mpl(fig,filename="Global cluster growth rate correlation")
-    savefig('%sGlobalClusterGRFit.pdf' % rand_prefix)
+        xlim(xmin=0.)
+        ylim(ymin=0.,ymax=0.75)
+        xlabel('Growth rate [$h^{-1}$]',fontsize=10)
+        ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=10)
+        legend(loc="upper left", prop={'size':6},numpoints=1)
+        tick_params(axis='both', which='major', labelsize=8)
+        tick_params(axis='both', which='minor', labelsize=8)
+        tight_layout()
+        #fig = gcf()
+        #py.plot_mpl(fig,filename="Global cluster growth rate correlation")
+        savefig('%sGlobalClusterGRFit.pdf' % rand_prefix)
 
 #gets values at cond_list normalized in y axis
 def std_err_fit(gr,s):
@@ -885,6 +896,7 @@ model_effects_plot()
 analyzed_dbs = ['Heinemann','Peebo']
 #for rand_method in [""]:
 #for rand_method in ["simulated","shuffle",""]:
+globalResponse = {}
 for rand_method in ["shuffle",""]:
     print "----------------------------------------------------------"
     print rand_method
@@ -902,7 +914,7 @@ for rand_method in ["shuffle",""]:
 #Single histogram for presentation
     #plotCorrelationHistograms(["Valgepea"],"Val")
     plotCorrelationHistograms(analyzed_dbs,"")
-    plotGlobalResponse(analyzed_dbs)
+    plotGlobalResponse(analyzed_dbs,rand_method)
     plot_response_hist_graphs(analyzed_dbs)
     #plotMultiStats('Valgepea')
     #plotComulativeGraph()
