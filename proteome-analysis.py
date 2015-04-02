@@ -882,22 +882,24 @@ def model_effects_plot():
     ax.set_ylim(ymin=0.)
     ax.set_xlabel('Growth rate [$h^{-1}$]',fontsize=8)
     ax.set_ylabel('Normalized protein concentration',fontsize=8)
-    legend(loc='upper center', prop={'size':6},numpoints=1)
     set_ticks(ax,6)
     ax.spines['left'].set_position('zero')
     ax.spines['right'].set_color('none')
     ax.spines['top'].set_color('none')
     tight_layout()
+    subplots_adjust(top=0.83)
+    handles,labels=ax.get_legend_handles_labels()
+    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.0,0.8,1,0.2),ncol=2,numpoints=1)
     savefig('TheoreticalModelEffects.pdf')
 
         
 
 model_effects_plot()
 analyzed_dbs = ['Heinemann','Peebo']
-#for rand_method in [""]:
 #for rand_method in ["simulated","shuffle",""]:
 globalResponse = {}
 for rand_method in ["shuffle",""]:
+#for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method
 #for rand_method in ["simulated"]:
