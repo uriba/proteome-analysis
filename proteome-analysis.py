@@ -29,6 +29,7 @@ def get_limits(db):
         limits = (0.8,1.)
     #return limits
     return (0.5,1.)
+    #return (-1.,-0.5)
 
 #Initialize global data structures
 dbs = ['Heinemann','Peebo','Valgepea']
@@ -232,7 +233,7 @@ def set_std_err(df,gr,cond_list):
 ## Figure 2, global cluster slope vs. ribosomal slope
 def get_glob(db,df):
     limits = get_limits(db)
-    return df[df['gr_cov']>limits[0]]
+    return df[(df['gr_cov']<limits[1]) & (df['gr_cov']>limits[0])]
  
 def set_alpha(df,gr,cond_list):
     #df['alpha'] = df[cond_list].apply(lambda x: linregress(gr[cond_list]/gr[cond_list].mean(),x/x.mean())[0],axis=1)
