@@ -57,7 +57,8 @@ def writeCorrsHist(db):
     limits = get_limits(db)
     threshold = limits[0]
     funcs = conc_data['func'].unique()
-    func_stat = []
+    idx = ['Function','Number of proteins','totPrctP','Correlated proteins','corPrctP']
+    func_stat = pd.DataFrame(columns = idx)
     for func in funcs:
         conc_func = conc_data[conc_data['func']==func]
         corred_idx = conc_func['gr_cov']>threshold
@@ -65,12 +66,10 @@ def writeCorrsHist(db):
         tot_means = conc_func['avg']
         corr_means = tot_means[corred_idx]
         correlated = len(corr_means)
-        func_stat.append(("{%s}" % func,tot,tot_means.sum()*100,correlated,corr_means.sum()*100))
-    with open('funcs%s.csv' % db,'wb') as csvfile:
-        csvwriter = csv.writer(csvfile,delimiter=';')
-        csvwriter.writerow(['Function','Number of proteins','totPrctP','Correlated proteins','corPrctP'])
-        for row in func_stat:
-            csvwriter.writerow(row)
+        stats = pd.Series([func,tot,tot_means.sum()*100,correlated,corr_means.sum()*100],index=idx)
+        func_stat.loc['{%s}' % func]=stats
+    func_stat.sort(columns = 'totPrctP',ascending=False,inplace = True)
+    func_stat.to_csv('funcs%s.csv' % db,index=False,sep=';')
 
 def writeTopProtsVar(db):
     conds,gr,conc_data = datas[db]
@@ -878,15 +877,15 @@ def model_effects_plot():
     ax.plot(neg,neg_deg,'--g')
     ax.plot(grs,rate_effect,'o',label="Unregulated protein - under decreasing biosynthesis rate")
     ax.plot(grs,rate,'--r',label="Biosynthesis rate")
-    ax.annotate("degradation rate", xy=(-0.4,0),xytext=(-0.2,.6),arrowprops=dict(facecolor='black',shrink=0.05,width=1,headwidth=4),horizontalalignment='center',fontsize=8)
+    ax.annotate("degradation\nrate", xy=(-0.4,0),xytext=(-0.4,.6),arrowprops=dict(facecolor='black',shrink=0.05,width=1,headwidth=4),horizontalalignment='center',verticalalignment='center',fontsize=8)
     ax.set_xlim(xmin=-0.5)
     ax.set_ylim(ymin=0.)
     ax.set_xlabel('Growth rate [$h^{-1}$]',fontsize=8)
-    ax.set_ylabel('Normalized protein concentration',fontsize=8)
     set_ticks(ax,6)
     ax.spines['left'].set_position('zero')
     ax.spines['right'].set_color('none')
     ax.spines['top'].set_color('none')
+    ax.set_ylabel('Normalized protein concentration',fontsize=8)
     tight_layout()
     subplots_adjust(top=0.83)
     handles,labels=ax.get_legend_handles_labels()
