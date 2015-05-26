@@ -15,13 +15,32 @@ def set_LB(x):
         cond_list_dict['Heinemann'].append(u'LB')
     else:
         cond_list_dict['Heinemann']=[
-                      u'chemostat \u00b5=0.12', u'galactose',
-                      u'chemostat \u00b5=0.20', u'acetate',
-                      u'chemostat \u00b5=0.35', u'glucosamine',
-                      u'pyruvate', u'glycerol', u'fumarate',
-                      u'succinate',
-                      u'chemostat \u00b5=0.5', u'pH 6',
-                      u'anaerobic', u'glucose', u'50 mM NaCl']
+             u'Chemostat mu=0.12',
+             u'Chemostat mu=0.20',
+             u'Galactose', 
+             u'Acetate', 
+             u'Chemostat mu=0.35',
+             u'Pyruvate',
+             u'Fumarate', 
+             u'Succinate',
+             u'Glucosamine', 
+             u'Glycerol',
+             u'Mannose',
+             u'Chemostat mu=0.5',
+             u'Xylose',
+             u'Osmotic-stress glucose',
+             u'Glucose',
+             u'pH6 glucose',
+             u'Fructose',
+             u'42C glucose',
+             u'Glycerol + AA']
+                      #u'chemostat \u00b5=0.12', u'galactose',
+                      #u'chemostat \u00b5=0.20', u'acetate',
+                      #u'chemostat \u00b5=0.35', u'glucosamine',
+                      #u'pyruvate', u'glycerol', u'fumarate',
+                      #u'succinate',
+                      #u'chemostat \u00b5=0.5', u'pH 6',
+                      #u'anaerobic', u'glucose', u'50 mM NaCl']
     use_LB = x
 
 id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC','Peebo':'B number identifier' }
@@ -123,18 +142,39 @@ def uniprot_to_offset():
 # Define the list of conditions that will be relevant for the analysis, (and the description column), the growth rates and the cell volumes, according to the database used:
 cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
                   'Heinemann':[
-                      u'chemostat \u00b5=0.12', u'galactose',
-                      u'chemostat \u00b5=0.20', u'acetate',
-                      u'chemostat \u00b5=0.35', u'glucosamine',
-                      u'pyruvate', u'glycerol', u'fumarate',
-                      u'succinate',
-                      u'chemostat \u00b5=0.5', u'pH 6',
-                      u'anaerobic', u'glucose', u'50 mM NaCl'],
+    u'Chemostat mu=0.12',
+     u'Chemostat mu=0.20',
+     u'Galactose', 
+     u'Acetate', 
+     u'Chemostat mu=0.35',
+     u'Pyruvate',
+     u'Fumarate', 
+     u'Succinate',
+     u'Glucosamine', 
+     u'Glycerol',
+     u'Mannose',
+     u'Chemostat mu=0.5',
+     u'Xylose',
+     u'Osmotic-stress glucose',
+     u'Glucose',
+     u'pH6 glucose',
+     u'Fructose',
+     u'42C glucose',
+     u'Glycerol + AA'
+     ],
+                  #'Heinemann':[
+                  #    u'chemostat \u00b5=0.12', u'galactose',
+                  #    u'chemostat \u00b5=0.20', u'acetate',
+                  #    u'chemostat \u00b5=0.35', u'glucosamine',
+                  #    u'pyruvate', u'glycerol', u'fumarate',
+                  #    u'succinate',
+                  #    u'chemostat \u00b5=0.5', u'pH 6',
+                  #    u'anaerobic', u'glucose', u'50 mM NaCl'],
                   'Heinemann-chemo': [
-                      u'chemostat \u00b5=0.12',
-                      u'chemostat \u00b5=0.20',
-                      u'chemostat \u00b5=0.35',
-                      u'chemostat \u00b5=0.5'],
+                      u'Chemostat mu=0.12',
+                      u'Chemostat mu=0.20',
+                      u'Chemostat mu=0.35',
+                      u'Chemostat mu=0.5'],
                   'Peebo': [u'0.21.1', u'0.31.1',
                                 u'0.41.1', u'0.51.2',
                                 u'0.22.3', u'0.26.1',
@@ -154,12 +194,33 @@ if use_LB:
 gr_dict = {'Valgepea':
     {u'11': 0.11, u'21':0.21, u'31':0.31, u'40':0.4, u'48':0.48},
            'Heinemann':
-    {u'chemostat \u00b5=0.12': 0.12, u'galactose':0.17, 
-     u'chemostat \u00b5=0.20':0.2, u'acetate':0.29, 
-     u'chemostat \u00b5=0.35':0.35, u'glucosamine':0.39, 
-     u'pyruvate':0.4, u'glycerol':0.47, u'fumarate':0.47, 
-     u'succinate':0.49, u'chemostat \u00b5=0.5':0.5, u'pH 6':0.5, 
-     u'anaerobic' : 0.55, u'glucose': 0.6, u'50 mM NaCl':0.65, u'LB':1.61},
+    {u'Chemostat mu=0.12': 0.12,
+     u'Chemostat mu=0.20':0.2,
+     u'Galactose':0.26, 
+     u'Acetate':0.3, 
+     u'Chemostat mu=0.35':0.35,
+     u'Pyruvate':0.4,
+     u'Fumarate':0.42, 
+     u'Succinate':0.44,
+     u'Glucosamine':0.46, 
+     u'Glycerol':0.47,
+     u'Mannose':0.47,
+     u'Chemostat mu=0.5':0.5,
+     u'Xylose':0.55,
+     u'Osmotic-stress glucose':0.55,
+     u'Glucose': 0.58,
+     u'pH6 glucose':0.63,
+     u'Fructose':0.65,
+     u'42C glucose':0.66,
+     u'Glycerol + AA':1.27,
+     u'LB':1.9,
+     },
+    #{u'chemostat \u00b5=0.12': 0.12, u'galactose':0.17, 
+    # u'chemostat \u00b5=0.20':0.2, u'acetate':0.29, 
+    # u'chemostat \u00b5=0.35':0.35, u'glucosamine':0.39, 
+    # u'pyruvate':0.4, u'glycerol':0.47, u'fumarate':0.47, 
+    # u'succinate':0.49, u'chemostat \u00b5=0.5':0.5, u'pH 6':0.5, 
+    # u'anaerobic' : 0.55, u'glucose': 0.6, u'50 mM NaCl':0.65, u'LB':1.61},
      'Peebo': { u'0.21.1':0.21, u'0.31.1':0.31,
                     u'0.41.1':0.41, u'0.51.2':0.51,
                     u'0.22.3':0.22, u'0.26.1':0.26,
@@ -181,7 +242,8 @@ def get_coli_data(db_used,use_weight,rand):
         db_used = 'Heinemann'
     if db_used == 'Heinemann':
         # As the file was exported from Excel, it uses Excel's encoding.
-        ecoli_data = read_csv('coli_data.csv',header=1,encoding='iso-8859-1')
+        ecoli_data = read_csv('matthias2.csv',header=1,encoding='iso-8859-1')
+       # ecoli_data = read_csv('coli_data.csv',header=1,encoding='iso-8859-1')
 
         #Split the data loaded into two sets - weight and count.
         idx = ecoli_data.columns
@@ -207,7 +269,7 @@ def get_coli_data(db_used,use_weight,rand):
             ecoli_data = ecoli_data_count
 
         #convert all data columns to floats, and description columns to strings.
-        ecoli_data = ecoli_data[ecoli_data != 'below LOQ']
+        #ecoli_data = ecoli_data[ecoli_data != 'below LOQ']
         ecoli_data[cond_list] = ecoli_data[cond_list].astype('float')
 
     if db_used == 'Valgepea':
