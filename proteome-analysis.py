@@ -171,26 +171,40 @@ def plotCorrelationHistograms(dbs,suffix):
 ##############temp 20 prots plot####################3
 def tempprotsplot():
     db="Heinemann"
-    size=20
+    size=27
+    fignum=9
+    subplots=331
     conds,gr,coli_data = datas[db]
     slowconds= [ u'Chemostat mu=0.12', u'Chemostat mu=0.20', u'Galactose', u'Acetate', u'Chemostat mu=0.35', u'Pyruvate', u'Fumarate', 
      u'Succinate', u'Glucosamine', u'Glycerol', u'Mannose', u'Chemostat mu=0.5', u'Xylose', u'Osmotic-stress glucose', u'Glucose',
      u'pH6 glucose', u'Fructose', u'42C glucose', ]
     glob = get_glob(db,coli_data)
     sampled = random.sample(glob.index,size)
-    figure(figsize=(5,3))
+    figure(figsize=(5,5))
     globprots = coli_data.loc[sampled,:]
+    j=0
     for i,row in globprots.iterrows():
-        plot(gr[conds],row[conds]/row[slowconds].mean(),'b-')
+        p = subplot(subplots+(j % fignum))
+        p.plot(gr[conds],row[conds]/row[slowconds].mean(),'b-')
+        j+=1
     coli_data['fast_cov'] = coli_data['gr_cov']
     coli_data = calc_gr_corr(coli_data,slowconds,gr)
     glob = get_glob(db,coli_data)
     glob = glob[glob['fast_cov']<0.5]
     sampled = random.sample(glob.index,size)
     globprots = coli_data.loc[sampled,:]
+    j=0
     for i,row in globprots.iterrows():
-        plot(gr[conds],row[conds]/row[slowconds].mean(),'r-')
-    savefig('tempprots-slowconds.pdf')
+        p = subplot(subplots+(j % fignum))
+        p.plot(gr[conds],row[conds]/row[slowconds].mean(),'r-')
+        j+=1
+    for j in range(fignum):
+        p=subplot(subplots+j)
+        p.set_ylim(0,3)
+        set_ticks(p,8)
+
+    tight_layout()
+    savefig('slowvsfastcorrprotscomparison.pdf')
     coli_data = calc_gr_corr(coli_data,conds,gr)
 
 ### Figure 3, Global cluster analysis:
@@ -924,8 +938,8 @@ model_effects_plot()
 analyzed_dbs = ['Heinemann','Peebo']
 #for rand_method in ["simulated","shuffle",""]:
 globalResponse = {}
-for rand_method in ["shuffle",""]:
-#for rand_method in [""]:
+#for rand_method in ["shuffle",""]:
+for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method
 #for rand_method in ["simulated"]:
