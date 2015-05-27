@@ -160,7 +160,8 @@ cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
      u'pH6 glucose',
      u'Fructose',
      u'42C glucose',
-     u'Glycerol + AA'
+     u'Glycerol + AA',
+     u'LB'
      ],
                   #'Heinemann':[
                   #    u'chemostat \u00b5=0.12', u'galactose',
@@ -245,22 +246,21 @@ def get_coli_data(db_used,use_weight,rand):
         ecoli_data = read_csv('matthias2.csv',header=1,encoding='iso-8859-1')
        # ecoli_data = read_csv('coli_data.csv',header=1,encoding='iso-8859-1')
 
-        #Split the data loaded into two sets - weight and count.
-        idx = ecoli_data.columns
-        ecoli_data_count = ecoli_data[idx[0:29]]
-        ecoli_data_weight = ecoli_data[idx[0:10].append(idx[29:])]
-
         # Refine the DataFrames to include only these conditions (and the protein descriptions):
         desc_list = [id_col_dict[db_used]]
         count_cond = desc_list+cond_list
-        ecoli_data_count = ecoli_data_count[count_cond]
+        ecoli_data_count = ecoli_data[count_cond]
 
         #duplicate headers are modified by read_csv and include a trailing '.1' string in their name.
         weight_cond = desc_list+[x+'.1' for x in cond_list] 
-        ecoli_data_weight = ecoli_data_weight[weight_cond]
+        ecoli_data_weight = ecoli_data[weight_cond]
 
+        cv_cond = desc_list+[x+'.2' for x in cond_list] 
+        ecoli_data_cv = ecoli_data[cv_cond]
         #rename the columns to remove the trailing '.1'
         ecoli_data_weight.columns = count_cond
+
+        ecoli_data_cv.columns = count_cond
 
         #select the relevant data for analysis out of the two options:
         if use_weight:
@@ -286,11 +286,21 @@ def get_coli_data(db_used,use_weight,rand):
             ecoli_data.loc[i,cond_list] = y
     #Normalize to get concentrations 
     ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
+    #remove scarce proteins
+    if db_used == 'Peebo':
+        ecoli_data = ecoli_data[ecoli_data[cond_list].mean(axis=1)>avg_conc_threshold]
+    if db_used == 'Heinemann':
+        dropping = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)>20.0][cond_list].sum().mean()
+        keeping = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)<20.0][cond_list].sum().mean()
+        print("dropping:%f" % dropping)
+        print("keeping:%f" % keeping)
+        ecoli_data = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)<20.0]
+        figure(figsize=(5,3))
+        hist(ecoli_data_cv[cond_list].mean(axis=1).dropna(),20)
+        savefig('CVmean.pdf')
     #remove irrelevant proteins
     means = ecoli_data[cond_list].mean(axis=1)
     ecoli_data = ecoli_data[means>0]
-    #remove scarce proteins
-    ecoli_data = ecoli_data[ecoli_data[cond_list].mean(axis=1)>avg_conc_threshold]
     #renormalize
     ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
     ## create emulated data set based on actual average concentrations and noise.

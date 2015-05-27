@@ -168,6 +168,31 @@ def plotCorrelationHistograms(dbs,suffix):
     #py.plot_mpl(fig,filename="Growth rate Correlation histograms")
     savefig('%sGrowthRateCorrelation%s.pdf' % (rand_prefix,suffix))
 
+##############temp 20 prots plot####################3
+def tempprotsplot():
+    db="Heinemann"
+    size=20
+    conds,gr,coli_data = datas[db]
+    slowconds= [ u'Chemostat mu=0.12', u'Chemostat mu=0.20', u'Galactose', u'Acetate', u'Chemostat mu=0.35', u'Pyruvate', u'Fumarate', 
+     u'Succinate', u'Glucosamine', u'Glycerol', u'Mannose', u'Chemostat mu=0.5', u'Xylose', u'Osmotic-stress glucose', u'Glucose',
+     u'pH6 glucose', u'Fructose', u'42C glucose', ]
+    glob = get_glob(db,coli_data)
+    sampled = random.sample(glob.index,size)
+    figure(figsize=(5,3))
+    globprots = coli_data.loc[sampled,:]
+    for i,row in globprots.iterrows():
+        plot(gr[conds],row[conds]/row[slowconds].mean(),'b-')
+    coli_data['fast_cov'] = coli_data['gr_cov']
+    coli_data = calc_gr_corr(coli_data,slowconds,gr)
+    glob = get_glob(db,coli_data)
+    glob = glob[glob['fast_cov']<0.5]
+    sampled = random.sample(glob.index,size)
+    globprots = coli_data.loc[sampled,:]
+    for i,row in globprots.iterrows():
+        plot(gr[conds],row[conds]/row[slowconds].mean(),'r-')
+    savefig('tempprots-slowconds.pdf')
+    coli_data = calc_gr_corr(coli_data,conds,gr)
+
 ### Figure 3, Global cluster analysis:
 def plotGlobalResponse(dbs,rand_method):
     globalResponse[rand_method] = {}
@@ -894,6 +919,7 @@ def model_effects_plot():
 
         
 
+#init_datasets("")
 model_effects_plot()
 analyzed_dbs = ['Heinemann','Peebo']
 #for rand_method in ["simulated","shuffle",""]:
@@ -906,6 +932,7 @@ for rand_method in ["shuffle",""]:
     rand_prefix = rand_method
     init_datasets(rand_method)
     if rand_method == "":
+        tempprotsplot()
         plotPrediction()        
         #corr_andGR_plot('Simulated','Heinemann')
         for db in ['Heinemann-chemo','LB']:
