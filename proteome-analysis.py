@@ -190,7 +190,7 @@ def tempprotsplot():
         y = row[conds]/row[slowconds].mean()
         ycv = row[errorconds]
         ycv.index = conds
-        p.errorbar(gr[conds],y,fmt='b.',markersize=2,yerr=y*ycv/100)
+        p.errorbar(gr[conds],y,fmt='b.',markersize=2,yerr=y*ycv/100,capthick=0.5,elinewidth=0.5,capsize=2)
         j+=1
     coli_data['fast_cov'] = coli_data['gr_cov']
     coli_data = calc_gr_corr(coli_data,slowconds,gr)
@@ -204,7 +204,7 @@ def tempprotsplot():
         y = row[conds]/row[slowconds].mean()
         ycv = row[errorconds]
         ycv.index = conds
-        p.errorbar(gr[conds],y,fmt='r.',markersize=2,yerr=y*ycv/100)
+        p.errorbar(gr[conds],y,fmt='r.',markersize=2,yerr=y*ycv/100,capthick=0.5,elinewidth=0.5,capsize=2)
         j+=1
     for j in range(fignum):
         p = subplot(rows,columns,j+1)
