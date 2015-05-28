@@ -179,6 +179,7 @@ def tempprotsplot():
     slowconds= [ u'Chemostat mu=0.12', u'Chemostat mu=0.20', u'Galactose', u'Acetate', u'Chemostat mu=0.35', u'Pyruvate', u'Fumarate', 
      u'Succinate', u'Glucosamine', u'Glycerol', u'Mannose', u'Chemostat mu=0.5', u'Xylose', u'Osmotic-stress glucose', u'Glucose',
      u'pH6 glucose', u'Fructose', u'42C glucose', ]
+    errorconds = ["%s.cv" % x for x in conds]
     glob = get_glob(db,coli_data)
     sampled = random.sample(glob.index,size)
     figure(figsize=(5,5))
@@ -186,7 +187,11 @@ def tempprotsplot():
     j=0
     for i,row in globprots.iterrows():
         p = subplot(rows,columns,(j % fignum)+1)
-        p.plot(gr[conds],row[conds]/row[slowconds].mean(),'b.',markersize=2)
+        y = row[conds]/row[slowconds].mean()
+        ycv = row[errorconds]
+        ycv.index = conds
+
+        p.errorbar(gr[conds],y,fmt='b.',markersize=2,yerr=y*ycv/100)
         j+=1
     coli_data['fast_cov'] = coli_data['gr_cov']
     coli_data = calc_gr_corr(coli_data,slowconds,gr)
@@ -197,7 +202,10 @@ def tempprotsplot():
     j=6
     for i,row in globprots.iterrows():
         p = subplot(rows,columns,(j % fignum)+1)
-        p.plot(gr[conds],row[conds]/row[slowconds].mean(),'r.',markersize=2)
+        y = row[conds]/row[slowconds].mean()
+        ycv = row[errorconds]
+        ycv.index = conds
+        p.errorbar(gr[conds],y,fmt='r.',markersize=2,yerr=y*ycv/100)
         j+=1
     for j in range(fignum):
         p = subplot(rows,columns,j+1)

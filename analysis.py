@@ -303,6 +303,8 @@ def get_coli_data(db_used,use_weight,rand):
         ylabel("mean CV")
         savefig('CVmean.pdf')
         ecoli_data = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)<20.0]
+        for cond in cond_list:
+            ecoli_data["%s.cv" % cond] = ecoli_data_cv[cond]
 
     #remove irrelevant proteins
     means = ecoli_data[cond_list].mean(axis=1)
