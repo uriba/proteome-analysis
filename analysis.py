@@ -2,7 +2,7 @@ import csv
 import pandas as pd
 from pandas.io.parsers import read_csv
 from Bio import SeqIO
-from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust
+from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,xscale
 from numpy import linspace,ndarray,arange
 from numpy.random import randn,shuffle,normal
 
@@ -292,12 +292,18 @@ def get_coli_data(db_used,use_weight,rand):
     if db_used == 'Heinemann':
         dropping = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)>20.0][cond_list].sum().mean()
         keeping = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)<20.0][cond_list].sum().mean()
+        plottemp = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)>0]
         print("dropping:%f" % dropping)
         print("keeping:%f" % keeping)
-        ecoli_data = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)<20.0]
         figure(figsize=(5,3))
-        hist(ecoli_data_cv[cond_list].mean(axis=1).dropna(),20)
+        #hist(ecoli_data_cv[cond_list].mean(axis=1).dropna(),20)
+        plot(plottemp[cond_list].mean(axis=1),ecoli_data_cv[cond_list].mean(axis=1).dropna(),'.')
+        xscale('log')
+        xlabel("mean fraction out of proteome")
+        ylabel("mean CV")
         savefig('CVmean.pdf')
+        ecoli_data = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)<20.0]
+
     #remove irrelevant proteins
     means = ecoli_data[cond_list].mean(axis=1)
     ecoli_data = ecoli_data[means>0]

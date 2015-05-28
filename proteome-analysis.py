@@ -171,9 +171,10 @@ def plotCorrelationHistograms(dbs,suffix):
 ##############temp 20 prots plot####################3
 def tempprotsplot():
     db="Heinemann"
-    size=27
-    fignum=9
-    subplots=331
+    size=6
+    fignum=12
+    rows=3
+    columns=4
     conds,gr,coli_data = datas[db]
     slowconds= [ u'Chemostat mu=0.12', u'Chemostat mu=0.20', u'Galactose', u'Acetate', u'Chemostat mu=0.35', u'Pyruvate', u'Fumarate', 
      u'Succinate', u'Glucosamine', u'Glycerol', u'Mannose', u'Chemostat mu=0.5', u'Xylose', u'Osmotic-stress glucose', u'Glucose',
@@ -184,8 +185,8 @@ def tempprotsplot():
     globprots = coli_data.loc[sampled,:]
     j=0
     for i,row in globprots.iterrows():
-        p = subplot(subplots+(j % fignum))
-        p.plot(gr[conds],row[conds]/row[slowconds].mean(),'b-')
+        p = subplot(rows,columns,(j % fignum)+1)
+        p.plot(gr[conds],row[conds]/row[slowconds].mean(),'b.',markersize=2)
         j+=1
     coli_data['fast_cov'] = coli_data['gr_cov']
     coli_data = calc_gr_corr(coli_data,slowconds,gr)
@@ -193,13 +194,13 @@ def tempprotsplot():
     glob = glob[glob['fast_cov']<0.5]
     sampled = random.sample(glob.index,size)
     globprots = coli_data.loc[sampled,:]
-    j=0
+    j=6
     for i,row in globprots.iterrows():
-        p = subplot(subplots+(j % fignum))
-        p.plot(gr[conds],row[conds]/row[slowconds].mean(),'r-')
+        p = subplot(rows,columns,(j % fignum)+1)
+        p.plot(gr[conds],row[conds]/row[slowconds].mean(),'r.',markersize=2)
         j+=1
     for j in range(fignum):
-        p=subplot(subplots+j)
+        p = subplot(rows,columns,j+1)
         p.set_ylim(0,3)
         set_ticks(p,8)
 
