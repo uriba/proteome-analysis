@@ -944,17 +944,17 @@ def model_effects_plot():
 #init_datasets("")
 model_effects_plot()
 analyzed_dbs = ['Heinemann','Peebo']
-#for rand_method in ["simulated","shuffle",""]:
 globalResponse = {}
+for rand_method in ["simulated","shuffle",""]:
 #for rand_method in ["shuffle",""]:
-for rand_method in [""]:
+#for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method
 #for rand_method in ["simulated"]:
     rand_prefix = rand_method
     init_datasets(rand_method)
     if rand_method == "":
-        tempprotsplot()
+        #tempprotsplot()
         plotPrediction()        
         #corr_andGR_plot('Simulated','Heinemann')
         for db in ['Heinemann-chemo','LB']:

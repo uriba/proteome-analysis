@@ -12,6 +12,7 @@ use_LB = False
 
 def set_LB(x):
     if x:
+        cond_list_dict['Heinemann'].append(u'Glycerol + AA')
         cond_list_dict['Heinemann'].append(u'LB')
     else:
         cond_list_dict['Heinemann']=[
@@ -32,8 +33,7 @@ def set_LB(x):
              u'Glucose',
              u'pH6 glucose',
              u'Fructose',
-             u'42C glucose',
-             u'Glycerol + AA']
+             u'42C glucose']
                       #u'chemostat \u00b5=0.12', u'galactose',
                       #u'chemostat \u00b5=0.20', u'acetate',
                       #u'chemostat \u00b5=0.35', u'glucosamine',
@@ -160,8 +160,8 @@ cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
      u'pH6 glucose',
      u'Fructose',
      u'42C glucose',
-     u'Glycerol + AA',
-     u'LB'
+#     u'Glycerol + AA',
+#     u'LB'
      ],
                   #'Heinemann':[
                   #    u'chemostat \u00b5=0.12', u'galactose',
@@ -190,6 +190,7 @@ cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
                                 u'0.78.1']
                       }
 if use_LB:
+    cond_list_dict['Heinemann'].append(u'Glycerol + AA')
     cond_list_dict['Heinemann'].append(u'LB')
 
 gr_dict = {'Valgepea':
