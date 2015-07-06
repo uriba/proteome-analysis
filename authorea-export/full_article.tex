@@ -201,9 +201,9 @@ In our example of the lac operon in the presence of glucose, the down regulation
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=\columnwidth]{../figure-1-normal.pdf}
+\includegraphics[width=\columnwidth]{../figure1.pdf}
 \caption{\label{fig:model}
-A minimalistic model predicts that low expression of condition-dependent genes under permissive growth environment, compared with a challenging environment, implies larger fraction of all other proteins out of the proteome.
+A minimalistic model predicts that low expression of condition-dependent genes under permissive growth environment, compared with a restrictive environment, implies larger fraction of all other proteins out of the proteome.
 With this, the ratio of bio-synthesis genes to the rest of the proteome is higher in permissive environments, resulting in faster growth.
 %
 }
@@ -264,7 +264,7 @@ If we consider a gene $i$, whose specific affinity is not dependent on the prese
 In mathematical terms this will chang the denominator in equation \ref{eq:concentration-ratio} and thus affect the distribution of resources between all of the expressed genes.
 
 
-Generalizing this notion, we can divide the proteins into those whose intrinsic affinity remains constant across all of the considered conditions, and those whose intrinsic affinity changes between at least some of the conditions (Figure \ref{fig:model}A).
+Generalizing this notion, we can divide the proteins into those whose intrinsic affinity remains constant across all of the considered conditions, and those whose intrinsic affinity changes between at least some of the conditions (Figure \ref{fig:model}).
 An interesting consequence is that proteins whose intrinsic affinities remain constant also maintain their relative ratios across these conditions with respect to each other, as observed experimentally in \emph{S.cerevisae} in \cite{Keren2013}.
 
 \subsubsection{Growth rate is the combined outcome of proteome composition and environmental conditions}
@@ -274,7 +274,7 @@ The larger the ratio of total proteins to bio-synthesis proteins is, the longer 
 
 To illustrate this assumption concretely, one could think about the synthesis of polypeptides.
 If a cell has $R$ actively translating ribosomes, each of which synthesizing polypeptides at a rate of $\eta \approx 20$ amino acids per second, the bio-synthetic capacity of the cell will be limited to $\approx \eta R$ amino acids per second.
-If the total amount of protein in that same cell is $P$ (measured in amino acids count), it follows that the time it will take the actively translating ribosomes to synthesize the proteins for an identical daughter cell is $\tau \approx \frac{P}{\eta R}$ (Figure \ref{fig:model}B), up to a $\ln(2)$ factor resulting from the fact that the ribosomes also synthesize more ribosomes during the replication process and that these new ribosomes will increase the total rate of polypeptides synthesis.
+If the total amount of protein in that same cell is $P$ (measured in amino acids count), it follows that the time it will take the actively translating ribosomes to synthesize the proteins for an identical daughter cell is $\tau \approx \frac{P}{\eta R}$, up to a $\ln(2)$ factor resulting from the fact that the ribosomes also synthesize more ribosomes during the replication process and that these new ribosomes will increase the total rate of polypeptides synthesis.
 
 
 The theoretical lower limit of the doubling time, $T_B$, will be achieved when all of the proteome of the cell is the bio-synthetic machinery.
