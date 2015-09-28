@@ -148,21 +148,30 @@ def plot_corr_hist(p,db,conc_data,categories):
 
 
 def plotCorrelationHistograms(dbs,suffix):
-    figure(figsize=(5,3))
+    figure(figsize=(5,5))
 
     coords = {'Heinemann':0.01,'Peebo':0.625,'Valgepea':0.625}
     p=subplot(111)
-    ps = {'Peebo':subplot(122),'Valgepea':subplot(122)}
+    rands = [""]
+    ps = {("",'Peebo'):subplot(122),("",'Valgepea'):subplot(122)}
     if(len(dbs)>1):
         ps['Heinemann'] = subplot(121)
+        rands = ["","shuffle"]
+        ps = {  ("",'Heinemann'):subplot(221),
+                ("",'Peebo'):subplot(222),
+                ("",'Valgepea'):subplot(222),
+                ("shuffle",'Heinemann'):subplot(223),
+                ("shuffle",'Peebo'):subplot(224),
+                ("shuffle",'Valgepea'):subplot(224)}
 
-    for db in dbs:
-        conds,gr,conc_data = datas[""][db]
-        plot_corr_hist(ps[db],db,conc_data,categories)
-        text(coords[db],0.8,"data from %s et. al." % db_name[db],fontsize=8,transform=p.transAxes)
+    for rand in rands:
+        for db in dbs:
+            conds,gr,conc_data = datas[rand][db]
+            plot_corr_hist(ps[(rand,db)],db,conc_data,categories)
+            text(coords[db],0.8,"data from %s et. al." % db_name[db],fontsize=8,transform=p.transAxes)
 
     #assume both subplots have the same categories.
-    handles,labels=ps[dbs[0]].get_legend_handles_labels()
+    handles,labels=ps[("",dbs[0])].get_legend_handles_labels()
 
     tight_layout()
     figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
@@ -991,9 +1000,9 @@ writeTables()
 plotRibosomal(analyzed_dbs)
 plotRibosomalVsGlobTrend(analyzed_dbs)
 plot_response_hist_graphs(analyzed_dbs)
+plotCorrelationHistograms(analyzed_dbs,"")
 
 for rand_method in ["simulated","shuffle",""]:
-    plotCorrelationHistograms(analyzed_dbs,"")
     plotGlobalResponse(analyzed_dbs,rand_method)
     #plotMultiStats('Valgepea')
     #plotComulativeGraph()
