@@ -4,7 +4,9 @@ from pandas.io.parsers import read_csv
 from Bio import SeqIO
 from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,xscale
 from numpy import linspace,ndarray,arange
-from numpy.random import randn,shuffle,normal
+from numpy.random import randn,shuffle,normal,seed
+
+seed(123456)
 
 remove_unmapped = False
 just_ribosomes = False

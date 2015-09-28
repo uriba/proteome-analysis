@@ -14,6 +14,8 @@ from math import sqrt,isnan,log
 import random
 from numpy.random import randn,shuffle,normal
 from matplotlib.ticker import FuncFormatter
+
+random.seed(123456)
 #import plotly.plotly as py
 
 #py.sign_in("uri.barenholz", "hvi3ma3m30")
