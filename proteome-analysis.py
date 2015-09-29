@@ -257,12 +257,12 @@ def plotGlobalResponse(dbs,rand_method):
         figure(figsize=(5,3))
         for db in dbs:
             print (rand_method,db_name)
-            plot(globalResponse[""][db]['gr'],globalResponse[""][db]['dots'],'o',label=("data from %s et. al, $R^2$=%.2f" % (db_name[db],globalResponse[""][db]['Rsq'])),color=colors[db])
+            plot(globalResponse[""][db]['gr'],globalResponse[""][db]['dots'],'o',label=("data from %s et. al, 2015 ($R^2$=%.2f)" % (db_name[db],globalResponse[""][db]['Rsq'])),color=colors[db])
             plot(globalResponse[""][db]['gr'],globalResponse[""][db]['line'],color=colors[db])
-            plot(globalResponse["shuffle"][db]['gr'],globalResponse["shuffle"][db]['dots'],linestyle='None',marker="o",markerfacecolor='none',markeredgecolor=colors[db],label=("%s, shuffled" % db_name[db]))
+            plot(globalResponse["shuffle"][db]['gr'],globalResponse["shuffle"][db]['dots'],linestyle='None',marker="o",markerfacecolor='none',markeredgecolor=colors[db],label=("Shuffled protein amounts, based on %s" % db_name[db]))
 
         xlim(xmin=0.)
-        ylim(ymin=0.,ymax=0.75)
+        ylim(ymin=-0.05,ymax=0.75)
         xlabel('Growth rate [$h^{-1}$]',fontsize=10)
         ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=10)
         legend(loc="upper left", prop={'size':6},numpoints=1)
