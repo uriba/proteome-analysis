@@ -37,7 +37,7 @@ def get_limits(db):
 dbs = ['Heinemann','Peebo','Valgepea']
 datas = {}
 rand_prefix = ""
-db_name = { 'Heinemann':'Heinemann','Valgepea':'Valgepea','Peebo':'Peebo'}
+db_name = { 'Heinemann':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo'}
 def init_datasets(rand_method):
     datas[rand_method] = {}
     for db in dbs:
@@ -48,7 +48,7 @@ def init_datasets(rand_method):
         coli_data = calc_gr_corr(coli_data,conds,gr)
         CV = (coli_data['std']/coli_data['avg']).mean()
         datas[rand_method][db] = (conds,gr,coli_data)
-        print "%s CV: %f" % (db,CV)
+        print "in %s, %s CV: %f" % (rand_method,db,CV)
 
 #ecoli_data_h = ecoli_data_h[ecoli_data_h['prot']=='Ribosome']
 #ecoli_data_v = ecoli_data_v[ecoli_data_v['prot']=='Ribosome']
@@ -150,7 +150,7 @@ def plot_corr_hist(p,db,conc_data,categories):
 def plotCorrelationHistograms(dbs,suffix):
     figure(figsize=(5,5))
 
-    coords = {'Heinemann':0.01,'Peebo':0.625,'Valgepea':0.625}
+    coords = {'Heinemann':0.01,'Peebo':0.63,'Valgepea':0.63}
     p=subplot(111)
     rands = [""]
     ps = {("",'Peebo'):subplot(122),("",'Valgepea'):subplot(122)}
@@ -163,12 +163,15 @@ def plotCorrelationHistograms(dbs,suffix):
                 ("shuffle",'Heinemann'):subplot(223),
                 ("shuffle",'Peebo'):subplot(224),
                 ("shuffle",'Valgepea'):subplot(224)}
+    ylims = {"":160,"shuffle":250}
 
     for rand in rands:
         for db in dbs:
             conds,gr,conc_data = datas[rand][db]
             plot_corr_hist(ps[(rand,db)],db,conc_data,categories)
-            text(coords[db],0.8,"data from %s et. al." % db_name[db],fontsize=8,transform=p.transAxes)
+            ps[(rand,db)].set_ylim(0,ylims[rand])
+            ps[(rand,db)].set_xlim(-1,1)
+            text(coords[db],0.931,"data from %s et. al.\n 2015" % db_name[db],fontsize=8,transform=p.transAxes)
 
     #assume both subplots have the same categories.
     handles,labels=ps[("",dbs[0])].get_legend_handles_labels()
@@ -176,7 +179,7 @@ def plotCorrelationHistograms(dbs,suffix):
     tight_layout()
     figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
 
-    subplots_adjust(top=0.83)
+    subplots_adjust(top=0.89)
     #fig = gcf()
     #py.plot_mpl(fig,filename="Growth rate Correlation histograms")
     savefig('%sGrowthRateCorrelation%s.pdf' % (rand_prefix,suffix))
@@ -238,7 +241,7 @@ def plotGlobalResponse(dbs,rand_method):
     for db in dbs:
         conds,gr,coli_data = datas[rand_method][db]
         glob = get_glob(db,coli_data)
-        print "%s global cluster is %d out of %d measured proteins" % (db, len(glob),len(coli_data[coli_data['gr_cov']>-1.]))
+        print "%s, %s global cluster is %d out of %d measured proteins" % (rand_method,db, len(glob),len(coli_data[coli_data['gr_cov']>-1.]))
 
         glob_tot = glob[conds].sum()
         alpha,beta,r_val,p_val,std_err = linregress(gr,glob_tot)
@@ -253,7 +256,7 @@ def plotGlobalResponse(dbs,rand_method):
     if "shuffle" in globalResponse and "" in globalResponse:
         figure(figsize=(5,3))
         for db in dbs:
-            print db_name
+            print (rand_method,db_name)
             plot(globalResponse[""][db]['gr'],globalResponse[""][db]['dots'],'o',label=("data from %s et. al, $R^2$=%.2f" % (db_name[db],globalResponse[""][db]['Rsq'])),color=colors[db])
             plot(globalResponse[""][db]['gr'],globalResponse[""][db]['line'],color=colors[db])
             plot(globalResponse["shuffle"][db]['gr'],globalResponse["shuffle"][db]['dots'],linestyle='None',marker="o",markerfacecolor='none',markeredgecolor=colors[db],label=("%s, shuffled" % db_name[db]))
@@ -307,7 +310,7 @@ def plot_response_hist(db,df,gr,conds,p,total,estimate):
     all_ribs = set_alpha(all_ribs,gr,conds)
     all_ribs = set_std_err(all_ribs,gr,conds)
     if not total:
-        print "total ribosomal proteins in db %s, %d, strongly positively correlated: %d" % (db,len(all_ribs),len(all_ribs[all_ribs['gr_cov']>get_limits(db)[0]]))
+        print "non-randomized total ribosomal proteins in db %s, %d, strongly positively correlated: %d" % (db,len(all_ribs),len(all_ribs[all_ribs['gr_cov']>get_limits(db)[0]]))
 
     bins = linspace(-5,5,41)
     xs = linspace(-5,5,200)
@@ -418,7 +421,7 @@ def corr_andGR_plot(db,ref):
     handles,labels=p1.get_legend_handles_labels()
     figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.05,0.8,0.5,0.2),ncol=2)
     glob_chemo = get_glob(db,ecoli_data_chemo)
-    print "%s global cluster is %d out of %d measured proteins" % (db, len(glob_chemo),len(ecoli_data_chemo[ecoli_data_chemo['gr_cov']>-1.]))
+    print "%s,%s, %s global cluster is %d out of %d measured proteins" % (rand,suffix,db, len(glob_chemo),len(ecoli_data_chemo[ecoli_data_chemo['gr_cov']>-1.]))
 
     glob_tot_chemo = glob_chemo[cond_list].sum()
     alpha,beta,r_val,p_val,std_err = linregress(gr_chemo,glob_tot_chemo)
@@ -987,10 +990,6 @@ for rand_method in ["simulated","shuffle",""]:
 print "plotting prediction"
 plotPrediction()        
 print "plotting original data graphs"
-for db in ['Heinemann-chemo','LB']:
-    set_LB(db == "LB")
-    corr_andGR_plot(db,'Peebo')
-set_LB(False)
 #tempprotsplot()
 #corr_andGR_plot('Simulated','Heinemann')
 writeTables()
@@ -1010,3 +1009,8 @@ for rand_method in ["simulated","shuffle",""]:
     #variabilityAndGlobClustSlopes(analyzed_dbs)
     #variabilityAndGlobClustSlopesNormed(analyzed_dbs) #This is the generating function for the variability analysis
     #variablityComparisonHein()
+
+for db in ['Heinemann-chemo','LB']:
+    set_LB(db == "LB")
+    corr_andGR_plot(db,'Peebo')
+set_LB(False)
