@@ -118,10 +118,10 @@ More recetly, it was found that changes in gene expression as a function of grow
 In \emph{E.coli}, the expression of catabolic and anabolic genes is coordinated with growth rate, and suggested to be mediated by cAMP \cite{Saldanha2004,You_2013,Peebo_2015}.
 
 In \emph{S.cerevisiae}, it was shown that most of the genome changes its expression levels in response to environmental conditions in a manner strongly correlated with growth rate \cite{Keren2013a,Brauer2008,Castrillo2007,Gerosa2013}.
-Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \cite{Gasch2000,Klumpp2009,Scott2010,Berthoumieux2013,Keren2013a,Gerosa2013,Valgepea2013,Hui_2015}.
+Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \cite{Gasch2000,Klumpp2009,Klumpp2014,Scott2010,Berthoumieux2013,Keren2013a,Gerosa2013,Valgepea2013,Hui_2015}.
 In \emph{E.coli}, this was mechanistically attributed to changes in the pool of RNA polymerase core and sigma factors \cite{Klumpp2008}.
 In \emph{S.cerevisiae}, it was suggested that differences in histone modifications around the replication origins \cite{Regenberg2006} or translation rates \cite{Brauer2008} across conditions may underlie the same phenomenon.
-Taken together, these studies suggest that the expression of all genes changes with growth rate, with different factors and architectures of regulatory networks yielding differences in the direction and magnitude of these changes \cite{Klumpp2009}. 
+Taken together, these studies suggest that the expression of all genes changes with growth rate, with different factors and architectures of regulatory networks yielding differences in the direction and magnitude of these changes \cite{Klumpp2009,Klumpp2014}. 
 
 Despite these advancements, our ability to predict expression levels across conditions remains limited.
 Here we present a parsimonious model that quantitatively predicts the relationship between protein abundance and specific growth rate in the absence of gene-specific changes in regulation.
@@ -363,7 +363,7 @@ We presented a parsimonious model connecting the fraction of proteins out of the
 The notion of intrinsic affinity for expression, first presented in \cite{Maaloe1969}, and rarely used ever since, was re-introduced as a key determinant for the differences in expression of different proteins under a given growth condition.
 The integration of the notion of intrinsic affinity for expression with the limited bio-synthesis capacity of cells was shown to result in a simple mechanism predicting increased fraction of many proteins with the growth rate, without assuming regulation by specific transcription factors for these proteins.
 
-The framework we present emphasizes the importance of accounting for global factors, that are reflected in the growth rate, when analyzing gene expression and proteomics data, as was noted before \cite{Maaloe1969,Brauer2008,Klumpp2009,Scott2010,Berthoumieux2013,Keren2013,Gerosa2013,Valgepea2013,Hui_2015,Peebo_2015,Wei_e_2015}.
+The framework we present emphasizes the importance of accounting for global factors, that are reflected in the growth rate, when analyzing gene expression and proteomics data, as was noted before \cite{Maaloe1969,Brauer2008,Klumpp2009,Klumpp2014,Scott2010,Berthoumieux2013,Keren2013,Gerosa2013,Valgepea2013,Hui_2015,Peebo_2015,Wei_e_2015}.
 Specifically, we suggest that the default response of a protein (that is, the change in the observed expression of a protein, given that no specific regulation was applied to it) is to linearly increase with growth rate.
 We point out that, as non-differentially regulated proteins maintain their relative abundances, one can deduce the parameters of the linear increase with growth rate of any non-differentially regulated protein by observing the scaling of other such proteins and fixing the ratio between the protein of interest and the reference proteins.
 
@@ -379,7 +379,7 @@ Specifically, for \emph{S.cerevisiae} a few recent studies found that the concen
 In principle, the model we suggest here can be applied to any exponentially growing population of cells and may thus also serve as a potential explanation for the phenomena observed in these studies and others.
 
 Other recently published studies in \emph{E.coli} have suggested different models and in some cases have results  and predictions that do not coincide with those presented in this study.
-Notably, in \cite{Klumpp2009} a decreased protein concentration for unregulated genes is predicted.
+Notably, in \cite{Klumpp2009,Klumpp2014} a decreased protein concentration for unregulated genes is predicted.
 A few differences can explain this seeming discrepancy.
 The modeling in \cite{Klumpp2009} relies on data collected under higher growth rates than those available in the data sets analyzed here.
 The predictions of the model are based on the deduced dependence of various bio-synthesis process rates and physiological properties of the cells on the growth rate, properties that are, in turn, used to calculate the expected protein concentration for unregulated proteins under the different growth rates.

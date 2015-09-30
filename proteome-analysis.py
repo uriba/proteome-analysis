@@ -172,6 +172,7 @@ def plotCorrelationHistograms(dbs,suffix):
             ps[(rand,db)].set_ylim(0,ylims[rand])
             ps[(rand,db)].set_xlim(-1,1)
             text(coords[db],0.931,"data from %s et. al.\n 2015" % db_name[db],fontsize=8,transform=p.transAxes)
+            text(coords[db],0.403,"shuffled data" ,fontsize=8,transform=p.transAxes)
 
     #assume both subplots have the same categories.
     handles,labels=ps[("",dbs[0])].get_legend_handles_labels()
