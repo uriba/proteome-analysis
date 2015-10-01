@@ -91,9 +91,10 @@
 
 \author{Uri Barenholz}
 \author{Leeat Keren}
+\author{Eran Segal}
 \author{Ron Milo}
 \affil{Weizmann Institute of Science}
-\date{\today}
+\date{\vspace{-5ex}}
 \bibliographystyle{plain}
 
 \begin{document}
@@ -309,15 +310,21 @@ We find that about a third of the proteins (\hGlobal{} out of \hTotal{} measured
 These values are much higher than those obtained for randomized data sets (\hGlobalShuff{} and \vGlobalShuff{} strongly positively correlated proteins for the two data sets, respectively, when the amounts of each protein are shuffled across conditions, Figure \ref{fig:growthcorr}, lower panels).
 Importantly, the proteins that we find to be strongly positively correlated with growth rate reach far beyond the previously discussed group of ribosomal proteins, are not generally expected to be co-regulated, and their behavior does not seem to be the result of any known transcription factor or regulation cluster response \cite{23203884}.
 
+The data set from \cite{Heinemann2015} contains two fast growth rate conditions (AA supplemented glycerol and LB feeding media).
+These conditions have growth rates of $1.27[h^{-1}]$ and $1.9[h^{-1}]$, compared with growth rates in the range $0.12-0.66$ for the other conditions.
+Under these conditions, with the increase in the growth rate, the expression of many genes is suppressed, as is predicted by our model.
+Panel C in Figure \ref{fig:growthcorr} shows the distribution of correlation with the growth rate when these two conditions are included in the analysis, revealing a reduction in the number of proteins that are strongly correlated with the growth rate from \hGlobal{} to \hGlobalLB{}.
+The data set from \cite{Heinemann2015} also contains two whole proteome measurements under stationary phase which are irrelevant for our analysis and were therefore ommitted.
+
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=1\columnwidth]{../GrowthRateCorrelation.pdf}
 \caption{\label{fig:growthcorr}
-A strong positive Pearson correlation between the fraction out of the proteome and the growth rate is observed for a large number of proteins in the two data sets analyzed (upper panels).
+A strong positive Pearson correlation between the fraction out of the proteome and the growth rate is observed for a large number of proteins in the two data sets analyzed (panels A and B).
+Including the two fast growth conditions from the data set in \cite{Heinemann2015} in the analysis reveals down regulation of many proteins under these conditions, as is predicted by our model, recducing the number of proteins that present a strong positive Pearson correlation with the growth rate (panel C).
 Thresholds used for high correlation are marked in dashed lines.
 Functional groups are denoted by different colors.
-Ribosomal genes are considered under ``genetic information processing''.
-Shuffling the amounts of every protein across conditions in the two data sets reveals the bias towards positive correlation with growth rate is a non-trivial feature of the data as is demonstrated in the lower panels.
+Shuffling the amounts of every protein across conditions reveals the bias towards positive correlation with growth rate is a non-trivial feature of the data as is demonstrated in panel D for the data set from \cite{Peebo_2015}.
 %
 }
 \end{center}
@@ -390,22 +397,10 @@ As the model in \cite{Klumpp2009} was only tested against a handful of proteins,
 The expected availability of increasing amounts of whole proteome data sets, with higher accuracy levels, will enable further investigation of the details of cellular resource distribution.
 With our model serving as a baseline, the analysis of such future data sets will shed more light on the relative roles of carefully tuned response mechanisms versus global, passive effects in shaping the proteome composition under different growth environments.
 
-\section{Materials and Methods}
-\subsubsection{Filtering out conditions from the Heinemann data set}
-\label{heinemanncond} 
-
-The \cite{Heinemann2015} data set contains proteomic data measurements under 22 different environmental conditions.
-However, our model assumes exponential growth, implying that measurements taken at stationary phase are expected to differ from simple extrapolation of the model to zero growth rate.
-Therefore, the two measurements of stationary phase proteomics were excluded from our analysis.
-
-Out of the conditions measured in the \cite{Heinemann2015} data set, two conditions included amino acids in the media and presented much faster growth rate than the rest of the conditions (growth in LB media and in glycerol supplemented with AA, with growth rates of $1.9[h^{-1}]$ and $1.27[h^{-1}]$ respectively, compared with a range of $0.12-0.66$ for the other conditions).
-This asymmetry in the distribution of growth rates caused inclusion of these conditions to dominate the analysis due to its effect on the skewness of the distribution of growth rates ($\gamma_1=-0.5$ for the growth rates excluding LB and AA supplemented glycerol vs. $\gamma_1=2.3$ with LB and AA supplemented glycerol) reducing the statistical power of the other conditions.
-While including the data on growth in these conditions does not qualitatively change the observed results, such analysis is much less statistically robust.
-We have therefore omitted growth in LB and in AA supplemented glycerol in the main analysis.
 
 \section{Acknowledgments}
 We kindly thank Matthias Heinemann for making proteomics data available before publication.
-We thank Uri Alon,  Eran Segal, Stephan Klumpp, Arren Bar Even, Avi Flamholz, Elad Noor, Kaspar Valgepea, Karl Peebo and Katja Tummler for fruitful discussions and enlightening comments on this work.
+We thank Uri Alon, Stephan Klumpp, Arren Bar Even, Avi Flamholz, Elad Noor, Kaspar Valgepea, Karl Peebo and Katja Tummler for fruitful discussions and enlightening comments on this work.
 This work was funded by the European Research Council (Project SYMPAC 260392); Dana and Yossie Hollander; Helmsley Charitable Foundation; Israel Ministry of Science; The Larson Charitable Foundation.
 R.M. is the Charles and Louise Gartner professional chair and an EMBO young investigator program member
 

@@ -175,11 +175,18 @@ def plotCorrelationHistograms(dbs,suffix):
           plot_corr_hist(ps[(rand,db)],db,conc_data,categories)
         ps[(rand,db)].set_ylim(0,ylims[rand])
         ps[(rand,db)].set_xlim(-1,1)
-        text(coords[db],0.938,"data from %s et. al. 2015" % db_name[db],fontsize=8,transform=p.transAxes)
+        if (rand,db) == ("",'Heinemann'):
+            text(coords[db]+0.02,0.938,"A",fontsize=10,transform=p.transAxes)
+            text(coords[db],0.898,"data from %s et. al. 2015" % db_name[db],fontsize=7,transform=p.transAxes)
+        if (rand,db) == ("",'Peebo'):
+            text(coords[db]+0.02,0.938,"B",fontsize=10,transform=p.transAxes)
+            text(coords[db],0.898,"data from %s et. al. 2015" % db_name[db],fontsize=7,transform=p.transAxes)
         if (rand,db) == ("",'HeinemannLB'):
-          text(coords[db],0.403,"data from %s et. al. 2015" % db_name[db],fontsize=8,transform=p.transAxes)
+          text(coords[db]+0.02,0.388,"C" ,fontsize=10,transform=p.transAxes)
+          text(coords[db],0.348,"data from %s et. al. 2015" % db_name[db],fontsize=7,transform=p.transAxes)
         if rand == 'shuffle':
-          text(coords[db],0.403,"shuffled data" ,fontsize=8,transform=p.transAxes)
+          text(coords[db]+0.02,0.388,"D" ,fontsize=10,transform=p.transAxes)
+          text(coords[db],0.348,"shuffled data" ,fontsize=7,transform=p.transAxes)
 
     #assume both subplots have the same categories.
     handles,labels=ps[("",dbs[0])].get_legend_handles_labels()
