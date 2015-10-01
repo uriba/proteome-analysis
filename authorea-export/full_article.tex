@@ -175,14 +175,12 @@ For example, given that an organism expresses 1000 genes across 10 different gro
 Our model proposes an underlying architecture that drastically reduces this amount of parameters, implying that cells control most of the composition of their proteome through fewer degrees of freedom than might be naively expected.
 
 The model separately considers the resulting fraction of every protein out of the proteome as the product of two control mechanisms: 
-\begin{enumerate}
-\item Protein/gene specific controls which only affect the individual protein under a given condition.
+(A) Protein/gene specific controls which only affect the individual protein under a given condition.
 These include the gene associated promoter affinity, 5'-UTRs, ribosomal binding site sequence, as well as the presence of transcription factors and riboswitches that react with the relevant gene.
 We note that while a given transcription factor may affect many genes, the presence or absence of its relevant binding sequence is gene specific, making this control mechanism gene specific in the context of our analysis.
   While some of these controls (such as the ribosomal binding sites) are static, and therefore condition independent, others are dynamic and will differ across different environmental conditions (such as transcription factors state, for genes that are affected by them).
-\item Global expression control based on the availability of bio-synthetic resources, including RNA polymerase, co-factors, ribosomes, amino-acids etc.
+(B) Global expression control based on the availability of bio-synthetic resources, including RNA polymerase, co-factors, ribosomes, amino-acids etc.
   All of these factors can potentially differ across different environmental conditions and no gene can avoid the consequences of changes in them.
-\end{enumerate}
 
 In the model, every gene is given an 'affinity-for-expression' (or 'intrinsic-affinity') score that encapsulates its tendency to attract the bio-synthetic machinery, as was first suggested in \cite{Maaloe1969}.
 This gene-specific value can in principle change across conditions but a key feature is that the gene intrinsic affinity tends to have the same value across many conditions.

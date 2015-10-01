@@ -138,7 +138,7 @@ def plot_corr_hist(p,db,conc_data,categories):
     if len(categories)>1:
       p.hist(sets,bins = bins, stacked = True,label=categories)
     else:
-      p.hist(conc_data.gr_cov,bins = bins,color='gray')
+      p.hist(conc_data.gr_cov,bins = bins,color='0.75')
     set_ticks(p,8)
     p.set_xlabel('Pearson correlation with growth rate',fontsize=8)
     p.set_ylabel('Number of proteins',fontsize=8)
@@ -192,7 +192,7 @@ def plotCorrelationHistograms(dbs,suffix):
     handles,labels=ps[("",dbs[0])].get_legend_handles_labels()
 
     tight_layout()
-    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
+    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.86,0.6,0.1),ncol=3)
 
     subplots_adjust(top=0.89)
     #fig = gcf()
@@ -993,8 +993,8 @@ model_effects_plot()
 analyzed_dbs = ['Heinemann','Peebo']
 special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
-for rand_method in ["simulated","shuffle",""]:
-#for rand_method in ["shuffle",""]:
+#for rand_method in ["simulated","shuffle",""]:
+for rand_method in ["shuffle",""]:
 #for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method
@@ -1016,7 +1016,8 @@ plotRibosomalVsGlobTrend(analyzed_dbs)
 plot_response_hist_graphs(analyzed_dbs)
 plotCorrelationHistograms(special_dbs,"")
 
-for rand_method in ["simulated","shuffle",""]:
+#for rand_method in ["simulated","shuffle",""]:
+for rand_method in ["shuffle",""]:
     plotGlobalResponse(analyzed_dbs,rand_method)
     #plotMultiStats('Valgepea')
     #plotComulativeGraph()
