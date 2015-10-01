@@ -21,9 +21,9 @@ random.seed(123456)
 #py.sign_in("uri.barenholz", "hvi3ma3m30")
 ### Results generation#####
 def get_limits(db):
-    if db == 'Heinemann' and not use_LB:
+    if db == 'Heinemann':
         limits = (0.25,1.)
-    if db == 'Heinemann' and use_LB:
+    if db == 'HeinemannLB':
         limits = (0.6,1.)
     if db == 'Valgepea':
         limits = (0.8,1.)
@@ -34,10 +34,10 @@ def get_limits(db):
     #return (-1.,-0.5)
 
 #Initialize global data structures
-dbs = ['Heinemann','Peebo','Valgepea']
+dbs = ['Heinemann','Peebo','HeinemannLB','Valgepea']
 datas = {}
 rand_prefix = ""
-db_name = { 'Heinemann':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo'}
+db_name = { 'Heinemann':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo','HeinemannLB':'Schmidt'}
 def init_datasets(rand_method):
     datas[rand_method] = {}
     for db in dbs:
@@ -83,7 +83,7 @@ def writeTopProtsVar(db):
     conc_data['vars']=conc_data_vars
     tot_vars = conc_data['vars'].sum()
     conc_data = conc_data.sort('avg',ascending=False)
-    if db == 'Heinemann':
+    if db == 'Heinemann' or db == 'HeinemannLB':
         conc_data['Temp']=conc_data['protName']
     high_abdc = conc_data.head(20)
     with open('%svarsOfAbdcs%s.csv' % (rand_method,db),'wb') as csvfile:
@@ -123,6 +123,7 @@ def writeTables():
 
 ### Figure 1 - Correlation to growth rate by functional group histogram.
 categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes','NotMapped']
+categories = ['Metabolism','Central Dogma','Other']
 def set_ticks(p,size):
     p.tick_params(axis='both', which='major', labelsize=size)
     p.tick_params(axis='both', which='minor', labelsize=size)
@@ -134,45 +135,51 @@ def plot_corr_hist(p,db,conc_data,categories):
 
     for x in categories:
         sets.append(conc_data[conc_data['group']==x].gr_cov)
-
-    p.hist(sets,bins = bins, stacked = True,label=categories)
-    handles,labels=p.get_legend_handles_labels()
+    if len(categories)>1:
+      p.hist(sets,bins = bins, stacked = True,label=categories)
+    else:
+      p.hist(conc_data.gr_cov,bins = bins,color='gray')
     set_ticks(p,8)
     p.set_xlabel('Pearson correlation with growth rate',fontsize=8)
     p.set_ylabel('Number of proteins',fontsize=8)
     for limit in get_limits(db):
         p.axvline(x=limit,ymin=0,ymax=250,ls='--',color='black',lw=0.5)
 
-    #legend(loc=2,prop={'size':8})
-    return handles,labels
-
 
 def plotCorrelationHistograms(dbs,suffix):
     figure(figsize=(5,5))
 
-    coords = {'Heinemann':0.01,'Peebo':0.63,'Valgepea':0.63}
+    coords = {'Heinemann':0.01,'HeinemannLB':0.01,'Peebo':0.63,'Valgepea':0.63}
     p=subplot(111)
     rands = [""]
     ps = {("",'Peebo'):subplot(122),("",'Valgepea'):subplot(122)}
     if(len(dbs)>1):
-        ps['Heinemann'] = subplot(121)
+        ps[("",'Heinemann')] = subplot(121)
         rands = ["","shuffle"]
         ps = {  ("",'Heinemann'):subplot(221),
+                ("",'HeinemannLB'):subplot(223),
                 ("",'Peebo'):subplot(222),
-                ("",'Valgepea'):subplot(222),
-                ("shuffle",'Heinemann'):subplot(223),
-                ("shuffle",'Peebo'):subplot(224),
-                ("shuffle",'Valgepea'):subplot(224)}
-    ylims = {"":160,"shuffle":250}
+                ("shuffle",'Peebo'):subplot(224)}
+    ylims = {"":210,"shuffle":210}
 
-    for rand in rands:
-        for db in dbs:
-            conds,gr,conc_data = datas[rand][db]
-            plot_corr_hist(ps[(rand,db)],db,conc_data,categories)
-            ps[(rand,db)].set_ylim(0,ylims[rand])
-            ps[(rand,db)].set_xlim(-1,1)
-            text(coords[db],0.931,"data from %s et. al.\n 2015" % db_name[db],fontsize=8,transform=p.transAxes)
-            text(coords[db],0.403,"shuffled data" ,fontsize=8,transform=p.transAxes)
+    for rand,db in [("",'Heinemann'), ("",'HeinemannLB'), ("",'Peebo'), ("shuffle",'Peebo')]:
+        conds,gr,conc_data = datas[rand][db]
+        conc_data = conc_data.replace({'group':{'Genetic Information Processing':'Central Dogma',
+                                                'Environmental Information Processing':'Other',
+                                                'Cellular Processes':'Other',
+                                                'NotMapped':'Other'}})
+        if rand == "shuffle":
+          conc_data['group'] = ""
+          plot_corr_hist(ps[(rand,db)],db,conc_data,[""])
+        else:
+          plot_corr_hist(ps[(rand,db)],db,conc_data,categories)
+        ps[(rand,db)].set_ylim(0,ylims[rand])
+        ps[(rand,db)].set_xlim(-1,1)
+        text(coords[db],0.938,"data from %s et. al. 2015" % db_name[db],fontsize=8,transform=p.transAxes)
+        if (rand,db) == ("",'HeinemannLB'):
+          text(coords[db],0.403,"data from %s et. al. 2015" % db_name[db],fontsize=8,transform=p.transAxes)
+        if rand == 'shuffle':
+          text(coords[db],0.403,"shuffled data" ,fontsize=8,transform=p.transAxes)
 
     #assume both subplots have the same categories.
     handles,labels=ps[("",dbs[0])].get_legend_handles_labels()
@@ -403,8 +410,7 @@ def plot_response_hist_graphs(dbs):
     
 def corr_andGR_plot(db,ref):
     suffix = 'Chem'
-    if db == "LB":
-        db = "Heinemann"
+    if db == "HeinemannLB":
         suffix = 'LB'
     rand = ''
     if db == 'Simulated':
@@ -978,6 +984,7 @@ def model_effects_plot():
 #init_datasets("")
 model_effects_plot()
 analyzed_dbs = ['Heinemann','Peebo']
+special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
 for rand_method in ["simulated","shuffle",""]:
 #for rand_method in ["shuffle",""]:
@@ -1000,7 +1007,7 @@ writeTables()
 plotRibosomal(analyzed_dbs)
 plotRibosomalVsGlobTrend(analyzed_dbs)
 plot_response_hist_graphs(analyzed_dbs)
-plotCorrelationHistograms(analyzed_dbs,"")
+plotCorrelationHistograms(special_dbs,"")
 
 for rand_method in ["simulated","shuffle",""]:
     plotGlobalResponse(analyzed_dbs,rand_method)
@@ -1011,7 +1018,5 @@ for rand_method in ["simulated","shuffle",""]:
     #variabilityAndGlobClustSlopesNormed(analyzed_dbs) #This is the generating function for the variability analysis
     #variablityComparisonHein()
 
-for db in ['Heinemann-chemo','LB']:
-    set_LB(db == "LB")
+for db in ['Heinemann-chemo','HeinemannLB']:
     corr_andGR_plot(db,'Peebo')
-set_LB(False)
