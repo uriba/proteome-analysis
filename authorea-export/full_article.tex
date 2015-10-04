@@ -312,11 +312,7 @@ In all subsequent analysis we have omitted four outlier conditions out of the $\
 Our model predicts that a large portion of the proteins should increase in fraction with the growth rate, as that is the expected change for proteins that are not specifically regulated between conditions.
 To test this prediction, we calculated the Pearson correlation of every protein with the growth rate (Figure \ref{fig:growthcorr}-A,B).
 We find that about a third of the proteins (\hGlobal{} out of \hTotal{} measured in the data set from \cite{Heinemann2015}, and \vGlobal{} out of \vTotal{} in the data set from \cite{Peebo_2015}) have a strong positive ($>0.5$) correlation with the growth rate.
-These values are much higher than those obtained for randomized data sets (\hGlobalShuff{} and \vGlobalShuff{} strongly positively correlated proteins for the two data sets, respectively, when the amounts of each protein are shuffled across conditions, Figure \ref{fig:growthcorr}D).
-We note that in this analysis we have omitted from \cite{Heinemann2015} the two conditions with the fastest growth rate, as their growth rates markedly differ from the rest (growth rates of $1.27[h^{-1}]$ and $1.9[h^{-1}]$, compared with growth rates in the range $0.12-0.66[h^{-1}]$ for the other \hConds{} conditions).
-Thus, their extreme values dominate the correlation.
-Incorporating these conditions moderately decreases the number of proteins that are strongly correlated with the growth rate (from \hGlobal{} to \hGlobalLB{}, Figure \ref{fig:growthcorr}C), as is predicted by our model for conditions in which most genes are actually supressed.
-The data set from \cite{Heinemann2015} also contains two whole proteome measurements under stationary phase which are irrelevant for our analysis and were therefore ommitted.
+These values are much higher than those obtained for randomized data sets (\hGlobalShuff{} and \vGlobalShuff{} strongly positively correlated proteins for the two data sets, respectively, when the amounts of each protein are shuffled across conditions, Figure \ref{fig:growthcorr}C).
 Importantly, the proteins that we find to be strongly positively correlated with growth rate reach far beyond the previously discussed group of ribosomal proteins, are not generally expected to be co-regulated, and their behavior does not seem to be the result of any known transcription factor or regulation cluster response \cite{23203884}.
 
 \begin{figure}[H]
@@ -327,8 +323,7 @@ A strong positive Pearson correlation between the fraction out of the proteome a
 (A-B) Shown are histograms displaying the correlations of all proteins to growth rate in the data from \cite{Heinemann2015} (A) and \cite{Peebo_2015} (B).
 Functional protein groups are denoted by different colors.
 Threshold defining high correlation is marked by a dashed line.
-(C) Including the two fast growth conditions from the data set in \cite{Heinemann2015} in the analysis reveals down regulation of many proteins under these conditions, as is predicted by our model, recducing the number of proteins that present a strong positive Pearson correlation with the growth rate.
-(D) Shuffling the amounts of every protein across conditions for the data set from \cite{Peebo_2015} reveals the bias towards positive correlation with growth rate is non-trivial.
+(C) Shuffling the amounts of every protein across conditions for the data set from \cite{Peebo_2015} reveals the bias towards positive correlation with growth rate is non-trivial.
 %
 }
 \end{center}
@@ -344,14 +339,14 @@ In order to examine how similar the behavior with growth rate is for the group o
 This normalization procedure elucidates how the amount of each protein scales across different conditions, relative to its mean fraction out of the proteome.
 We find that the slopes of $\approx \frac{2}{3}$ of the proteins lie in the range $(0.5,2)$.
 Given the calculated noise in each data set, this result is consistent with what we expect of proteins that share a single, identical slope, for the data set from \cite{Heinemann2015}.
-For  the data from \cite{Peebo_2015} the expected distribution should be narrower.
+For the data from \cite{Peebo_2015} the expected distribution should be narrower \cite{BioArXiVver}.
 
 Our results support the notion that a large number of proteins maintain their relative concentrations across different growth conditions and thus extend the scope of similar results obtained for \emph{S.cerevisiae} in \cite{Keren2013a} and for expression levels in \emph{E.coli} under stress conditions \cite{Kaneko2014}.
 In contrast to other approaches, our model suggests a mechanism for this coordinated expression changes that is not based on shared transcription factors but rather is a result of passive redistribution of resources.
 
 To assess the significance of the positive correlation of proteins with growth rate, out of the total change in proteome composition across conditions, we summed the fractions of all of the proteins that are strongly correlated with growth rate across the conditions measured and plotted their total fraction against the growth rate in Figure \ref{fig:globalgrcorr}.
 Both data sets show that the fraction of these proteins change $\approx 2$ fold across a $\approx 5$ fold change in the growth rate under the different growth conditions.
-This change is smaller than the $1:1$ change predicted by our basic model and the deviations may partly result from the effects of degradation and varying biosyntheis rates.
+This change is smaller than the $1:1$ change predicted by our basic model and the deviations may partly result from the effects of degradation and varying biosyntheis rates discussed above.
 Most of the variability of the total fraction of these proteins can be explained by the growth rate ($R^2$ of $\hGlobalSumRsq$ in the data set from \cite{Heinemann2015} and $\vGlobalSumRsq$ in the data set from \cite{Peebo_2015}). 
 Importantly, the strongly correlated proteins form a large fraction of the proteome, exceeding $50\%$ of the proteome by weight, at the higher growth rates.
 

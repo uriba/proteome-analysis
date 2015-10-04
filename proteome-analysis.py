@@ -34,7 +34,8 @@ def get_limits(db):
     #return (-1.,-0.5)
 
 #Initialize global data structures
-dbs = ['Heinemann','Peebo','HeinemannLB','Valgepea']
+#dbs = ['Heinemann','Peebo','HeinemannLB','Valgepea']
+dbs = ['Heinemann','Peebo']
 datas = {}
 rand_prefix = ""
 db_name = { 'Heinemann':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo','HeinemannLB':'Schmidt'}
@@ -147,22 +148,21 @@ def plot_corr_hist(p,db,conc_data,categories):
 
 
 def plotCorrelationHistograms(dbs,suffix):
-    figure(figsize=(5,5))
+    figure(figsize=(6,2.6))
 
     coords = {'Heinemann':0.01,'HeinemannLB':0.01,'Peebo':0.63,'Valgepea':0.63}
     p=subplot(111)
-    rands = [""]
-    ps = {("",'Peebo'):subplot(122),("",'Valgepea'):subplot(122)}
+    ps = {("",'Peebo'):subplot(132),("",'Valgepea'):subplot(122)}
     if(len(dbs)>1):
-        ps[("",'Heinemann')] = subplot(121)
-        rands = ["","shuffle"]
-        ps = {  ("",'Heinemann'):subplot(221),
-                ("",'HeinemannLB'):subplot(223),
-                ("",'Peebo'):subplot(222),
-                ("shuffle",'Peebo'):subplot(224)}
-    ylims = {"":210,"shuffle":210}
+        ps = {  ("",'Heinemann'):subplot(131),
+                ("",'Peebo'):subplot(132),
+                ("shuffle",'Peebo'):subplot(133)}
+        horiz = {   ("",'Heinemann'):-0.027,
+                    ("",'Peebo'):0.392,
+                    ("shuffle",'Peebo'):0.81}
+    ylims = {"":220,"shuffle":220}
 
-    for rand,db in [("",'Heinemann'), ("",'HeinemannLB'), ("",'Peebo'), ("shuffle",'Peebo')]:
+    for rand,db in [("",'Heinemann'), ("",'Peebo'), ("shuffle",'Peebo')]:
         conds,gr,conc_data = datas[rand][db]
         conc_data = conc_data.replace({'group':{'Genetic Information Processing':'Central Dogma',
                                                 'Environmental Information Processing':'Other',
@@ -172,21 +172,18 @@ def plotCorrelationHistograms(dbs,suffix):
           conc_data['group'] = ""
           plot_corr_hist(ps[(rand,db)],db,conc_data,[""])
         else:
-          plot_corr_hist(ps[(rand,db)],db,conc_data,categories)
+            plot_corr_hist(ps[(rand,db)],db,conc_data,categories)
         ps[(rand,db)].set_ylim(0,ylims[rand])
         ps[(rand,db)].set_xlim(-1,1)
         if (rand,db) == ("",'Heinemann'):
-            text(coords[db]+0.02,0.938,"A",fontsize=10,transform=p.transAxes)
-            text(coords[db],0.898,"data from %s et. al. 2015" % db_name[db],fontsize=7,transform=p.transAxes)
+            text(horiz[(rand,db)]+0.02,0.9,"A",fontsize=10,transform=p.transAxes)
+            text(horiz[(rand,db)],0.86,"data from %s et. al. 2015" % db_name[db],fontsize=6,transform=p.transAxes)
         if (rand,db) == ("",'Peebo'):
-            text(coords[db]+0.02,0.938,"B",fontsize=10,transform=p.transAxes)
-            text(coords[db],0.898,"data from %s et. al. 2015" % db_name[db],fontsize=7,transform=p.transAxes)
-        if (rand,db) == ("",'HeinemannLB'):
-          text(coords[db]+0.02,0.388,"C" ,fontsize=10,transform=p.transAxes)
-          text(coords[db],0.348,"data from %s et. al. 2015" % db_name[db],fontsize=7,transform=p.transAxes)
+            text(horiz[(rand,db)]+0.02,0.9,"B",fontsize=10,transform=p.transAxes)
+            text(horiz[(rand,db)],0.86,"data from %s et. al. 2015" % db_name[db],fontsize=6,transform=p.transAxes)
         if rand == 'shuffle':
-          text(coords[db]+0.02,0.388,"D" ,fontsize=10,transform=p.transAxes)
-          text(coords[db],0.348,"shuffled data" ,fontsize=7,transform=p.transAxes)
+          text(horiz[(rand,db)]+0.02,0.9,"C" ,fontsize=10,transform=p.transAxes)
+          text(horiz[(rand,db)],0.86,"shuffled data" ,fontsize=6,transform=p.transAxes)
 
     #assume both subplots have the same categories.
     handles,labels=ps[("",dbs[0])].get_legend_handles_labels()
@@ -194,7 +191,7 @@ def plotCorrelationHistograms(dbs,suffix):
     tight_layout()
     figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.86,0.6,0.1),ncol=3)
 
-    subplots_adjust(top=0.89)
+    subplots_adjust(top=0.87)
     #fig = gcf()
     #py.plot_mpl(fig,filename="Growth rate Correlation histograms")
     savefig('%sGrowthRateCorrelation%s.pdf' % (rand_prefix,suffix))
@@ -1014,7 +1011,7 @@ writeTables()
 plotRibosomal(analyzed_dbs)
 plotRibosomalVsGlobTrend(analyzed_dbs)
 plot_response_hist_graphs(analyzed_dbs)
-plotCorrelationHistograms(special_dbs,"")
+plotCorrelationHistograms(analyzed_dbs,"")
 
 #for rand_method in ["simulated","shuffle",""]:
 for rand_method in ["shuffle",""]:
@@ -1026,5 +1023,5 @@ for rand_method in ["shuffle",""]:
     #variabilityAndGlobClustSlopesNormed(analyzed_dbs) #This is the generating function for the variability analysis
     #variablityComparisonHein()
 
-for db in ['Heinemann-chemo','HeinemannLB']:
-    corr_andGR_plot(db,'Peebo')
+#for db in ['Heinemann-chemo','HeinemannLB']:
+#    corr_andGR_plot(db,'Peebo')
