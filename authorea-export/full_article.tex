@@ -6,6 +6,11 @@
 \usepackage{authblk}
 \usepackage{url}
 \usepackage[nomessages]{fp}
+%%%%%
+%%\usepackage[sorting=none,firstinits=true,isbn=false,url=false,doi=false,eprint=false,maxbibnames=4]{biblatex}
+%%\renewbibmacro{in:}{}
+%%\bibliography{converted_to_latex}
+%%%%
 \newcommand{\hConds}{$20$}
 \newcommand{\hCondsLBnum}{22}
 \newcommand{\hCondsLB}{$\hCondsLBnum$}
@@ -103,7 +108,7 @@
 \author{Ron Milo}
 \affil{Weizmann Institute of Science}
 \date{\vspace{-5ex}}
-\bibliographystyle{plain}
+\bibliographystyle{bioessays}
 
 \begin{document}
 
@@ -307,7 +312,7 @@ Similarly, lower synthesis rates under slower growth rates \cite{Bremer1987} wil
 Our theoretical model predicts that the fraction of many proteins proportionally and coordinately scales up with the specific growth rate across different growth conditions.
 To assess the extent to which this prediction is reflected in actual proteome compositions, we present analysis of two published proteomics data sets of \emph{E.coli}, \cite{Peebo_2015} and \cite{Heinemann2015}.
 These data sets use mass spectrometry to evaluate the proteomic composition of \emph{E.coli} under $\totConds$ different growth conditions, spanning both different carbon sources and chemostat-controlled growth rates.
-In all subsequent analysis we have omitted four outlier conditions out of the $\tothConds$ in \cite{Heinemann2015} as discussed in \cite{BioArXiVver}.
+In all subsequent analysis we have omitted four outlier conditions out of the $\tothConds$ in \cite{Heinemann2015} as discussed in \cite{Barenholz2015}.
 
 Our model predicts that a large portion of the proteins should increase in fraction with the growth rate, as that is the expected change for proteins that are not specifically regulated between conditions.
 To test this prediction, we calculated the Pearson correlation of every protein with the growth rate (Figure \ref{fig:growthcorr}-A,B).
@@ -339,7 +344,7 @@ In order to examine how similar the behavior with growth rate is for the group o
 This normalization procedure elucidates how the amount of each protein scales across different conditions, relative to its mean fraction out of the proteome.
 We find that the slopes of $\approx \frac{2}{3}$ of the proteins lie in the range $(0.5,2)$.
 Given the calculated noise in each data set, this result is consistent with what we expect of proteins that share a single, identical slope, for the data set from \cite{Heinemann2015}.
-For the data from \cite{Peebo_2015} the expected distribution should be narrower \cite{BioArXiVver}.
+For the data from \cite{Peebo_2015} the expected distribution should be narrower \cite{Barenholz2015}.
 
 Our results support the notion that a large number of proteins maintain their relative concentrations across different growth conditions and thus extend the scope of similar results obtained for \emph{S.cerevisiae} in \cite{Keren2013a} and for expression levels in \emph{E.coli} under stress conditions \cite{Kaneko2014}.
 In contrast to other approaches, our model suggests a mechanism for this coordinated expression changes that is not based on shared transcription factors but rather is a result of passive redistribution of resources.
@@ -404,6 +409,6 @@ We thank Uri Alon, Stephan Klumpp, Arren Bar Even, Avi Flamholz, Elad Noor, Kasp
 This work was funded by the European Research Council (Project SYMPAC 260392); Dana and Yossie Hollander; Helmsley Charitable Foundation; Israel Ministry of Science; The Larson Charitable Foundation.
 R.M. is the Charles and Louise Gartner professional chair and an EMBO young investigator program member
 
-\bibliography{converted_to_latex.bib}
+\bibliography{converted_to_latex}
 \end{document}
 
