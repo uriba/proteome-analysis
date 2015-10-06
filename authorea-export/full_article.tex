@@ -131,9 +131,9 @@ The search for underlying mechanisms in \emph{E.coli} yielded several candidates
 More recently, it was found that changes in gene expression as a function of growth rate are not limited to ribosomal genes.
 In \emph{E.coli}, the expression of catabolic and anabolic genes is coordinated with growth rate, and suggested to be mediated by cAMP \cite{Saldanha2004,You_2013,Peebo_2015}.
 
-In \emph{S.cerevisiae}, it was shown that most of the genome changes its expression levels in response to environmental conditions in a manner strongly correlated with growth rate \cite{Keren2013a,Brauer2008,Castrillo2007,Gerosa2013}.
+In \emph{S.cerevisiae}, it was shown that most of the genome changes its expression levels in response to environmental conditions in a manner strongly correlated with growth rate \cite{Keren2013,Brauer2008,Castrillo2007,Gerosa2013}.
 Recently we have shown that gene expression noise is also coupled to growth rate \cite{Keren2015}.
-Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \cite{Gasch2000,Klumpp2009,Klumpp2014,Scott2010,Berthoumieux2013,Keren2013a,Gerosa2013,Valgepea2013,Hui_2015}.
+Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \cite{Gasch2000,Klumpp2009,Klumpp2014,Scott2010,Berthoumieux2013,Keren2013,Gerosa2013,Valgepea2013,Hui_2015}.
 In \emph{E.coli}, this was mechanistically attributed to changes in the pool of RNA polymerase core and sigma factors \cite{Klumpp2008}.
 In \emph{S.cerevisiae}, it was suggested that differences in histone modifications around the replication origins \cite{Regenberg2006} or translation rates \cite{Brauer2008} across conditions may underlie the same phenomenon.
 Taken together, these studies suggest that the expression of all genes changes with growth rate, with different factors and architectures of regulatory networks yielding differences in the direction and magnitude of these changes \cite{Klumpp2009,Klumpp2014}. 
@@ -220,7 +220,7 @@ This equation emphasizes that the observed fraction of a protein is determined b
 
 For simplicity, the model refers to the fraction of each specific protein in the proteome and not to the protein concentration.
 The corresponding concentration in the biomass can be calculated using the concentration of total protein in the biomass.
-In \emph{E.coli}, this concentration is known to slightly decrease in a linear manner with the specific growth rate \cite{Bremer1987,Valgepea2013,Scott2014}.
+In \emph{E.coli}, this concentration is known to slightly decrease in a linear manner with the specific growth rate \cite{bremer1987,Valgepea2013,Scott2014}.
 
 \subsection{A change in growth condition triggers changes in expression of specific proteins that indirectly affect the whole proteome}
 Different environmental conditions require the expression of different genes.
@@ -248,7 +248,7 @@ If the bio-synthetic machinery is only half of the proteome, the doubling time w
 
 To integrate the notion of total protein to bio-synthetic protein ratio into our model, we make the following simplifying assumption:
 There is a group of bio-synthetic genes (e.g. genes of the transcriptional and translational machineries) the affinities of which remain constant across different growth conditions, that is, these genes are not actively differentially regulated across different conditions.
-Furthermore, we assume that the machineries these genes are involved in, operate at relatively constant rates and active to non-active ratios across conditions, as has been shown for ribosomes \cite{Bremer1987}.
+Furthermore, we assume that the machineries these genes are involved in, operate at relatively constant rates and active to non-active ratios across conditions, as has been shown for ribosomes \cite{bremer1987}.
 
 Formally, we define the group of bio-synthesis genes, $G_B$, such that, for every gene that belongs to this group, $k \in G_B$, its affinity, $w_k(c)$ is constant regardless of the condition, $c$.
 \begin{equation}
@@ -305,7 +305,7 @@ If we denote by $\alpha$ the degradation rate, Equation \ref{eq:final-conc} shou
 This equation predicts linear dependence of the fraction of unregulated proteins on the growth rate, with an intercept with the horizontal axis occurring at minus the degradation rate.
 Thus, at zero growth rate, the fraction of non-differentially regulated proteins out of the proteome is positive, equalling $Aw_i(c)\alpha$.
 
-Similarly, lower synthesis rates under slower growth rates \cite{Bremer1987} will be reflected by a lower slope and higher interception point for non-regulated proteins than those predicted by the constant-rate version of the model.
+Similarly, lower synthesis rates under slower growth rates \cite{bremer1987} will be reflected by a lower slope and higher interception point for non-regulated proteins than those predicted by the constant-rate version of the model.
 
 \subsection{A large fraction of the proteome is positively correlated with growth rate}
 
@@ -346,7 +346,7 @@ We find that the slopes of $\approx \frac{2}{3}$ of the proteins lie in the rang
 Given the calculated noise in each data set, this result is consistent with what we expect of proteins that share a single, identical slope, for the data set from \cite{Heinemann2015}.
 For the data from \cite{Peebo_2015} the expected distribution should be narrower \cite{Barenholz2015}.
 
-Our results support the notion that a large number of proteins maintain their relative concentrations across different growth conditions and thus extend the scope of similar results obtained for \emph{S.cerevisiae} in \cite{Keren2013a} and for expression levels in \emph{E.coli} under stress conditions \cite{Kaneko2014}.
+Our results support the notion that a large number of proteins maintain their relative concentrations across different growth conditions and thus extend the scope of similar results obtained for \emph{S.cerevisiae} in \cite{Keren2013} and for expression levels in \emph{E.coli} under stress conditions \cite{Kaneko2014}.
 In contrast to other approaches, our model suggests a mechanism for this coordinated expression changes that is not based on shared transcription factors but rather is a result of passive redistribution of resources.
 
 To assess the significance of the positive correlation of proteins with growth rate, out of the total change in proteome composition across conditions, we summed the fractions of all of the proteins that are strongly correlated with growth rate across the conditions measured and plotted their total fraction against the growth rate in Figure \ref{fig:globalgrcorr}.
@@ -387,7 +387,7 @@ Furthermore, such mechanisms may be crucial for synchronizing the amount of rRNA
 Nevertheless, the fact that many non-ribosomal proteins share the same response as ribosomal proteins do, poses interesting questions regarding the scope of such control mechanisms, their necessity and the trade-offs involved in their deployment.
 
 The findings in this study support and broaden the findings in other recent studies.
-Specifically, for \emph{S.cerevisiae} a few recent studies found that the concentration of the majority of the proteins is coordinated across conditions and increases with growth rate \cite{Keren2013a,Gasch2000,Brauer2008a}.
+Specifically, for \emph{S.cerevisiae} a few recent studies found that the concentration of the majority of the proteins is coordinated across conditions and increases with growth rate \cite{Keren2013,Gasch2000,Brauer2008a}.
 In principle, the model we suggest here can be applied to any exponentially growing population of cells and may thus also serve as a potential explanation for the phenomena observed in these studies and others.
 
 Other recently published studies in \emph{E.coli} have suggested different models and in some cases have results  and predictions that do not coincide with those presented in this study.
