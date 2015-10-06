@@ -11,31 +11,6 @@ seed(123456)
 remove_unmapped = False
 just_ribosomes = False
 use_LB = False
-
-def set_LB(x):
-    if x:
-        cond_list_dict['Heinemann'].append(u'Glycerol + AA')
-        cond_list_dict['Heinemann'].append(u'LB')
-    else:
-        cond_list_dict['Heinemann']=[
-             u'Chemostat mu=0.12',
-             u'Chemostat mu=0.20',
-             u'Galactose', 
-             u'Acetate', 
-             u'Chemostat mu=0.35',
-             u'Pyruvate',
-             u'Fumarate', 
-             u'Succinate',
-             u'Glucosamine', 
-             u'Glycerol',
-             u'Mannose',
-             u'Chemostat mu=0.5',
-             u'Xylose',
-             u'Osmotic-stress glucose',
-             u'Glucose',
-             u'pH6 glucose',
-             u'Fructose',
-             u'42C glucose']
                       #u'chemostat \u00b5=0.12', u'galactose',
                       #u'chemostat \u00b5=0.20', u'acetate',
                       #u'chemostat \u00b5=0.35', u'glucosamine',
@@ -43,9 +18,7 @@ def set_LB(x):
                       #u'succinate',
                       #u'chemostat \u00b5=0.5', u'pH 6',
                       #u'anaerobic', u'glucose', u'50 mM NaCl']
-    use_LB = x
-
-id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC','Peebo':'B number identifier' }
+id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC', 'HeinemannLB':u'UP_AC','Peebo':'B number identifier' }
 db_used = 'Valgepea'
 avg_conc_threshold = 0.00001
 
@@ -88,7 +61,7 @@ def uni_ko_dict():
     uni_konum_dict = {}
     uni_to_konum = read_csv('eco_uniprot_mapping.csv',sep='[\t:]',encoding='iso-8859-1',header = None, names = ['ko','bla','uniprot'])
     for i,row in uni_to_konum.iterrows():
-         uni_konum_dict[row['uniprot']]=row['ko']    
+         uni_konum_dict[row['uniprot']]=row['ko']
     return uni_konum_dict
 
 
@@ -146,13 +119,32 @@ cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
                   'Heinemann':[
     u'Chemostat mu=0.12',
      u'Chemostat mu=0.20',
-     u'Galactose', 
-     u'Acetate', 
+     u'Galactose',
+     u'Acetate',
      u'Chemostat mu=0.35',
      u'Pyruvate',
-     u'Fumarate', 
+     u'Fumarate',
      u'Succinate',
-     u'Glucosamine', 
+     u'Glucosamine',
+     u'Glycerol',
+     u'Mannose',
+     u'Chemostat mu=0.5',
+     u'Xylose',
+     u'Osmotic-stress glucose',
+     u'Glucose',
+     u'pH6 glucose',
+     u'Fructose',
+     u'42C glucose'],
+                  'HeinemannLB':[
+    u'Chemostat mu=0.12',
+     u'Chemostat mu=0.20',
+     u'Galactose',
+     u'Acetate',
+     u'Chemostat mu=0.35',
+     u'Pyruvate',
+     u'Fumarate',
+     u'Succinate',
+     u'Glucosamine',
      u'Glycerol',
      u'Mannose',
      u'Chemostat mu=0.5',
@@ -162,8 +154,8 @@ cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
      u'pH6 glucose',
      u'Fructose',
      u'42C glucose',
-#     u'Glycerol + AA',
-#     u'LB'
+     u'Glycerol + AA',
+     u'LB'
      ],
                   #'Heinemann':[
                   #    u'chemostat \u00b5=0.12', u'galactose',
@@ -191,22 +183,38 @@ cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
                                 u'0.63.1', u'0.73.1',
                                 u'0.78.1']
                       }
-if use_LB:
-    cond_list_dict['Heinemann'].append(u'Glycerol + AA')
-    cond_list_dict['Heinemann'].append(u'LB')
-
 gr_dict = {'Valgepea':
     {u'11': 0.11, u'21':0.21, u'31':0.31, u'40':0.4, u'48':0.48},
            'Heinemann':
     {u'Chemostat mu=0.12': 0.12,
      u'Chemostat mu=0.20':0.2,
-     u'Galactose':0.26, 
-     u'Acetate':0.3, 
+     u'Galactose':0.26,
+     u'Acetate':0.3,
      u'Chemostat mu=0.35':0.35,
      u'Pyruvate':0.4,
-     u'Fumarate':0.42, 
+     u'Fumarate':0.42,
      u'Succinate':0.44,
-     u'Glucosamine':0.46, 
+     u'Glucosamine':0.46,
+     u'Glycerol':0.47,
+     u'Mannose':0.47,
+     u'Chemostat mu=0.5':0.5,
+     u'Xylose':0.55,
+     u'Osmotic-stress glucose':0.55,
+     u'Glucose': 0.58,
+     u'pH6 glucose':0.63,
+     u'Fructose':0.65,
+     u'42C glucose':0.66,
+     },
+           'HeinemannLB':
+    {u'Chemostat mu=0.12': 0.12,
+     u'Chemostat mu=0.20':0.2,
+     u'Galactose':0.26,
+     u'Acetate':0.3,
+     u'Chemostat mu=0.35':0.35,
+     u'Pyruvate':0.4,
+     u'Fumarate':0.42,
+     u'Succinate':0.44,
+     u'Glucosamine':0.46,
      u'Glycerol':0.47,
      u'Mannose':0.47,
      u'Chemostat mu=0.5':0.5,
@@ -219,11 +227,11 @@ gr_dict = {'Valgepea':
      u'Glycerol + AA':1.27,
      u'LB':1.9,
      },
-    #{u'chemostat \u00b5=0.12': 0.12, u'galactose':0.17, 
-    # u'chemostat \u00b5=0.20':0.2, u'acetate':0.29, 
-    # u'chemostat \u00b5=0.35':0.35, u'glucosamine':0.39, 
-    # u'pyruvate':0.4, u'glycerol':0.47, u'fumarate':0.47, 
-    # u'succinate':0.49, u'chemostat \u00b5=0.5':0.5, u'pH 6':0.5, 
+    #{u'chemostat \u00b5=0.12': 0.12, u'galactose':0.17,
+    # u'chemostat \u00b5=0.20':0.2, u'acetate':0.29,
+    # u'chemostat \u00b5=0.35':0.35, u'glucosamine':0.39,
+    # u'pyruvate':0.4, u'glycerol':0.47, u'fumarate':0.47,
+    # u'succinate':0.49, u'chemostat \u00b5=0.5':0.5, u'pH 6':0.5,
     # u'anaerobic' : 0.55, u'glucose': 0.6, u'50 mM NaCl':0.65, u'LB':1.61},
      'Peebo': { u'0.21.1':0.21, u'0.31.1':0.31,
                     u'0.41.1':0.41, u'0.51.2':0.51,
@@ -244,7 +252,7 @@ def get_coli_data(db_used,use_weight,rand):
     cond_list = cond_list_dict[db_used]
     if db_used == 'Heinemann-chemo':
         db_used = 'Heinemann'
-    if db_used == 'Heinemann':
+    if db_used == 'Heinemann' or db_used == 'HeinemannLB':
         # As the file was exported from Excel, it uses Excel's encoding.
         ecoli_data = read_csv('matthias2.csv',header=1,encoding='iso-8859-1')
        # ecoli_data = read_csv('coli_data.csv',header=1,encoding='iso-8859-1')
@@ -255,10 +263,10 @@ def get_coli_data(db_used,use_weight,rand):
         ecoli_data_count = ecoli_data[count_cond]
 
         #duplicate headers are modified by read_csv and include a trailing '.1' string in their name.
-        weight_cond = desc_list+[x+'.1' for x in cond_list] 
+        weight_cond = desc_list+[x+'.1' for x in cond_list]
         ecoli_data_weight = ecoli_data[weight_cond]
 
-        cv_cond = desc_list+[x+'.2' for x in cond_list] 
+        cv_cond = desc_list+[x+'.2' for x in cond_list]
         ecoli_data_cv = ecoli_data[cv_cond]
         #rename the columns to remove the trailing '.1'
         ecoli_data_weight.columns = count_cond
@@ -287,12 +295,12 @@ def get_coli_data(db_used,use_weight,rand):
             y = ecoli_data[cond_list].loc[i]
             shuffle(y)
             ecoli_data.loc[i,cond_list] = y
-    #Normalize to get concentrations 
+    #Normalize to get concentrations
     ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
     #remove scarce proteins
     if db_used == 'Peebo':
         ecoli_data = ecoli_data[ecoli_data[cond_list].mean(axis=1)>avg_conc_threshold]
-    if db_used == 'Heinemann':
+    if db_used == 'Heinemann' or db_used == 'HeinemannLB':
         dropping = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)>20.0][cond_list].sum().mean()
         keeping = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)<20.0][cond_list].sum().mean()
         plottemp = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)>0]
@@ -347,7 +355,7 @@ def get_annotated_prots(db,rand):
     if db == 'Heinemann-chemo':
         db = 'Heinemann'
     #annotate coli_data according to db.
-    if db == 'Heinemann':
+    if db == 'Heinemann' or db == 'HeinemannLB':
         ##uni_to_konum = uni_ko_dict()
         uniprot_to_locus,uniprot_to_name = uni_to_locus()
         x=0
@@ -402,6 +410,6 @@ def calc_gr_corr(df,cond_list,gr):
     return df
 
 def add_loc_info(df):
-    if db_used == 'Heinemann':
+    if db_used == 'Heinemann' or db_used == 'HeinemannLB':
         uni_to_loc = uniprot_to_offset()
         conc_data['loc']=conc_data.apply(lambda x: 0 if x[id_col_dict[db_used]] not in uni_to_loc else uni_to_loc[x[id_col_dict[db_used]]],axis=1)

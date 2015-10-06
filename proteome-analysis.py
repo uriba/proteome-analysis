@@ -21,9 +21,9 @@ random.seed(123456)
 #py.sign_in("uri.barenholz", "hvi3ma3m30")
 ### Results generation#####
 def get_limits(db):
-    if db == 'Heinemann' and not use_LB:
+    if db == 'Heinemann':
         limits = (0.25,1.)
-    if db == 'Heinemann' and use_LB:
+    if db == 'HeinemannLB':
         limits = (0.6,1.)
     if db == 'Valgepea':
         limits = (0.8,1.)
@@ -34,10 +34,10 @@ def get_limits(db):
     #return (-1.,-0.5)
 
 #Initialize global data structures
-dbs = ['Heinemann','Peebo','Valgepea']
+dbs = ['Heinemann','HeinemannLB','Peebo','Valgepea']
 datas = {}
 rand_prefix = ""
-db_name = { 'Heinemann':'Heinemann','Valgepea':'Valgepea','Peebo':'Peebo'}
+db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo'}
 def init_datasets(rand_method):
     datas[rand_method] = {}
     for db in dbs:
@@ -48,7 +48,7 @@ def init_datasets(rand_method):
         coli_data = calc_gr_corr(coli_data,conds,gr)
         CV = (coli_data['std']/coli_data['avg']).mean()
         datas[rand_method][db] = (conds,gr,coli_data)
-        print "%s CV: %f" % (db,CV)
+        print "in %s, %s CV: %f" % (rand_method,db,CV)
 
 #ecoli_data_h = ecoli_data_h[ecoli_data_h['prot']=='Ribosome']
 #ecoli_data_v = ecoli_data_v[ecoli_data_v['prot']=='Ribosome']
@@ -83,7 +83,7 @@ def writeTopProtsVar(db):
     conc_data['vars']=conc_data_vars
     tot_vars = conc_data['vars'].sum()
     conc_data = conc_data.sort('avg',ascending=False)
-    if db == 'Heinemann':
+    if db == 'Heinemann' or db == 'HeinemannLB':
         conc_data['Temp']=conc_data['protName']
     high_abdc = conc_data.head(20)
     with open('%svarsOfAbdcs%s.csv' % (rand_method,db),'wb') as csvfile:
@@ -143,8 +143,6 @@ def plot_corr_hist(p,db,conc_data,categories):
     for limit in get_limits(db):
         p.axvline(x=limit,ymin=0,ymax=250,ls='--',color='black',lw=0.5)
 
-    #legend(loc=2,prop={'size':8})
-    return handles,labels
 
 
 def plotCorrelationHistograms(dbs,suffix):
@@ -254,12 +252,12 @@ def plotGlobalResponse(dbs,rand_method):
         figure(figsize=(5,3))
         for db in dbs:
             print db_name
-            plot(globalResponse[""][db]['gr'],globalResponse[""][db]['dots'],'o',label=("data from %s et. al, $R^2$=%.2f" % (db_name[db],globalResponse[""][db]['Rsq'])),color=colors[db])
+            plot(globalResponse[""][db]['gr'],globalResponse[""][db]['dots'],'o',label=("data from %s et. al, 2015 ($R^2$=%.2f)" % (db_name[db],globalResponse[""][db]['Rsq'])),color=colors[db])
             plot(globalResponse[""][db]['gr'],globalResponse[""][db]['line'],color=colors[db])
-            plot(globalResponse["shuffle"][db]['gr'],globalResponse["shuffle"][db]['dots'],linestyle='None',marker="o",markerfacecolor='none',markeredgecolor=colors[db],label=("%s, shuffled" % db_name[db]))
+            plot(globalResponse["shuffle"][db]['gr'],globalResponse["shuffle"][db]['dots'],linestyle='None',marker="o",markerfacecolor='none',markeredgecolor=colors[db],label=("Shuffled protein amounts, based on %s" % db_name[db]))
 
         xlim(xmin=0.)
-        ylim(ymin=0.,ymax=0.75)
+        ylim(ymin=-0.05,ymax=0.75)
         xlabel('Growth rate [$h^{-1}$]',fontsize=10)
         ylabel('Strongly correlated proteins\n fraction out of proteome',fontsize=10)
         legend(loc="upper left", prop={'size':6},numpoints=1)
@@ -399,8 +397,7 @@ def plot_response_hist_graphs(dbs):
     
 def corr_andGR_plot(db,ref):
     suffix = 'Chem'
-    if db == "LB":
-        db = "Heinemann"
+    if db == "HeinemannLB":
         suffix = 'LB'
     rand = ''
     if db == 'Simulated':
@@ -974,6 +971,7 @@ def model_effects_plot():
 #init_datasets("")
 model_effects_plot()
 analyzed_dbs = ['Heinemann','Peebo']
+special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
 for rand_method in ["simulated","shuffle",""]:
 #for rand_method in ["shuffle",""]:
@@ -987,10 +985,6 @@ for rand_method in ["simulated","shuffle",""]:
 print "plotting prediction"
 plotPrediction()        
 print "plotting original data graphs"
-for db in ['Heinemann-chemo','LB']:
-    set_LB(db == "LB")
-    corr_andGR_plot(db,'Peebo')
-set_LB(False)
 #tempprotsplot()
 #corr_andGR_plot('Simulated','Heinemann')
 writeTables()
@@ -1002,7 +996,8 @@ plotRibosomalVsGlobTrend(analyzed_dbs)
 plot_response_hist_graphs(analyzed_dbs)
 plotCorrelationHistograms(analyzed_dbs,"")
 
-for rand_method in ["simulated","shuffle",""]:
+#for rand_method in ["simulated","shuffle",""]:
+for rand_method in ["shuffle",""]:
     plotGlobalResponse(analyzed_dbs,rand_method)
     #plotMultiStats('Valgepea')
     #plotComulativeGraph()
@@ -1010,3 +1005,5 @@ for rand_method in ["simulated","shuffle",""]:
     #variabilityAndGlobClustSlopes(analyzed_dbs)
     #variabilityAndGlobClustSlopesNormed(analyzed_dbs) #This is the generating function for the variability analysis
     #variablityComparisonHein()
+for db in ['Heinemann-chemo','HeinemannLB']:
+    corr_andGR_plot(db,'Peebo')
