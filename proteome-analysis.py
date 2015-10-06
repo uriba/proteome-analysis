@@ -34,7 +34,8 @@ def get_limits(db):
     #return (-1.,-0.5)
 
 #Initialize global data structures
-dbs = ['Heinemann','HeinemannLB','Peebo','Valgepea']
+#dbs = ['Heinemann','HeinemannLB','Peebo','Valgepea']
+dbs = ['Heinemann','HeinemannLB','Peebo']
 datas = {}
 rand_prefix = ""
 db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo'}
@@ -148,7 +149,8 @@ def plot_corr_hist(p,db,conc_data,categories):
 def plotCorrelationHistograms(dbs,suffix):
     figure(figsize=(5,5))
 
-    coords = {'Heinemann':0.01,'Peebo':0.625,'Valgepea':0.625}
+    coords = {'Heinemann':0.01,'Peebo':0.627,'Valgepea':0.627}
+    ycoords = {'':0.931,'shuffle':0.36}
     p=subplot(111)
     rands = [""]
     ps = {("",'Peebo'):subplot(122),("",'Valgepea'):subplot(122)}
@@ -166,7 +168,12 @@ def plotCorrelationHistograms(dbs,suffix):
         for db in dbs:
             conds,gr,conc_data = datas[rand][db]
             plot_corr_hist(ps[(rand,db)],db,conc_data,categories)
-            text(coords[db],0.8,"data from %s et. al." % db_name[db],fontsize=8,transform=p.transAxes)
+            ps[(rand,db)].set_ylim(0,250)
+            ps[(rand,db)].set_xlim(-1,1)
+            if rand == '':
+                text(coords[db],ycoords[rand],"data from %s et. al. 2015" % db_name[db],fontsize=7,transform=p.transAxes)
+            if rand == 'shuffle':
+                text(coords[db],ycoords[rand],"shuffled data\nbased on %s et. al. 2015" % db_name[db],fontsize=7,transform=p.transAxes)
 
     #assume both subplots have the same categories.
     handles,labels=ps[("",dbs[0])].get_legend_handles_labels()
@@ -174,7 +181,7 @@ def plotCorrelationHistograms(dbs,suffix):
     tight_layout()
     figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
 
-    subplots_adjust(top=0.83)
+    subplots_adjust(top=0.87)
     #fig = gcf()
     #py.plot_mpl(fig,filename="Growth rate Correlation histograms")
     savefig('%sGrowthRateCorrelation%s.pdf' % (rand_prefix,suffix))
