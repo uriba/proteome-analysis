@@ -235,7 +235,7 @@ This gene-specific value can in principle change across conditions but a key fea
 Often two values are enough across all conditions, an "off" and "on" value.
 We denote the affinity of gene $i$ under growth condition $c$ by $w_i(c)$.
 To determine the resulting fraction of every protein, our model assumes that the bio-synthetic resources are distributed among the genes according to those affinities, as is stated in Equation \ref{eq:concentration-ratio}.
-Intuitively, one can think of a competition between the genes and transcripts over the bio-synthesic resources, where each gene/transcript attracts resources according to its intrinsic affinity.
+Intuitively, one can think of a competition between the genes and transcripts over the bio-synthetic resources, where each gene/transcript attracts resources according to its intrinsic affinity.
 
 The notion of intrinsic affinities represents the expression pattern under a given condition by the intrinsic affinities of all genes under that condition.
 Assuming each gene has only a finite set of affinities, possibly only one or two (for example, on and off states of the lac operon), describing the expression pattern is therefore reduced to selecting which, out of the total gene-specific small set of possible affinities, each gene gets under the relevant condition.
@@ -266,7 +266,7 @@ Different environmental conditions require the expression of different genes.
 For example, the expression of amino-acids synthesizing enzymes is required only in culture media lacking amino-acids \cite{24656150,10515934}.
 Therefore, the cell can infer the presence or absence of amino-acids in the growth media and, regulate the affinities of the synthesizing genes accordingly.
 If we consider a gene $i$, whose specific affinity is not dependent on the presence of amino-acids, we suggest that its fraction will still change between the two conditions as the affinities of other condition specific genes change, thereby redirecting the bio-synthetic capacity.
-In mathematical terms this will chang the denominator in equation \ref{eq:concentration-ratio} and thus affect the distribution of resources between all of the expressed genes.
+In mathematical terms this will change the denominator in equation \ref{eq:concentration-ratio} and thus affect the distribution of resources between all of the expressed genes.
 
 
 Generalizing this notion, we can divide the proteins into those whose intrinsic affinity remains constant across all of the considered conditions, and those whose intrinsic affinity changes between at least some of the conditions (Figure \ref{fig:model}).
@@ -329,7 +329,7 @@ A group of such proteins should therefore maintain their relative ratios across 
 In the following two sections we analyze the effects of expanding our model to account for two biological effects: protein degradation and changes in the rates at which molecular machines operate.
 
 The model we developed predicts that when the growth rate approaches zero, the fraction of every protein with constant affinity also approaches zero.
-This approach to zero applies specifically to the biosynthesis genes, that have constant affinities according to our assumptions.
+This approach to zero applies specifically to the bio-synthesis genes, that have constant affinities according to our assumptions.
 However, it is known that the fractions of these proteins, and specifically of ribosomal proteins does not drop to zero when the growth rate approaches zero \cite{ingraham1983growth,Pedersen1978a}.
 We can account for this phenomenon by including protein degradation in our model.
 
@@ -350,7 +350,7 @@ Thus, at zero growth rate, the fraction of non-differentially regulated proteins
 \subsubsection{Slower biological processes rates at slower growth affect the relation between proteome composition and growth rate}
 \label{slowbiosynthesis}
 The simplified model assumes that the doubling time is proportional to the ratio of total protein to bio-synthetic protein.
-This assumption fails if the rate at which each biosynthetic machine operates changes across conditions.
+This assumption fails if the rate at which each bio-synthetic machine operates changes across conditions.
 Replacing this assumption by an interdependence of bio-synthesis rate with growth rate (such that, the faster the growth, the faster the synthesis rates, per machine)\cite{Bremer1987,Valgepea2013}, will affect the resulting predictions as well.
 This effect is formally analyzed in section \ref{theoreticalintercep}.
 Slower bio-synthesis rates under slower growth rates imply that, compared with the model prediction, higher fraction of bio-synthesis proteins is needed to achieve a given growth rate.
@@ -443,7 +443,7 @@ In contrast to other approaches, our model suggests a mechanism for this coordin
 \subsubsection{Changes in the proteome across environmental conditions are dominated by proteins that are positively correlated with growth rate}
 To assess the significance of the positive correlation of proteins with growth rate, out of the total change in proteome composition across conditions, we summed the fractions of all of the proteins that are strongly correlated with growth rate across the conditions measured and plotted their total fraction against the growth rate in Figure \ref{fig:globalgrcorr}.
 Both data sets show that the fraction of these proteins change $\approx 2$ fold across a $\approx 5$ fold change in the growth rate under the different growth conditions.
-This change is smaller than the $1:1$ change predicted by our basic model and the deviations may result from the effects of degradation and varying biosyntheis rates, as is discussed in sections \ref{degradation} and \ref{slowbiosynthesis}.
+This change is smaller than the $1:1$ change predicted by our basic model and the deviations may result from the effects of degradation and varying bio-synthesis rates, as is discussed in sections \ref{degradation} and \ref{slowbiosynthesis}.
 Most of the variability of the total fraction of these proteins can be explained by the growth rate ($R^2$ of $\hGlobalSumRsq$ in the data set from \cite{Heinemann2015} and $\vGlobalSumRsq$ in the data set from \cite{Peebo_2015}). 
 Importantly, the strongly correlated proteins form a large fraction of the proteome, exceeding $50\%$ of the proteome by weight, at the higher growth rates.
 This is a much higher fraction than the one obtained for randomized data sets ($<4\%$, as is further discussed in section \ref{randanalysis})
@@ -495,7 +495,7 @@ Specifically, we suggest that the default response of a protein (that is, the ch
 We point out that, as non-differentially regulated proteins maintain their relative abundances, one can deduce the parameters of the linear increase with growth rate of any non-differentially regulated protein by observing the scaling of other such proteins and fixing the ratio between the protein of interest and the reference proteins.
 
 
-We analyze two recent whole proteome data sets to explore the scope and validiy of our model.
+We analyze two recent whole proteome data sets to explore the scope and validity of our model.
 We characterize a coordinated response in \emph{E.coli} between many proteins and the specific growth rate.
 This response spans proteins from various functional groups and is not related to the specific medium of growth.
 A similar phenomena is observed for \emph{S.cerevisiae} as was reported in \cite{Keren2013a} and may thus be conserved across various organisms and domains of life.
@@ -606,17 +606,17 @@ R.M. is the Charles and Louise Gartner professional chair and an EMBO young inve
 The predicted fraction of an unregulated protein as a function of the growth rate is to follow a linear trend crossing at the origin (Figure \ref{fig:theoreticalpred}, blue line).
 Degradation can be interpreted as implying that the observed growth rate is the combination of the bio-synthesis rate minus the degradation rate, implying that the predicted fraction of an unregulated protein is linear increase with growth rate, but with a horizontal intercept at minus the degradation rate as is shown by the green line in Figure \ref{fig:theoreticalpred}.
 
-Non constant biosynthesis rate can be modeled as a Michaelis-Menten kinetic like interdependence with growth rate following the formula:
+Non constant bio-synthesis rate can be modeled as a Michaelis-Menten kinetic like interdependence with growth rate following the formula:
 \begin{equation}
 \eta(g(c))=\frac{\eta_0}{1+\frac{g_m}{g(c)}}
 \end{equation}
-where $g(c)$ is the growth rate, $\eta(g(c))$ is the biosynthesis rate at growth rate $g(c)$, $\eta_0$ is the maximal biosynthesis rate and $g_m$ the growth rate at which the biosynthesis rate is $\frac{1}{2}$ the maximal rate (Figure \ref{fig:theoreticalpred}, red line).
-Under this assumption, the doubling time of the biosynthesis machinery itself, $T_B$ becomes:
+where $g(c)$ is the growth rate, $\eta(g(c))$ is the bio-synthesis rate at growth rate $g(c)$, $\eta_0$ is the maximal bio-synthesis rate and $g_m$ the growth rate at which the bio-synthesis rate is $\frac{1}{2}$ the maximal rate (Figure \ref{fig:theoreticalpred}, red line).
+Under this assumption, the doubling time of the bio-synthesis machinery itself, $T_B$ becomes:
 \begin{equation}
 \label{eq:varrate}
 T_B=T_B^0\frac{\eta(g(c))}{\eta_0}=T_B^0(1+\frac{g_m}{g(c)})
 \end{equation}
-where $T_B^0$ is the minimal theoretical doubling time when all the proteins are biosynthesis proteins operating at maximal rate.
+where $T_B^0$ is the minimal theoretical doubling time when all the proteins are bio-synthesis proteins operating at maximal rate.
 Substituting equation \ref{eq:varrate} into equation \ref{eq:default-response} results in a predicted fraction of:
 \begin{equation}
 p_i(c)=\frac{w_i(c)}{W_B}\frac{T_B^0(1+\frac{g_m}{g(c)})}{\ln(2)}g(c) = \frac{w_i(c)}{W_B}\frac{T_B^0}{\ln(2)}(g(c)+g_m)
@@ -629,8 +629,8 @@ Surprisingly, this equation also describes the fraction as being linearly depend
 \includegraphics[width=1\columnwidth]{../TheoreticalModelEffects.pdf}
 \caption{\label{fig:theoreticalpred}
 The predictions of the model for the fraction of unregulated proteins as a function of the growth rate.
-The effects of accounting for protein degradation (green) and Michaelis-Menten like dependence of biosynthesis rates on growth rate (red) are shown.
-For non-constant biosynthesis rate, a growth rate of 0.2 was selected as the growth rate at which the biosynthesis rate is half of its maximal value.%
+The effects of accounting for protein degradation (green) and Michaelis-Menten like dependence of bio-synthesis rates on growth rate (red) are shown.
+For non-constant bio-synthesis rate, a growth rate of 0.2 was selected as the growth rate at which the bio-synthesis rate is half of its maximal value.%
 }
 \end{center}
 \end{figure}
@@ -794,7 +794,7 @@ Fraction of explained variability by linear regression on the group of strongly 
 \begin{center}
 \includegraphics[width=1\columnwidth]{../SimulatedsummaryHistAndGr.pdf}
 \caption{\label{fig:simulated}
-A simulated data set, assuming half of the proteins are prefectly correlated with growth rate and half are fixed, with simulated noise level of $25\%$.
+A simulated data set, assuming half of the proteins are perfectly correlated with growth rate and half are fixed, with simulated noise level of $25\%$.
 Average protein fractions, growth rates and normalized slope of the correlated proteins are based on the data set from \cite{Heinemann2015}.
 The normalized intercept of the correlated proteins was set to $0.5$ in accordance with the intercept found in the original data analysis.
 The results are similar to those obtained for the real data set, showing that, given the experimental noise, identical coordination with growth rate of half of the proteins would result in similar outcomes to those observed in the data sets we use.%
