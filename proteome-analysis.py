@@ -107,6 +107,7 @@ def writeTopProtsVar(db):
                 #fig = gcf()
                 #py.plot_mpl(fig,filename="metE chemostat")
                 savefig('SingleProt%s.pdf' % row['Temp'])
+                savefig('SingleProt%s.eps' % row['Temp'])
                 close()
             j+=1
     conc_data = conc_data.sort('vars',ascending=False)
@@ -195,6 +196,7 @@ def plotCorrelationHistograms(dbs,suffix):
     #fig = gcf()
     #py.plot_mpl(fig,filename="Growth rate Correlation histograms")
     savefig('%sGrowthRateCorrelation%s.pdf' % (rand_prefix,suffix))
+    savefig('%sGrowthRateCorrelation%s.eps' % (rand_prefix,suffix))
     close()
 
 ##############temp 20 prots plot####################3
@@ -242,6 +244,7 @@ def tempprotsplot():
 
     tight_layout()
     savefig('slowvsfastcorrprotscomparison.pdf')
+    savefig('slowvsfastcorrprotscomparison.eps')
     close()
     coli_data = calc_gr_corr(coli_data,conds,gr)
 
@@ -284,6 +287,7 @@ def plotGlobalResponse(dbs,rand_method):
         #fig = gcf()
         #py.plot_mpl(fig,filename="Global cluster growth rate correlation")
         savefig('%sGlobalClusterGRFit.pdf' % rand_prefix)
+        savefig('%sGlobalClusterGRFit.eps' % rand_prefix)
         close()
 
 #gets values at cond_list normalized in y axis
@@ -381,6 +385,7 @@ def plot_response_hist_graphs(dbs):
 #fig = gcf()
 #py.plot_mpl(fig,filename="Normalized slopes distribution")
         savefig('%s%s.pdf' % (rand_prefix,name))
+        savefig('%s%s.eps' % (rand_prefix,name))
         close()
 
 
@@ -461,6 +466,7 @@ def corr_andGR_plot(db,ref):
 #fig = gcf()
 #py.plot_mpl(fig,filename="Heinemann chemostat graphs")
     savefig('%s%ssummaryHistAndGr.pdf' % (db,rand))
+    savefig('%s%ssummaryHistAndGr.eps' % (db,rand))
     close()
 
 # plot slopes distribution for highly negatively correlated proteins from Valgepea dataset and sum of concentrations
@@ -599,6 +605,7 @@ def variabilityAndGlobClustSlopes(dbs):
     #fig = gcf()
     #py.plot_mpl(fig,filename="Non normalized variability statistics")
     savefig('%sExpVar2.pdf' % rand_prefix)
+    savefig('%sExpVar2.eps' % rand_prefix)
     close()
 
     figure(figsize=(5,3))
@@ -614,6 +621,7 @@ def variabilityAndGlobClustSlopes(dbs):
     #fig = gcf()
     #py.plot_mpl(fig,filename="Global response slope dependence on threshold")
     savefig('%sThresholdSlopes.pdf' % rand_prefix)
+    savefig('%sThresholdSlopes.eps' % rand_prefix)
     close()
 
 def norm_glob_conc(glob_conc,conds):
@@ -679,6 +687,7 @@ def variablityComparisonHein():
     #fig = gcf()
     #py.plot_mpl(fig,filename="Various heuristics on explained variability for Heinemann data set")
     savefig('%sExpVarComp.pdf' % rand_prefix)
+    savefig('%sExpVarComp.eps' % rand_prefix)
     close()
 
 def variabilityAndGlobClustSlopesNormed(dbs):
@@ -730,6 +739,7 @@ def variabilityAndGlobClustSlopesNormed(dbs):
     #fig = gcf()
     #py.plot_mpl(fig,filename="Explained variability statistics on normalized concentrations")
     savefig('%sExpVar3.pdf' % rand_prefix)
+    savefig('%sExpVar3.eps' % rand_prefix)
     close()
 
     figure(figsize=(5,3))
@@ -745,6 +755,7 @@ def variabilityAndGlobClustSlopesNormed(dbs):
     #fig = gcf()
     #py.plot_mpl(fig,filename="Dependence on threshold of global response slopes for normalized concentrations")
     savefig('%sThresholdSlopes2.pdf' % rand_prefix)
+    savefig('%sThresholdSlopes2.eps' % rand_prefix)
     close()
 
 
@@ -795,6 +806,7 @@ def plotMultiStats(db):
     #py.plot_mpl(fig,filename="Proteins statistics for Heinemann dataset")
     glob_conc.to_csv('stats.csv')
     savefig('%sAvgConcStats%s.pdf' % (rand_prefix,db))
+    savefig('%sAvgConcStats%s.eps' % (rand_prefix,db))
     close()
 
 #comulative graph - x axis - avg. prot. conc. (or molecule count per cell), y axis, comulative % out of proteome.
@@ -822,6 +834,7 @@ def plotComulativeGraph():
     #fig = gcf()
     #py.plot_mpl(fig,filename="Cumulative proteome concentration distribution for Heinemann")
     savefig('%sDistStatsHein.pdf' % rand_prefix)
+    savefig('%sDistStatsHein.eps' % rand_prefix)
     close()
 
 #plot the graphs for the 10 highest abundance proteins with their descriptions.
@@ -847,6 +860,7 @@ def plotHighAbundance():
     #fig = gcf()
     #py.plot_mpl(fig,filename="Most abundant proteins concentration vs growth rate")
     savefig('%shighest.pdf' % rand_prefix)
+    savefig('%shighest.eps' % rand_prefix)
     close()
 
 def plotRibosomal(dbs):
@@ -875,6 +889,7 @@ def plotRibosomal(dbs):
     #fig = gcf()
     #py.plot_mpl(fig,filename="Ribosomal proteins concentration vs growth")
     savefig('%sribosomal.pdf' % rand_prefix)
+    savefig('%sribosomal.eps' % rand_prefix)
     close()
 
 
@@ -912,6 +927,7 @@ def plotPrediction():
         #fig = gcf()
         #py.plot_mpl(fig,filename="Random proteins estimations, 10 proteins at a time, %s" % db)
         savefig('%sRandEstimate%s.pdf' % (rand_prefix,db))
+        savefig('%sRandEstimate%s.eps' % (rand_prefix,db))
         close()
 
 #plot ribosomal proteins vs. global cluster proteins with trendlines and R^2 estimates.
@@ -945,6 +961,7 @@ def plotRibosomalVsGlobTrend(dbs):
     #fig = gcf()
     #py.plot_mpl(fig,filename="Ribosomal proteins vs global cluster")
     savefig('%sRibsVsGlob.pdf' % rand_prefix)
+    savefig('%sRibsVsGlob.eps' % rand_prefix)
     close()
 
 def model_effects_plot():
@@ -981,6 +998,7 @@ def model_effects_plot():
     handles,labels=ax.get_legend_handles_labels()
     figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.0,0.8,1,0.2),ncol=2,numpoints=1)
     savefig('TheoreticalModelEffects.pdf')
+    savefig('TheoreticalModelEffects.eps')
     close()
 
         
