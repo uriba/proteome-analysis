@@ -161,8 +161,8 @@ The search for underlying mechanisms in \emph{E.coli} yielded several candidates
 
 In the last two decades, with the ability to measure genome-wide expression levels, it was found that changes in gene expression as a function of growth rate are not limited to ribosomal genes.
 In \emph{E.coli}, the expression of catabolic and anabolic genes is coordinated with growth rate, and suggested to be mediated by cAMP \cite{Saldanha2004,You_2013,Peebo_2015}.
-In \emph{S.cerevisiae}, it was shown that most of the genome changes its expression levels in response to environmental conditions in a manner strongly correlated with growth rate \cite{Keren2013a,Brauer2008,Castrillo2007,Gerosa2013}.
-Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \cite{Gasch2000,Klumpp2009,Klumpp2014,Scott2010,Berthoumieux2013,Keren2013a,Gerosa2013,Valgepea2013,Hui_2015}.
+In \emph{S.cerevisiae}, it was shown that most of the genome changes its expression levels in response to environmental conditions in a manner strongly correlated with growth rate \cite{Keren2013,Brauer2008,Castrillo2007,Gerosa2013}.
+Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \cite{Gasch2000,Klumpp2009,Klumpp2014,Scott2010,Berthoumieux2013,Keren2013,Gerosa2013,Valgepea2013,Hui_2015}.
 In \emph{E.coli}, this was mechanistically attributed to changes in the pool of RNA polymerase core and sigma factors \cite{Klumpp2008}.
 In \emph{S.cerevisiae}, it was suggested that differences in histone modifications around the replication origins \cite{Regenberg2006} or translation rates \cite{Brauer2008} across conditions may underlie the same phenomenon.
 Taken together, these studies suggest that the expression of all genes changes with growth rate, with different factors and architectures of regulatory networks yielding differences in the direction and magnitude of these changes \cite{Klumpp2009,Klumpp2014}. 
@@ -177,7 +177,7 @@ Here we present a parsimonious model that quantitatively predicts the relationsh
 Our model provides a baseline for the behavior of genes in conditions between which they are not differentially regulated, without the need for condition-specific parameters.
 The model predicts an increase in protein expression with specific growth rate as an emerging property that is the result of passive redistribution of resources, without need for specific regulation mechanisms such as those detailed above.
 On top of this baseline model, different regulatory aspects, that are definitely at play, can be added.
-We tested the model against recently published proteomic data sets of \emph{E.coli} spanning different growth conditions\cite{Valgepea2013,Peebo_2015,Heinemann2015}.
+We tested the model against recently published proteomic data sets of \emph{E.coli} spanning different growth conditions \cite{Valgepea2013,Peebo_2015,Heinemann2015}.
 We find a coordinated, positive correlation between the specific growth rate and the fraction of many proteins, from diverse functional groups, out of the proteome.
 Although this response accounts for a relatively small part of the total variability of the proteome it is highly relevant for understanding proteome wide studies, as it describes the behavior of about $50\%$ of the proteome genes.
 The well-studied ribosomal proteins are found to be a small subset of this group of proteins that increase their fraction with the specific growth rate.
@@ -205,7 +205,7 @@ In our example of the lac operon, in the presence of glucose, the down regulatio
 \begin{center}
 \includegraphics[width=\columnwidth]{../figure1.pdf}
 \caption{\label{fig:model}
-A minimalistic model predicts that low expression of condition-dependent genes under permissive growth environment, compared with a restrictive environment, implies larger fraction of all other proteins out of the proteome.
+A minimalistic model predicts that low expression of condition-dependent genes under a permissive growth environment, compared with a restrictive environment, implies larger fraction of all other proteins out of the proteome.
 With this, the ratio of bio-synthesis genes to the rest of the proteome is higher in permissive environments, resulting in faster growth.
 %
 }
@@ -254,7 +254,7 @@ This equation emphasizes that the observed fraction of a protein is determined b
 
 For simplicity, the model refers to the fraction of each specific protein in the proteome and not to the protein concentration.
 The corresponding concentration in the biomass can be calculated using the concentration of total protein in the biomass.
-In \emph{E.coli}, this concentration, is known to slightly decrease in a linear manner with the specific growth rate \cite{Bremer1987,Valgepea2013,Scott2014} (for further discussion see \ref{protconc}).
+In \emph{E.coli}, this concentration is known to slightly decrease in a linear manner with the specific growth rate \cite{Bremer1987,Valgepea2013,Scott2014} (for further discussion see \ref{protconc}).
 
 
 \subsubsection{A change in growth condition triggers changes in expression of specific proteins that indirectly affect the whole proteome}
@@ -266,7 +266,7 @@ In mathematical terms this will change the denominator in equation \ref{eq:conce
 
 
 Generalizing this notion, we can divide the proteins into those whose intrinsic affinity remains constant across all of the considered conditions, and those whose intrinsic affinity changes between at least some of the conditions (Figure \ref{fig:model}).
-An interesting consequence is that proteins whose intrinsic affinities remain constant also maintain their relative ratios across these conditions with respect to each other, as observed experimentally in \emph{S.cerevisae} in \cite{Keren2013a}.
+An interesting consequence is that proteins whose intrinsic affinities remain constant also maintain their relative ratios across these conditions with respect to each other, as observed experimentally in \emph{S.cerevisae} in \cite{Keren2013}.
 
 \subsubsection{Growth rate is the combined outcome of proteome composition and environmental conditions}
 While it is sometimes implied that different cellular components are regulated by the growth rate, our model considers the growth rate as an outcome of the environmental conditions that affect the proteome composition.
@@ -303,7 +303,7 @@ The doubling time under a given condition, $\tau(c)$, will be proportional to th
 \end{equation}
 Therefore, the model reproduces an increase in the doubling time for conditions requiring larger amounts of non-bio-synthetic proteins (i.e. higher values in the sum across $w_j$).
 
-\subsubsection{The fraction of a non-differentially regulated protein is expected to increase with the growth rate} 
+\subsubsection{The fraction of a non-differentially regulated protein is expected to increase with the growth rate}
 Recalling that the connection between the growth rate and the doubling time is: $g(c)=\frac{\ln(2)}{\tau(c)}$, we now combine Equation \ref{eq:concentration-ratio} with Equation \ref{eq:gr-ratio} to get a prediction for the single protein fractions $p_i$:
 \begin{equation}
   \label{eq:default-response}
@@ -317,8 +317,8 @@ By incorporating all the condition-independent constants ($W_B$, $T_B$, $\ln(2)$
 \end{equation}
 Hence, for every two conditions between which gene $i$ maintains its affinity, ($w_i(c_1)=w_i(c_2)$), the fraction $p_i(c)$ protein $i$ occupies in the proteome scales in the same way as the growth rate ($g(c)$) between these two conditions.
 
-To summarize, the simplified model we have constructed predicts that, under no specific regulation, the fraction a non-regulated protein occupies out of the proteome should scale with the growth rate.
-A group of such proteins should therefore maintain their relative ratios across conditions.
+To summarize, the simplified model we have constructed predicts that, under no specific regulation, the fraction a non-regulated protein occupies out of the proteome should scale proportionally with the growth rate.
+A group of such proteins would therefore maintain their relative ratios across conditions.
 
 \subsubsection{Protein degradation differentiates between measured growth rate and biomass synthesis rate}
 \label{degradation}
@@ -416,7 +416,7 @@ Next we examined how the response of the strongly correlated proteins relates to
 To that end, we performed the same analysis of slopes, restricting it to ribosomal proteins alone, as is shown by the stacked green bars in Figure \ref{fig:globalfit}.
 We find that strongly correlated proteins and ribosomal proteins scale in similar ways (slope of \hRibsSumSlope{} with $R^2=\hRibsSumRsq{}$ for the sum of ribosomal proteins vs. \hGlobalSumSlope{} and $R^2=\hGlobalSumRsq$ for the sum of all strongly correlated proteins, in the data from \cite{Heinemann2015}, and slope of \vRibsSumSlope{} with $R^2=\vRibsSumRsq{}$ for ribosomal proteins vs. \vGlobalSumSlope{} and $R^2=\vGlobalSumRsq{}$ for all strongly correlated proteins, in the data from \cite{Peebo_2015}. See also Figure \ref{fig:ribsnonribs}), implying that the observed response of ribosomal proteins to growth rate is not unique and is coordinated with a much larger fraction of the proteome, thus encompassing many more cellular components.
 
-Our results, showing that a large number of proteins maintain their relative concentrations across different growth conditions thus extend the scope of similar results obtained for \emph{S.cerevisiae} in \cite{Keren2013a} and for expression levels in \emph{E.coli} under stress conditions \cite{Kaneko2014}.
+Our results, showing that a large number of proteins maintain their relative concentrations across different growth conditions thus extend the scope of similar results obtained for \emph{S.cerevisiae} in \cite{Keren2013} and for expression levels in \emph{E.coli} under stress conditions \cite{Kaneko2014}.
 In contrast to other approaches, our model suggests a mechanism for this coordinated expression changes that is not based on shared transcription factors but rather is a result of passive redistribution of resources.
 
 \begin{figure}[H]
@@ -486,7 +486,7 @@ We presented a parsimonious model connecting the fraction of proteins out of the
 The notion of intrinsic affinity for expression, first presented in \cite{Maaloe1969}, and rarely used ever since, was re-introduced as a key determinant for the differences in expression of different proteins under a given growth condition.
 The integration of the notion of intrinsic affinity for expression with the limited bio-synthesis capacity of cells was shown to result in a simple mechanism predicting increased fraction of many proteins with the growth rate, without assuming regulation by specific transcription factors for these proteins.
 
-The framework we present emphasizes the importance of accounting for global factors, that are reflected in the growth rate, when analyzing gene expression and proteomics data, as was noted before \cite{Maaloe1969,Brauer2008,Klumpp2009,Klumpp2014,Scott2010,Berthoumieux2013,Keren2013a,Gerosa2013,Valgepea2013,Hui_2015,Peebo_2015,Wei_e_2015}.
+The framework we present emphasizes the importance of accounting for global factors, that are reflected in the growth rate, when analyzing gene expression and proteomics data, as was noted before \cite{Maaloe1969,Brauer2008,Klumpp2009,Klumpp2014,Scott2010,Berthoumieux2013,Keren2013,Gerosa2013,Valgepea2013,Hui_2015,Peebo_2015,Wei_e_2015}.
 Specifically, we suggest that the default response of a protein (that is, the change in the observed expression of a protein, given that no specific regulation was applied to it) is to linearly increase with growth rate.
 We point out that, as non-differentially regulated proteins maintain their relative abundances, one can deduce the parameters of the linear increase with growth rate of any non-differentially regulated protein by observing the scaling of other such proteins and fixing the ratio between the protein of interest and the reference proteins.
 
@@ -494,7 +494,7 @@ We point out that, as non-differentially regulated proteins maintain their relat
 We analyze two recent whole proteome data sets to explore the scope and validity of our model.
 We characterize a coordinated response in \emph{E.coli} between many proteins and the specific growth rate.
 This response spans proteins from various functional groups and is not related to the specific medium of growth.
-A similar phenomena is observed for \emph{S.cerevisiae} as was reported in \cite{Keren2013a} and may thus be conserved across various organisms and domains of life.
+A similar phenomena is observed for \emph{S.cerevisiae} as was reported in \cite{Keren2013} and may thus be conserved across various organisms and domains of life.
 Our analysis suggests that, while changes in the proteome composition may seem complex, for a large number of proteins and under many conditions, they can be attributed to a linear, coordinated, increase with growth rate, at the expense of other, down-regulated proteins.
 The well studied scaling of ribosomes concentration with growth rate can be considered one manifestation of the more general phenomena we describe here.
 We find that this response is not unique to ribosomal proteins but is, in fact, shared with many other proteins spanning different functional groups.
@@ -512,7 +512,7 @@ Furthermore, such mechanisms may be crucial for synchronizing the amount of rRNA
 Nevertheless, the fact that many non-ribosomal proteins share the same response as ribosomal proteins do, poses interesting questions regarding the scope of such control mechanisms, their necessity and the trade-offs involved in their deployment.
 
 The findings in this study support and broaden the findings in other recent studies.
-Specifically, for \emph{S.cerevisiae} a few recent studies found that the concentration of the majority of the proteins is coordinated across conditions and increases with growth rate \cite{Keren2013a,Gasch2000,Brauer2008a}.
+Specifically, for \emph{S.cerevisiae} a few recent studies found that the concentration of the majority of the proteins is coordinated across conditions and increases with growth rate \cite{Keren2013,Gasch2000,Brauer2008a}.
 In principle, the model we suggest here can be applied to any exponentially growing population of cells and may thus also serve as a potential explanation for the phenomena observed in these studies and others.
 
 Other recently published studies in \emph{E.coli} have suggested different models and in some cases have results  and predictions that do not coincide with those presented in this study.
