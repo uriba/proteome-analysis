@@ -153,14 +153,11 @@ global effect, not requiring specific cellular control mechanisms.
 
 
 \section{Introduction}
-Many aspects of the physiology of microorganisms change as a function of the growth environment they face.
-A fundamental system biology challenge is to predict and understand such changes, specifically, modifications in gene expression as a function of the growth environment.
-
+A fundamental system biology challenge is to understand and predict changes in gene expression levels.
 Early on it was found that the expression of some genes is coordinated with growth rate, rather than with the specific environment.
 Classic experiments in bacteria have shown that ribosome concentration increases in proportion to the specific growth rate \cite{Schaechter1958}.
 The observed increase in concentration has been interpreted as an increased need for ribosomes at faster growth rates \cite{Neidhardt1999,Dennis2004,Zaslaver2009,Molenaar2009}.
-The search for underlying mechanisms in \emph{E.coli} yielded several candidates such as the pools of ppGpp and iNTP \cite{Murray_2003,Bosdriesz_2015}, and the tRNA pools through the stringent response \cite{Chatterji2001,Brauer2008a}.
-For a more thorough review see \cite{Nomura1984}.
+The search for underlying mechanisms in \emph{E.coli} yielded several candidates \cite{Nomura1984} such as the pools of ppGpp and iNTP \cite{Murray_2003,Bosdriesz_2015}, and the tRNA pools through the stringent response \cite{Chatterji2001,Brauer2008a}.
 
 In the last two decades, with the ability to measure genome-wide expression levels, it was found that changes in gene expression as a function of growth rate are not limited to ribosomal genes.
 In \emph{E.coli}, the expression of catabolic and anabolic genes is coordinated with growth rate, and suggested to be mediated by cAMP \cite{Saldanha2004,You_2013,Peebo_2015}.
@@ -168,7 +165,6 @@ In \emph{S.cerevisiae}, it was shown that most of the genome changes its express
 Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \cite{Gasch2000,Klumpp2009,Klumpp2014,Scott2010,Berthoumieux2013,Keren2013a,Gerosa2013,Valgepea2013,Hui_2015}.
 In \emph{E.coli}, this was mechanistically attributed to changes in the pool of RNA polymerase core and sigma factors \cite{Klumpp2008}.
 In \emph{S.cerevisiae}, it was suggested that differences in histone modifications around the replication origins \cite{Regenberg2006} or translation rates \cite{Brauer2008} across conditions may underlie the same phenomenon.
-Important advancements in \emph{E.coli} were achieved by analyzing measurements of fluorescent reporters through a simplified model of gene expression built upon the empirical scaling with growth rate of different cell parameters (such as gene dosage, transcription rate and cell size)\cite{Klumpp2009}.
 Taken together, these studies suggest that the expression of all genes changes with growth rate, with different factors and architectures of regulatory networks yielding differences in the direction and magnitude of these changes \cite{Klumpp2009,Klumpp2014}. 
 
 Despite these advancements, many gaps remain in our understanding of the connection between gene expression and growth rate, primarily regarding the underlying mechanisms.
@@ -177,13 +173,13 @@ What fraction of the variability observed in gene expression patterns across dif
 To what extent are large clusters of genes regulated by ''master regulator'' factors such as cAMP, and how much by global, gene and condition-independent, response?
 Genome-wide proteomic data sets, which take a census of the proteome composition at different growth rates, offer potential insights into these questions and can serve as a basis to explore and compare different models of regulation \cite{Valgepea2013,Heinemann2015,Hui_2015,Peebo_2015}.
 
-In this work we present a parsimonious model that quantitatively predicts the relationship between protein abundance and specific growth rate in the absence of gene-specific changes in regulation.
-Our model provides a baseline for the behavior of endogenous genes in conditions between which they are not differentially regulated, without the need for condition-specific parameters.
-The model predicts an increase in protein expression with specific growth rate as an emerging property that is the result of passive redistribution of resources, without need for specific regulation mechanisms.
-On top of this baseline model, different regulatory aspects can be added.
-We tested the model against two recently published proteomic data sets of \emph{E.coli} spanning different growth conditions\cite{Peebo_2015,Heinemann2015}.
+Here we present a parsimonious model that quantitatively predicts the relationship between protein abundance and specific growth rate in the absence of gene-specific changes in regulation.
+Our model provides a baseline for the behavior of genes in conditions between which they are not differentially regulated, without the need for condition-specific parameters.
+The model predicts an increase in protein expression with specific growth rate as an emerging property that is the result of passive redistribution of resources, without need for specific regulation mechanisms such as those detailed above.
+On top of this baseline model, different regulatory aspects, that are definitely at play, can be added.
+We tested the model against recently published proteomic data sets of \emph{E.coli} spanning different growth conditions\cite{Valgepea2013,Peebo_2015,Heinemann2015}.
 We find a coordinated, positive correlation between the specific growth rate and the fraction of many proteins, from diverse functional groups, out of the proteome.
-Although this response accounts for a relatively small part of the total variability of the proteome it is highly relevant for understanding proteome wide studies, as it describes the behavior of over $50\%$ of the proteome genes.
+Although this response accounts for a relatively small part of the total variability of the proteome it is highly relevant for understanding proteome wide studies, as it describes the behavior of about $50\%$ of the proteome genes.
 The well-studied ribosomal proteins are found to be a small subset of this group of proteins that increase their fraction with the specific growth rate.
 Our analysis suggests that, even if changes in the proteome composition are complex, for a large number of proteins and under many conditions such changes take the form of a linear, coordinated, increase with growth rate.
 An increase that can result from cellular resources being freed by down-regulated proteins.
@@ -197,12 +193,12 @@ In an attempt to parsimoniously analyze such differences, we have constructed a 
 Before presenting the model mathematically, we give a brief intuitive depiction.
 
 The model assumes that under a favorable growth condition, the cell actively down-regulates some proteins that are only needed in harsher conditions, as illustrated in Figure \ref{fig:model}.
-The down regulation of the lac operon in the presence of glucose is a prominent example for this phenomenon. 
+The down regulation of the lac operon in the presence of glucose is a prominent example for this phenomenon.
 As a result of only that specific change, the fraction of all other proteins out of the proteome is increased compared to the harsher (e.g. growth on lactose) condition.
-In our baseline model, all the other proteins increase their levels and are expected to show the same relative ratios between each other in all conditions. 
+In our baseline model, all the other proteins increase their levels and are expected to show the same relative ratios between each other in all conditions.
 Specifically, the levels of the proteins forming the bio-synthetic machinery increase, increasing the ratio of the bio-synthetic machinery to the proteome.
 The growth rate is dependent on the amount of protein bio-synthesis a cell performs.
-The increase in ratio of bio-synthetic machinery to proteome thus results in an expected increase in the growth rate, as  depicted in Figure \ref{fig:model}.
+The increase in ratio of bio-synthetic machinery to proteome thus results in an expected increase in the growth rate, as depicted in Figure \ref{fig:model}.
 In our example of the lac operon, in the presence of glucose, the down regulation of lactose metabolism genes leads to faster growth as more bio-synthetic genes are expressed instead.
 
 \begin{figure}[H]
