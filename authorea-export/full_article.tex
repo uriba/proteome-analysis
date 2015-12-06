@@ -184,6 +184,7 @@ The well-studied ribosomal proteins are found to be a small subset of this group
 Our analysis suggests that, even if changes in the proteome composition are complex, for a large number of proteins and under many conditions such changes take the form of a linear, coordinated, increase with growth rate.
 An increase that can result from cellular resources being freed by down-regulated proteins.
 The well studied scaling of ribosome concentration with growth rate can be considered one manifestation of this more general phenomena.
+While we present no proof that the mechanism causing the increase in concentration of many proteins with the growth rate is indeed the passive redistribution of bio-synthetic resources, we find the simplicty of this explanation to be a strong evidence for it being at least a partial factor at play.
 
 \section{Results}
 
@@ -236,8 +237,6 @@ Intuitively, one can think of a competition between the genes and transcripts ov
 The notion of intrinsic affinities represents the expression pattern under a given condition by the intrinsic affinities of all genes under that condition.
 Assuming each gene has only a finite set of affinities, possibly only one or two (for example, on and off states of the lac operon), describing the expression pattern is therefore reduced to selecting which, out of the total gene-specific small set of possible affinities, each gene gets under the relevant condition.
 Given that the selection of expression level for a given gene is driven by some specific environmental cues (translated to, for example, activation of specific transcription factors), the description can be further reduced to determining what cues are present at each condition.
-
-
 
 The fraction of a specific protein out of the proteome is equal to the specific affinity of the corresponding gene under the condition, divided by the sum of the affinities of all genes under that same condition.
 To illustrate: if two genes have the same affinity under some condition, their corresponding proteins will occupy identical fractions out of the proteome.
@@ -362,6 +361,13 @@ Our theoretical model predicts that the fraction of many proteins proportionally
 To assess the extent to which this prediction is reflected in actual proteome compositions, we present analysis of two published proteomics data sets of \emph{E.coli}, \cite{Peebo_2015} and \cite{Heinemann2015}.
 These data sets use mass spectrometry to evaluate the proteomic composition of \emph{E.coli} under \vConds{} different growth rates using an accelerostat \cite{Paalme_1995}, and \hConds{} different growth conditions, spanning both different carbon sources and chemostat-controlled growth rates, respectively.
 The data set from \cite{Heinemann2015} contains more conditions than those analyzed below, see section \ref{heinemanncond} for further details.
+
+We note that continuously controlled growth rates (such as those obtained in chemostats and accelerostats) do not naturally yield our suggested control mechanism of a limited and discrete number of affinities for expression per gene.
+A few scenarios may explain why switching between regulatory states occures when gradually modulating growth rate and how discrete regulatory mechanisms may yield continuesly modified observed affinities: 
+(A) different proteins may catalyze the same reaction but under different contexts (for example high vs. low affinity transporters) in which case an on/off switch may be at play when a certain threshold is crossed even under the same carbon source; 
+(B) single cells may have only on/off control, but due to population stochastisity, the average affinity over the population may reflect different fractions of the population being at each control state; 
+(C) an on/off control mechanism may change its state rapidly, spending different fractions of time at each regulatory state based on the exact environmental cues and concentrations of triggers, resulting in an observed average affinity that is contiuous between the two extreme on/off affinities.
+We stress that while we suggest that control states are discrete and finite, it is not a necessary condition for our mathematical analysis to hold, and allowing for continuous modulation of affinities of genes does not affect the model precdiction of increased concentration with growth rate for unmodulated affinities. 
 
 \subsubsection{A large fraction of the proteome is positively correlated with growth rate}
 Our model predicts that a large portion of the proteins should increase in fraction with the growth rate, as that is the expected change for proteins that are not specifically regulated between conditions.
