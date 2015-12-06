@@ -399,8 +399,8 @@ We have shown above that many proteins are positively correlated with growth rat
 However, we note that having similar correlation with growth rate for different proteins does not imply that such proteins are coordinated, i.e. that they share the same scaling with growth rate.
 Theoretically, proteins with identical correlation with growth rate may have very different slopes or fold changes with increasing growth rate.
 
-
 In order to examine how similar the behavior with growth rate is for the group of strongly positively correlated proteins, we normalized each of them to its mean abundance (see \ref{concacrossconds}) and calculated the slope of a linear regression line for the normalized fraction vs. the growth rate (Figure \ref{fig:globalfit}).
+This normalization procedure elucidates how the amount of each protein scales across different conditions, relative to its mean fraction out of the proteome.
 The slopes of $\approx \frac{2}{3}$ of the proteins lie in the range $(0.5,2)$ with the highest slopes being $\approx 5$.
 A slope of $0.5$ means that the fraction of the protein changes by $\pm12\%$ around its average fraction in the range of growth rates measured, whereas a slope of $2$ indicates a change of $\pm50\%$.
 Hence, the relative amounts of proteins with slopes in the range of $(0.5,2)$ change by at most just over 2-fold over the range of growth rates measured.
@@ -416,7 +416,7 @@ Next we examined how the response of the strongly correlated proteins relates to
 To that end, we performed the same analysis of slopes, restricting it to ribosomal proteins alone, as is shown by the stacked green bars in Figure \ref{fig:globalfit}.
 We find that strongly correlated proteins and ribosomal proteins scale in similar ways (slope of \hRibsSumSlope{} with $R^2=\hRibsSumRsq{}$ for the sum of ribosomal proteins vs. \hGlobalSumSlope{} and $R^2=\hGlobalSumRsq$ for the sum of all strongly correlated proteins, in the data from \cite{Heinemann2015}, and slope of \vRibsSumSlope{} with $R^2=\vRibsSumRsq{}$ for ribosomal proteins vs. \vGlobalSumSlope{} and $R^2=\vGlobalSumRsq{}$ for all strongly correlated proteins, in the data from \cite{Peebo_2015}. See also Figure \ref{fig:ribsnonribs}), implying that the observed response of ribosomal proteins to growth rate is not unique and is coordinated with a much larger fraction of the proteome, thus encompassing many more cellular components.
 
-Our results, showing that a large number of proteins maintain their relative concentrations across different growth conditions thus extend the scope of similar results obtained for \emph{S.cerevisiae} in \cite{Keren2013} and for expression levels in \emph{E.coli} under stress conditions \cite{Kaneko2014}.
+Our results support the notion that a large number of proteins maintain their relative concentrations across different growth conditions and thus extend the scope of similar results obtained for \emph{S.cerevisiae} in \cite{Keren2013} and for expression levels in \emph{E.coli} under stress conditions \cite{Kaneko2014}.
 In contrast to other approaches, our model suggests a mechanism for this coordinated expression changes that is not based on shared transcription factors but rather is a result of passive redistribution of resources.
 
 \begin{figure}[H]
@@ -439,7 +439,7 @@ In contrast to other approaches, our model suggests a mechanism for this coordin
 \subsubsection{Changes in the proteome across environmental conditions are dominated by proteins that are positively correlated with growth rate}
 To assess the significance of the positive correlation of proteins with growth rate, out of the total change in proteome composition across conditions, we summed the fractions of all of the proteins that are strongly correlated with growth rate across the conditions measured and plotted their total fraction against the growth rate in Figure \ref{fig:globalgrcorr}.
 Both data sets show that the fraction of these proteins change $\approx 2$ fold across a $\approx 5$ fold change in the growth rate under the different growth conditions.
-This change is smaller than the $1:1$ change predicted by our basic model and the deviations may result from the effects of degradation and varying bio-synthesis rates, as is discussed in sections \ref{degradation} and \ref{slowbiosynthesis}.
+This change is smaller than the $1:1$ change predicted by our basic model and the deviations may partly result from the effects of degradation and varying bio-synthesis rates, as is discussed in sections \ref{degradation} and \ref{slowbiosynthesis}.
 Most of the variability of the total fraction of these proteins can be explained by the growth rate ($R^2$ of $\hGlobalSumRsq$ in the data set from \cite{Heinemann2015} and $\vGlobalSumRsq$ in the data set from \cite{Peebo_2015}). 
 Importantly, the strongly correlated proteins form a large fraction of the proteome, exceeding $50\%$ of the proteome by weight, at the higher growth rates.
 This is a much higher fraction than the one obtained for randomized data sets ($<4\%$, as is further discussed in section \ref{randanalysis})
@@ -589,7 +589,7 @@ We present the analysis including these conditions in section \ref{lbanalysis}.
 
 \section{Acknowledgments}
 We kindly thank Matthias Heinemann for making proteomics data available before publication.
-We thank Uri Alon,  Stephan Klumpp, Arren Bar Even, Avi Flamholz, Elad Noor, Kaspar Valgepea, Karl Peebo and Katja Tummler for fruitful discussions and enlightening comments on this work.
+We thank Uri Alon, Stephan Klumpp, Arren Bar Even, Avi Flamholz, Elad Noor, Kaspar Valgepea, Karl Peebo, Dan Davidi, Niv Antonovsky and Katja Tummler for fruitful discussions and enlightening comments on this work.
 This work was funded by the European Research Council (Project SYMPAC 260392); Dana and Yossie Hollander; Helmsley Charitable Foundation; Israel Ministry of Science; The Larson Charitable Foundation.
 R.M. is the Charles and Louise Gartner professional chair and an EMBO young investigator program member.
 
