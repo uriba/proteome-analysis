@@ -230,6 +230,13 @@ We note that while a given transcription factor may affect many genes, the prese
 In the model, every gene is given an 'affinity-for-expression' (or 'intrinsic-affinity') score that encapsulates its tendency to attract the bio-synthetic machinery, as was first suggested in \cite{Maaloe1969}.
 This gene-specific value can in principle change across conditions but a key feature is that the gene intrinsic affinity tends to have the same value across many conditions.
 Often two values are enough across all conditions, an "off" and "on" value.
+
+While the intrinsic affinity is a lumped up parameter, combining effects on transcription, translation and other factors together, it is very real and can be formally defined in units of protein molecules produced per unit time under standard growth condition $c$.
+The use of intrinsic affinities in our model does not require inferring their absolute values and does not require teasing apart the effect of each of their components.
+We mainly compare and take ratios of intrinsic affinites to show how they can be used to understand changes in specific growth rate as a result of expression modulation.
+Conceptually, intrinsic affinities resemble standard Gibbs energies, they integrate many parameters, are hard to calculate, are given under some standard condition, and can be used in different contexts without knowing their actual values.
+Further mathematical justification for the assumption that intrinsic affinites exist and how different factors integrate to form consistent affinities is given in \ref{intrinsicaffinitymath}.
+
 We denote the affinity of gene $i$ under growth condition $c$ by $w_i(c)$.
 To determine the resulting fraction of every protein, our model assumes that the bio-synthetic resources are distributed among the genes according to those affinities, as is stated in Equation \ref{eq:concentration-ratio}.
 Intuitively, one can think of a competition between the genes and transcripts over the bio-synthetic resources, where each gene/transcript attracts resources according to its intrinsic affinity.
@@ -501,7 +508,6 @@ The framework we present emphasizes the importance of accounting for global fact
 Specifically, we suggest that the default response of a protein (that is, the change in the observed expression of a protein, given that no specific regulation was applied to it) is to linearly increase with growth rate.
 We point out that, as non-differentially regulated proteins maintain their relative abundances, one can deduce the parameters of the linear increase with growth rate of any non-differentially regulated protein by observing the scaling of other such proteins and fixing the ratio between the protein of interest and the reference proteins.
 
-
 We analyze two recent whole proteome data sets to explore the scope and validity of our model.
 We characterize a coordinated response in \emph{E.coli} between many proteins and the specific growth rate.
 This response spans proteins from various functional groups and is not related to the specific medium of growth.
@@ -525,6 +531,10 @@ Nevertheless, the fact that many non-ribosomal proteins share the same response 
 The findings in this study support and broaden the findings in other recent studies.
 Specifically, for \emph{S.cerevisiae} a few recent studies found that the concentration of the majority of the proteins is coordinated across conditions and increases with growth rate \cite{Keren2013,Gasch2000,Brauer2008a}.
 In principle, the model we suggest here can be applied to any exponentially growing population of cells and may thus also serve as a potential explanation for the phenomena observed in these studies and others.
+
+Modelling of cellular metabolism is an advanced field and whole cell models are built in considerable numbers.
+Future models can explicitly include the role of passive redistribution according to the lines presented here and thus allow testing the improvement in model prediction as well as model robustness and need for free parameters with versus without taking it into account.
+Moreover, passive redistribution of resources can then be compared with active regulation of specific genes to pin-point where such regulation is needed according to the model, and where it is redundant.
 
 Other recently published studies in \emph{E.coli} have suggested different models and in some cases have results  and predictions that do not coincide with those presented in this study.
 Notably, in \cite{Klumpp2009,Klumpp2014} a decreased protein concentration for unregulated genes is predicted.
