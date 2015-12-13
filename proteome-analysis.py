@@ -987,8 +987,8 @@ analyzed_dbs = ['HuiAlim','HuiClim']
 special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
 #for rand_method in ["simulated","shuffle",""]:
-#for rand_method in ["shuffle",""]:
-for rand_method in [""]:
+for rand_method in ["shuffle",""]:
+#for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method
 #for rand_method in ["simulated"]:
@@ -1010,8 +1010,8 @@ plot_response_hist_graphs(analyzed_dbs)
 plotCorrelationHistograms(analyzed_dbs,"")
 
 #for rand_method in ["simulated","shuffle",""]:
-#for rand_method in ["shuffle",""]:
-for rand_method in [""]:
+for rand_method in ["shuffle",""]:
+#for rand_method in [""]:
     plotGlobalResponse(analyzed_dbs,rand_method)
     #plotMultiStats('Valgepea')
     #plotComulativeGraph()

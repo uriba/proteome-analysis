@@ -313,6 +313,8 @@ def get_coli_data(db_used,use_weight,rand):
     ## Randomize rows:
     if rand == "shuffle":
         for i in ecoli_data.index:
+            if db_used in ['HuiAlim','HuiClim','HuiRlim']:
+                print ecoli_data[cond_list].loc[i]
             y = ecoli_data[cond_list].loc[i]
             shuffle(y)
             ecoli_data.loc[i,cond_list] = y
