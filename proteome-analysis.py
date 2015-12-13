@@ -35,10 +35,10 @@ def get_limits(db):
 
 #Initialize global data structures
 #dbs = ['Heinemann','HeinemannLB','Peebo','Valgepea']
-dbs = ['Heinemann','HeinemannLB','Peebo']
+dbs = ['Heinemann','HeinemannLB','Peebo','HuiAlim','HuiClim','HuiRlim','Valgepea']
 datas = {}
 rand_prefix = ""
-db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo'}
+db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo','HuiAlim':'Hui','HuiClim':'Hui','HuiRlim':'Hui'}
 def init_datasets(rand_method):
     datas[rand_method] = {}
     for db in dbs:
@@ -149,17 +149,20 @@ def plot_corr_hist(p,db,conc_data,categories):
 def plotCorrelationHistograms(dbs,suffix):
     figure(figsize=(5,5))
 
-    coords = {'Heinemann':0.01,'Peebo':0.627,'Valgepea':0.627}
+    coords = {'Heinemann':0.01,'Peebo':0.627,'Valgepea':0.627,'HuiAlim':0.01,'HuiClim':0.627,'HuiRlim':0.627}
     ycoords = {'':0.931,'shuffle':0.36}
     p=subplot(111)
     rands = [""]
-    ps = {("",'Peebo'):subplot(122),("",'Valgepea'):subplot(122)}
+    ps = {("",'Peebo'):subplot(122),("",'Valgepea'):subplot(122),("",'HuiAlim'):subplot(121),("",'HuiClim'):subplot(122),("",'HuiRlim'):subplot(122)}
     if(len(dbs)>1):
         ps['Heinemann'] = subplot(121)
-        rands = ["","shuffle"]
+#        rands = ["","shuffle"]
         ps = {  ("",'Heinemann'):subplot(221),
                 ("",'Peebo'):subplot(222),
                 ("",'Valgepea'):subplot(222),
+                ("",'HuiAlim'):subplot(221),
+                ("",'HuiClim'):subplot(222),
+                ("",'HuiRlim'):subplot(222),
                 ("shuffle",'Heinemann'):subplot(223),
                 ("shuffle",'Peebo'):subplot(224),
                 ("shuffle",'Valgepea'):subplot(224)}
@@ -290,11 +293,12 @@ def conf_int_max(degfr,s):
     return  res[1]
 
 def set_std_err(df,gr,cond_list):
+    if len(df)>0:
     #df['std_err'] = df[cond_list].apply(lambda x: std_err_fit(gr[cond_list]/gr[cond_list].mean(),x/x.mean()),axis=1)
-    df['std_err'] = df[cond_list].apply(lambda x: std_err_fit(gr[cond_list],x/x.mean()),axis=1)
-    
-    df['conf_min'] = df.apply(lambda x: conf_int_min(len(cond_list)-2,x) ,axis=1)
-    df['conf_max'] = df.apply(lambda x: conf_int_max(len(cond_list)-2,x) ,axis=1)
+        df['std_err'] = df[cond_list].apply(lambda x: std_err_fit(gr[cond_list],x/x.mean()),axis=1)
+        
+        df['conf_min'] = df.apply(lambda x: conf_int_min(len(cond_list)-2,x) ,axis=1)
+        df['conf_max'] = df.apply(lambda x: conf_int_max(len(cond_list)-2,x) ,axis=1)
     return df
 
 ## Figure 2, global cluster slope vs. ribosomal slope
@@ -303,8 +307,9 @@ def get_glob(db,df):
     return df[(df['gr_cov']<limits[1]) & (df['gr_cov']>limits[0])]
  
 def set_alpha(df,gr,cond_list):
+    if len(df)>0:
     #df['alpha'] = df[cond_list].apply(lambda x: linregress(gr[cond_list]/gr[cond_list].mean(),x/x.mean())[0],axis=1)
-    df['alpha'] = df[cond_list].apply(lambda x: linregress(gr[cond_list],x/x.mean())[0],axis=1)
+        df['alpha'] = df[cond_list].apply(lambda x: linregress(gr[cond_list],x/x.mean())[0],axis=1)
     return df
 
 def plot_response_hist(db,df,gr,conds,p,total,estimate):
@@ -356,8 +361,8 @@ def plot_response_hist_graphs(dbs):
     for (name,vals) in plots.iteritems():
         figure(figsize=(5,3))
         p = subplot(111)
-        ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122)}
-        coords = {'Heinemann':0.0,'Peebo':0.62,'Valgepea':0.62}
+        ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122),'HuiAlim':subplot(121),'HuiClim':subplot(122),'HuiRlim':subplot(122)}
+        coords = {'Heinemann':0.0,'Peebo':0.62,'Valgepea':0.62,'HuiAlim':0.0,'HuiClim':0.62,'HuiRlim':0.62}
         for db in dbs:
             conds,gr,conc_data = datas[""][db]
             plot_response_hist(db,conc_data,gr,conds,ps[db],vals[0],vals[1])
@@ -841,7 +846,7 @@ def plotHighAbundance():
 
 def plotRibosomal(dbs):
     figure(figsize=(5,3))
-    ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122)}
+    ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122),'HuiAlim':subplot(121),'HuiClim':subplot(122),'HuiRlim':subplot(122)}
     for db in dbs:
         p = ps[db]
         conds,gr,coli_data = datas[""][db]
@@ -907,8 +912,8 @@ def plotPrediction():
 #plot ribosomal proteins vs. global cluster proteins with trendlines and R^2 estimates.
 def plotRibosomalVsGlobTrend(dbs):
     figure(figsize=(5,3))
-    ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122)}
-    coords = {'Heinemann':0.03,'Peebo':0.03,'Valgepea':0.03}
+    ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122), 'HuiAlim':subplot(121),'HuiClim':subplot(122),'HuiRlim':subplot(122)}
+    coords = {'Heinemann':0.03,'Peebo':0.03,'Valgepea':0.03,'HuiAlim':0.03,'HuiClim':0.03,'HuiRlim':0.03}
     for db in dbs:
         conds,gr,coli_data = datas[""][db]
         glob = get_glob(db,coli_data)
@@ -977,12 +982,13 @@ def model_effects_plot():
 
 #init_datasets("")
 model_effects_plot()
-analyzed_dbs = ['Heinemann','Peebo']
+#analyzed_dbs = ['Heinemann','Peebo']
+analyzed_dbs = ['HuiAlim','HuiClim']
 special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
-for rand_method in ["simulated","shuffle",""]:
+#for rand_method in ["simulated","shuffle",""]:
 #for rand_method in ["shuffle",""]:
-#for rand_method in [""]:
+for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method
 #for rand_method in ["simulated"]:
@@ -1004,7 +1010,8 @@ plot_response_hist_graphs(analyzed_dbs)
 plotCorrelationHistograms(analyzed_dbs,"")
 
 #for rand_method in ["simulated","shuffle",""]:
-for rand_method in ["shuffle",""]:
+#for rand_method in ["shuffle",""]:
+for rand_method in [""]:
     plotGlobalResponse(analyzed_dbs,rand_method)
     #plotMultiStats('Valgepea')
     #plotComulativeGraph()

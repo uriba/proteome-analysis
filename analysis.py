@@ -11,7 +11,7 @@ seed(123456)
 remove_unmapped = False
 just_ribosomes = False
 use_LB = False
-id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC', 'HeinemannLB':u'UP_AC','Peebo':'B number identifier' }
+id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC', 'HeinemannLB':u'UP_AC','Peebo':'B number identifier','HuiAlim':'Gene','HuiClim':'Gene',  'HuiRlim':'Gene' }
 db_used = 'Valgepea'
 avg_conc_threshold = 0.00001
 
@@ -33,6 +33,23 @@ def ko_to_desc_dict():
              elif len(row) == 5:
                 ko_annot_dict[row[-1]]=(cat,subcat,component)
     return ko_annot_dict
+
+def name_to_desc_dict():
+    n_annot_dict = {}
+
+    with open('eco_hierarchy.tms','rb') as annot_file:
+         annots = csv.reader(annot_file,delimiter='\t') #,encoding='iso-8859-1')
+         for row in annots:
+             if len(row) == 2:
+                cat = row [-1]
+             elif len(row) == 3:
+                subcat = row[-1]
+             elif len(row) == 4:
+                component = row[-1]
+             elif len(row) == 5:
+                n_annot_dict[row[-1].split(':')[0]]=(cat,subcat,component)
+    return n_annot_dict
+
 
 def b_to_desc_dict():
     b_annot_dict = {}
@@ -232,7 +249,18 @@ gr_dict = {'Valgepea': {
     u'0.42.1':0.42, u'0.53.1':0.53,
     u'0.63.1':0.63, u'0.73.1':0.73,
     u'0.78.1':0.78
-    }
+    },
+              'HuiClim': {
+    0.45205:0.45205,0.57762:0.57762,
+    0.67079:0.67079,0.86643:0.86643,
+    1.0397:1.0397 },
+              'HuiAlim': {
+    0.45702:0.45702, 0.60274:0.60274,
+    0.71705:0.71705, 0.88487:0.88487,
+    0.96718:0.96718 },
+              'HuiRlim': {
+    0.28292:0.28292, 0.40773:0.40773,
+    0.63983:0.63983, 0.99021:0.99021}
    }
 
 def get_coli_data(db_used,use_weight,rand):
@@ -270,6 +298,12 @@ def get_coli_data(db_used,use_weight,rand):
         #ecoli_data = ecoli_data[ecoli_data != 'below LOQ']
         ecoli_data[cond_list] = ecoli_data[cond_list].astype('float')
 
+    if db_used == 'HuiAlim':
+        ecoli_data = pd.read_excel('hui.xlsx',0,skiprows=4)
+    if db_used == 'HuiClim':
+        ecoli_data = pd.read_excel('hui.xlsx',0,skiprows=4)
+    if db_used == 'HuiRlim':
+        ecoli_data = pd.read_excel('hui.xlsx',0,skiprows=4)
     if db_used == 'Valgepea':
         ecoli_data = read_csv('valgepea.csv',header=0,encoding='iso-8859-1')
     if db_used == 'Peebo':
@@ -283,7 +317,8 @@ def get_coli_data(db_used,use_weight,rand):
             shuffle(y)
             ecoli_data.loc[i,cond_list] = y
     #Normalize to get concentrations
-    ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
+    if db_used not in ['HuiAlim','HuiClim','HuiRlim']:
+        ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
     #remove scarce proteins
     if db_used == 'Peebo':
         ecoli_data = ecoli_data[ecoli_data[cond_list].mean(axis=1)>avg_conc_threshold]
@@ -308,7 +343,8 @@ def get_coli_data(db_used,use_weight,rand):
     means = ecoli_data[cond_list].mean(axis=1)
     ecoli_data = ecoli_data[means>0]
     #renormalize
-    ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
+    if db_used not in ['HuiAlim','HuiClim','HuiRlim']:
+        ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
     ## create emulated data set based on actual average concentrations and noise.
     if rand == "simulated":
         ecoli_data['avg'] = ecoli_data[cond_list].mean(axis=1)
@@ -335,9 +371,6 @@ def get_coli_data(db_used,use_weight,rand):
 
 def get_annotated_prots(db,rand):
     coli_data = get_coli_data(db,use_weight=True,rand=rand)
-    if db == 'Peebo':
-        id_to_annot = b_to_desc_dict()
-        id_col = 'B number identifier'
     cond_list = cond_list_dict[db]
     if db == 'Heinemann-chemo':
         db = 'Heinemann'
@@ -364,6 +397,15 @@ def get_annotated_prots(db,rand):
     if db == 'Peebo':
         id_to_annot = b_to_desc_dict()
         id_col = 'B number identifier'
+    if db == 'HuiAlim':
+        id_to_annot = name_to_desc_dict()
+        id_col = 'Gene'
+    if db == 'HuiClim':
+        id_to_annot = name_to_desc_dict()
+        id_col = 'Gene'
+    if db == 'HuiRlim':
+        id_to_annot = name_to_desc_dict()
+        id_col = 'Gene'
     x=0
     y=0
     with open('unmappedko.txt','w+') as f:
