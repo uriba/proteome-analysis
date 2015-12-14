@@ -241,7 +241,7 @@ def tempprotsplot():
 ### Figure 3, Global cluster analysis:
 def plotGlobalResponse(dbs,rand_method):
     globalResponse[rand_method] = {}
-    colors = {'Heinemann':'blue','Peebo':'green','Valgepea':'magenta'}
+    colors = {'Heinemann':'blue','Peebo':'green','Valgepea':'magenta','HuiAlim':'cyan','HuiClim':'gray','HuiRlim':'yellow'}
 
     for db in dbs:
         conds,gr,coli_data = datas[rand_method][db]
