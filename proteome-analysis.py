@@ -34,8 +34,8 @@ def get_limits(db):
     #return (-1.,-0.5)
 
 #Initialize global data structures
-#dbs = ['Heinemann','HeinemannLB','Peebo','Valgepea']
-dbs = ['Heinemann','HeinemannLB','Peebo','HuiAlim','HuiClim','HuiRlim','Valgepea']
+dbs = ['Heinemann','HeinemannLB','Peebo','Valgepea']
+#dbs = ['Heinemann','HeinemannLB','Peebo','HuiAlim','HuiClim','HuiRlim','Valgepea']
 datas = {}
 rand_prefix = ""
 db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo','HuiAlim':'Hui','HuiClim':'Hui','HuiRlim':'Hui'}
@@ -124,6 +124,7 @@ def writeTables():
 
 ### Figure 1 - Correlation to growth rate by functional group histogram.
 categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes','NotMapped']
+categories = ['METABOLISM','INFORMATION STORAGE AND PROCESSING','-', 'CELLULAR PROCESSES AND SIGNALING','POORLY CHARACTERIZED','Unknown']
 def set_ticks(p,size):
     p.tick_params(axis='both', which='major', labelsize=size)
     p.tick_params(axis='both', which='minor', labelsize=size)
@@ -982,8 +983,8 @@ def model_effects_plot():
 
 #init_datasets("")
 model_effects_plot()
-#analyzed_dbs = ['Heinemann','Peebo']
-analyzed_dbs = ['HuiAlim','HuiClim']
+analyzed_dbs = ['Heinemann','Peebo']
+#analyzed_dbs = ['HuiAlim','HuiClim']
 special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
 #for rand_method in ["simulated","shuffle",""]:

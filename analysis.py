@@ -55,18 +55,11 @@ def name_to_desc_dict():
 
 def b_to_desc_dict():
     b_annot_dict = {}
-
-    with open('eco_hierarchy.tms','rb') as annot_file:
-         annots = csv.reader(annot_file,delimiter='\t') #,encoding='iso-8859-1')
-         for row in annots:
-             if len(row) == 2:
-                cat = row [-1]
-             elif len(row) == 3:
-                subcat = row[-1]
-             elif len(row) == 4:
-                component = row[-1]
-             elif len(row) == 5:
-                b_annot_dict[row[-1].split(':')[1]]=(cat,subcat,component)
+    uni_to_b = uni_to_locus()[0]
+    uni_to_cat = uniprot_to_category_dict()[0]
+    for uni in uni_to_cat:
+        if uni in uni_to_b:
+            b_annot_dict[uni_to_b[uni]]=uni_to_cat[uni]
     return b_annot_dict
 
 def uni_ko_dict():
@@ -77,28 +70,20 @@ def uni_ko_dict():
     return uni_konum_dict
 
 
-def uniprot_to_desc_dict():
-    ##uni_konum_dict = uni_ko_dict()
-    uni_locus_dict = uni_to_locus()[0]
-    #load the ko annotation tree:
-    ##ko_annot_dict = ko_to_desc_dict()
-    b_annot_dict = b_to_desc_dict()
-
-    uni_to_annot = {}
-    print "getting annotations"
-    for uni in uni_locus_dict:
-        if uni_locus_dict[uni] == 'NotMapped':
-            print "Unable to map %s" % uni
-            uni_to_annot[uni]=['NotMapped']
-        if uni_locus_dict[uni] == 'Not mapped':
-            print "Unable to map %s" % uni
-            uni_to_annot[uni]=['NotMapped']
-        elif uni_locus_dict[uni] not in b_annot_dict:
-            print "Unable to map %s, b %s" % (uni,uni_locus_dict[uni])
-	    uni_to_annot[uni]=['NotMapped']
-        else:
-            uni_to_annot[uni]=b_annot_dict[uni_locus_dict[uni]]
-    return uni_to_annot
+def uniprot_to_category_dict():
+    uni_cat_dict = {}
+    uni_name_dict = {}
+    cats = set()
+    df = read_csv('schmidt_prot_desc.csv')
+    for i,row in df.iterrows():
+        cat = row['Annotated functional COG class']
+        if cat == '-' or cat == 'POORLY CHARACTERIZED':\
+            cat = 'Unknown'
+        uni_cat_dict[row['Uniprot Accession']]=(cat,row['Annotated functional COG group (description)'],row['Gene'])
+        cats.add(row['Annotated functional COG class'])
+        uni_name_dict[row['Uniprot Accession']]=row['Gene']
+    print(cats)
+    return uni_cat_dict,uni_name_dict
 
 def uni_to_locus():
     uniprot_to_locus = {}
@@ -107,24 +92,6 @@ def uni_to_locus():
         uniprot_to_locus[row[48:54]]=row[0:5]
         uniprot_to_name[row[48:54]]=row[84:-1].replace(';',',')
     return (uniprot_to_locus,uniprot_to_name)
-
-def uniprot_to_offset():
-    #load location information for genes:
-    genome = SeqIO.read('U00096.2.gbk','genbank')
-
-    locus_to_offset = {}
-    for feat in genome.features:
-        if feat.type == 'CDS':
-           locus_to_offset[feat.qualifiers['locus_tag'][0]]=feat.location.start.real
-
-    uniprot_to_locus = uni_to_locus()[0]
-    uniprot_to_location = {}
-    for uni in uniprot_to_locus.keys():
-        if uniprot_to_locus[uni] in locus_to_offset.keys():
-            uniprot_to_location[uni]= locus_to_offset[uniprot_to_locus[uni]]
-        else:
-            uniprot_to_location[uni]= 0
-    return uniprot_to_location
 
 # Define the list of conditions that will be relevant for the analysis, (and the description column), the growth rates and the cell volumes, according to the database used:
 cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
@@ -380,6 +347,7 @@ def get_annotated_prots(db,rand):
     if db == 'Heinemann' or db == 'HeinemannLB':
         ##uni_to_konum = uni_ko_dict()
         uniprot_to_locus,uniprot_to_name = uni_to_locus()
+        uni_to_cat,uni_to_name = uniprot_to_category_dict()
         x=0
         with open('unmappeduni.txt','w+') as f:
             for i,r in coli_data.iterrows():
@@ -389,10 +357,10 @@ def get_annotated_prots(db,rand):
                     x+=1
             print "unmapped uniprots:%d" % x
         ##coli_data['ko_num']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uni_to_konum else uni_to_konum[x[u'UP_AC']],axis=1)
-        coli_data['b_num']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uniprot_to_locus else uniprot_to_locus[x[u'UP_AC']],axis=1)
-        coli_data['protName']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uniprot_to_name else uniprot_to_name[x[u'UP_AC']],axis=1)
-        id_to_annot = b_to_desc_dict()
-        id_col = 'b_num'
+        uni_to_cat,uni_to_name = uniprot_to_category_dict()
+        coli_data['protName']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uni_to_name else uni_to_name[x[u'UP_AC']],axis=1)
+        id_to_annot = uni_to_cat
+        id_col = 'UP_AC'
     if db == 'Valgepea':
         id_to_annot = ko_to_desc_dict()
         id_col = 'ko_num'
@@ -439,8 +407,3 @@ def calc_gr_corr(df,cond_list,gr):
     df['gr_cov']=df[cond_list].apply(lambda x: x.corr(gr[cond_list]),axis=1)
     df['rsq']=df['gr_cov']**2
     return df
-
-def add_loc_info(df):
-    if db_used == 'Heinemann' or db_used == 'HeinemannLB':
-        uni_to_loc = uniprot_to_offset()
-        conc_data['loc']=conc_data.apply(lambda x: 0 if x[id_col_dict[db_used]] not in uni_to_loc else uni_to_loc[x[id_col_dict[db_used]]],axis=1)
