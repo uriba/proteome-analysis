@@ -72,6 +72,7 @@ def uni_ko_dict():
 
 def uniprot_to_category_dict():
     uni_cat_dict = {}
+    name_cat_dict = {}
     uni_name_dict = {}
     cats = set()
     df = read_csv('schmidt_prot_desc.csv')
@@ -80,18 +81,25 @@ def uniprot_to_category_dict():
         if cat == '-' or cat == 'POORLY CHARACTERIZED':\
             cat = 'Unknown'
         uni_cat_dict[row['Uniprot Accession']]=(cat,row['Annotated functional COG group (description)'],row['Gene'])
+        name_cat_dict[row['Gene']]=(cat,row['Annotated functional COG group (description)'],row['Gene'])
         cats.add(row['Annotated functional COG class'])
         uni_name_dict[row['Uniprot Accession']]=row['Gene']
     print(cats)
-    return uni_cat_dict,uni_name_dict
+    return uni_cat_dict,uni_name_dict,name_cat_dict
 
 def uni_to_locus():
     uniprot_to_locus = {}
     uniprot_to_name = {}
+    name_to_uniprot = {}
+    locus_to_uniprot = {}
     for row in open('all_ecoli_genes.txt','r'):
         uniprot_to_locus[row[48:54]]=row[0:5]
+        locus_to_uniprot[row[0:5]]=row[48:54]
         uniprot_to_name[row[48:54]]=row[84:-1].replace(';',',')
-    return (uniprot_to_locus,uniprot_to_name)
+        names = row[84:-1].split(';')
+        for name in names:
+            name_to_uniprot[name] = row[48:54]
+    return (uniprot_to_locus,uniprot_to_name,name_to_uniprot,locus_to_uniprot)
 
 # Define the list of conditions that will be relevant for the analysis, (and the description column), the growth rates and the cell volumes, according to the database used:
 cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
@@ -341,13 +349,14 @@ def get_coli_data(db_used,use_weight,rand):
 def get_annotated_prots(db,rand):
     coli_data = get_coli_data(db,use_weight=True,rand=rand)
     cond_list = cond_list_dict[db]
+
+    uniprot_to_locus,uniprot_to_name,name_to_uniprot,locus_to_uni = uni_to_locus()
+    uni_to_cat,uni_to_name,name_to_cat = uniprot_to_category_dict()
     if db == 'Heinemann-chemo':
         db = 'Heinemann'
     #annotate coli_data according to db.
     if db == 'Heinemann' or db == 'HeinemannLB':
         ##uni_to_konum = uni_ko_dict()
-        uniprot_to_locus,uniprot_to_name = uni_to_locus()
-        uni_to_cat,uni_to_name = uniprot_to_category_dict()
         x=0
         with open('unmappeduni.txt','w+') as f:
             for i,r in coli_data.iterrows():
@@ -357,7 +366,6 @@ def get_annotated_prots(db,rand):
                     x+=1
             print "unmapped uniprots:%d" % x
         ##coli_data['ko_num']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uni_to_konum else uni_to_konum[x[u'UP_AC']],axis=1)
-        uni_to_cat,uni_to_name = uniprot_to_category_dict()
         coli_data['protName']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uni_to_name else uni_to_name[x[u'UP_AC']],axis=1)
         id_to_annot = uni_to_cat
         id_col = 'UP_AC'
@@ -368,13 +376,13 @@ def get_annotated_prots(db,rand):
         id_to_annot = b_to_desc_dict()
         id_col = 'B number identifier'
     if db == 'HuiAlim':
-        id_to_annot = name_to_desc_dict()
+        id_to_annot = name_to_cat
         id_col = 'Gene'
     if db == 'HuiClim':
-        id_to_annot = name_to_desc_dict()
+        id_to_annot = name_to_cat
         id_col = 'Gene'
     if db == 'HuiRlim':
-        id_to_annot = name_to_desc_dict()
+        id_to_annot = name_to_cat
         id_col = 'Gene'
     x=0
     y=0

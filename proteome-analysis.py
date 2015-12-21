@@ -35,11 +35,11 @@ def get_limits(db):
     #return (-1.,-0.5)
 
 #Initialize global data structures
-dbs = ['Heinemann','HeinemannLB','Peebo','Valgepea']
-#dbs = ['Heinemann','HeinemannLB','Peebo','HuiAlim','HuiClim','HuiRlim','Valgepea']
+#dbs = ['Heinemann','HeinemannLB','Peebo','Valgepea']
+dbs = ['Heinemann','HeinemannLB','Heinemann-chemo','Peebo','HuiAlim','HuiClim','HuiRlim','Valgepea']
 datas = {}
 rand_prefix = ""
-db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo','HuiAlim':'Hui','HuiClim':'Hui','HuiRlim':'Hui'}
+db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Heinemann-chemo':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo','HuiAlim':'Hui','HuiClim':'Hui','HuiRlim':'Hui'}
 def init_datasets(rand_method):
     datas[rand_method] = {}
     for db in dbs:
@@ -85,7 +85,7 @@ def writeTopProtsVar(db):
     conc_data['vars']=conc_data_vars
     tot_vars = conc_data['vars'].sum()
     conc_data = conc_data.sort('avg',ascending=False)
-    if db == 'Heinemann' or db == 'HeinemannLB':
+    if db == 'Heinemann' or db == 'HeinemannLB' or db == 'Heinemann-chemo':
         conc_data['Temp']=conc_data['protName']
     high_abdc = conc_data.head(20)
     with open('%svarsOfAbdcs%s.csv' % (rand_method,db),'wb') as csvfile:
@@ -984,21 +984,35 @@ def model_effects_plot():
 def db_corr():
     print "db corr"
     pts = []
-    figure(figsize=(5,3))
-    uni_to_b = uni_to_locus()[0]
+    not_in_peebo = 0
+    not_in_hnm = 0
+    figure(figsize=(5,5))
+    uni_to_b,a,b,b_to_uni = uni_to_locus()
     pbo = datas[""]["Peebo"][2]
-    for i,r in datas[""]["Heinemann"][2].iterrows():
+    hnm = datas[""]["Heinemann-chemo"][2]
+    for i,r in hnm.iterrows():
         x = r["avg"]
         name = r["UP_AC"]
-        y=0
+        y=0.1
         if name in uni_to_b:
             b = uni_to_b[name]
             r2 = pbo[pbo['B number identifier'] == b]
             if len(r2)>0:
                 y = r2["avg"]
+        if x>0:
+            if name not in uni_to_b or len(pbo[pbo['B number identifier'] == uni_to_b[name]]) == 0:
+                not_in_peebo+=1
         pts.append((x,y))
+    for i,r in pbo.iterrows():
+        name = r["B number identifier"]
+        if r['avg']>0:
+            if name not in b_to_uni or len(hnm[hnm['UP_AC'] == b_to_uni[name]]) == 0:
+                not_in_hnm+=1
     xs,ys = zip(*pts)
+    print ("Not in Peebo %d, not in Schmidt %d" % (not_in_peebo,not_in_hnm))
     plot(xs,ys,'.')
+    diag = linspace(1e-5,0.1)
+    plot(diag,diag,'r')
     xscale('log')
     yscale('log')
     savefig('dbscorr.pdf')
@@ -1012,8 +1026,8 @@ analyzed_dbs = ['Heinemann','Peebo']
 special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
 #for rand_method in ["simulated","shuffle",""]:
-#for rand_method in ["shuffle",""]:
-for rand_method in [""]:
+for rand_method in ["shuffle",""]:
+#for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method
 #for rand_method in ["simulated"]:
