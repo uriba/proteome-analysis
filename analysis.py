@@ -11,7 +11,7 @@ seed(123456)
 remove_unmapped = False
 just_ribosomes = False
 use_LB = False
-id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC', 'HeinemannLB':u'UP_AC','Peebo':'B number identifier','HuiAlim':'Gene','HuiClim':'Gene',  'HuiRlim':'Gene' }
+id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC', 'HeinemannLB':u'UP_AC','Peebo':'B number identifier','Peebo-gluc':'B number identifier','HuiAlim':'Gene','HuiClim':'Gene',  'HuiRlim':'Gene' }
 db_used = 'Valgepea'
 avg_conc_threshold = 0.00001
 
@@ -149,7 +149,13 @@ cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
     u'Chemostat mu=0.20',
     u'Chemostat mu=0.35',
     u'Chemostat mu=0.5'],
-                  'Peebo': [
+                  'Peebo-gluc': [
+    u'0.21.1', u'0.31.1',
+    u'0.41.1', u'0.51.2',
+    u'0.22.3', u'0.26.1',
+    u'0.36.1', u'0.46.1',
+    u'0.51.3'],
+                   'Peebo': [
     u'0.21.1', u'0.31.1',
     u'0.41.1', u'0.51.2',
     u'0.22.3', u'0.26.1',
@@ -213,7 +219,13 @@ gr_dict = {'Valgepea': {
     u'Glycerol + AA':1.27,
     u'LB':1.9,
     },
-             'Peebo': {
+             'Peebo-gluc': {
+    u'0.21.1':0.21, u'0.31.1':0.31,
+    u'0.41.1':0.41, u'0.51.2':0.51,
+    u'0.22.3':0.22, u'0.26.1':0.26,
+    u'0.36.1':0.36, u'0.46.1':0.46,
+    u'0.51.3':0.51},
+              'Peebo': {
     u'0.21.1':0.21, u'0.31.1':0.31,
     u'0.41.1':0.41, u'0.51.2':0.51,
     u'0.22.3':0.22, u'0.26.1':0.26,
@@ -285,6 +297,8 @@ def get_coli_data(db_used,use_weight,rand):
         ecoli_data = read_csv('valgepea.csv',header=0,encoding='iso-8859-1')
     if db_used == 'Peebo':
         ecoli_data = read_csv('valgepea2.csv',header=0,encoding='iso-8859-1')
+    if db_used == 'Peebo-gluc':
+        ecoli_data = read_csv('valgepea2.csv',header=0,encoding='iso-8859-1')
 
     #for rand_method in ["simulated"]:
     ## Randomize rows:
@@ -297,7 +311,7 @@ def get_coli_data(db_used,use_weight,rand):
     if db_used not in ['HuiAlim','HuiClim','HuiRlim']:
         ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
     #remove scarce proteins
-    if db_used == 'Peebo':
+    if db_used == 'Peebo' or db_used == 'Peebo-gluc':
         ecoli_data = ecoli_data[ecoli_data[cond_list].mean(axis=1)>avg_conc_threshold]
     if db_used == 'Heinemann' or db_used == 'HeinemannLB':
         dropping = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)>20.0][cond_list].sum().mean()
@@ -373,6 +387,9 @@ def get_annotated_prots(db,rand):
         id_to_annot = ko_to_desc_dict()
         id_col = 'ko_num'
     if db == 'Peebo':
+        id_to_annot = b_to_desc_dict()
+        id_col = 'B number identifier'
+    if db == 'Peebo-gluc':
         id_to_annot = b_to_desc_dict()
         id_col = 'B number identifier'
     if db == 'HuiAlim':

@@ -386,10 +386,12 @@ Our model predicts that a large portion of the proteins should increase in fract
 To test this prediction, we calculated the Pearson correlation of every protein with the growth rate (Figure \ref{fig:growthcorr}, upper panels).
 We find that about a third of the proteins (\hGlobal{} out of \hTotal{} measured in the data set from \cite{Schmidt2015}, and \vGlobal{} out of \vTotal{} in the data set from \cite{Peebo_2015}) have a strong positive ($>0.5$, see also \ref{corrthreshold}) correlation with the growth rate.
 These values are much higher than those obtained for randomized data sets (\hGlobalShuff{} and \vGlobalShuff{} strongly positively correlated proteins for the two data sets, respectively, as is further discussed in section \ref{randanalysis} and is seen in Figure \ref{fig:growthcorr} lower panels).
+Assessing the agreement between the two data sets by comparing the correlation with the growth rate of every protein across the 4 glucose limited chemostat growth conditions in \cite{Schmidt2015} and the 10 glucose limited accelerostat conditions in \cite{Peebo_2015} gives a moderate covariance of $\approx 0.3$ (Figure \ref{fig:chemcorrcomp}).
 Strong negative correlation with growth rate is much less common in the data set from \cite{Schmidt2015}.
 It is common in the data set from \cite{Peebo_2015}, where we speculate that it results from the specific way by which growth rate was controlled, namely by implicitly controlling nutrient concentration via an accelero-stat.
 The control of growth rate by gradual changes to nutrient concentration may naturally lead to gradual changes in protein levels, both increasing and decreasing, an effect that is expected under any regulatory scheme and is thus irrelevant for our analysis. 
 Notably, in both data sets, the proteins that have a high correlation with the growth rate are involved in many and varied cellular functions and span different functional groups (See tables \ref{tab:corrbreakdownh} and \ref{tab:corrbreakdownv}).
+
 
 Previous studies already found that ribosomal proteins are strongly positively correlated with growth rate \cite{Pedersen1978a, ingraham1983growth, Klumpp2008}.
 Our analysis agrees with these findings as we find the fraction of the vast majority of the ribosomal proteins to be strongly positively correlated with growth rate (\hCorrRibs{} out of \hRibs{} in the data set from \cite{Schmidt2015} and \vCorrRibs{} out of \vRibs{} in the data set from \cite{Peebo_2015}).
@@ -462,6 +464,7 @@ Most of the variability of the total fraction of these proteins can be explained
 Importantly, the strongly correlated proteins form a large fraction of the proteome, exceeding $50\%$ of the proteome by weight, at the higher growth rates.
 This is a much higher fraction than the one obtained for randomized data sets ($<4\%$, as is further discussed in section \ref{randanalysis})
 Thus, when considering the changes in proteome composition across conditions, we find that, at higher growth rates, more than $50\%$ of the proteome composition is affected by the coordinated response of the same group of proteins with growth rate.
+In the extreme case that all of the change in the expression of the strongly positivey correlated with growth rate proteins results from passive redistribution of resources, this change implies that, across the conditions used, $\approx 25\%$ of the proteome by mass changed from being dedicated to condition specific proteins, to being dedicated to the $\approx 1/3$ of the proteins that are strongly positively correlated with growth rate.
 
 Despite the magnitude of this phenomena, the fraction of the total variability in the proteome that is accounted for by this linear response is only $\approx 8\%$  in the data set from \cite{Schmidt2015} and even lower in \cite{Peebo_2015} (Figure \ref{fig:threshold}).
 While this fraction is low, it is still much higher than the equivalent $2\%$ obtained for a randomized data set based on the data from \cite{Schmidt2015}, as is described in section \ref{randanalysis}.

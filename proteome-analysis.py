@@ -6,7 +6,7 @@ from scipy import stats
 from Bio import SeqIO
 from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,text,subplots,gcf,close,xscale,yscale
 from matplotlib.markers import MarkerStyle
-from numpy import linspace,ndarray,arange,sum,square,array,cumsum,ones,mean,std
+from numpy import linspace,ndarray,arange,sum,square,array,cumsum,ones,mean,std,cov
 import numpy as np
 from numpy.random import randn
 from analysis import *
@@ -36,7 +36,7 @@ def get_limits(db):
 
 #Initialize global data structures
 #dbs = ['Heinemann','HeinemannLB','Peebo','Valgepea']
-dbs = ['Heinemann','HeinemannLB','Heinemann-chemo','Peebo','HuiAlim','HuiClim','HuiRlim','Valgepea']
+dbs = ['Heinemann','HeinemannLB','Heinemann-chemo','Peebo','Peebo-gluc','HuiAlim','HuiClim','HuiRlim','Valgepea']
 datas = {}
 rand_prefix = ""
 db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Heinemann-chemo':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo','HuiAlim':'Hui','HuiClim':'Hui','HuiRlim':'Hui'}
@@ -1018,7 +1018,31 @@ def db_corr():
     savefig('dbscorr.pdf')
     close()
         
-
+def global_corr():
+    print "global corr"
+    pts = []
+    figure(figsize=(5,5))
+    uni_to_b,a,b,b_to_uni = uni_to_locus()
+    pbo = datas[""]["Peebo-gluc"][2]
+    hnm = datas[""]["Heinemann-chemo"][2]
+    for i,r in hnm.iterrows():
+        x = r["gr_cov"]
+        name = r["UP_AC"]
+        if name in uni_to_b:
+            b = uni_to_b[name]
+            r2 = pbo[pbo['B number identifier'] == b]
+            if len(r2)>0:
+                y = r2["gr_cov"]
+            pts.append((x,y))
+    xs,ys = zip(*pts)
+    plot(xs,ys,'.')
+    diag = linspace(-1,1)
+    plot(diag,diag,'r')
+    savefig('dbsglobalcorr.pdf')
+    print "covariance of Peebo and Schmidt poritively correlated proteins is:"
+    print cov(xs,ys)
+    close()
+ 
 #init_datasets("")
 model_effects_plot()
 analyzed_dbs = ['Heinemann','Peebo']
@@ -1026,8 +1050,8 @@ analyzed_dbs = ['Heinemann','Peebo']
 special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
 #for rand_method in ["simulated","shuffle",""]:
-for rand_method in ["shuffle",""]:
-#for rand_method in [""]:
+#for rand_method in ["shuffle",""]:
+for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method
 #for rand_method in ["simulated"]:
@@ -1035,6 +1059,7 @@ for rand_method in ["shuffle",""]:
     init_datasets(rand_method)
 
 db_corr()
+global_corr()
 print "plotting prediction"
 plotPrediction()        
 print "plotting original data graphs"
@@ -1050,8 +1075,8 @@ plot_response_hist_graphs(analyzed_dbs)
 plotCorrelationHistograms(analyzed_dbs,"")
 
 #for rand_method in ["simulated","shuffle",""]:
-for rand_method in ["shuffle",""]:
-#for rand_method in [""]:
+#for rand_method in ["shuffle",""]:
+for rand_method in [""]:
     plotGlobalResponse(analyzed_dbs,rand_method)
     #plotMultiStats('Valgepea')
     #plotComulativeGraph()
