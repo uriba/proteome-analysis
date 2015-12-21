@@ -4,9 +4,10 @@ from pandas.io.parsers import read_csv
 from scipy.stats import gaussian_kde,linregress
 from scipy import stats
 from Bio import SeqIO
-from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,text,subplots,gcf,close
+from matplotlib.pyplot import hist, savefig, figure,figlegend,legend,plot,xlim,ylim,xlabel,ylabel,tight_layout,tick_params,subplot,subplots_adjust,text,subplots,gcf,close,xscale,yscale
 from matplotlib.markers import MarkerStyle
 from numpy import linspace,ndarray,arange,sum,square,array,cumsum,ones,mean,std
+import numpy as np
 from numpy.random import randn
 from analysis import *
 import matplotlib
@@ -979,6 +980,29 @@ def model_effects_plot():
     savefig('TheoreticalModelEffects.pdf')
     close()
 
+#plot heinemann/peebo protein correlation
+def db_corr():
+    print "db corr"
+    pts = []
+    figure(figsize=(5,3))
+    uni_to_b = uni_to_locus()[0]
+    pbo = datas[""]["Peebo"][2]
+    for i,r in datas[""]["Heinemann"][2].iterrows():
+        x = r["avg"]
+        name = r["UP_AC"]
+        y=0
+        if name in uni_to_b:
+            b = uni_to_b[name]
+            r2 = pbo[pbo['B number identifier'] == b]
+            if len(r2)>0:
+                y = r2["avg"]
+        pts.append((x,y))
+    xs,ys = zip(*pts)
+    plot(xs,ys,'.')
+    xscale('log')
+    yscale('log')
+    savefig('dbscorr.pdf')
+    close()
         
 
 #init_datasets("")
@@ -988,14 +1012,15 @@ analyzed_dbs = ['Heinemann','Peebo']
 special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
 #for rand_method in ["simulated","shuffle",""]:
-for rand_method in ["shuffle",""]:
-#for rand_method in [""]:
+#for rand_method in ["shuffle",""]:
+for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method
 #for rand_method in ["simulated"]:
     rand_prefix = rand_method
     init_datasets(rand_method)
 
+db_corr()
 print "plotting prediction"
 plotPrediction()        
 print "plotting original data graphs"
