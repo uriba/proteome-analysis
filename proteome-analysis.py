@@ -678,7 +678,7 @@ def variablityComparisonHein():
     savefig('%sExpVarComp.pdf' % rand_prefix)
     close()
 
-def variabilityAndGlobClustSlopesNormed(dbs):
+def variabilityAndGlobClustSlopesNormed(dbs,rand_method):
     figure(figsize=(5,3))
     p=subplot(111)
     ps = {'Heinemann':subplot(121),'Peebo':subplot(122),'Valgepea':subplot(122)}
@@ -688,7 +688,7 @@ def variabilityAndGlobClustSlopesNormed(dbs):
     for db in dbs:
         alphas[db] = []
         p=ps[db]
-        conds,gr,glob_conc = datas[db]
+        conds,gr,glob_conc = datas[rand_method][db]
         glob_conc = glob_conc.copy()
         tot_means = glob_conc['avg']
         for col in conds:
@@ -726,7 +726,7 @@ def variabilityAndGlobClustSlopesNormed(dbs):
 
     #fig = gcf()
     #py.plot_mpl(fig,filename="Explained variability statistics on normalized concentrations")
-    savefig('%sExpVar3.pdf' % rand_prefix)
+    savefig('%sExpVar3.pdf' % rand_method)
     close()
 
     figure(figsize=(5,3))
@@ -1049,9 +1049,9 @@ analyzed_dbs = ['Heinemann','Peebo']
 #analyzed_dbs = ['HuiAlim','HuiClim']
 special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
-#for rand_method in ["simulated","shuffle",""]:
+for rand_method in ["simulated","shuffle",""]:
 #for rand_method in ["shuffle",""]:
-for rand_method in [""]:
+#for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method
 #for rand_method in ["simulated"]:
@@ -1064,7 +1064,7 @@ print "plotting prediction"
 plotPrediction()        
 print "plotting original data graphs"
 #tempprotsplot()
-#corr_andGR_plot('Simulated','Heinemann')
+corr_andGR_plot('Simulated','Heinemann')
 writeTables()
 #Single histogram for presentation
     #plotCorrelationHistograms(["Valgepea"],"Val")
@@ -1074,15 +1074,15 @@ plotRibosomalVsGlobTrend(analyzed_dbs)
 plot_response_hist_graphs(analyzed_dbs)
 plotCorrelationHistograms(analyzed_dbs,"")
 
-#for rand_method in ["simulated","shuffle",""]:
+for rand_method in ["simulated","shuffle",""]:
 #for rand_method in ["shuffle",""]:
-for rand_method in [""]:
+#for rand_method in [""]:
     plotGlobalResponse(analyzed_dbs,rand_method)
     #plotMultiStats('Valgepea')
     #plotComulativeGraph()
     #plotHighAbundance()
     #variabilityAndGlobClustSlopes(analyzed_dbs)
-    #variabilityAndGlobClustSlopesNormed(analyzed_dbs) #This is the generating function for the variability analysis
+    variabilityAndGlobClustSlopesNormed(analyzed_dbs,rand_method) #This is the generating function for the variability analysis
     #variablityComparisonHein()
 for db in ['Heinemann-chemo','HeinemannLB']:
     corr_andGR_plot(db,'Peebo')

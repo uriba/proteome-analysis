@@ -620,7 +620,11 @@ R.M. is the Charles and Louise Gartner professional chair and an EMBO young inve
 \bibliography{converted_to_latex.bib}
 \section{Supplementary figures and data}
 \beginsupplement
-
+\subsection{Mathematical analysis of intrinsic affinities as aggregate parameters}
+\label{intrinsicaffinitymath}
+Our model defines, for every gene, a single numeric value representing its intrinsic affinity for expression under a given condition.
+This value encompasses many aspects of gene expression including, but not limited to, affinity for transcription of the promoter, affinity for translation of the transcript, requirements for chaperones and other mechanisms that can affect the final amount of the protein produced.
+Here we show that this notion is mathematically consistent with the main part of the central dogma meaning that if every gene has some affinity for transcription under condition $c$, representing the free energy change resulting by the initiation of transcription, $w^t_i(c)$, and some affinity for translation, representing the free energy change resulting by the initiation of translation, $w^r_i(c)$, then the final fraction of the protein out  
 \subsection{Effects of degradation and varying synthesis rate on model predictions}
 \label{theoreticalintercep}
 The predicted fraction of an unregulated protein as a function of the growth rate is to follow a linear trend crossing at the origin (Figure \ref{fig:theoreticalpred}, blue line).
@@ -812,7 +816,7 @@ Fraction of explained variability by linear regression on the group of strongly 
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=1\columnwidth]{../SimulatedsummaryHistAndGr.pdf}
+\includegraphics[width=1\columnwidth]{../HeinemannsimulatedsummaryHistAndGr.pdf}
 \caption{\label{fig:simulated}
 A simulated data set, assuming half of the proteins are perfectly correlated with growth rate and half are fixed, with simulated noise level of $25\%$.
 Average protein fractions, growth rates and normalized slope of the correlated proteins are based on the data set from \cite{Schmidt2015}.
