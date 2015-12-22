@@ -41,11 +41,11 @@ def name_to_desc_dict():
          annots = csv.reader(annot_file,delimiter='\t') #,encoding='iso-8859-1')
          for row in annots:
              if len(row) == 2:
-                cat = row [-1]
+                cat = (row [-1]).lower().capitalize()
              elif len(row) == 3:
-                subcat = row[-1]
+                subcat = (row[-1]).lower().capitalize()
              elif len(row) == 4:
-                component = row[-1]
+                component = (row[-1]).lower().capitalize()
              elif len(row) == 5:
                 s=row[-1].split(':')[0]
                 s = s[:1].lower()+s[1:] if s else ''
@@ -80,9 +80,11 @@ def uniprot_to_category_dict():
         cat = row['Annotated functional COG class']
         if cat == '-' or cat == 'POORLY CHARACTERIZED':\
             cat = 'Unknown'
+        else:
+            cat = cat.lower().capitalize()
         uni_cat_dict[row['Uniprot Accession']]=(cat,row['Annotated functional COG group (description)'],row['Gene'])
         name_cat_dict[row['Gene']]=(cat,row['Annotated functional COG group (description)'],row['Gene'])
-        cats.add(row['Annotated functional COG class'])
+        cats.add(cat)
         uni_name_dict[row['Uniprot Accession']]=row['Gene']
     print(cats)
     return uni_cat_dict,uni_name_dict,name_cat_dict
@@ -413,7 +415,7 @@ def get_annotated_prots(db,rand):
                 y+=1
     print "total unmapped ko's:%d" % x
     print "total unmapped :%d" % y
-    coli_data['group']=coli_data.apply(lambda x: 'NotMapped' if x[id_col] not in id_to_annot else (id_to_annot[x[id_col]])[0],axis=1)
+    coli_data['group']=coli_data.apply(lambda x: 'Unknown' if x[id_col] not in id_to_annot else (id_to_annot[x[id_col]])[0],axis=1)
     coli_data['func']=coli_data.apply(lambda x: 'NotMapped' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else (id_to_annot[x[id_col]])[1],axis=1)
     coli_data['prot']=coli_data.apply(lambda x: 'NotMapped' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else (id_to_annot[x[id_col]])[2],axis=1)
     coli_data['ID']=coli_data.apply(lambda x: 'NotMapped' if (x[id_col] not in id_to_annot) or (len(id_to_annot[x[id_col]]) < 3) else x[id_col],axis=1)

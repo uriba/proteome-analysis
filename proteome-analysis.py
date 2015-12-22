@@ -35,8 +35,8 @@ def get_limits(db):
     #return (-1.,-0.5)
 
 #Initialize global data structures
-#dbs = ['Heinemann','HeinemannLB','Peebo','Valgepea']
-dbs = ['Heinemann','HeinemannLB','Heinemann-chemo','Peebo','Peebo-gluc','HuiAlim','HuiClim','HuiRlim','Valgepea']
+dbs = ['Heinemann','HeinemannLB','Peebo','Valgepea']
+#dbs = ['Heinemann','HeinemannLB','Heinemann-chemo','Peebo','Peebo-gluc','HuiAlim','HuiClim','HuiRlim','Valgepea']
 datas = {}
 rand_prefix = ""
 db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Heinemann-chemo':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo','HuiAlim':'Hui','HuiClim':'Hui','HuiRlim':'Hui'}
@@ -125,7 +125,7 @@ def writeTables():
 
 ### Figure 1 - Correlation to growth rate by functional group histogram.
 categories = ['Metabolism','Genetic Information Processing','Environmental Information Processing', 'Cellular Processes','NotMapped']
-categories = ['METABOLISM','INFORMATION STORAGE AND PROCESSING','-', 'CELLULAR PROCESSES AND SIGNALING','POORLY CHARACTERIZED','Unknown']
+categories = ['Metabolism','Information storage and processing', 'Cellular processes and signaling','Unknown']
 def set_ticks(p,size):
     p.tick_params(axis='both', which='major', labelsize=size)
     p.tick_params(axis='both', which='minor', labelsize=size)
@@ -137,56 +137,68 @@ def plot_corr_hist(p,db,conc_data,categories):
 
     for x in categories:
         sets.append(conc_data[conc_data['group']==x].gr_cov)
+    if len(categories)>1:
+        p.hist(sets,bins = bins, stacked = True,label=categories)
+    else:
+        p.hist(conc_data.gr_cov,bins = bins, color='0.75')
 
-    p.hist(sets,bins = bins, stacked = True,label=categories)
-    handles,labels=p.get_legend_handles_labels()
-    set_ticks(p,8)
-    p.set_xlabel('Pearson correlation with growth rate',fontsize=8)
-    p.set_ylabel('Number of proteins',fontsize=8)
+    set_ticks(p,6)
+    p.set_xlabel('Pearson correlation with growth rate',fontsize=6)
+    p.set_ylabel('Number of proteins',fontsize=6)
     for limit in get_limits(db):
         p.axvline(x=limit,ymin=0,ymax=250,ls='--',color='black',lw=0.5)
 
 
 
 def plotCorrelationHistograms(dbs,suffix):
-    figure(figsize=(5,5))
+    figure(figsize=(6,2.6))
 
     coords = {'Heinemann':0.01,'Peebo':0.627,'Valgepea':0.627,'HuiAlim':0.01,'HuiClim':0.627,'HuiRlim':0.627}
-    ycoords = {'':0.931,'shuffle':0.36}
     p=subplot(111)
     rands = [""]
-    ps = {("",'Peebo'):subplot(122),("",'Valgepea'):subplot(122),("",'HuiAlim'):subplot(121),("",'HuiClim'):subplot(122),("",'HuiRlim'):subplot(122)}
+    ps = {("",'Peebo'):subplot(132),("",'Valgepea'):subplot(132),("",'HuiAlim'):subplot(121),("",'HuiClim'):subplot(122),("",'HuiRlim'):subplot(122)}
     if(len(dbs)>1):
-        ps['Heinemann'] = subplot(121)
-#        rands = ["","shuffle"]
-        ps = {  ("",'Heinemann'):subplot(221),
-                ("",'Peebo'):subplot(222),
-                ("",'Valgepea'):subplot(222),
-                ("",'HuiAlim'):subplot(221),
-                ("",'HuiClim'):subplot(222),
-                ("",'HuiRlim'):subplot(222),
-                ("shuffle",'Heinemann'):subplot(223),
-                ("shuffle",'Peebo'):subplot(224),
-                ("shuffle",'Valgepea'):subplot(224)}
+        ps['Heinemann'] = subplot(131)
+        rands = ["","shuffle"]
+        ps = {  ("",'Heinemann'):subplot(131),
+                ("",'Peebo'):subplot(132),
+                ("",'Valgepea'):subplot(132),
+                ("",'HuiAlim'):subplot(131),
+                ("",'HuiClim'):subplot(132),
+                ("",'HuiRlim'):subplot(132),
+                ("shuffle",'Heinemann'):subplot(133),
+                ("shuffle",'Peebo'):subplot(133),
+                ("shuffle",'Valgepea'):subplot(131)}
+        horiz = {   ("",'Heinemann'):-0.027,
+                    ("",'Peebo'):0.392,
+                    ("shuffle",'Peebo'):0.81}
 
-    for rand in rands:
-        for db in dbs:
+        for rand,db in [("","Heinemann"),('','Peebo'),('shuffle','Peebo')]:
             conds,gr,conc_data = datas[rand][db]
-            plot_corr_hist(ps[(rand,db)],db,conc_data,categories)
+            if rand == 'shuffle':
+                conc_data['group'] = ""
+                plot_corr_hist(ps[(rand,db)],db,conc_data,[""])
+            else:
+                plot_corr_hist(ps[(rand,db)],db,conc_data,categories)
             ps[(rand,db)].set_ylim(0,250)
             ps[(rand,db)].set_xlim(-1,1)
-            if rand == '':
-                text(coords[db],ycoords[rand],"data from %s et. al. 2015" % db_name[db],fontsize=7,transform=p.transAxes)
-            if rand == 'shuffle':
-                text(coords[db],ycoords[rand],"shuffled data\nbased on %s et. al. 2015" % db_name[db],fontsize=7,transform=p.transAxes)
+            if (rand,db) == ("","Heinemann"):
+                text(horiz[(rand,db)]+0.02,0.9,"A",fontsize=10,transform=p.transAxes)
+                text(horiz[(rand,db)],0.86,"data from %s et. al. 2015" % db_name[db],fontsize=6,transform=p.transAxes)
+            if (rand,db) == ("","Peebo"):
+                text(horiz[(rand,db)]+0.02,0.9,"B",fontsize=10,transform=p.transAxes)
+                text(horiz[(rand,db)],0.86,"data from %s et. al. 2015" % db_name[db],fontsize=6,transform=p.transAxes)
+            if (rand,db) == ("shuffle","Peebo"):
+                text(horiz[(rand,db)]+0.02,0.9,"C",fontsize=10,transform=p.transAxes)
+                text(horiz[(rand,db)],0.86,"shuffled data",fontsize=6,transform=p.transAxes)
 
     #assume both subplots have the same categories.
     handles,labels=ps[("",dbs[0])].get_legend_handles_labels()
 
     tight_layout()
-    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.2,0.8,0.6,0.2),ncol=2)
+    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.1,0.8,0.8,0.2),ncol=2)
 
-    subplots_adjust(top=0.87)
+    subplots_adjust(top=0.85)
     #fig = gcf()
     #py.plot_mpl(fig,filename="Growth rate Correlation histograms")
     savefig('%sGrowthRateCorrelation%s.pdf' % (rand_prefix,suffix))
@@ -1049,8 +1061,8 @@ analyzed_dbs = ['Heinemann','Peebo']
 #analyzed_dbs = ['HuiAlim','HuiClim']
 special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
-for rand_method in ["simulated","shuffle",""]:
-#for rand_method in ["shuffle",""]:
+#for rand_method in ["simulated","shuffle",""]:
+for rand_method in ["shuffle",""]:
 #for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method
@@ -1058,10 +1070,10 @@ for rand_method in ["simulated","shuffle",""]:
     rand_prefix = rand_method
     init_datasets(rand_method)
 
-db_corr()
-global_corr()
+#db_corr()
+#global_corr()
 print "plotting prediction"
-plotPrediction()        
+#plotPrediction()        
 print "plotting original data graphs"
 #tempprotsplot()
 corr_andGR_plot('Simulated','Heinemann')
@@ -1074,8 +1086,8 @@ plotRibosomalVsGlobTrend(analyzed_dbs)
 plot_response_hist_graphs(analyzed_dbs)
 plotCorrelationHistograms(analyzed_dbs,"")
 
-for rand_method in ["simulated","shuffle",""]:
-#for rand_method in ["shuffle",""]:
+#for rand_method in ["simulated","shuffle",""]:
+for rand_method in ["shuffle",""]:
 #for rand_method in [""]:
     plotGlobalResponse(analyzed_dbs,rand_method)
     #plotMultiStats('Valgepea')
