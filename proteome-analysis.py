@@ -138,9 +138,9 @@ def plot_corr_hist(p,db,conc_data,categories):
     for x in categories:
         sets.append(conc_data[conc_data['group']==x].gr_cov)
     if len(categories)>1:
-        p.hist(sets,bins = bins, stacked = True,label=categories)
+        p.hist(sets,bins = bins, stacked = True,label=categories,zorder=0)
     else:
-        p.hist(conc_data.gr_cov,bins = bins, color='0.75')
+        p.hist(conc_data.gr_cov,bins = bins, color='0.75',zorder=0)
 
     set_ticks(p,6)
     p.set_xlabel('Pearson correlation with growth rate',fontsize=6)
@@ -173,30 +173,24 @@ def plotCorrelationHistograms(dbs,suffix):
                     ("",'Peebo'):0.392,
                     ("shuffle",'Peebo'):0.81}
 
-        for rand,db in [("","Heinemann"),('','Peebo'),('shuffle','Peebo')]:
+        for rand,db,panel in [("","Heinemann",'A'),('','Peebo','B'),('shuffle','Peebo','C')]:
             conds,gr,conc_data = datas[rand][db]
             if rand == 'shuffle':
                 conc_data['group'] = ""
                 plot_corr_hist(ps[(rand,db)],db,conc_data,[""])
+                ps[(rand,db)].annotate("shuffled data",xy=(0.5,0.5),xytext=(-0.94,210),fontsize=6,zorder=10)
             else:
                 plot_corr_hist(ps[(rand,db)],db,conc_data,categories)
+                ps[(rand,db)].annotate("data from %s et. al. 2015" % db_name[db],xy=(0.5,0.5),xytext=(-0.94,210),fontsize=6,zorder=10)
             ps[(rand,db)].set_ylim(0,250)
             ps[(rand,db)].set_xlim(-1,1)
-            if (rand,db) == ("","Heinemann"):
-                text(horiz[(rand,db)]+0.02,0.9,"A",fontsize=10,transform=p.transAxes)
-                text(horiz[(rand,db)],0.86,"data from %s et. al. 2015" % db_name[db],fontsize=6,transform=p.transAxes)
-            if (rand,db) == ("","Peebo"):
-                text(horiz[(rand,db)]+0.02,0.9,"B",fontsize=10,transform=p.transAxes)
-                text(horiz[(rand,db)],0.86,"data from %s et. al. 2015" % db_name[db],fontsize=6,transform=p.transAxes)
-            if (rand,db) == ("shuffle","Peebo"):
-                text(horiz[(rand,db)]+0.02,0.9,"C",fontsize=10,transform=p.transAxes)
-                text(horiz[(rand,db)],0.86,"shuffled data",fontsize=6,transform=p.transAxes)
+            ps[(rand,db)].annotate(panel,xy=(0.5,0.5),xytext=(-0.9,230),fontsize=10,zorder=10)
 
     #assume both subplots have the same categories.
     handles,labels=ps[("",dbs[0])].get_legend_handles_labels()
 
     tight_layout()
-    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.1,0.8,0.8,0.2),ncol=2)
+    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.15,0.8,0.7,0.2),ncol=2)
 
     subplots_adjust(top=0.85)
     #fig = gcf()
