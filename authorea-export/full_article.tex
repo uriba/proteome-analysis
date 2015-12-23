@@ -385,7 +385,7 @@ We therefore consider continuous growth conditions together with the distinct co
 Our model predicts that a large portion of the proteins should increase in fraction with the growth rate, as that is the expected change for proteins that are not specifically regulated between conditions.
 To test this prediction, we calculated the Pearson correlation of every protein with the growth rate (Figure \ref{fig:growthcorr}, upper panels).
 We find that about a third of the proteins (\hGlobal{} out of \hTotal{} measured in the data set from \cite{Schmidt2015}, and \vGlobal{} out of \vTotal{} in the data set from \cite{Peebo_2015}) have a strong positive ($>0.5$, see also \ref{corrthreshold}) correlation with the growth rate.
-These values are much higher than those obtained for randomized data sets (\hGlobalShuff{} and \vGlobalShuff{} strongly positively correlated proteins for the two data sets, respectively, as is further discussed in section \ref{randanalysis} and is seen in Figure \ref{fig:growthcorr} lower panels).
+These values are much higher than those obtained for randomized data sets (\hGlobalShuff{} and \vGlobalShuff{} strongly positively correlated proteins for the two data sets, respectively, as is further discussed in section \ref{randanalysis} and is seen in Figure \ref{fig:growthcorr}C).
 Assessing the agreement between the two data sets by comparing the correlation with the growth rate of every protein across the 4 glucose limited chemostat growth conditions in \cite{Schmidt2015} and the 10 glucose limited accelerostat conditions in \cite{Peebo_2015} gives a moderate covariance of $\approx 0.3$ (Figure \ref{fig:chemcorrcomp}).
 Strong negative correlation with growth rate is much less common in the data set from \cite{Schmidt2015}.
 It is common in the data set from \cite{Peebo_2015}, where we speculate that it results from the specific way by which growth rate was controlled, namely by implicitly controlling nutrient concentration via an accelero-stat.
@@ -402,10 +402,11 @@ Importantly, the proteins that we find to be strongly positively correlated with
 \begin{center}
 \includegraphics[width=1\columnwidth]{../GrowthRateCorrelation.pdf}
 \caption{\label{fig:growthcorr}
-A strong positive Pearson correlation between the fraction out of the proteome and the growth rate is observed for a large number of proteins in two data sets (upper panels).
+A strong positive Pearson correlation between the fraction out of the proteome and the growth rate is observed for a large number of proteins in two data sets.
+(A-B) Shown are histograms displaying the correlations of all proteins to growth rate in the data from \cite{Schmidt2015} (A) and \cite{Peebo_2015} (B).
 Functional protein groups are denoted by different colors.
 Thresholds defining high correlation are marked in dashed lines and further discussed in \ref{corrthreshold}.
-Shuffling the amounts of every protein across conditions reveals the bias towards positive correlation with growth rate is non-trivial (lower panels).
+(C) Shuffling the amounts of every protein across conditions for the data set from \cite{Peebo_2015} reveals the bias towards positive correlation with growth rate is non-trivial.
 %
 }
 \end{center}
@@ -496,7 +497,7 @@ To this extent we repeated our analysis on two simulated data sets:
 \end{itemize}
 
 We find that in the shuffled sets the number of proteins being significantly positively correlated with
-growth rate is much smaller than found in the real data sets (\hGlobalShuff{} vs. \hGlobal{} in the data set from \cite{Schmidt2015} and \vGlobalShuff{} vs. \vGlobal{} in the data set from \cite{Peebo_2015}) as is shown in Figure \ref{fig:growthcorr}, lower panels.
+growth rate is much smaller than found in the real data sets (\hGlobalShuff{} vs. \hGlobal{} in the data set from \cite{Schmidt2015} and \vGlobalShuff{} vs. \vGlobal{} in the data set from \cite{Peebo_2015}) as is shown in Figure \ref{fig:growthcorr}C.
 As a consequence, these proteins now occupy a much smaller fraction out of the proteome mass-wise ($<4\%$ on average across conditions vs. $\approx 40\%$ in the real data sets) as is shown in Figure \ref{fig:globalgrcorr}.
 Finally, the fraction of variability in the proteome that can be explained by a single linear regression to these proteins is smaller for the shuffled data sets than that obtained for the real data set ($2\%$ vs. $8\%$ for a threshold of $R\ge0.5$ for the data from \cite{Schmidt2015} and $1\%$ vs. $3.5\%$ for the data set from \cite{Peebo_2015}), as is seen in Figure \ref{fig:shuffledexpvar}.
 
