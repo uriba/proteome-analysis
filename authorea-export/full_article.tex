@@ -274,7 +274,7 @@ In mathematical terms this will change the denominator in equation \ref{eq:conce
 
 
 Generalizing this notion, we can divide the proteins into those whose intrinsic affinity remains constant across all of the considered conditions, and those whose intrinsic affinity changes between at least some of the conditions (Figure \ref{fig:model}).
-An interesting consequence is that proteins whose intrinsic affinities remain constant also maintain their relative ratios across these conditions with respect to each other, as observed experimentally in \emph{S.cerevisae} in \cite{Keren2013}.
+An interesting consequence is that proteins whose intrinsic affinities remain constant also maintain their relative ratios across these conditions with respect to each other, as observed experimentally in \emph{S.cerevisiae} in \cite{Keren2013}.
 
 \subsubsection{Growth rate is the combined outcome of proteome composition and environmental conditions}
 While it is sometimes implied that different cellular components are regulated by the growth rate, our model considers the growth rate as an outcome of the environmental conditions that affect the proteome composition.
@@ -291,7 +291,9 @@ If the bio-synthetic machinery is only half of the proteome, the doubling time w
 
 To integrate the notion of total protein to bio-synthetic protein ratio into our model, we make the following simplifying assumption:
 There is a group of bio-synthetic genes (e.g. genes of the transcriptional and translational machineries) the affinities of which remain constant across different growth conditions, that is, these genes are not actively differentially regulated across different conditions.
-Furthermore, we assume that the machineries these genes are involved in, operate at relatively constant rates and active to non-active ratios across conditions, as has been shown for ribosomes \cite{Bremer1987}.
+Furthermore, we assume that the machineries these genes are involved in, operate at relatively constant rates and active to non-active ratios across conditions \cite{Bremer1987}.
+We are aware that these values are estimated to change by up to 2 fold and, for now, consider such changes to be negligible.
+We incorporate the effects of changes to synthesis rates into our model in section \ref{slowbiosynthesis}.
 
 Formally, we define the group of bio-synthesis genes, $G_B$, such that, for every gene that belongs to this group, $k \in G_B$, its affinity, $w_k(c)$ is constant regardless of the condition, $c$.
 \begin{equation}
@@ -338,6 +340,7 @@ However, it is known that the fractions of these proteins, and specifically of r
 We can account for this phenomenon by including protein degradation in our model.
 
 We assume the degradation rate to be constant for all genes and conditions.
+Experimental evindece in \emph{S.cerevisiae} suggest that protein degradation occures at relatively slow rates with half lives of $\approx10$ hours \cite{Christiano2014}.
 The \emph{observed} growth rate, $g$, is the amount of proteins produced \emph{minus} the amount of proteins degraded.
 To illustrate, at zero growth rate, the implication is not that no proteins are produced, but rather that proteins are produced at exactly the same rate as they are degraded.
 
@@ -355,6 +358,7 @@ Thus, at zero growth rate, the fraction of non-differentially regulated proteins
 \label{slowbiosynthesis}
 The simplified model assumes that the doubling time is proportional to the ratio of total protein to bio-synthetic protein.
 This assumption fails if the rate at which each bio-synthetic machine operates changes across conditions.
+While ribosomal translation rates and mRNA transcription rates are relatively constant per synthesizeing machinary unit, they may change up to 2 fold across different conditions \cite{Bremer1987}.
 Replacing this assumption by an interdependence of bio-synthesis rate with growth rate (such that, the faster the growth, the faster the synthesis rates, per machine)\cite{Bremer1987,Valgepea2013}, will affect the resulting predictions as well.
 This effect is formally analyzed in section \ref{theoreticalintercep}.
 Slower bio-synthesis rates under slower growth rates imply that, compared with the model prediction, higher fraction of bio-synthesis proteins is needed to achieve a given growth rate.
