@@ -82,8 +82,11 @@ def uniprot_to_category_dict():
             cat = 'Unknown'
         else:
             cat = cat.lower().capitalize()
-        uni_cat_dict[row['Uniprot Accession']]=(cat,row['Annotated functional COG group (description)'],row['Gene'])
-        name_cat_dict[row['Gene']]=(cat,row['Annotated functional COG group (description)'],row['Gene'])
+        gene = row['Gene']
+        if "ribosomal protein" in row["Description"]:
+            gene = "Ribosome"
+        uni_cat_dict[row['Uniprot Accession']]=(cat,row['Annotated functional COG group (description)'],gene)
+        name_cat_dict[row['Gene']]=(cat,row['Annotated functional COG group (description)'],gene)
         cats.add(cat)
         uni_name_dict[row['Uniprot Accession']]=row['Gene']
     print(cats)

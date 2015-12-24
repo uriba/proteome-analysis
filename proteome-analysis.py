@@ -35,8 +35,8 @@ def get_limits(db):
     #return (-1.,-0.5)
 
 #Initialize global data structures
-dbs = ['Heinemann','HeinemannLB','Peebo','Valgepea']
-#dbs = ['Heinemann','HeinemannLB','Heinemann-chemo','Peebo','Peebo-gluc','HuiAlim','HuiClim','HuiRlim','Valgepea']
+#dbs = ['Heinemann','HeinemannLB','Peebo','Valgepea']
+dbs = ['Heinemann','HeinemannLB','Heinemann-chemo','Peebo','Peebo-gluc','HuiAlim','HuiClim','HuiRlim','Valgepea']
 datas = {}
 rand_prefix = ""
 db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Heinemann-chemo':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo','HuiAlim':'Hui','HuiClim':'Hui','HuiRlim':'Hui'}
@@ -433,7 +433,7 @@ def corr_andGR_plot(db,ref):
     plot_corr_hist(p1,db,ecoli_data_chemo,categories)
 
     handles,labels=p1.get_legend_handles_labels()
-    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.05,0.8,0.5,0.2),ncol=2)
+    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.05,0.8,0.7,0.2),ncol=2)
     glob_chemo = get_glob(db,ecoli_data_chemo)
     print "%s global cluster is %d out of %d measured proteins" % (db, len(glob_chemo),len(ecoli_data_chemo[ecoli_data_chemo['gr_cov']>-1.]))
 
@@ -1055,8 +1055,8 @@ analyzed_dbs = ['Heinemann','Peebo']
 #analyzed_dbs = ['HuiAlim','HuiClim']
 special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
-#for rand_method in ["simulated","shuffle",""]:
-for rand_method in ["shuffle",""]:
+for rand_method in ["simulated","shuffle",""]:
+#for rand_method in ["shuffle",""]:
 #for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method
@@ -1064,8 +1064,8 @@ for rand_method in ["shuffle",""]:
     rand_prefix = rand_method
     init_datasets(rand_method)
 
-#db_corr()
-#global_corr()
+db_corr()
+global_corr()
 print "plotting prediction"
 #plotPrediction()        
 print "plotting original data graphs"
@@ -1080,8 +1080,8 @@ plotRibosomalVsGlobTrend(analyzed_dbs)
 plot_response_hist_graphs(analyzed_dbs)
 plotCorrelationHistograms(analyzed_dbs,"")
 
-#for rand_method in ["simulated","shuffle",""]:
-for rand_method in ["shuffle",""]:
+for rand_method in ["simulated","shuffle",""]:
+#for rand_method in ["shuffle",""]:
 #for rand_method in [""]:
     plotGlobalResponse(analyzed_dbs,rand_method)
     #plotMultiStats('Valgepea')
