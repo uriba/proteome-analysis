@@ -148,8 +148,6 @@ def plot_corr_hist(p,db,conc_data,categories):
     for limit in get_limits(db):
         p.axvline(x=limit,ymin=0,ymax=250,ls='--',color='black',lw=0.5)
 
-
-
 def plotCorrelationHistograms(dbs,suffix):
     figure(figsize=(6,2.6))
 
@@ -1049,6 +1047,32 @@ def global_corr():
     print cov(xs,ys)
     close()
  
+def plot_all_dbs_hist():
+    figure(figsize=(6,5))
+    dbs = ['Heinemann-chemo','Peebo-gluc','Valgepea','HuiAlim','HuiClim','HuiRlim']
+    p=subplot(111)
+    for i,db in enumerate(dbs):
+        ps = subplot(230+i)
+        conds,gr,conc_data = datas[""][db]
+        plot_corr_hist(ps,db,conc_data,categories)
+
+        ps.annotate("data from %s et. al. 2015" % db_name[db],xy=(0.5,0.5),xytext=(-0.94,210),fontsize=6,zorder=10)
+        ps[(rand,db)].set_ylim(0,250)
+        ps[(rand,db)].set_xlim(-1,1)
+        ps[(rand,db)].annotate(chr(65+i),xy=(0.5,0.5),xytext=(-0.9,230),fontsize=10,zorder=10)
+
+    #assume both subplots have the same categories.
+    handles,labels=ps.get_legend_handles_labels()
+
+    tight_layout()
+    figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.15,0.8,0.7,0.2),ncol=2)
+
+    subplots_adjust(top=0.85)
+    #fig = gcf()
+    #py.plot_mpl(fig,filename="Growth rate Correlation histograms")
+    savefig('AllDbsGrowthRateCorrelation.pdf')
+    close()
+
 #init_datasets("")
 model_effects_plot()
 analyzed_dbs = ['Heinemann','Peebo']
@@ -1064,6 +1088,7 @@ for rand_method in ["simulated","shuffle",""]:
     rand_prefix = rand_method
     init_datasets(rand_method)
 
+plot_all_dbs_hist()
 db_corr()
 global_corr()
 print "plotting prediction"
