@@ -116,11 +116,13 @@ in protein expression with growth rate}
 \begin{document}
 
 \maketitle 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% To do in future versions:
+%regoriously define w_i(c) based on gibbs free energies
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% to do prior to submission:
 %db correlation plots and data, grcorr comparison between gradual titrated databases.
-%talk about gradual titration data sets
-%explain omission of hwa data
-%define w_i rigorously
-%move population statistics to SI
+%correlation graph between the proteins of the two data sets analyzed - avg prot frac vs avg prot frac, correlation vs correlation, consider using only glucose chemostats or all conditions, or both. 
 
 \begin{abstract}
 Most proteins show changes in level across growth conditions. Many of
@@ -236,11 +238,10 @@ In the model, every gene is given an 'affinity-for-expression' (or 'intrinsic-af
 This gene-specific value can in principle change across conditions but a key feature is that the gene intrinsic affinity tends to have the same value across many conditions.
 Often two values are enough across all conditions, an "off" and "on" value.
 
-While the intrinsic affinity is a lumped up parameter, combining effects on transcription, translation and other factors together, it is very real and can be formally defined in units of protein molecules produced per unit time under standard growth condition $c$.
+While the intrinsic affinity is a lumped up parameter, combining effects on transcription, translation and other factors together, it can be formally defined in units of protein molecules produced per unit time under standard growth condition $c$.
 The use of intrinsic affinities in our model does not require inferring their absolute values and does not require teasing apart the effect of each of their components.
-We mainly compare and take ratios of intrinsic affinites to show how they can be used to understand changes in specific growth rate as a result of expression modulation.
-Conceptually, intrinsic affinities resemble standard Gibbs energies, they integrate many parameters, are hard to calculate, are given under some standard condition, and can be used in different contexts without knowing their actual values.
-Further mathematical justification for the assumption that intrinsic affinites exist and how different factors integrate to form consistent affinities is given in \ref{intrinsicaffinitymath}.
+We compare and take ratios of intrinsic affinites to show how they can be used to understand changes in specific growth rate as a result of expression modulation.
+Conceptually, intrinsic affinities resemble standard Gibbs energies, they integrate many parameters, are given under some standard condition, represent tendencies of processes to to occur, and can be used in different contexts without knowing their exact values.
 
 We denote the affinity of gene $i$ under growth condition $c$ by $w_i(c)$.
 To determine the resulting fraction of every protein, our model assumes that the bio-synthetic resources are distributed among the genes according to those affinities, as is stated in Equation \ref{eq:concentration-ratio}.
@@ -380,11 +381,12 @@ To assess the extent to which this prediction is reflected in actual proteome co
 These data sets use mass spectrometry to evaluate the proteomic composition of \emph{E.coli} under \vConds{} different growth rates using an accelerostat \cite{Paalme_1995}, and \hConds{} different growth conditions, spanning both different carbon sources and chemostat-controlled growth rates, respectively.
 The data set from \cite{Schmidt2015} contains more conditions than those analyzed below, see section \ref{heinemanncond} for further details.
 
-We analyzed two more proteomic data sets from \cite{Valgepea2013} and \cite{Hui_2015}.
-As these two data sets have different limitations and caveats that make them less adequate for use in our main analysis, the results of their analysis, as well as the caveats they present, are presented in \ref{furtherdatasetanalysis}.
+Other proteomic data sets of \emph{E.coli} have been published in recent years (\cite{Valgepea2013} and \cite{Hui_2015}).
+These data sets where measured under conditions that make them less adequate for our analysis as is further discussed in \ref{furtherdatasetanalysis}.
 
-We note that continuously controlled growth rates (such as those obtained in chemostats and accelerostats) do not naturally yield our suggested control mechanism of a limited and discrete number of affinities for expression per gene.
-A few scenarios may explain why switching between regulatory states occures when gradually modulating growth rate and how discrete regulatory mechanisms may yield continuesly modified observed affinities: 
+We note that continuously controlled growth rates (such as those obtained in chemostats and accelerostats) tend to yield uniform results that roughly split the proteins to two groups, a group of proteins the concentration of which increases with the growth rate, and a group of proteins the concentration of which decreases with growth rate.
+Thus, such conditions do not naturally yield our suggested control mechanism of a limited and discrete number of affinities for expression per gene.
+A few reasons may explain why switching between discrete regulatory states occures when gradually modulating growth rate and how discrete regulatory mechanisms may yield continuesly modified observed affinities: 
 (A) different proteins may catalyze the same reaction but under different contexts (for example high vs. low affinity transporters) in which case an on/off switch may be at play when a certain threshold is crossed even under the same carbon source; 
 (B) single cells may have only on/off control, but due to population stochastisity, the average affinity over the population may reflect different fractions of the population being at each control state; 
 (C) an on/off control mechanism may change its state rapidly, spending different fractions of time at each regulatory state based on the exact environmental cues and concentrations of triggers, resulting in an observed average affinity that is contiuous between the two extreme on/off affinities.
@@ -632,11 +634,6 @@ R.M. is the Charles and Louise Gartner professional chair and an EMBO young inve
 \bibliography{converted_to_latex.bib}
 \section{Supplementary figures and data}
 \beginsupplement
-\subsection{Mathematical analysis of intrinsic affinities as aggregate parameters}
-\label{intrinsicaffinitymath}
-Our model defines, for every gene, a single numeric value representing its intrinsic affinity for expression under a given condition.
-This value encompasses many aspects of gene expression including, but not limited to, affinity for transcription of the promoter, affinity for translation of the transcript, requirements for chaperones and other mechanisms that can affect the final amount of the protein produced.
-Here we show that this notion is mathematically consistent with the main part of the central dogma meaning that if every gene has some affinity for transcription under condition $c$, representing the free energy change resulting by the initiation of transcription, $w^t_i(c)$, and some affinity for translation, representing the free energy change resulting by the initiation of translation, $w^r_i(c)$, then the final fraction of the protein out  
 \subsection{Effects of degradation and varying synthesis rate on model predictions}
 \label{theoreticalintercep}
 The predicted fraction of an unregulated protein as a function of the growth rate is to follow a linear trend crossing at the origin (Figure \ref{fig:theoreticalpred}, blue line).
@@ -670,6 +667,27 @@ For non-constant bio-synthesis rate, a growth rate of 0.2 was selected as the gr
 }
 \end{center}
 \end{figure}
+
+\subsection{Databases omitted from the main analysis}
+\label{furtherdatasetanalysis}.
+Two published whole proteome \emph{E.coli} data sets were omitted from our analysis (\cite{Valgepea2013} and {\cite{Hui_2015}).
+Both of these data sets present gradual modulation of the growth rate by a single factor (the data set from \cite{Hui_2015} uses 3 different factors, each independently).
+Such modulations yield very typical distributions of correlation with growth rate of proteins roughly dividing the proteome to 3 groups, proteins the concentration of which increases with growth rate, proteins the concentration of which decreases with growth rate, and proteins that show no evident correlation with growth rate \ref{fig:grcorr_dbs}.
+
+Under such conditions it is evident that one cannot distinguish between proteins that are actively regulated, and proteins that are passively regulated, as in either case (by our predictions) such proteins will increase in concentration with growth rate.
+Furthermore, smaller number of conditions increases the probabilty of proteins to yield extremely high or low correlation with growth rate due to measurement noise.
+To illustrate, in the extreme case of measureing only two conditions, every protein (unless presenting exactly the same amount under the two conditions) will have either a perfect positive correlation with the growth rate, or a perfect negative correlation with the growth rate, depending on whether it is higherly expressed under the second condition or the first one.
+Unfortunately, both of these data sets use relatively small number of measurements.
+
+The data sets from \cite{Hui_2015} use different titration methods to modify the growth rate under different limitations.
+It is unclear how the regulatory network of the cells responds to these titration methods as they use artificial constructs or antibiotics, both of which are signals the regulatory network likely did not evolve to respond to.
+
+The range of growth rate spanned by the data set from \cite{Hui_2015} is relatively narrow.
+From our analysis of the other data sets, it follows that the predicted changes in concentration due to passive effects under such a range are small, making it hard to distinguish between actual changes and measurement noise.
+
+Finally, the data set from \cite{Hui_2015} does not report absolute protein quantities but rather the ratio of protein change to a standard condition of growth.
+It therefore does not allow us to estimate the magnitude of changes in terms of mass and total fractions of the proteome as is needed by our analysis.
+
 
 \subsection{Threshold selection for defining strong correlation with growth rate}
 \label{corrthreshold} 
