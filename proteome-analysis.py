@@ -39,7 +39,7 @@ def get_limits(db):
 dbs = ['Heinemann','HeinemannLB','Heinemann-chemo','Peebo','Peebo-gluc','HuiAlim','HuiClim','HuiRlim','Valgepea']
 datas = {}
 rand_prefix = ""
-db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Heinemann-chemo':'Schmidt','Valgepea':'Valgepea','Peebo':'Peebo','HuiAlim':'Hui','HuiClim':'Hui','HuiRlim':'Hui'}
+db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Heinemann-chemo':'Schmidt','Valgepea':'Valgepea','Peebo-gluc':'Peebo','Peebo':'Peebo','HuiAlim':'Hui','HuiClim':'Hui','HuiRlim':'Hui'}
 def init_datasets(rand_method):
     datas[rand_method] = {}
     for db in dbs:
@@ -1052,14 +1052,14 @@ def plot_all_dbs_hist():
     dbs = ['Heinemann-chemo','Peebo-gluc','Valgepea','HuiAlim','HuiClim','HuiRlim']
     p=subplot(111)
     for i,db in enumerate(dbs):
-        ps = subplot(230+i)
+        ps = subplot(231+i)
         conds,gr,conc_data = datas[""][db]
         plot_corr_hist(ps,db,conc_data,categories)
 
         ps.annotate("data from %s et. al. 2015" % db_name[db],xy=(0.5,0.5),xytext=(-0.94,210),fontsize=6,zorder=10)
-        ps[(rand,db)].set_ylim(0,250)
-        ps[(rand,db)].set_xlim(-1,1)
-        ps[(rand,db)].annotate(chr(65+i),xy=(0.5,0.5),xytext=(-0.9,230),fontsize=10,zorder=10)
+        ps.set_ylim(0,250)
+        ps.set_xlim(-1,1)
+        ps.annotate(chr(65+i),xy=(0.5,0.5),xytext=(-0.9,230),fontsize=10,zorder=10)
 
     #assume both subplots have the same categories.
     handles,labels=ps.get_legend_handles_labels()
@@ -1105,8 +1105,8 @@ plotRibosomalVsGlobTrend(analyzed_dbs)
 plot_response_hist_graphs(analyzed_dbs)
 plotCorrelationHistograms(analyzed_dbs,"")
 
-for rand_method in ["simulated","shuffle",""]:
-#for rand_method in ["shuffle",""]:
+#for rand_method in ["simulated","shuffle",""]:
+for rand_method in ["shuffle",""]:
 #for rand_method in [""]:
     plotGlobalResponse(analyzed_dbs,rand_method)
     #plotMultiStats('Valgepea')
