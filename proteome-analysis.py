@@ -39,7 +39,7 @@ def get_limits(db):
 dbs = ['Heinemann','HeinemannLB','Heinemann-chemo','Peebo','Peebo-gluc','HuiAlim','HuiClim','HuiRlim','Valgepea']
 datas = {}
 rand_prefix = ""
-db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Heinemann-chemo':'Schmidt','Valgepea':'Valgepea','Peebo-gluc':'Peebo','Peebo':'Peebo','HuiAlim':'Hui','HuiClim':'Hui','HuiRlim':'Hui'}
+db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Heinemann-chemo':'Schmidt','Valgepea':'Valgepea','Peebo-gluc':'Peebo','Peebo':'Peebo','HuiAlim':'Hui A-lim','HuiClim':'Hui C-lim','HuiRlim':'Hui R-lim'}
 def init_datasets(rand_method):
     datas[rand_method] = {}
     for db in dbs:
@@ -1048,7 +1048,7 @@ def global_corr():
     close()
  
 def plot_all_dbs_hist():
-    figure(figsize=(6,5))
+    figure(figsize=(6.5,5))
     dbs = ['Heinemann-chemo','Peebo-gluc','Valgepea','HuiAlim','HuiClim','HuiRlim']
     p=subplot(111)
     for i,db in enumerate(dbs):
@@ -1056,10 +1056,10 @@ def plot_all_dbs_hist():
         conds,gr,conc_data = datas[""][db]
         plot_corr_hist(ps,db,conc_data,categories)
 
-        ps.annotate("data from %s et. al. 2015" % db_name[db],xy=(0.5,0.5),xytext=(-0.94,210),fontsize=6,zorder=10)
-        ps.set_ylim(0,250)
+        ps.annotate("data from %s et. al. 2015" % db_name[db],xy=(0.5,0.5),xytext=(-0.94,310),fontsize=6,zorder=10)
+        ps.set_ylim(0,350)
         ps.set_xlim(-1,1)
-        ps.annotate(chr(65+i),xy=(0.5,0.5),xytext=(-0.9,230),fontsize=10,zorder=10)
+        ps.annotate(chr(65+i),xy=(0.5,0.5),xytext=(-0.9,330),fontsize=10,zorder=10)
 
     #assume both subplots have the same categories.
     handles,labels=ps.get_legend_handles_labels()
@@ -1067,7 +1067,7 @@ def plot_all_dbs_hist():
     tight_layout()
     figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.15,0.8,0.7,0.2),ncol=2)
 
-    subplots_adjust(top=0.85)
+    subplots_adjust(top=0.9)
     #fig = gcf()
     #py.plot_mpl(fig,filename="Growth rate Correlation histograms")
     savefig('AllDbsGrowthRateCorrelation.pdf')
