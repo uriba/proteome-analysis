@@ -1055,11 +1055,14 @@ def plot_all_dbs_hist():
         ps = subplot(231+i)
         conds,gr,conc_data = datas[""][db]
         plot_corr_hist(ps,db,conc_data,categories)
-
-        ps.annotate("data from %s et. al. 2015" % db_name[db],xy=(0.5,0.5),xytext=(-0.94,310),fontsize=6,zorder=10)
+        if db == 'Valgepea':
+            year = 2013
+        else:
+            year = 2015
+        ps.annotate("data from %s et. al. %d" % (db_name[db],year),xy=(0.5,0.5),xytext=(-0.94,300),fontsize=6,zorder=10)
         ps.set_ylim(0,350)
         ps.set_xlim(-1,1)
-        ps.annotate(chr(65+i),xy=(0.5,0.5),xytext=(-0.9,330),fontsize=10,zorder=10)
+        ps.annotate(chr(65+i),xy=(0.5,0.5),xytext=(-0.9,320),fontsize=10,zorder=10)
 
     #assume both subplots have the same categories.
     handles,labels=ps.get_legend_handles_labels()
@@ -1079,8 +1082,8 @@ analyzed_dbs = ['Heinemann','Peebo']
 #analyzed_dbs = ['HuiAlim','HuiClim']
 special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
-for rand_method in ["simulated","shuffle",""]:
-#for rand_method in ["shuffle",""]:
+#for rand_method in ["simulated","shuffle",""]:
+for rand_method in ["shuffle",""]:
 #for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method

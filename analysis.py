@@ -11,7 +11,7 @@ seed(123456)
 remove_unmapped = False
 just_ribosomes = False
 use_LB = False
-id_col_dict = { 'Valgepea':'ko_num', 'Heinemann':u'UP_AC', 'HeinemannLB':u'UP_AC','Peebo':'B number identifier','Peebo-gluc':'B number identifier','HuiAlim':'Gene','HuiClim':'Gene',  'HuiRlim':'Gene' }
+id_col_dict = { 'Valgepea':'b number', 'Heinemann':u'UP_AC', 'HeinemannLB':u'UP_AC','Peebo':'B number identifier','Peebo-gluc':'B number identifier','HuiAlim':'Gene','HuiClim':'Gene',  'HuiRlim':'Gene' }
 db_used = 'Valgepea'
 avg_conc_threshold = 0.00001
 
@@ -107,7 +107,7 @@ def uni_to_locus():
     return (uniprot_to_locus,uniprot_to_name,name_to_uniprot,locus_to_uniprot)
 
 # Define the list of conditions that will be relevant for the analysis, (and the description column), the growth rates and the cell volumes, according to the database used:
-cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
+cond_list_dict = {'Valgepea':[u'0.11', u'0.21', u'0.31', u'0.4', u'0.49'],
                   'Heinemann':[
     u'Chemostat mu=0.12',
     u'Chemostat mu=0.20',
@@ -181,7 +181,7 @@ cond_list_dict = {'Valgepea':[u'11', u'21', u'31', u'40', u'48'],
     0.28292, 0.40773, 0.63983, 0.99021]
                       }
 gr_dict = {'Valgepea': {
-    u'11': 0.11, u'21':0.21, u'31':0.31, u'40':0.4, u'48':0.48},
+    u'0.11': 0.11, u'0.21':0.21, u'0.31':0.31, u'0.4':0.4, u'0.49':0.49},
            'Heinemann': {
     u'Chemostat mu=0.12': 0.12,
     u'Chemostat mu=0.20':0.2,
@@ -299,7 +299,7 @@ def get_coli_data(db_used,use_weight,rand):
     if db_used == 'HuiRlim':
         ecoli_data = pd.read_excel('hui.xlsx',0,skiprows=4)
     if db_used == 'Valgepea':
-        ecoli_data = read_csv('valgepea.csv',header=0,encoding='iso-8859-1')
+        ecoli_data = read_csv('ecoli_Valgepea_et_al_2013.csv',header=0,encoding='iso-8859-1')
     if db_used == 'Peebo':
         ecoli_data = read_csv('valgepea2.csv',header=0,encoding='iso-8859-1')
     if db_used == 'Peebo-gluc':
@@ -389,8 +389,8 @@ def get_annotated_prots(db,rand):
         id_to_annot = uni_to_cat
         id_col = 'UP_AC'
     if db == 'Valgepea':
-        id_to_annot = ko_to_desc_dict()
-        id_col = 'ko_num'
+        id_to_annot = b_to_desc_dict()
+        id_col = 'b number'
     if db == 'Peebo':
         id_to_annot = b_to_desc_dict()
         id_col = 'B number identifier'
