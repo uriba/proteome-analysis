@@ -39,7 +39,7 @@ def get_limits(db):
 dbs = ['Heinemann','HeinemannLB','Heinemann-chemo','Peebo','Peebo-gluc','HuiAlim','HuiClim','HuiRlim','Valgepea']
 datas = {}
 rand_prefix = ""
-db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Heinemann-chemo':'Schmidt','Valgepea':'Valgepea','Peebo-gluc':'Peebo','Peebo':'Peebo','HuiAlim':'Hui A-lim','HuiClim':'Hui C-lim','HuiRlim':'Hui R-lim'}
+db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Heinemann-chemo':'Schmidt','Valgepea':'Valgepea','Peebo-gluc':'Peebo','Peebo':'Peebo','HuiAlim':'Hui','HuiClim':'Hui','HuiRlim':'Hui'}
 def init_datasets(rand_method):
     datas[rand_method] = {}
     for db in dbs:
@@ -1050,6 +1050,7 @@ def global_corr():
 def plot_all_dbs_hist():
     figure(figsize=(6.5,5))
     dbs = ['Heinemann-chemo','Peebo-gluc','Valgepea','HuiAlim','HuiClim','HuiRlim']
+    dbext = {'Heinemann-chemo':'','Peebo-gluc':'','Valgepea':'','HuiAlim':', A-lim','HuiClim':', C-lim','HuiRlim':', R-lim'}
     p=subplot(111)
     for i,db in enumerate(dbs):
         ps = subplot(231+i)
@@ -1059,10 +1060,10 @@ def plot_all_dbs_hist():
             year = 2013
         else:
             year = 2015
-        ps.annotate("data from %s et. al. %d" % (db_name[db],year),xy=(0.5,0.5),xytext=(-0.94,300),fontsize=6,zorder=10)
+        ps.annotate("data from %s et. al. %d%s" % (db_name[db],year,dbext[db]),xy=(0.5,0.5),xytext=(-0.87,303),fontsize=6,zorder=10)
         ps.set_ylim(0,350)
         ps.set_xlim(-1,1)
-        ps.annotate(chr(65+i),xy=(0.5,0.5),xytext=(-0.9,320),fontsize=10,zorder=10)
+        ps.annotate(chr(65+i),xy=(0.5,0.5),xytext=(-0.87,320),fontsize=10,zorder=10)
 
     #assume both subplots have the same categories.
     handles,labels=ps.get_legend_handles_labels()
