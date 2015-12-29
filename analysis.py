@@ -11,7 +11,7 @@ seed(123456)
 remove_unmapped = False
 just_ribosomes = False
 use_LB = False
-id_col_dict = { 'Valgepea':'b number', 'Heinemann':u'UP_AC', 'HeinemannLB':u'UP_AC','Peebo':'B number identifier','Peebo-gluc':'B number identifier','HuiAlim':'Gene','HuiClim':'Gene',  'HuiRlim':'Gene' }
+id_col_dict = { 'Valgepea':'B number identifier', 'Heinemann':u'UP_AC', 'Heinemann-chemo':u'UP_AC', 'HeinemannLB':u'UP_AC','Peebo':'B number identifier','Peebo-gluc':'B number identifier','HuiAlim':'Gene','HuiClim':'Gene',  'HuiRlim':'Gene' }
 db_used = 'Valgepea'
 avg_conc_threshold = 0.00001
 
@@ -62,14 +62,6 @@ def b_to_desc_dict():
             b_annot_dict[uni_to_b[uni]]=uni_to_cat[uni]
     return b_annot_dict
 
-def uni_ko_dict():
-    uni_konum_dict = {}
-    uni_to_konum = read_csv('eco_uniprot_mapping.csv',sep='[\t:]',encoding='iso-8859-1',header = None, names = ['ko','bla','uniprot'])
-    for i,row in uni_to_konum.iterrows():
-         uni_konum_dict[row['uniprot']]=row['ko']
-    return uni_konum_dict
-
-
 def uniprot_to_category_dict():
     uni_cat_dict = {}
     name_cat_dict = {}
@@ -94,17 +86,19 @@ def uniprot_to_category_dict():
 
 def uni_to_locus():
     uniprot_to_locus = {}
-    uniprot_to_name = {}
     name_to_uniprot = {}
+    name_to_locus = {}
     locus_to_uniprot = {}
     for row in open('all_ecoli_genes.txt','r'):
-        uniprot_to_locus[row[48:54]]=row[0:5]
-        locus_to_uniprot[row[0:5]]=row[48:54]
-        uniprot_to_name[row[48:54]]=row[84:-1].replace(';',',')
+        uniprot = row[48:54]
+        locus = row[0:5]
+        uniprot_to_locus[uniprot]=locus
+        locus_to_uniprot[locus]=uniprot
         names = row[84:-1].split(';')
         for name in names:
-            name_to_uniprot[name] = row[48:54]
-    return (uniprot_to_locus,uniprot_to_name,name_to_uniprot,locus_to_uniprot)
+            name_to_uniprot[name] = uniprot
+            name_to_locus[name] = locus
+    return (uniprot_to_locus,name_to_locus,name_to_uniprot,locus_to_uniprot)
 
 # Define the list of conditions that will be relevant for the analysis, (and the description column), the growth rates and the cell volumes, according to the database used:
 cond_list_dict = {'Valgepea':[u'0.11', u'0.21', u'0.31', u'0.4', u'0.49'],
@@ -369,7 +363,7 @@ def get_annotated_prots(db,rand):
     coli_data = get_coli_data(db,use_weight=True,rand=rand)
     cond_list = cond_list_dict[db]
 
-    uniprot_to_locus,uniprot_to_name,name_to_uniprot,locus_to_uni = uni_to_locus()
+    uniprot_to_locus,name_to_locus,name_to_uniprot,locus_to_uni = uni_to_locus()
     uni_to_cat,uni_to_name,name_to_cat = uniprot_to_category_dict()
     if db == 'Heinemann-chemo':
         db = 'Heinemann'
@@ -387,25 +381,19 @@ def get_annotated_prots(db,rand):
         ##coli_data['ko_num']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uni_to_konum else uni_to_konum[x[u'UP_AC']],axis=1)
         coli_data['protName']=coli_data.apply(lambda x: 'NotMapped' if x[u'UP_AC'] not in uni_to_name else uni_to_name[x[u'UP_AC']],axis=1)
         id_to_annot = uni_to_cat
-        id_col = 'UP_AC'
     if db == 'Valgepea':
         id_to_annot = b_to_desc_dict()
-        id_col = 'b number'
     if db == 'Peebo':
         id_to_annot = b_to_desc_dict()
-        id_col = 'B number identifier'
     if db == 'Peebo-gluc':
         id_to_annot = b_to_desc_dict()
-        id_col = 'B number identifier'
     if db == 'HuiAlim':
         id_to_annot = name_to_cat
-        id_col = 'Gene'
     if db == 'HuiClim':
         id_to_annot = name_to_cat
-        id_col = 'Gene'
     if db == 'HuiRlim':
         id_to_annot = name_to_cat
-        id_col = 'Gene'
+    id_col = id_col_dict[db]
     x=0
     y=0
     with open('unmappedko.txt','w+') as f:

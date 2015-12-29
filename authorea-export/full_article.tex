@@ -173,7 +173,7 @@ The search for underlying mechanisms in \emph{E.coli} yielded several candidates
 In the last two decades, with the ability to measure genome-wide expression levels, it was found that changes in gene expression as a function of growth rate are not limited to ribosomal genes.
 In \emph{E.coli}, the expression of catabolic and anabolic genes is coordinated with growth rate, and suggested to be mediated by cAMP \cite{Saldanha2004,You_2013,Peebo_2015}.
 In \emph{S.cerevisiae}, it was shown that most of the genome changes its expression levels in response to environmental conditions in a manner strongly correlated with growth rate \cite{Keren2013,Brauer2008,Castrillo2007,Gerosa2013}.
-Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \cite{Gasch2000,Klumpp2009,Klumpp2014,Scott2010,Berthoumieux2013,Keren2013,Gerosa2013,Valgepea2013,Hui_2015}.
+Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \cite{Gasch2000,Klumpp2009,Klumpp2014,Scott2010,Scott2014,Berthoumieux2013,Keren2013,Gerosa2013,Valgepea2013,Hui_2015}.
 In \emph{E.coli}, this was mechanistically attributed to changes in the pool of RNA polymerase core and sigma factors \cite{Klumpp2008}.
 In \emph{S.cerevisiae}, it was suggested that differences in histone modifications around the replication origins \cite{Regenberg2006} or translation rates \cite{Brauer2008} across conditions may underlie the same phenomenon.
 Taken together, these studies suggest that the expression of all genes changes with growth rate, with different factors and architectures of regulatory networks yielding differences in the direction and magnitude of these changes \cite{Klumpp2009,Klumpp2014}. 
@@ -402,7 +402,7 @@ Our model predicts that a large portion of the proteins should increase in fract
 To test this prediction, we calculated the Pearson correlation of every protein with the growth rate (Figure \ref{fig:growthcorr}, upper panels).
 We find that about a third of the proteins (\hGlobal{} out of \hTotal{} measured in the data set from \cite{Schmidt2015}, and \vGlobal{} out of \vTotal{} in the data set from \cite{Peebo_2015}) have a strong positive ($>0.5$, see also \ref{corrthreshold}) correlation with the growth rate.
 These values are much higher than those obtained for randomized data sets (\hGlobalShuff{} and \vGlobalShuff{} strongly positively correlated proteins for the two data sets, respectively, as is further discussed in section \ref{randanalysis} and is seen in Figure \ref{fig:growthcorr}C).
-Assessing the agreement between the two data sets by comparing the correlation with the growth rate of every protein across the 4 glucose limited chemostat growth conditions in \cite{Schmidt2015} and the 10 glucose limited accelerostat conditions in \cite{Peebo_2015} gives a moderate covariance of $\approx 0.3$ (Figure \ref{fig:chemcorrcomp}).
+Assessing the agreement between the two data sets by comparing the correlation with the growth rate of every protein across the 4 glucose limited chemostat growth conditions in \cite{Schmidt2015} and the 10 glucose limited accelerostat conditions in \cite{Peebo_2015} gives a moderate covariance of $\approx 0.4$ (Figure \ref{fig:chemcorrcomp}).
 Strong negative correlation with growth rate is much less common in the data set from \cite{Schmidt2015}.
 It is common in the data set from \cite{Peebo_2015}, where we speculate that it results from the specific way by which growth rate was controlled, namely by implicitly controlling nutrient concentration via an accelero-stat.
 The control of growth rate by gradual changes to nutrient concentration may naturally lead to gradual changes in protein levels, both increasing and decreasing, an effect that is expected under any regulatory scheme and is thus irrelevant for our analysis. 
@@ -524,7 +524,7 @@ We presented a parsimonious model connecting the fraction of proteins out of the
 The notion of intrinsic affinity for expression, first presented in \cite{Maaloe1969}, and rarely used ever since, was re-introduced as a key determinant for the differences in expression of different proteins under a given growth condition.
 The integration of the notion of intrinsic affinity for expression with the limited bio-synthesis capacity of cells was shown to result in a simple mechanism predicting increased fraction of many proteins with the growth rate, without assuming regulation by specific transcription factors for these proteins.
 
-The framework we present emphasizes the importance of accounting for global factors, that are reflected in the growth rate, when analyzing gene expression and proteomics data, as was noted before \cite{Maaloe1969,Brauer2008,Klumpp2009,Klumpp2014,Scott2010,Berthoumieux2013,Keren2013,Gerosa2013,Valgepea2013,Hui_2015,Peebo_2015,Wei_e_2015}.
+The framework we present emphasizes the importance of accounting for global factors, that are reflected in the growth rate, when analyzing gene expression and proteomics data, as was noted before \cite{Maaloe1969,Brauer2008,Klumpp2009,Klumpp2014,Scott2014,Scott2010,Berthoumieux2013,Keren2013,Gerosa2013,Valgepea2013,Hui_2015,Peebo_2015,Wei_e_2015}.
 Specifically, we suggest that the default response of a protein (that is, the change in the observed expression of a protein, given that no specific regulation was applied to it) is to linearly increase with growth rate.
 We point out that, as non-differentially regulated proteins maintain their relative abundances, one can deduce the parameters of the linear increase with growth rate of any non-differentially regulated protein by observing the scaling of other such proteins and fixing the ratio between the protein of interest and the reference proteins.
 
@@ -542,7 +542,7 @@ While in all of these studies a linear dependence of ribosome concentration with
 A discussion of various reasons that may underlie these differences is given in section \ref{ribosomeconc}.
 
 Interestingly, our model suggests that a linear correlation between ribosomal proteins and the growth rate might be achieved without special control mechanisms.
-Nonetheless, many such mechanisms have been shown to exist \cite{Nomura1984,Scott2014}.
+Nonetheless, many such mechanisms have been shown to exist \cite{Nomura1984,Scott2014} (for a comparison to the model suggested in \cite{Scott2014} see \ref{scottcompare}).
 We stress that the existence of such mechanisms does not contradict the model.
 Mechanisms for ribosomal proteins expression control may still be needed to achieve faster response under changing environmental conditions or a tighter regulation to avoid unnecessary production and reduce translational noise.
 Furthermore, such mechanisms may be crucial for synchronizing the amount of rRNA with ribosomal proteins as the two go through different bio-synthesis pathways.
@@ -674,7 +674,7 @@ For non-constant bio-synthesis rate, a growth rate of 0.2 was selected as the gr
 
 \subsection{Databases omitted from the main analysis}
 \label{furtherdatasetanalysis}.
-Two published whole proteome \emph{E.coli} data sets were omitted from our analysis (\cite{Valgepea2013} and {\cite{Hui_2015}).
+Two published whole proteome \emph{E.coli} data sets were omitted from our analysis (\cite{Valgepea2013} and \cite{Hui_2015}).
 Both of these data sets present gradual modulation of the growth rate by a single factor (the data set from \cite{Hui_2015} uses 3 different factors, each independently).
 Such modulations yield very typical distributions of correlation with growth rate of proteins roughly dividing the proteome to 3 groups, proteins the concentration of which increases with growth rate, proteins the concentration of which decreases with growth rate, and proteins that show no evident correlation with growth rate \ref{fig:grcorr_dbs}.
 
@@ -691,6 +691,52 @@ From our analysis of the other data sets, it follows that the predicted changes 
 
 Finally, the data set from \cite{Hui_2015} does not report absolute protein quantities but rather the ratio of protein change to a standard condition of growth.
 It therefore does not allow us to estimate the magnitude of changes in terms of mass and total fractions of the proteome as is needed by our analysis.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=1\columnwidth]{../AllDbsGrowthRateCorrelation.pdf}
+\caption{\label{fig:grcorr_dbs}
+Histograms of the correlation with growth rate of proteins in data sets obtained by gradually modifying the growth rate with constant input media.
+All such data sets present similar characteristics with very high correlation or anti correlation of protein fraction out of the proteome with the growth rate.
+Such data sets make it hard to distinguish between specific regulation mechanisms and passive effects and are therefore inadequate for testing the passive resource allocation model.
+(A) 4 chemostat growth conditions from \cite{Schmidt2015}.
+(B) 9 glucose accelerostat conditions from \cite{Peebo_2015}.
+(C) 5 glucose accelerostat conditions from \cite{Valgepea2013}.
+(D-F) different growth rate modification methods from \cite{Hui_2015}.
+}
+\end{center}
+\end{figure}
+
+
+\subsection{Correlation between the different proteomics data sets}
+To assess the agreement between the different data sets we used, as well as those we ommitted, we compared the correlation with growth rate of each protein under similar conditions between every two of these data sets.
+
+In the data set from \cite{Schmidt2015} we used the 4 glucose limited chemostat growth conditions.
+In the data set from \cite{Peebo_2015} we used the 9 glucose accelerostat growth conditions.
+In the data set from \cite{Valgepea2013} we used all 5 glucose accelerostat growth conditions.
+In the data set from \cite{Hui_2015} we used each limiting set seperately.
+Figure \ref{fig:chemcorrcomp} shows the relations between all of these data sets.
+
+The glucose limited continuous growth sets show a covariance of $\approx 0.4-0.5$ between each other.
+A slightly lower covariance of $\approx 0.3-0.4$ is observed when comparing each of the glucose limited continuous cultures to the carbon limited data from \cite{Hui_2015}
+Moving on to nitrogen limiting conditions compared with continuous growth, the covariance drops to $\approx 0.2$.
+Finally, the tranlation limiting conditions from \cite{Hui_2015} present a small negative covariance with all of the other conditions.
+
+These results imply that indeed the different limitations imposed in \cite{Hui_2015} expose different regulatory mechanisms than the ones at play under standard carbon limited growth.
+They also highlight the fact that different data sets, despite being measured under similar growth conditions, present large differences.
+This analysis emphesizes the importance of analyzing each data set seperately as consistency between data sets from different labs is not very high.
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=1\columnwidth]{../AllDbsCorrelation.pdf}
+\caption{ \label{fig:chemcorrcomp}
+Pair-wise comparison of the data sets used in this work.
+Each panel compares the correlation with growth rate of all proteins between two data sets.
+The conditions used from each data set utilize similar growth conditions, except for the data sets from \cite{Hui_2015} (see text).
+}
+\end{center}
+\end{figure}
+
 
 
 \subsection{Threshold selection for defining strong correlation with growth rate}
@@ -832,6 +878,21 @@ The scaling with growth rate is similar between the two groups of proteins.
 }
 \end{center}
 \end{figure}
+
+\subsection{Comparison of the passive resource allocation model to the sectorial model from \cite{Scott2014}}
+\label{scottcompare}
+In \cite{Scott2014} and related works, a sectorial model of the proteome is presented.
+According to this model, the proteome is roughly divided to sectors with the main sectors being a $Q$ sector that is unaffected by growth rate, a $R$ sector composed of ribosomal proteins and translation related proteins, and a $P$ section composed of metabolic proteins including catabolic and anabolic enzymes (the $P$ section can be further sub-divided according to the specific metabolic tasks groups of proteins perform).
+In this model, a specific protein may belong to more than one section, where, for example, if protein $P_i$ has a minimal value $P_i^\min$, then that fraction can be accounted for in section $Q$, and only the changing fraction will be accounted for in section $R$ or section $P$, according to $P_i$'s function.
+The main point of the model is that different triggers may increase or decrease the expression of entire sections, thus serving as global, or master, regulators.
+The model thus allows one to get an overview of the entire proteome as a result of the levels of a few master regulators.
+
+The model presented here takes a different approach.
+It does not classify proteins according to major classes, though it does not assume such classification does not exist.
+It mainly focuses on the consequences of actively regulating some proteins (be it a small number of highly expressed proteins, or a large number of proteins) on the proteins that are not being actively regulated.
+Our model therefore aggregates all non-actively regulated proteins between two specific conditions into one group, $A$ and suggests that all of these proteins, despite not being actively regulated, may still occupy different fractions out of the proteome between the two conditions, if the active regulation of the proteins that do get regulated between the two conditions changes their overall expression (noting that proteins that do get actively regulated between two conditions may either be up regulated or down regulated, so their total sum may either increase, decrease, or remain the same between the two conditions observed).
+
+To summarize, where the model from \cite{Scott2014} focuses on what classes of proteins exist, what are the master regulators, and how are they used to achieve optimal growth, the model presented here focuses on global patterns that passively emerge due to specific regulation on specific genes (be it regulation that is targeted at only a small number of genes, or a large group of genes).
 
 \subsection{Additional figures of simulated and randomized data sets}
 The maximal explained variability in data sets with shuffled protein abundances is significantly smaller than in the real data sets as is seen in figure \ref{fig:shuffledexpvar}.

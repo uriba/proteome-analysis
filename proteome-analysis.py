@@ -15,6 +15,7 @@ from math import sqrt,isnan,log
 import random
 from numpy.random import randn,shuffle,normal
 from matplotlib.ticker import FuncFormatter
+from itertools import combinations
 
 random.seed(123456)
 #import plotly.plotly as py
@@ -40,6 +41,7 @@ dbs = ['Heinemann','HeinemannLB','Heinemann-chemo','Peebo','Peebo-gluc','HuiAlim
 datas = {}
 rand_prefix = ""
 db_name = { 'Heinemann':'Schmidt','HeinemannLB':'Schmidt','Heinemann-chemo':'Schmidt','Valgepea':'Valgepea','Peebo-gluc':'Peebo','Peebo':'Peebo','HuiAlim':'Hui','HuiClim':'Hui','HuiRlim':'Hui'}
+db_suffix = { 'Heinemann':'','HeinemannLB':'Rich media','Heinemann-chemo':'chemo.','Valgepea':'','Peebo-gluc':'gluc.','Peebo':'','HuiAlim':'A-lim','HuiClim':'C-lim','HuiRlim':'R-lim'}
 def init_datasets(rand_method):
     datas[rand_method] = {}
     for db in dbs:
@@ -1022,31 +1024,78 @@ def db_corr():
     savefig('dbscorr.pdf')
     close()
         
-def global_corr():
-    print "global corr"
+def plot_corr(p,db1,db2,id1_to_id2):
+    print "plot corr %s,%s" % (db1,db2)
     pts = []
-    figure(figsize=(5,5))
-    uni_to_b,a,b,b_to_uni = uni_to_locus()
-    pbo = datas[""]["Peebo-gluc"][2]
-    hnm = datas[""]["Heinemann-chemo"][2]
-    for i,r in hnm.iterrows():
+    conc1 = datas[""][db1][2]
+    conc2 = datas[""][db2][2]
+    id1 = id_col_dict[db1]
+    id2 = id_col_dict[db2]
+
+    for i,r in conc1.iterrows():
         x = r["gr_cov"]
-        name = r["UP_AC"]
-        if name in uni_to_b:
-            b = uni_to_b[name]
-            r2 = pbo[pbo['B number identifier'] == b]
-            if len(r2)>0:
-                y = r2["gr_cov"]
-            pts.append((x,y))
+        if isnan(x):
+            continue
+        name = r[id1]
+        b=''
+        if id1 == id2:
+            b = name
+        else:
+            if name in id1_to_id2:
+                b = id1_to_id2[name]
+        r2 = conc2[conc2[id2] == b]
+        if len(r2)>0:
+            y = r2["gr_cov"].values[0]
+            if not isnan(y):
+                pts.append((x,y))
     xs,ys = zip(*pts)
-    plot(xs,ys,'.')
+    p.plot(xs,ys,'.',markersize=2)
     diag = linspace(-1,1)
-    plot(diag,diag,'r')
-    savefig('dbsglobalcorr.pdf')
-    print "covariance of Peebo and Schmidt poritively correlated proteins is:"
+    p.plot(diag,diag,'k--',markersize=0.5)
+    p.set_xlabel(db_name[db1] + " " +db_suffix[db1],fontsize = 5)
+    p.set_ylabel(db_name[db2] + " " +db_suffix[db2],fontsize = 5)
+    p.set_xlim(-1,1)
+    p.set_ylim(-1,1)
+    p.set_title("cov = %.3f" %(cov(xs,ys)[0][1]),fontsize=6)
+    print "covariance of %s and %s, %d proteins:" % (db1,db2,len(xs))
     print cov(xs,ys)
-    close()
  
+def plot_dbs_pairs_corr():
+    fig = figure(figsize=(7,5))
+    dbs = ['Heinemann-chemo','Peebo-gluc','Valgepea','HuiAlim','HuiClim','HuiRlim']
+    dbext = {'Heinemann-chemo':'','Peebo-gluc':'','Valgepea':'','HuiAlim':', A-lim','HuiClim':', C-lim','HuiRlim':', R-lim'}
+    (uniprot_to_locus,name_to_locus,name_to_uniprot,locus_to_uniprot) = uni_to_locus()
+    for i,(db1,db2) in enumerate(combinations(dbs,2)):
+        switch=False
+        ps = fig.add_subplot(3,5,1+i)
+        id1 = id_col_dict[db1]
+        id2 = id_col_dict[db2]
+        id1_to_id2 = {}
+        if id1 == 'B number identifier' and id2 == 'UP_AC':
+            id1_to_id2 = locus_to_uniprot
+        if id2 == 'B number identifier' and id1 == 'UP_AC':
+            id1_to_id2 = uniprot_to_locus
+        if id1 == 'B number identifier' and id2 == 'Gene':
+            id1_to_id2 = name_to_locus
+            switch = True
+        if id2 == 'B number identifier' and id1 == 'Gene':
+            id1_to_id2 = name_to_locus
+        if id1 == 'UP_AC' and id2 == 'Gene':
+            id1_to_id2 = name_to_uniprot
+            switch = True
+        if id2 == 'UP_AC' and id1 == 'Gene':
+            id1_to_id2 = name_to_uniprot
+        if switch:
+            print db2+db1
+            plot_corr(ps,db2,db1,id1_to_id2)
+        else:
+            print db1+db2
+            plot_corr(ps,db1,db2,id1_to_id2)
+        set_ticks(ps,3)
+    tight_layout()
+    savefig('AllDbsCorrelation.pdf')
+    close()
+
 def plot_all_dbs_hist():
     figure(figsize=(6.5,5))
     dbs = ['Heinemann-chemo','Peebo-gluc','Valgepea','HuiAlim','HuiClim','HuiRlim']
@@ -1083,8 +1132,8 @@ analyzed_dbs = ['Heinemann','Peebo']
 #analyzed_dbs = ['HuiAlim','HuiClim']
 special_dbs = ['Heinemann','Peebo','HeinemannLB']
 globalResponse = {}
-#for rand_method in ["simulated","shuffle",""]:
-for rand_method in ["shuffle",""]:
+for rand_method in ["simulated","shuffle",""]:
+#for rand_method in ["shuffle",""]:
 #for rand_method in [""]:
     print "----------------------------------------------------------"
     print rand_method
@@ -1092,9 +1141,9 @@ for rand_method in ["shuffle",""]:
     rand_prefix = rand_method
     init_datasets(rand_method)
 
+plot_dbs_pairs_corr()
 plot_all_dbs_hist()
 db_corr()
-global_corr()
 print "plotting prediction"
 #plotPrediction()        
 print "plotting original data graphs"
