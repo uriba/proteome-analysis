@@ -442,15 +442,15 @@ def corr_andGR_plot(db,ref):
 
     print "global cluster sum follows alpha=%f, beta=%f" % (alpha,beta)
     print "horizontal intercept for %s is %f, corresponding to halflive %f" % (db,-beta/alpha, log(2)*alpha/beta)
-    p2.plot(gr_chemo.values,glob_tot_chemo.values,'o',label="Heinemann et. al %s" % suffix,color='blue')
-    p2.plot(gr_chemo.values,alpha*gr_chemo.values+beta,color='blue',label=("Heinemann %s. Trend,$R^2$=%.2f" % (suffix,gr_chemo.corr(glob_tot_chemo)**2)))
+    p2.plot(gr_chemo.values,glob_tot_chemo.values,'o',label="%s et. al %s" % (db_name[db],suffix),color='blue')
+    p2.plot(gr_chemo.values,alpha*gr_chemo.values+beta,color='blue',label=("%s %s. Trend,$R^2$=%.2f" % (db_name[db],suffix,gr_chemo.corr(glob_tot_chemo)**2)))
 
     cond_list,gr_v,conc_data = datas[""][ref]
     glob_v = get_glob(ref,conc_data)
     glob_tot_v = glob_v[cond_list].sum()
     alpha_v,beta_v,r_val,p_val,std_err = linregress(gr_v,glob_tot_v)
-    p2.plot(gr_v.values,glob_tot_v.values,'o',label=ref,color='green')
-    p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("%s Trend,$R^2$=%.2f" % (ref,gr_v.corr(glob_tot_v)**2)))
+    p2.plot(gr_v.values,glob_tot_v.values,'o',label=db_name[ref],color='green')
+    p2.plot(gr_v.values,alpha_v*gr_v.values+beta_v,color='green',label=("%s Trend,$R^2$=%.2f" % (db_name[ref],gr_v.corr(glob_tot_v)**2)))
 
     p2.set_xlim(xmin=0.)
     p2.set_ylim(ymin=0.)
@@ -1158,8 +1158,8 @@ plotRibosomalVsGlobTrend(analyzed_dbs)
 plot_response_hist_graphs(analyzed_dbs)
 plotCorrelationHistograms(analyzed_dbs,"")
 
-#for rand_method in ["simulated","shuffle",""]:
-for rand_method in ["shuffle",""]:
+for rand_method in ["simulated","shuffle",""]:
+#for rand_method in ["shuffle",""]:
 #for rand_method in [""]:
     plotGlobalResponse(analyzed_dbs,rand_method)
     #plotMultiStats('Valgepea')
