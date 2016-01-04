@@ -11,7 +11,7 @@ seed(123456)
 remove_unmapped = False
 just_ribosomes = False
 use_LB = False
-id_col_dict = { 'Valgepea':'B number identifier', 'Heinemann':u'UP_AC', 'Heinemann-chemo':u'UP_AC', 'HeinemannLB':u'UP_AC','Peebo':'B number identifier','Peebo-gluc':'B number identifier','HuiAlim':'Gene','HuiClim':'Gene',  'HuiRlim':'Gene' }
+id_col_dict = { 'Valgepea':'B number identifier', 'Heinemann':u'UP_AC', 'Heinemann-chemo':u'UP_AC', 'HeinemannLB':u'UP_AC','Peebo':'B number identifier','Peebo-gluc':'B number identifier','Peebo-LB':'B number identifier','HuiAlim':'Gene','HuiClim':'Gene',  'HuiRlim':'Gene' }
 db_used = 'Valgepea'
 avg_conc_threshold = 0.00001
 
@@ -154,7 +154,16 @@ cond_list_dict = {'Valgepea':[u'0.11', u'0.21', u'0.31', u'0.4', u'0.49'],
     u'0.22.3', u'0.26.1',
     u'0.36.1', u'0.46.1',
     u'0.51.3'],
-                   'Peebo': [
+                   'Peebo-LB': [
+    u'0.22.4',
+    u'0.25.1', u'0.35.1',
+    u'0.45.1', u'0.55.1',
+    u'0.65.1', u'0.74.1',
+    u'0.82.1', u'0.22.5',
+    u'0.42.1', u'0.53.1',
+    u'0.63.1', u'0.73.1',
+    u'0.78.1'],
+                    'Peebo': [
     u'0.21.1', u'0.31.1',
     u'0.41.1', u'0.51.2',
     u'0.22.3', u'0.26.1',
@@ -224,6 +233,16 @@ gr_dict = {'Valgepea': {
     u'0.22.3':0.22, u'0.26.1':0.26,
     u'0.36.1':0.36, u'0.46.1':0.46,
     u'0.51.3':0.51},
+              'Peebo-LB': {
+    u'0.22.4':0.22,
+    u'0.25.1':0.25, u'0.35.1':0.35,
+    u'0.45.1':0.45, u'0.55.1':0.55,
+    u'0.65.1':0.65, u'0.74.1':0.74,
+    u'0.82.1':0.82, u'0.22.5':0.22,
+    u'0.42.1':0.42, u'0.53.1':0.53,
+    u'0.63.1':0.63, u'0.73.1':0.73,
+    u'0.78.1':0.78
+    },
               'Peebo': {
     u'0.21.1':0.21, u'0.31.1':0.31,
     u'0.41.1':0.41, u'0.51.2':0.51,
@@ -298,6 +317,8 @@ def get_coli_data(db_used,use_weight,rand):
         ecoli_data = read_csv('valgepea2.csv',header=0,encoding='iso-8859-1')
     if db_used == 'Peebo-gluc':
         ecoli_data = read_csv('valgepea2.csv',header=0,encoding='iso-8859-1')
+    if db_used == 'Peebo-LB':
+        ecoli_data = read_csv('valgepea2.csv',header=0,encoding='iso-8859-1')
 
     #for rand_method in ["simulated"]:
     ## Randomize rows:
@@ -310,7 +331,7 @@ def get_coli_data(db_used,use_weight,rand):
     if db_used not in ['HuiAlim','HuiClim','HuiRlim']:
         ecoli_data[cond_list] = ecoli_data[cond_list] / ecoli_data[cond_list].sum()
     #remove scarce proteins
-    if db_used == 'Peebo' or db_used == 'Peebo-gluc':
+    if db_used == 'Peebo' or db_used == 'Peebo-gluc' or db_used == 'Peebo-LB':
         ecoli_data = ecoli_data[ecoli_data[cond_list].mean(axis=1)>avg_conc_threshold]
     if db_used == 'Heinemann' or db_used == 'HeinemannLB':
         dropping = ecoli_data[ecoli_data_cv[cond_list].mean(axis=1)>20.0][cond_list].sum().mean()
@@ -386,6 +407,8 @@ def get_annotated_prots(db,rand):
     if db == 'Peebo':
         id_to_annot = b_to_desc_dict()
     if db == 'Peebo-gluc':
+        id_to_annot = b_to_desc_dict()
+    if db == 'Peebo-LB':
         id_to_annot = b_to_desc_dict()
     if db == 'HuiAlim':
         id_to_annot = name_to_cat
