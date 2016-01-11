@@ -290,7 +290,7 @@ The growth rate is dependent on the amount of protein bio-synthesis a cell perfo
 The increase in ratio of bio-synthetic machinery to proteome thus results in an expected increase in the growth rate, as depicted in Fig.~\ref{fig:model}.
 In our example of the lac operon, in the presence of glucose, the down regulation of lactose metabolism genes leads to faster growth as more bio-synthetic genes are expressed instead.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=\columnwidth]{../figure1.pdf}
 \caption{\label{fig:model}
@@ -490,7 +490,7 @@ Our analysis agrees with these findings as we find the fraction of the vast majo
 However, we also find that the group of proteins strongly positively correlated with growth rate reach far beyond the previously discussed group of ribosomal proteins (tables \ref{tab:corrbreakdownh} and \ref{tab:corrbreakdownv}).
 Importantly, the proteins that we find to be strongly positively correlated with growth rate are not generally expected to be co-regulated, and their behavior does not seem to be the result of any known transcription factor or regulation cluster response \cite{23203884}.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=1\columnwidth]{../GrowthRateCorrelation.pdf}
 \caption{\label{fig:growthcorr}
@@ -532,7 +532,7 @@ We find that strongly correlated proteins and ribosomal proteins scale in simila
 Our results support the notion that a large number of proteins maintain their relative concentrations across different growth conditions and thus extend the scope of similar results obtained for \emph{S.cerevisiae} in \cite{Keren2013} and for expression levels in \emph{E.coli} under stress conditions \cite{Kaneko2014}.
 In contrast to other approaches, our model suggests a mechanism for this coordinated expression changes that is not based on shared transcription factors but rather is a result of passive redistribution of resources.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=1\columnwidth]{../AllProtsVSRibosomalNormalizedSlopes.pdf}
 \caption{\label{fig:globalfit}
@@ -564,7 +564,7 @@ While this fraction is low, it is still much higher than the equivalent $2\%$ ob
 This relatively low explained variability fraction is primarily the result of two factors: the linear response applies only to $<0.4$ of the proteins, leaving the rest of the proteins with no prediction, and experimental noise in whole proteome measurement techniques, estimated at $\approx20\%$.
 Further discussion of the fraction of variability explained can be found in \ref{corrthreshold}.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=1\columnwidth]{../GlobalClusterGRFit.pdf}
 \caption{\label{fig:globalgrcorr}
@@ -737,7 +737,7 @@ p_i(c)=\frac{w_i(c)}{W_B}\frac{T_B^0(1+\frac{g_m}{g(c)})}{\ln(2)}g(c) = \frac{w_
 Surprisingly, this equation also describes the fraction as being linearly dependent on the growth rate, with the kinetic parameters implying a non-zero fraction at zero growth rate as is shown by the red dots in Fig.~\ref{fig:theoreticalpred}.
 
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=1\columnwidth]{../TheoreticalModelEffects.pdf}
 \caption{\label{fig:theoreticalpred}
@@ -768,7 +768,7 @@ From our analysis of the other data sets, it follows that the predicted changes 
 Finally, the data set from \cite{Hui_2015} does not report absolute protein quantities but rather the ratio of protein change to a standard condition of growth.
 It therefore does not allow us to estimate the magnitude of changes in terms of mass and total fractions of the proteome as is needed by our analysis.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=1\columnwidth]{../AllDbsGrowthRateCorrelation.pdf}
 \caption{\label{fig:grcorr_dbs}
@@ -802,7 +802,7 @@ These results imply that indeed the different limitations imposed in \cite{Hui_2
 They also highlight the fact that different data sets, despite being measured under similar growth conditions, present large differences.
 This analysis emphasizes the importance of analyzing each data set separately as consistency between data sets from different labs is not very high.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=1\columnwidth]{../AllDbsCorrelation.pdf}
 \caption{ \label{fig:chemcorrcomp}
@@ -846,7 +846,7 @@ The noise in current whole proteome measurement techniques makes it difficult to
 Thus, it is unclear to what extent the effect we predict affects actual protein fractions versus their possible individual up regulation with growth rate.
 We expect future improvements in the accuracy of whole proteome measurements to quantitatively reveal the importance of passive coordinated scaling with growth rate in shaping the proteome composition. These coming improvements in accuracy will enable better testing of the scope and validity of the model presented here.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=1\columnwidth]{../ExpVar3.pdf}
 \caption{\label{fig:threshold}
@@ -892,7 +892,7 @@ Fig.~\ref{fig:LB} shows the implications of including the fast growth conditions
 As can be seen, many proteins are now less correlated with growth rate due to down regulation under the fast conditions.
 However, despite having fewer proteins being strongly positively correlated with growth (\hGlobalLB{} vs. \hGlobal{}) and despite the accumulated fraction of these proteins being lower under the slower growth conditions ($\approx30\%$ vs. $\approx40\%$), these proteins do occupy $>50\%$ out of the proteome under fast growth in LB.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=1\columnwidth]{../HeinemannLBsummaryHistAndGr.pdf}
 \caption{\label{fig:LB}
@@ -917,7 +917,7 @@ Therefore, and as it is known that ribosomes can operate even in the absence of 
 
 \subsection{The fraction out of the proteome of proteins that are not differentially regulated between conditions can be predicted by referencing other such proteins}
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=1\columnwidth]{../RandEstimateHeinemann.pdf}
 \caption{\label{fig:randpred}
@@ -931,7 +931,7 @@ Therefore, and as it is known that ribosomes can operate even in the absence of 
 
 \subsection{Breakdown by function of proteins strongly correlated with growth rate}
 
-\begin{table}[H]
+\begin{table}[h]
 \centering
 \resizebox{\textwidth}{!}{
 \pgfplotstabletypeset[
@@ -946,7 +946,7 @@ Breakdown by function of strongly positively correlated with growth rate protein
 }
 \end{table}
 
-\begin{table}[H]
+\begin{table}[h]
 \centering
 \resizebox{\textwidth}{!}{
 \pgfplotstabletypeset[
@@ -965,7 +965,7 @@ Breakdown by function of strongly positively correlated with growth rate protein
 Comparing the normalized sum of ribosomal proteins to the normalized sum of the positively correlated with growth rate proteins that are non-ribosomal shows that these two groups scale in the same way with the growth rate, as is seen in Fig.~\ref{fig:ribsnonribs}
 
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=1\columnwidth]{../RibsVsGlob.pdf}
 \caption{\label{fig:ribsnonribs}
@@ -997,7 +997,7 @@ The maximal explained variability in data sets with shuffled protein abundances 
 
 A simulated data set, assuming half of the proteins scale linearly with growth rate with normalized intercept at $0.5$, similar to the intercept found in the data analysis, and with simulated normally distributed noise levels of $25\%$, result in distributions similar to those found in the original data analysis (Fig.~\ref{fig:simulated})
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=1\columnwidth]{../shuffleExpVar3.pdf}
 \caption{\label{fig:shuffledexpvar}
@@ -1007,7 +1007,7 @@ Fraction of explained variability by linear regression on the group of strongly 
 \end{center}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=1\columnwidth]{../HeinemannsimulatedsummaryHistAndGr.pdf}
 \caption{\label{fig:simulated}
