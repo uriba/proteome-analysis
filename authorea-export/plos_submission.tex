@@ -601,7 +601,7 @@ While in all of these studies a linear dependence of ribosome concentration with
 A discussion of various reasons that may underlie these differences is given in \nameref{ribosomeconc}.
 
 Interestingly, our model suggests that a linear correlation between ribosomal proteins and the growth rate might be achieved without special control mechanisms.
-Nonetheless, many such mechanisms have been shown to exist \cite{Nomura1984,Scott2014} (for a comparison to the model suggested in \cite{Scott2014} see \nameref{scottcompare}).
+Nonetheless, many such mechanisms have been shown to exist \cite{Nomura1984,Scott2014} (for a comparison to the models suggested in \cite{Scott2010,Scott2014} and \cite{Hui_2015}  see \nameref{scottcompare}).
 We stress that the existence of such mechanisms does not contradict the model.
 Mechanisms for ribosomal proteins expression control may still be needed to achieve faster response under changing environmental conditions or a tighter regulation to avoid unnecessary production and reduce translational noise.
 Furthermore, such mechanisms may be crucial for synchronizing the amount of rRNA with ribosomal proteins as the two go through different bio-synthesis pathways.
@@ -692,7 +692,6 @@ We thank Uri Alon, Stephan Klumpp, Arren Bar Even, Avi Flamholz, Elad Noor, Kasp
 This work was funded by the European Research Council (Project SYMPAC 260392); Dana and Yossie Hollander; Helmsley Charitable Foundation; Israel Ministry of Science; The Larson Charitable Foundation.
 R.M. is the Charles and Louise Gartner professional chair and an EMBO young investigator program member.
 
-\bibliography{converted_to_latex.bib}
 \section*{Supporting Information}
 \subsection*{S1 Text}
 \label{theoreticalintercep}
@@ -732,7 +731,7 @@ For non-constant bio-synthesis rate, a growth rate of 0.2 was selected as the gr
 
 \subsection{S2 Text}
 \label{furtherdatasetanalysis}
-\paragraph{Databases omitted from the main analysis}
+\paragraph{Datasets omitted from the main analysis}
 Two published whole proteome \emph{E.coli} data sets were omitted from our analysis (\cite{Valgepea2013} and \cite{Hui_2015}).
 Both of these data sets present gradual modulation of the growth rate by a single factor (the data set from \cite{Hui_2015} uses 3 different factors, each independently).
 Such modulations yield very typical distributions of correlation with growth rate of proteins roughly dividing the proteome to 3 groups, proteins the concentration of which increases with growth rate, proteins the concentration of which decreases with growth rate, and proteins that show no evident correlation with growth rate (\nameref{fig:grcorr_dbs}).
@@ -804,7 +803,7 @@ The conditions used from each data set utilize similar growth conditions, except
 
 \subsection{S4 Text}
 \label{corrthreshold}
-\paragraph{Threshold selection for defining strong correlation with growth rate}
+\paragraph{Threshold choice for defining strong correlation with growth rate}
 The data we use includes the fractions of proteins under different growth conditions, and the growth rate for every condition.
 We select a threshold correlation with growth rate to define the group of highly positively correlated with growth rate proteins.
 
@@ -876,8 +875,8 @@ It therefore presents a symmetric distribution with a mean value that appears to
 \paragraph{Analysis of the data set from Schmidt et. al. including fast growth conditions}
 Due to the fast growth rate under LB and AA supplemented glycerol, compared with the other conditions measured in the data set from \cite{Schmidt2015} these conditions were not included in our primary analysis as was noted in the Methods section.
 Including these conditions result in a much smaller set of proteins with a strong positive correlation with growth, as many of the proteins in that group in the slower conditions get down-regulated when AA are added to the media, significantly reducing their Pearson correlation with growth rate.
-For example, the Pearson correlation with growth rate of gapA, involved in glycolisys, drops from 0.73 to 0.35 when these conditions are included.
-Another such example is glyA, involved in serine and threonine metabolism, that has a correlation with
+For example, the Pearson correlation with growth rate of gapA, involved in glycolysis, drops from 0.73 to 0.35 when these conditions are included.
+Another such example is glyA, involved in Serine and Threonine metabolism, that has a correlation with
 growth rate of -0.12 when the faster conditions are included in the analysis vs. a correlation of 0.7 when they are excluded.
 
 \nameref{fig:LB} shows the implications of including the fast growth conditions in the analysis.
@@ -977,8 +976,8 @@ Trend lines for the two groups of proteins are plotted.
 \subsection{S8 Text}
 \label{scottcompare}
 \paragraph{Comparison of the passive resource allocation model to other recent models}
-In \cite{Scott2014} and related works, a sectorial model of the proteome is presented.
-According to this model, the proteome is roughly divided to sectors with the main sectors being a $Q$ sector that is unaffected by growth rate, an $R$ sector composed of ribosomal proteins and translation related proteins, and a $P$ sector composed of metabolic proteins including catabolic and anabolic enzymes (the $P$ sector can be further sub-divided according to the specific metabolic tasks groups of proteins perform).
+In \cite{Scott2010,Scott2014} and \cite{Hui_2015}, a sectioning model of the proteome is presented.
+According to these models, the proteome is roughly divided to sectors with the main sectors being a $Q$ sector that is unaffected by growth rate, an $R$ sector composed of ribosomal proteins and translation related proteins, and a $P$ sector composed of metabolic proteins including catabolic and anabolic enzymes (the $P$ sector can be further sub-divided according to the specific metabolic tasks groups of proteins perform).
 In this model, a specific protein may belong to more than one sector, where, for example, if protein $P_i$ has a minimal value $P_i^{\min}$, then that fraction can be accounted for in sector $Q$, and only the changing fraction will be accounted for in sector $R$ or sector $P$, according to $P_i$'s function.
 The main point of the model is that different triggers may increase or decrease the expression of entire sectors, thus serving as global, or master, regulators.
 The model thus allows one to get an overview of the entire proteome as a result of the state of a few master regulators.
@@ -986,9 +985,10 @@ The model thus allows one to get an overview of the entire proteome as a result 
 The model presented here takes a different approach.
 It does not classify proteins according to major classes, though it does not assume such classification does not exist.
 It mainly focuses on the consequences of actively regulating some proteins (be it a small number of highly expressed proteins, or a large number of proteins) on the proteins that are not being actively regulated.
-Our model therefore aggregates all non-actively regulated proteins between two specific conditions into one group, $A$ and suggests that all of these proteins, despite not being actively regulated, may still occupy different fractions out of the proteome between the two conditions, if the active regulation of the proteins that do get regulated between the two conditions changes their overall expression (noting that proteins that do get actively regulated between two conditions may either be up regulated or down regulated, so their total sum may either increase, decrease, or remain the same between the two conditions observed).
+Our model therefore aggregates all non-actively regulated proteins between two specific conditions into one group, $A$, and all the regulated proteins between these two conditions into another group, $B$ (where the inclusion of each protein in any of these groups depends on the specific pair of conditions considered).
+Our model then suggests that all of the proteins in group $A$, despite not being actively regulated, may still occupy different fractions out of the proteome between the two conditions, if the active regulation of the proteins in $B$ changes the overall expression of $B$ (noting that proteins in $B$ may either be up regulated or down regulated, so their total sum may either increase, decrease, or remain the same between the two conditions observed).
 
-To summarize, where the model from \cite{Scott2014} focuses on what classes of proteins exist, what are the master regulators, and how are they used to achieve optimal growth, the model presented here focuses on global patterns that passively emerge due to specific regulation on specific genes (be it regulation that is targeted at only a small number of genes, or a large group of genes), exposing the fact that positive correlation of protein fraction with growth rate can be an emerging property, not requiring active regulation of the positively correlated proteins.
+To summarize, where the models from \cite{Scott2010,Scott2014} and \cite{Hui_2015} focus on what classes of proteins exist, what are the master regulators, and how are they used to achieve optimal growth, the model presented here focuses on global patterns that passively emerge due to specific regulation on specific genes (be it regulation that is targeted at only a small number of genes, or a large group of genes), exposing the fact that positive correlation of protein fraction with growth rate can be an emerging property, not requiring active regulation of the positively correlated proteins.
 
 \subsection{S9 Text}
 \paragraph{Additional figures of simulated and randomized data sets}
@@ -1021,5 +1021,7 @@ The results are similar to those obtained for the real data set, showing that, g
 \end{center}
 \end{figure}
 
+
+\bibliography{converted_to_latex.bib}
 \end{document}
 
