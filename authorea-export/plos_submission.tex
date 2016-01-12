@@ -673,7 +673,7 @@ On top of the measures listed above, one could consider either the total mass or
 Moreover, one can consider specific protein mass or molecule count per cell, thus reflecting changes in cell size across conditions.
 Our analysis focuses on the relations between different proteins and resource distribution inside the proteome, and thus avoids such metrics.
 
-\paragraph{Filtering out conditions from the data set from \cite{Schmidt2015}}
+\paragraph{Filtering out conditions from the data set from Schmidt et. al.}
 
 
 The \cite{Schmidt2015} data set contains proteomic data measurements under 22 different environmental conditions.
@@ -691,6 +691,8 @@ We kindly thank Matthias Heinemann for making proteomics data available before p
 We thank Uri Alon, Stephan Klumpp, Arren Bar Even, Avi Flamholz, Elad Noor, Kaspar Valgepea, Karl Peebo, Dan Davidi, Niv Antonovsky and Katja Tummler for fruitful discussions and enlightening comments on this work.
 This work was funded by the European Research Council (Project SYMPAC 260392); Dana and Yossie Hollander; Helmsley Charitable Foundation; Israel Ministry of Science; The Larson Charitable Foundation.
 R.M. is the Charles and Louise Gartner professional chair and an EMBO young investigator program member.
+
+\bibliography{converted_to_latex.bib}
 
 \section*{Supporting Information}
 \subsection*{S1 Text}
@@ -729,7 +731,7 @@ For non-constant bio-synthesis rate, a growth rate of 0.2 was selected as the gr
 \end{center}
 \end{figure}
 
-\subsection{S2 Text}
+\subsection*{S2 Text}
 \label{furtherdatasetanalysis}
 \paragraph{Datasets omitted from the main analysis}
 Two published whole proteome \emph{E.coli} data sets were omitted from our analysis (\cite{Valgepea2013} and \cite{Hui_2015}).
@@ -768,7 +770,7 @@ Such data sets make it hard to distinguish between specific regulation mechanism
 \end{figure}
 
 
-\subsection{S3 Text}
+\subsection*{S3 Text}
 \label{dbscorr}
 \paragraph{Correlation between the different proteomics data sets}
 To assess the agreement between the different data sets we used, as well as those we omitted, we compared the correlation with growth rate of each protein under similar conditions between every two of these data sets.
@@ -788,7 +790,7 @@ These results imply that indeed the different limitations imposed in \cite{Hui_2
 They also highlight the fact that different data sets, despite being measured under similar growth conditions, present large differences.
 This analysis emphasizes the importance of analyzing each data set separately as consistency between data sets from different labs is not very high.
 
-\subsection{S3 Fig}
+\subsection*{S3 Fig}
 \label{fig:chemcorrcomp}
 \begin{figure}[h]
 \begin{center}
@@ -801,7 +803,7 @@ The conditions used from each data set utilize similar growth conditions, except
 \end{center}
 \end{figure}
 
-\subsection{S4 Text}
+\subsection*{S4 Text}
 \label{corrthreshold}
 \paragraph{Threshold choice for defining strong correlation with growth rate}
 The data we use includes the fractions of proteins under different growth conditions, and the growth rate for every condition.
@@ -973,7 +975,7 @@ Trend lines for the two groups of proteins are plotted.
 \end{center}
 \end{figure}
 
-\subsection{S8 Text}
+\subsection*{S8 Text}
 \label{scottcompare}
 \paragraph{Comparison of the passive resource allocation model to other recent models}
 In \cite{Scott2010,Scott2014} and \cite{Hui_2015}, a sectioning model of the proteome is presented.
@@ -990,11 +992,11 @@ Our model then suggests that all of the proteins in group $A$, despite not being
 
 To summarize, where the models from \cite{Scott2010,Scott2014} and \cite{Hui_2015} focus on what classes of proteins exist, what are the master regulators, and how are they used to achieve optimal growth, the model presented here focuses on global patterns that passively emerge due to specific regulation on specific genes (be it regulation that is targeted at only a small number of genes, or a large group of genes), exposing the fact that positive correlation of protein fraction with growth rate can be an emerging property, not requiring active regulation of the positively correlated proteins.
 
-\subsection{S9 Text}
+\subsection*{S9 Text}
 \paragraph{Additional figures of simulated and randomized data sets}
 
 
-\subsection{S8 Fig}
+\subsection*{S8 Fig}
 \label{fig:shuffledexpvar}
 \begin{figure}[h]
 \begin{center}
@@ -1007,7 +1009,7 @@ The maximal explained variability in these data sets is significantly smaller th
 \end{center}
 \end{figure}
 
-\subsection{S9 Fig}
+\subsection*{S9 Fig}
 \label{fig:simulated}
 \begin{figure}[h]
 \begin{center}
@@ -1022,6 +1024,5 @@ The results are similar to those obtained for the real data set, showing that, g
 \end{figure}
 
 
-\bibliography{converted_to_latex.bib}
 \end{document}
 
