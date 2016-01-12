@@ -966,7 +966,7 @@ def model_effects_plot():
     figure(figsize=(5,3))
     ax = subplot(111)
     ax.plot(grs,simple,'o',label="Unregulated protein - basic model")
-    ax.plot(grs,degraded,'o',label="Unregulated protein - with degradatation")
+    ax.plot(grs,degraded,'o',label="Unregulated protein - with degradation")
     ax.plot(neg,neg_deg,'--g')
     ax.plot(grs,rate_effect,'o',label="Unregulated protein - under decreasing biosynthesis rate")
     ax.plot(grs,rate,'--r',label="Biosynthesis rate")
