@@ -196,6 +196,8 @@ def plotCorrelationHistograms(dbs,suffix):
     #fig = gcf()
     #py.plot_mpl(fig,filename="Growth rate Correlation histograms")
     savefig('%sGrowthRateCorrelation%s.pdf' % (rand_prefix,suffix))
+    if rand_prefix == suffix:
+        savefig('Fig2.eps')
     close()
 
 ##############temp 20 prots plot####################3
@@ -285,6 +287,8 @@ def plotGlobalResponse(dbs,rand_method):
         #fig = gcf()
         #py.plot_mpl(fig,filename="Global cluster growth rate correlation")
         savefig('%sGlobalClusterGRFit.pdf' % rand_prefix)
+        if rand_prefix == '':
+            savefig('Fig4.eps')
         close()
 
 #gets values at cond_list normalized in y axis
@@ -384,6 +388,8 @@ def plot_response_hist_graphs(dbs):
 #fig = gcf()
 #py.plot_mpl(fig,filename="Normalized slopes distribution")
         savefig('%s%s.pdf' % (rand_prefix,name))
+        if name == 'AllProtsVSRibosomalNormalizedSlopes':
+            savefig('Fig3.eps')
         close()
 
 
@@ -464,6 +470,10 @@ def corr_andGR_plot(db,ref):
 #fig = gcf()
 #py.plot_mpl(fig,filename="Heinemann chemostat graphs")
     savefig('%s%ssummaryHistAndGr.pdf' % (db,rand))
+    if db == 'HeinemannLB' and rand == '':
+        savefig('FigS5.eps')
+    if db == 'Heinemann' and rand == 'simulated':
+        savefig('FigS9.eps')
     close()
 
 # plot slopes distribution for highly negatively correlated proteins from Valgepea dataset and sum of concentrations
@@ -733,6 +743,10 @@ def variabilityAndGlobClustSlopesNormed(dbs,rand_method):
     #fig = gcf()
     #py.plot_mpl(fig,filename="Explained variability statistics on normalized concentrations")
     savefig('%sExpVar3.pdf' % rand_method)
+    if rand_method == '':
+        savefig('FigS4.eps')
+    if rand_method == 'shuffle':
+        savefig('FigS8.eps')
     close()
 
     figure(figsize=(5,3))
@@ -915,6 +929,8 @@ def plotPrediction():
         #fig = gcf()
         #py.plot_mpl(fig,filename="Random proteins estimations, 10 proteins at a time, %s" % db)
         savefig('%sRandEstimate%s.pdf' % (rand_prefix,db))
+        if rand_prefix == '' and db == 'Heinemann':
+            savefig('FigS6.eps')
         close()
 
 #plot ribosomal proteins vs. global cluster proteins with trendlines and R^2 estimates.
@@ -948,6 +964,8 @@ def plotRibosomalVsGlobTrend(dbs):
     #fig = gcf()
     #py.plot_mpl(fig,filename="Ribosomal proteins vs global cluster")
     savefig('%sRibsVsGlob.pdf' % rand_prefix)
+    if rand_prefix == '':
+        savefig('FigS7.eps')
     close()
 
 def model_effects_plot():
@@ -984,6 +1002,7 @@ def model_effects_plot():
     handles,labels=ax.get_legend_handles_labels()
     figlegend(handles,labels,fontsize=6,mode='expand',loc='upper left',bbox_to_anchor=(0.0,0.8,1,0.2),ncol=2,numpoints=1)
     savefig('TheoreticalModelEffects.pdf')
+    savefig('FigS1.eps')
     close()
 
 #plot heinemann/peebo protein correlation
@@ -1094,6 +1113,7 @@ def plot_dbs_pairs_corr():
         set_ticks(ps,3)
     tight_layout()
     savefig('AllDbsCorrelation.pdf')
+    savefig('FigS3.eps')
     close()
 
 def plot_all_dbs_hist():
@@ -1124,6 +1144,7 @@ def plot_all_dbs_hist():
     #fig = gcf()
     #py.plot_mpl(fig,filename="Growth rate Correlation histograms")
     savefig('AllDbsGrowthRateCorrelation.pdf')
+    savefig('FigS2.eps')
     close()
 
 #init_datasets("")
