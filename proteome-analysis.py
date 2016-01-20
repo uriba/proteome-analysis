@@ -1166,7 +1166,7 @@ plot_dbs_pairs_corr()
 plot_all_dbs_hist()
 db_corr()
 print "plotting prediction"
-#plotPrediction()        
+plotPrediction()        
 print "plotting original data graphs"
 #tempprotsplot()
 corr_andGR_plot('Simulated','Heinemann')
