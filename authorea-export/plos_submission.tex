@@ -850,7 +850,9 @@ We expect future improvements in the accuracy of whole proteome measurements to 
 The expected distribution of slopes was calculated as follows:
 For every protein that was identified as being strongly positively correlated with growth rate, a linear regression with growth rate was performed, and the normalized slope and standard error of the regression line were calculated.
 The average standard error and average slope across all proteins that were identified as being strongly positively correlated with growth rate were calculated.
-These average slope and average standard error were used to calculate the expected distribution of slopes that would emerge, should all proteins share the same average slope with the given average standard error in measurements.
+Denoting by $n$ the number of conditions, we note that each slope is a statistical variable calculated based on $n$ samples, with $n-2$ degrees of freedom.
+The calculated slopes of the different proteins are therefore expected to follow a student-t distribution with $n-2$ degrees of freedom, a standard error that is the average of the standard errors calculated for the regression of each protein, and an average value that is equal to the average taken over all of the calculated slopes.
+The average slope, average standard error and $n-2$ degrees of freedom were therefore used to calculate the expected student-t distribution of slopes that would emerge, should all proteins share the same average slope with the given average standard error in measurements.
 
 While the expected distributions of slopes are symmetric, the observed ones are asymmetric, with a longer distribution tail at higher slopes.
 This is a side effect of the way by which proteins were identified to be strongly positively correlated with growth rate, given an experimental noise.
