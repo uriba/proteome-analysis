@@ -360,6 +360,8 @@ def plot_response_hist(db,df,gr,conds,p,total,estimate):
     else:
         p.hist(glob_conc['alpha'].values,bins=bins,label=['High correlation proteins'])
     if estimate:
+# need to scale distribution so that areas under distribution and histogram are the same. as each bin spans 0.25, this is the 
+# scale factor used
         p.plot(xs,stats.t.pdf(xs,df=len(conds)-2,loc=avg,scale=std_err)*len(glob_conc['alpha'])*0.25,linestyle='-',color='0.5')
     p.set_xlim(-5,5)
     for x in (0.5,2):
