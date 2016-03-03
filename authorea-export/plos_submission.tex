@@ -224,7 +224,7 @@ The search for underlying mechanisms in \emph{E.coli} yielded several candidates
 In the last two decades, with the ability to measure genome-wide expression levels, it was found that changes in gene expression as a function of growth rate are not limited to ribosomal genes.
 In \emph{E.coli}, the expression of catabolic and anabolic genes is coordinated with growth rate, and suggested to be mediated by cAMP \cite{Saldanha2004,You_2013,Peebo_2015}.
 In \emph{S.cerevisiae}, it was shown that most of the genome changes its expression levels in response to environmental conditions in a manner strongly correlated with growth rate \cite{Keren2013,Brauer2008,Castrillo2007,Gerosa2013}.
-Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \cite{Gasch2000,Klumpp2009,Klumpp2014,Scott2010,Scott2014,Berthoumieux2013,Keren2013,Gerosa2013,Valgepea2013,Hui_2015,Weise2015}.
+Studies examining the interplay between global and specific modes of regulation, suggested that global factors play a major role in determining the expression levels of genes \cite{Gasch2000,Klumpp2009,Klumpp2014,Scott2010,Scott2011,Scott2014,Berthoumieux2013,Keren2013,Gerosa2013,Valgepea2013,Hui_2015,Weise2015}.
 
 In \emph{E.coli}, this was mechanistically attributed to changes in the pool of RNA polymerase core and sigma factors \cite{Klumpp2008}.
 In \emph{S.cerevisiae}, it was suggested that differences in histone modifications around the replication origins \cite{Regenberg2006} or translation rates \cite{Brauer2008} across conditions may underlie the same phenomenon.
@@ -299,15 +299,14 @@ The use of intrinsic affinities in our model does not require inferring their ab
 We compare and take ratios of intrinsic affinities to show how they can be used to understand changes in specific growth rate as a result of expression modulation.
 Conceptually, intrinsic affinities resemble standard Gibbs free energies of chemical reactions, they integrate many parameters, are given under some standard condition, represent tendencies of processes to occur, and can be used in different contexts without knowing their exact values.
 
-We denote the affinity of gene $i$ under growth condition $c$ by $w_i(c)$.
-To determine the resulting fraction of every protein, our model assumes that the bio-synthetic resources are distributed among the genes according to those affinities, as is stated in Eq.(\ref{eq:concentration-ratio}).
-Intuitively, one can think of a competition between the genes and transcripts over the bio-synthetic resources, where each gene/transcript attracts resources according to its intrinsic affinity.
-
-The notion of intrinsic affinities represents the expression pattern under a given condition by the intrinsic affinities of all genes under that condition.
-Assuming each gene has only a finite set of affinities, possibly only one or two (for example, on and off states of the lac operon), describing the expression pattern is therefore reduced to selecting which, out of the total gene-specific small set of possible affinities, each gene gets under the relevant condition.
+The notion of intrinsic affinities facilitates the representation of the expression pattern under a given condition.
+Assuming each gene has only a finite set of affinities, possibly only one or two (for example, on and off states of the lac operon), the expression pattern is reduced to selecting which, out of the total gene-specific small set of possible affinities, each gene gets under the relevant condition.
 Given that the selection of expression level for a given gene is driven by some specific environmental cues (translated to, for example, activation of specific transcription factors), the description can be further reduced to determining what cues are present at each condition.
 
-The fraction of a specific protein out of the proteome is equal to the specific affinity of the corresponding gene under the condition, divided by the sum of the affinities of all genes under that same condition.
+We denote the affinity of gene $i$ under growth condition $c$ by $w_i(c)$.
+To determine the resulting fraction of every protein, our model assumes that the bio-synthetic resources are distributed among the genes according to those affinities.
+Therefore, the fraction of a specific protein out of the proteome is equal to the specific affinity of the corresponding gene under the condition, divided by the sum of the affinities of all genes under that same condition, as is stated in Eq.(\ref{eq:concentration-ratio}).
+Intuitively, one can think of a competition between the genes and transcripts over the bio-synthetic resources, where each gene/transcript attracts resources according to its intrinsic affinity.
 To illustrate: if two genes have the same affinity under some condition, their corresponding proteins will occupy identical fractions out of the proteome.
 If gene $A$ has twice the affinity of gene $B$ under a given condition, then the fraction protein  $A$ occupies will be twice as large as the fraction occupied by protein $B$ under that condition, etc.
 The division by the sum of the affinities of all genes under the condition normalizes the fractions such that the sum of the fractions of all proteins under the condition will be 1.
@@ -580,7 +579,7 @@ We presented a parsimonious model connecting the fraction of proteins out of the
 The notion of intrinsic affinity for expression, first presented in \cite{Maaloe1969}, and rarely used ever since, was re-introduced as a key determinant for the differences in expression of different proteins under a given growth condition.
 The integration of the notion of intrinsic affinity for expression with the limited bio-synthesis capacity of cells was shown to result in a simple mechanism predicting increased fraction of many proteins with the growth rate, without assuming regulation by specific transcription factors for these proteins.
 
-The framework we present emphasizes the importance of accounting for global factors, that are reflected in the growth rate, when analyzing gene expression and proteomics data, as was noted before \cite{Maaloe1969,Brauer2008,Klumpp2009,Klumpp2014,Scott2014,Scott2010,Berthoumieux2013,Keren2013,Gerosa2013,Valgepea2013,Hui_2015,Peebo_2015,Wei_e_2015}.
+The framework we present emphasizes the importance of accounting for global factors, that are reflected in the growth rate, when analyzing gene expression and proteomics data, as was noted before \cite{Maaloe1969,Brauer2008,Klumpp2009,Klumpp2014,Scott2011,Scott2014,Scott2010,Berthoumieux2013,Keren2013,Gerosa2013,Valgepea2013,Hui_2015,Peebo_2015,Wei_e_2015}.
 Specifically, we suggest that the default response of a protein (that is, the change in the observed expression of a protein, given that no specific regulation was applied to it) is to linearly increase with growth rate.
 We point out that, as non-differentially regulated proteins maintain their relative abundances, one can deduce the parameters of the linear increase with growth rate of any non-differentially regulated protein by observing the scaling of other such proteins and fixing the ratio between the protein of interest and the reference proteins.
 
@@ -598,7 +597,7 @@ While in all of these studies a linear dependence of ribosome concentration with
 A discussion of various reasons that may underlie these differences is given in \nameref{ribosomeconc}.
 
 Interestingly, our model suggests that a linear correlation between ribosomal proteins and the growth rate might be achieved without special control mechanisms.
-Nonetheless, many such mechanisms have been shown to exist \cite{Nomura1984,Scott2014} (for a comparison to the models suggested in \cite{Scott2010,Scott2014} and \cite{Hui_2015}  see \nameref{scottcompare}).
+Nonetheless, many such mechanisms have been shown to exist \cite{Nomura1984,Scott2014} (for a comparison to the models suggested in \cite{Scott2010,Scott2011,Scott2014} and \cite{Hui_2015}  see \nameref{scottcompare}).
 We stress that the existence of such mechanisms does not contradict the model.
 Mechanisms for ribosomal proteins expression control may still be needed to achieve faster response under changing environmental conditions or a tighter regulation to avoid unnecessary production and reduce translational noise.
 Furthermore, such mechanisms may be crucial for synchronizing the amount of rRNA with ribosomal proteins as the two go through different bio-synthesis pathways.
@@ -616,10 +615,14 @@ Moreover, passive redistribution of resources can then be compared with active r
 Other recently published studies in \emph{E.coli} have suggested different models and in some cases have results  and predictions that do not coincide with those presented in this study.
 Notably, in \cite{Klumpp2009,Klumpp2014} a decreased protein concentration for unregulated genes is predicted.
 A few differences can explain this seeming discrepancy.
-The modeling in \cite{Klumpp2009} relies on data collected under higher growth rates than those available in the data sets analyzed here.
+The calculation in \cite{Klumpp2009} relies on data collected under higher growth rates than those available in the data sets analyzed here.
 The predictions of the model are based on the deduced dependence of various bio-synthesis process rates and physiological properties of the cells on the growth rate, properties that are, in turn, used to calculate the expected protein concentration for unregulated proteins under the different growth rates.
 The model in \cite{Klumpp2009} refers to protein concentration and not to protein fraction out of the proteome. These quantities may differ due to changes in the ratio of total protein mass to cell dry weight, or cell volume, as a function of the growth rate.
 Thus, this approach is markedly different than the approach we take, which assumes relatively small changes in bio-synthetic rates as a function of growth rate and focuses on the limited bio-synthesis resources as the main driver of changes in the resulting fraction of proteins out of the proteome.
+Finally, the two models differ in one key assumption, whereas the models in \cite{Klumpp2009,Scott2010,Scott2011,Klumpp2014} consider the 'growth driving' proteins to be actively up regulated under favorable conditions, our model suggests that the higher concentration of these 'growth driving' proteins is a byproduct of the down regulation of unneccessary proteins under favorable conditions.
+This difference in assumptions leads to differing predictions regarding the response in expression to growth rate under the two models.
+The models from \cite{Klumpp2009,Scott2010,Scott2011,Klumpp2014} predict that unregulated proteins will decrease in concentration with the growth rate, whereas our model predicts an increase in their concentration with growth rate.
+We find the amount of proteins that display similar response to the 'growth driving' proteins with respect to the growth rate to be a significant, albeit circumstantial, evidence that the assumption our model makes is valid.
 As the model in \cite{Klumpp2009} was only tested against a handful of proteins, further data collection is required to decide which of the two models better describes the global effects of growth rate on proteome composition.
 
 The expected availability of increasing amounts of whole proteome data sets, with higher accuracy levels, will enable further investigation of the details of cellular resource distribution.
@@ -975,7 +978,7 @@ Trend lines for the two groups of proteins are plotted.
 \subsection*{S8 Text}
 \label{scottcompare}
 \paragraph{Comparison of the passive resource allocation model to other recent models}
-In \cite{Scott2010,Scott2014} and \cite{Hui_2015}, a sectioning model of the proteome is presented.
+In \cite{Scott2010,Scott2011,Scott2014} and \cite{Hui_2015}, a sectioning model of the proteome is presented.
 According to these models, the proteome is roughly divided to sectors with the main sectors being a $Q$ sector that is unaffected by growth rate, an $R$ sector composed of ribosomal proteins and translation related proteins, and a $P$ sector composed of metabolic proteins including catabolic and anabolic enzymes (the $P$ sector can be further sub-divided according to the specific metabolic tasks groups of proteins perform).
 In this model, a specific protein may belong to more than one sector, where, for example, if protein $P_i$ has a minimal value $P_i^{\min}$, then that fraction can be accounted for in sector $Q$, and only the changing fraction will be accounted for in sector $R$ or sector $P$, according to $P_i$'s function.
 The main point of the model is that different triggers may increase or decrease the expression of entire sectors, thus serving as global, or master, regulators.
@@ -987,7 +990,7 @@ It mainly focuses on the consequences of actively regulating some proteins (be i
 Our model therefore aggregates all non-actively regulated proteins between two specific conditions into one group, $A$, and all the regulated proteins between these two conditions into another group, $B$ (where the inclusion of each protein in any of these groups depends on the specific pair of conditions considered).
 Our model then suggests that all of the proteins in group $A$, despite not being actively regulated, may still occupy different fractions out of the proteome between the two conditions, if the active regulation of the proteins in $B$ changes the overall expression of $B$ (noting that proteins in $B$ may either be up regulated or down regulated, so their total sum may either increase, decrease, or remain the same between the two conditions observed).
 
-To summarize, where the models from \cite{Scott2010,Scott2014} and \cite{Hui_2015} focus on what classes of proteins exist, what are the master regulators, and how are they used to achieve optimal growth, the model presented here focuses on global patterns that passively emerge due to specific regulation on specific genes (be it regulation that is targeted at only a small number of genes, or a large group of genes), exposing the fact that positive correlation of protein fraction with growth rate can be an emerging property, not requiring active regulation of the positively correlated proteins.
+To summarize, where the models from \cite{Scott2010,Scott2011,Scott2014} and \cite{Hui_2015} focus on what classes of proteins exist, what are the master regulators, and how are they used to achieve optimal growth, the model presented here focuses on global patterns that passively emerge due to specific regulation on specific genes (be it regulation that is targeted at only a small number of genes, or a large group of genes), exposing the fact that positive correlation of protein fraction with growth rate can be an emerging property, not requiring active regulation of the positively correlated proteins.
 
 \subsection*{S8 Fig}
 \label{fig:shuffledexpvar}
