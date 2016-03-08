@@ -1121,7 +1121,7 @@ def plot_dbs_pairs_corr():
 def plot_all_dbs_hist():
     figure(figsize=(6.5,5))
     dbs = ['Heinemann-chemo','Peebo-gluc','Valgepea','HuiAlim','HuiClim','HuiRlim']
-    dbext = {'Heinemann-chemo':'','Peebo-gluc':'','Valgepea':'','HuiAlim':', A-lim','HuiClim':', C-lim','HuiRlim':', R-lim'}
+    dbext = {'Heinemann-chemo':'\nchemostat conditions','Peebo-gluc':'\nglucose accelerostat conditions','Valgepea':'','HuiAlim':', A-lim','HuiClim':', C-lim','HuiRlim':', R-lim'}
     p=subplot(111)
     for i,db in enumerate(dbs):
         ps = subplot(231+i)
@@ -1131,7 +1131,7 @@ def plot_all_dbs_hist():
             year = 2013
         else:
             year = 2015
-        ps.annotate("data from %s et. al. %d%s" % (db_name[db],year,dbext[db]),xy=(0.5,0.5),xytext=(-0.87,303),fontsize=6,zorder=10)
+        ps.annotate("data from %s et. al. %d%s" % (db_name[db],year,dbext[db]),xy=(0.5,0.5),xytext=(-0.87,313),verticalalignment='top',fontsize=6,zorder=10)
         ps.set_ylim(0,350)
         ps.set_xlim(-1,1)
         ps.annotate(chr(65+i),xy=(0.5,0.5),xytext=(-0.87,320),fontsize=10,zorder=10)
