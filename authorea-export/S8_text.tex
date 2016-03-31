@@ -1,0 +1,157 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{cite}
+\usepackage{nameref,hyperref}
+% Use the PLoS provided BiBTeX style
+\bibliographystyle{plos2015}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+% Leave date blank
+\date{}
+
+\usepackage{latexsym}
+\usepackage{amsfonts}
+\usepackage{pgfplotstable}
+\usepackage{url}
+\usepackage[nomessages]{fp}
+\newcommand{\hConds}{$20$}
+\newcommand{\hCondsLBnum}{22}
+\newcommand{\hCondsLB}{$\hCondsLBnum$}
+\newcommand{\voConds}{$5$}
+\newcommand{\vnCondsnum}{23}
+\newcommand{\vnConds}{$\vnCondsnum$}
+\newcommand{\vConds}{\vnConds{}}
+\FPeval{\totConds}{clip(\hCondsLBnum+\vnCondsnum+2)}
+\FPeval{\tothConds}{clip(\hCondsLBnum+2)}
+\newcommand{\hTotal}{$1442$}
+\newcommand{\hGlobal}{$473$}
+\newcommand{\hGlobalLB}{$352$}
+\newcommand{\hGlobalShuff}{$12$}
+
+\newcommand{\hHorizIntercept}{$-0.36$}
+\newcommand{\hHalflife}{$1.9$}
+
+\newcommand{\vnTotal}{$1142$}
+\newcommand{\voTotal}{$919$}
+\newcommand{\vTotal}{\vnTotal{}}
+
+\newcommand{\voGlobalShuff}{$152$}
+\newcommand{\vnGlobalShuff}{$5$}
+\newcommand{\vGlobalShuff}{\vnGlobalShuff{}}
+
+\newcommand{\vnGlobal}{$305$}
+\newcommand{\voGlobal}{$378$}
+\newcommand{\vGlobal}{\vnGlobal{}}
+
+\newcommand{\vnIntercept}{$-0.54$}
+\newcommand{\voIntercept}{$-0.54$}
+\newcommand{\vHalflife}{$1.29$}
+\newcommand{\hProtsInRange}{$414$}
+\newcommand{\vProtsInRange}{$221$}
+
+\newcommand{\hMeanSlope}{$1.32$}
+\newcommand{\hMeanSlopeStdDev}{$0.57$}
+\newcommand{\hSlopeStdErrMean}{$0.34$}
+\newcommand{\hRibsMeanSlope}{$1.41$}
+\newcommand{\hRibsSlopeStdDev}{$0.32$}
+\newcommand{\hRibsSlopeStdErrMean}{$0.23$}
+\newcommand{\hGlobalSumSlope}{$1.24$}
+\newcommand{\hGlobalSumRsq}{0.91}
+\newcommand{\hRibsSumSlope}{$1.37$}
+\newcommand{\hRibsSumRsq}{0.89}
+
+\newcommand{\hRibs}{$53$}
+\newcommand{\hCorrRibs}{$47$}
+
+\newcommand{\vnRibs}{$53$}
+\newcommand{\voRibs}{$54$}
+\newcommand{\vRibs}{\vnRibs{}}
+\newcommand{\vnCorrRibs}{$52$}
+\newcommand{\voCorrRibs}{$52$}
+\newcommand{\vCorrRibs}{\vnCorrRibs{}}
+
+\newcommand{\vnMeanSlope}{$1.06$}
+\newcommand{\voMeanSlope}{$1.39$}
+\newcommand{\vMeanSlope}{\vnMeanSlope{}}
+
+\newcommand{\vMeanSlopeStdDev}{$0.60$}
+\newcommand{\vSlopeStdErrMean}{$0.14$}
+\newcommand{\vRibsMeanSlope}{$1.48$}
+\newcommand{\vRibsSlopeStdDev}{$0.08$}
+\newcommand{\vRibsSlopeStdErrMean}{$0.06$}
+
+\newcommand{\vnGlobalSumSlope}{$1.0$}
+\newcommand{\voGlobalSumSlope}{$1.39$}
+\newcommand{\vGlobalSumSlope}{\vnGlobalSumSlope{}}
+
+\newcommand{\vnGlobalSumRsq}{0.97}
+\newcommand{\voGlobalSumRsq}{1.0}
+\newcommand{\vGlobalSumRsq}{\vnGlobalSumRsq{}}
+
+\newcommand{\vnRibsSumSlope}{$1.49$}
+\newcommand{\voRibsSumSlope}{$1.49$}
+\newcommand{\vRibsSumSlope}{\vnRibsSumSlope{}}
+
+\newcommand{\vnRibsSumRsq}{0.97}
+\newcommand{\voRibsSumRsq}{0.97}
+\newcommand{\vRibsSumRsq}{\vnRibsSumRsq{}}
+
+\newcommand{\hMaxExpVar}{0.082}
+\newcommand{\vnMaxExpVar}{0.035}
+\newcommand{\voMaxExpVar}{0.04}
+\newcommand{\vMaxExpVar}{\vnMaxExpVar{}}
+
+\begin{document}
+
+\paragraph{Comparison of the passive resource allocation model to other recent models}
+
+In \cite{Scott2010,Scott2011,Scott2014} and \cite{Hui_2015}, a sectioning model of the proteome is presented.
+According to these models, the proteome is roughly divided to sectors with the main sectors being a $Q$ sector that is unaffected by growth rate, an $R$ sector composed of ribosomal proteins and translation related proteins, and a $P$ sector composed of metabolic proteins including catabolic and anabolic enzymes (the $P$ sector can be further sub-divided according to the specific metabolic tasks groups of proteins perform).
+In this model, a specific protein may belong to more than one sector, where, for example, if protein $P_i$ has a minimal value $P_i^{\min}$, then that fraction can be accounted for in sector $Q$, and only the changing fraction will be accounted for in sector $R$ or sector $P$, according to $P_i$'s function.
+The main point of the model is that different triggers may increase or decrease the expression of entire sectors, thus serving as global, or master, regulators.
+The model thus allows one to get an overview of the entire proteome as a result of the state of a few master regulators.
+
+The model presented here takes a different approach.
+It does not classify proteins according to major classes, though it does not assume such classification does not exist.
+It mainly focuses on the consequences of actively regulating some proteins (be it a small number of highly expressed proteins, or a large number of proteins) on the proteins that are not being actively regulated.
+Our model therefore aggregates all non-actively regulated proteins between two specific conditions into one group, $A$, and all the regulated proteins between these two conditions into another group, $B$ (where the inclusion of each protein in any of these groups depends on the specific pair of conditions considered).
+Our model then suggests that all of the proteins in group $A$, despite not being actively regulated, may still occupy different fractions out of the proteome between the two conditions, if the active regulation of the proteins in $B$ changes the overall expression of $B$ (noting that proteins in $B$ may either be up regulated or down regulated, so their total sum may either increase, decrease, or remain the same between the two conditions observed).
+
+To summarize, where the models from \cite{Scott2010,Scott2011,Scott2014} and \cite{Hui_2015} focus on what classes of proteins exist, what are the master regulators, and how are they used to achieve optimal growth, the model presented here focuses on global patterns that passively emerge due to specific regulation on specific genes (be it regulation that is targeted at only a small number of genes, or a large group of genes), exposing the fact that positive correlation of protein fraction with growth rate can be an emerging property, not requiring active regulation of the positively correlated proteins.
+
+\begin{thebibliography}{10}
+\bibitem{Scott2010}
+Scott M, Gunderson CW, Mateescu EM, Zhang Z, Hwa T.
+\newblock {Interdependence of cell growth and gene expression: origins and
+  consequences.}
+\newblock Science (New York, NY). 2010 nov;330(6007):1099--102.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/21097934}.
+
+\bibitem{Scott2011}
+Scott M, Hwa T.
+\newblock {Bacterial growth laws and their applications.}
+\newblock Current opinion in biotechnology. 2011 aug;22(4):559--65.
+\newblock Available from:
+  \url{http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=3152618\&tool=pmcentrez\&rendertype=abstract}.
+
+\bibitem{Scott2014}
+Scott M, Klumpp S, Mateescu EM, Hwa T.
+\newblock {Emergence of robust growth laws from optimal regulation of ribosome
+  synthesis.}
+\newblock Molecular systems biology. 2014 jan;10(8):747.
+\newblock Available from: \url{http://www.ncbi.nlm.nih.gov/pubmed/25149558}.
+
+\bibitem{Hui_2015}
+Hui S, Silverman JM, Chen SS, Erickson DW, Basan M, Wang J, et~al.
+\newblock {Quantitative proteomic analysis reveals a simple strategy of global
+  resource allocation in bacteria}.
+\newblock Molecular Systems Biology. 2015 feb;11(2):e784--e784.
+\newblock Available from: \url{http://dx.doi.org/10.15252/msb.20145697}.
+
+\end{thebibliography}
+
+\end{document}

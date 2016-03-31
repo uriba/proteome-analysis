@@ -1,0 +1,121 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{cite}
+\usepackage{nameref,hyperref}
+% Use the PLoS provided BiBTeX style
+\bibliographystyle{plos2015}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+% Leave date blank
+\date{}
+
+\usepackage{latexsym}
+\usepackage{amsfonts}
+\usepackage{pgfplotstable}
+\usepackage{url}
+\usepackage[nomessages]{fp}
+\newcommand{\hConds}{$20$}
+\newcommand{\hCondsLBnum}{22}
+\newcommand{\hCondsLB}{$\hCondsLBnum$}
+\newcommand{\voConds}{$5$}
+\newcommand{\vnCondsnum}{23}
+\newcommand{\vnConds}{$\vnCondsnum$}
+\newcommand{\vConds}{\vnConds{}}
+\FPeval{\totConds}{clip(\hCondsLBnum+\vnCondsnum+2)}
+\FPeval{\tothConds}{clip(\hCondsLBnum+2)}
+\newcommand{\hTotal}{$1442$}
+\newcommand{\hGlobal}{$473$}
+\newcommand{\hGlobalLB}{$352$}
+\newcommand{\hGlobalShuff}{$12$}
+
+\newcommand{\hHorizIntercept}{$-0.36$}
+\newcommand{\hHalflife}{$1.9$}
+
+\newcommand{\vnTotal}{$1142$}
+\newcommand{\voTotal}{$919$}
+\newcommand{\vTotal}{\vnTotal{}}
+
+\newcommand{\voGlobalShuff}{$152$}
+\newcommand{\vnGlobalShuff}{$5$}
+\newcommand{\vGlobalShuff}{\vnGlobalShuff{}}
+
+\newcommand{\vnGlobal}{$305$}
+\newcommand{\voGlobal}{$378$}
+\newcommand{\vGlobal}{\vnGlobal{}}
+
+\newcommand{\vnIntercept}{$-0.54$}
+\newcommand{\voIntercept}{$-0.54$}
+\newcommand{\vHalflife}{$1.29$}
+\newcommand{\hProtsInRange}{$414$}
+\newcommand{\vProtsInRange}{$221$}
+
+\newcommand{\hMeanSlope}{$1.32$}
+\newcommand{\hMeanSlopeStdDev}{$0.57$}
+\newcommand{\hSlopeStdErrMean}{$0.34$}
+\newcommand{\hRibsMeanSlope}{$1.41$}
+\newcommand{\hRibsSlopeStdDev}{$0.32$}
+\newcommand{\hRibsSlopeStdErrMean}{$0.23$}
+\newcommand{\hGlobalSumSlope}{$1.24$}
+\newcommand{\hGlobalSumRsq}{0.91}
+\newcommand{\hRibsSumSlope}{$1.37$}
+\newcommand{\hRibsSumRsq}{0.89}
+
+\newcommand{\hRibs}{$53$}
+\newcommand{\hCorrRibs}{$47$}
+
+\newcommand{\vnRibs}{$53$}
+\newcommand{\voRibs}{$54$}
+\newcommand{\vRibs}{\vnRibs{}}
+\newcommand{\vnCorrRibs}{$52$}
+\newcommand{\voCorrRibs}{$52$}
+\newcommand{\vCorrRibs}{\vnCorrRibs{}}
+
+\newcommand{\vnMeanSlope}{$1.06$}
+\newcommand{\voMeanSlope}{$1.39$}
+\newcommand{\vMeanSlope}{\vnMeanSlope{}}
+
+\newcommand{\vMeanSlopeStdDev}{$0.60$}
+\newcommand{\vSlopeStdErrMean}{$0.14$}
+\newcommand{\vRibsMeanSlope}{$1.48$}
+\newcommand{\vRibsSlopeStdDev}{$0.08$}
+\newcommand{\vRibsSlopeStdErrMean}{$0.06$}
+
+\newcommand{\vnGlobalSumSlope}{$1.0$}
+\newcommand{\voGlobalSumSlope}{$1.39$}
+\newcommand{\vGlobalSumSlope}{\vnGlobalSumSlope{}}
+
+\newcommand{\vnGlobalSumRsq}{0.97}
+\newcommand{\voGlobalSumRsq}{1.0}
+\newcommand{\vGlobalSumRsq}{\vnGlobalSumRsq{}}
+
+\newcommand{\vnRibsSumSlope}{$1.49$}
+\newcommand{\voRibsSumSlope}{$1.49$}
+\newcommand{\vRibsSumSlope}{\vnRibsSumSlope{}}
+
+\newcommand{\vnRibsSumRsq}{0.97}
+\newcommand{\voRibsSumRsq}{0.97}
+\newcommand{\vRibsSumRsq}{\vnRibsSumRsq{}}
+
+\newcommand{\hMaxExpVar}{0.082}
+\newcommand{\vnMaxExpVar}{0.035}
+\newcommand{\voMaxExpVar}{0.04}
+\newcommand{\vMaxExpVar}{\vnMaxExpVar{}}
+
+\begin{document}
+\paragraph{Discussion of reasons for differing ribosome concentration relation to growth rate}
+
+Differences in ribosome concentration  across growth rates as reported in different studies can result from a few factors:
+\begin{enumerate}
+\item Different growth rates and conditions monitored.
+\item Inaccuracies and differences in the proteomic analysis procedures.
+\item Usage of different strains.
+\item In many studies the amount of ribosomes is deduced by measuring the RNA to protein ratio, assuming a relatively fixed portion of the RNA is rRNA.
+In our study, in contrast, ribosomal proteins are used as a proxy for estimating ribosomes concentration and, moreover, the RNA to Protein ratio is assumed to be constant.
+Therefore, and as it is known that ribosomes can operate even in the absence of some ribosomal proteins, such differences in manner of inference can account for some of the differences encountered.
+\end{enumerate}
+
+\end{document}

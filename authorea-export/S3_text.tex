@@ -1,0 +1,158 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{cite}
+\usepackage{nameref,hyperref}
+% Use the PLoS provided BiBTeX style
+\bibliographystyle{plos2015}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+% Leave date blank
+\date{}
+
+\usepackage{latexsym}
+\usepackage{amsfonts}
+\usepackage{pgfplotstable}
+\usepackage{url}
+\usepackage[nomessages]{fp}
+\newcommand{\hConds}{$20$}
+\newcommand{\hCondsLBnum}{22}
+\newcommand{\hCondsLB}{$\hCondsLBnum$}
+\newcommand{\voConds}{$5$}
+\newcommand{\vnCondsnum}{23}
+\newcommand{\vnConds}{$\vnCondsnum$}
+\newcommand{\vConds}{\vnConds{}}
+\FPeval{\totConds}{clip(\hCondsLBnum+\vnCondsnum+2)}
+\FPeval{\tothConds}{clip(\hCondsLBnum+2)}
+\newcommand{\hTotal}{$1442$}
+\newcommand{\hGlobal}{$473$}
+\newcommand{\hGlobalLB}{$352$}
+\newcommand{\hGlobalShuff}{$12$}
+
+\newcommand{\hHorizIntercept}{$-0.36$}
+\newcommand{\hHalflife}{$1.9$}
+
+\newcommand{\vnTotal}{$1142$}
+\newcommand{\voTotal}{$919$}
+\newcommand{\vTotal}{\vnTotal{}}
+
+\newcommand{\voGlobalShuff}{$152$}
+\newcommand{\vnGlobalShuff}{$5$}
+\newcommand{\vGlobalShuff}{\vnGlobalShuff{}}
+
+\newcommand{\vnGlobal}{$305$}
+\newcommand{\voGlobal}{$378$}
+\newcommand{\vGlobal}{\vnGlobal{}}
+
+\newcommand{\vnIntercept}{$-0.54$}
+\newcommand{\voIntercept}{$-0.54$}
+\newcommand{\vHalflife}{$1.29$}
+\newcommand{\hProtsInRange}{$414$}
+\newcommand{\vProtsInRange}{$221$}
+
+\newcommand{\hMeanSlope}{$1.32$}
+\newcommand{\hMeanSlopeStdDev}{$0.57$}
+\newcommand{\hSlopeStdErrMean}{$0.34$}
+\newcommand{\hRibsMeanSlope}{$1.41$}
+\newcommand{\hRibsSlopeStdDev}{$0.32$}
+\newcommand{\hRibsSlopeStdErrMean}{$0.23$}
+\newcommand{\hGlobalSumSlope}{$1.24$}
+\newcommand{\hGlobalSumRsq}{0.91}
+\newcommand{\hRibsSumSlope}{$1.37$}
+\newcommand{\hRibsSumRsq}{0.89}
+
+\newcommand{\hRibs}{$53$}
+\newcommand{\hCorrRibs}{$47$}
+
+\newcommand{\vnRibs}{$53$}
+\newcommand{\voRibs}{$54$}
+\newcommand{\vRibs}{\vnRibs{}}
+\newcommand{\vnCorrRibs}{$52$}
+\newcommand{\voCorrRibs}{$52$}
+\newcommand{\vCorrRibs}{\vnCorrRibs{}}
+
+\newcommand{\vnMeanSlope}{$1.06$}
+\newcommand{\voMeanSlope}{$1.39$}
+\newcommand{\vMeanSlope}{\vnMeanSlope{}}
+
+\newcommand{\vMeanSlopeStdDev}{$0.60$}
+\newcommand{\vSlopeStdErrMean}{$0.14$}
+\newcommand{\vRibsMeanSlope}{$1.48$}
+\newcommand{\vRibsSlopeStdDev}{$0.08$}
+\newcommand{\vRibsSlopeStdErrMean}{$0.06$}
+
+\newcommand{\vnGlobalSumSlope}{$1.0$}
+\newcommand{\voGlobalSumSlope}{$1.39$}
+\newcommand{\vGlobalSumSlope}{\vnGlobalSumSlope{}}
+
+\newcommand{\vnGlobalSumRsq}{0.97}
+\newcommand{\voGlobalSumRsq}{1.0}
+\newcommand{\vGlobalSumRsq}{\vnGlobalSumRsq{}}
+
+\newcommand{\vnRibsSumSlope}{$1.49$}
+\newcommand{\voRibsSumSlope}{$1.49$}
+\newcommand{\vRibsSumSlope}{\vnRibsSumSlope{}}
+
+\newcommand{\vnRibsSumRsq}{0.97}
+\newcommand{\voRibsSumRsq}{0.97}
+\newcommand{\vRibsSumRsq}{\vnRibsSumRsq{}}
+
+\newcommand{\hMaxExpVar}{0.082}
+\newcommand{\vnMaxExpVar}{0.035}
+\newcommand{\voMaxExpVar}{0.04}
+\newcommand{\vMaxExpVar}{\vnMaxExpVar{}}
+
+\begin{document}
+\paragraph{Correlation between the different proteomics data sets}
+To assess the agreement between the different data sets we used, as well as those we omitted, we compared the correlation with growth rate of each protein under similar conditions between every two of these data sets.
+
+In the data set from \cite{Schmidt2015} we used the 4 glucose limited chemostat growth conditions.
+In the data set from \cite{Peebo_2015} we used the 9 glucose accelerostat growth conditions.
+In the data set from \cite{Valgepea2013} we used all 5 glucose accelerostat growth conditions.
+In the data set from \cite{Hui_2015} we used each limiting set separately.
+S3 Fig. shows the relations between all of these data sets.
+
+The glucose limited continuous growth sets show a covariance of $\approx 0.4-0.5$ between each other.
+A slightly lower covariance of $\approx 0.3-0.4$ is observed when comparing each of the glucose limited continuous cultures to the carbon limited data from \cite{Hui_2015}
+Moving on to nitrogen limiting conditions compared with continuous growth, the covariance drops to $\approx 0.2$.
+Finally, the translation limiting conditions from \cite{Hui_2015} present a small negative covariance with all of the other conditions.
+
+These results imply that indeed the different limitations imposed in \cite{Hui_2015} expose different regulatory mechanisms than the ones at play under standard carbon limited growth.
+They also highlight the fact that different data sets, despite being measured under similar growth conditions, present large differences.
+This analysis emphasizes the importance of analyzing each data set separately as consistency between data sets from different labs is not very high.
+
+\begin{thebibliography}{10}
+
+\bibitem{Schmidt2015}
+Schmidt A, Kochanowski K, Vedelaar S, Ahrne E, Volkmer B, Callipo L, et~al.
+\newblock {The quantitative and condition-dependent Escherichia coli proteome}.
+\newblock Nat Biotech. 2015 dec;advance on.
+\newblock Available from: \url{http://dx.doi.org/10.1038/nbt.3418
+  10.1038/nbt.3418
+  http://www.nature.com/nbt/journal/vaop/ncurrent/abs/nbt.3418.html{\#}supplementary-information}.
+
+\bibitem{Peebo_2015}
+Peebo K, Valgepea K, Maser A, Nahku R, Adamberg K, Vilu R.
+\newblock {Proteome reallocation in Escherichia coli with increasing specific
+  growth rate}.
+\newblock Mol {BioSyst}. 2015;11(4):1184--1193.
+\newblock Available from: \url{http://dx.doi.org/10.1039/c4mb00721b}.
+
+\bibitem{Valgepea2013}
+Valgepea K, Adamberg K, Seiman A, Vilu R.
+\newblock {Escherichia coli achieves faster growth by increasing catalytic and
+  translation rates of proteins.}
+\newblock Molecular BioSystems. 2013 sep;9(9):2344--58.
+
+\bibitem{Hui_2015}
+Hui S, Silverman JM, Chen SS, Erickson DW, Basan M, Wang J, et~al.
+\newblock {Quantitative proteomic analysis reveals a simple strategy of global
+  resource allocation in bacteria}.
+\newblock Molecular Systems Biology. 2015 feb;11(2):e784--e784.
+\newblock Available from: \url{http://dx.doi.org/10.15252/msb.20145697}.
+\end{thebibliography}
+
+\end{document}

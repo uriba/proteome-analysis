@@ -1,0 +1,142 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{cite}
+\usepackage{nameref,hyperref}
+% Use the PLoS provided BiBTeX style
+\bibliographystyle{plos2015}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+% Leave date blank
+\date{}
+
+\usepackage{latexsym}
+\usepackage{amsfonts}
+\usepackage{pgfplotstable}
+\usepackage{url}
+\usepackage[nomessages]{fp}
+\newcommand{\hConds}{$20$}
+\newcommand{\hCondsLBnum}{22}
+\newcommand{\hCondsLB}{$\hCondsLBnum$}
+\newcommand{\voConds}{$5$}
+\newcommand{\vnCondsnum}{23}
+\newcommand{\vnConds}{$\vnCondsnum$}
+\newcommand{\vConds}{\vnConds{}}
+\FPeval{\totConds}{clip(\hCondsLBnum+\vnCondsnum+2)}
+\FPeval{\tothConds}{clip(\hCondsLBnum+2)}
+\newcommand{\hTotal}{$1442$}
+\newcommand{\hGlobal}{$473$}
+\newcommand{\hGlobalLB}{$352$}
+\newcommand{\hGlobalShuff}{$12$}
+
+\newcommand{\hHorizIntercept}{$-0.36$}
+\newcommand{\hHalflife}{$1.9$}
+
+\newcommand{\vnTotal}{$1142$}
+\newcommand{\voTotal}{$919$}
+\newcommand{\vTotal}{\vnTotal{}}
+
+\newcommand{\voGlobalShuff}{$152$}
+\newcommand{\vnGlobalShuff}{$5$}
+\newcommand{\vGlobalShuff}{\vnGlobalShuff{}}
+
+\newcommand{\vnGlobal}{$305$}
+\newcommand{\voGlobal}{$378$}
+\newcommand{\vGlobal}{\vnGlobal{}}
+
+\newcommand{\vnIntercept}{$-0.54$}
+\newcommand{\voIntercept}{$-0.54$}
+\newcommand{\vHalflife}{$1.29$}
+\newcommand{\hProtsInRange}{$414$}
+\newcommand{\vProtsInRange}{$221$}
+
+\newcommand{\hMeanSlope}{$1.32$}
+\newcommand{\hMeanSlopeStdDev}{$0.57$}
+\newcommand{\hSlopeStdErrMean}{$0.34$}
+\newcommand{\hRibsMeanSlope}{$1.41$}
+\newcommand{\hRibsSlopeStdDev}{$0.32$}
+\newcommand{\hRibsSlopeStdErrMean}{$0.23$}
+\newcommand{\hGlobalSumSlope}{$1.24$}
+\newcommand{\hGlobalSumRsq}{0.91}
+\newcommand{\hRibsSumSlope}{$1.37$}
+\newcommand{\hRibsSumRsq}{0.89}
+
+\newcommand{\hRibs}{$53$}
+\newcommand{\hCorrRibs}{$47$}
+
+\newcommand{\vnRibs}{$53$}
+\newcommand{\voRibs}{$54$}
+\newcommand{\vRibs}{\vnRibs{}}
+\newcommand{\vnCorrRibs}{$52$}
+\newcommand{\voCorrRibs}{$52$}
+\newcommand{\vCorrRibs}{\vnCorrRibs{}}
+
+\newcommand{\vnMeanSlope}{$1.06$}
+\newcommand{\voMeanSlope}{$1.39$}
+\newcommand{\vMeanSlope}{\vnMeanSlope{}}
+
+\newcommand{\vMeanSlopeStdDev}{$0.60$}
+\newcommand{\vSlopeStdErrMean}{$0.14$}
+\newcommand{\vRibsMeanSlope}{$1.48$}
+\newcommand{\vRibsSlopeStdDev}{$0.08$}
+\newcommand{\vRibsSlopeStdErrMean}{$0.06$}
+
+\newcommand{\vnGlobalSumSlope}{$1.0$}
+\newcommand{\voGlobalSumSlope}{$1.39$}
+\newcommand{\vGlobalSumSlope}{\vnGlobalSumSlope{}}
+
+\newcommand{\vnGlobalSumRsq}{0.97}
+\newcommand{\voGlobalSumRsq}{1.0}
+\newcommand{\vGlobalSumRsq}{\vnGlobalSumRsq{}}
+
+\newcommand{\vnRibsSumSlope}{$1.49$}
+\newcommand{\voRibsSumSlope}{$1.49$}
+\newcommand{\vRibsSumSlope}{\vnRibsSumSlope{}}
+
+\newcommand{\vnRibsSumRsq}{0.97}
+\newcommand{\voRibsSumRsq}{0.97}
+\newcommand{\vRibsSumRsq}{\vnRibsSumRsq{}}
+
+\newcommand{\hMaxExpVar}{0.082}
+\newcommand{\vnMaxExpVar}{0.035}
+\newcommand{\voMaxExpVar}{0.04}
+\newcommand{\vMaxExpVar}{\vnMaxExpVar{}}
+
+\begin{document}
+\paragraph{Datasets omitted from the main analysis}
+Two published whole proteome \emph{E.coli} data sets were omitted from our analysis (\cite{Valgepea2013} and \cite{Hui_2015}).
+Both of these data sets present gradual modulation of the growth rate by a single factor (the data set from \cite{Hui_2015} uses 3 different factors, each independently).
+Such modulations yield very typical distributions of correlation with growth rate of proteins roughly dividing the proteome to 3 groups, proteins the fraction of which increases with growth rate, proteins the fraction of which decreases with growth rate, and proteins that show no evident correlation with growth rate (S2 Fig).
+
+Under such conditions it is evident that one cannot distinguish between proteins that are actively up-regulated, and proteins that are passively regulated, as in either case (by our predictions) such proteins will increase in fraction with growth rate.
+Furthermore, smaller number of conditions increases the probability of proteins to yield extremely high or low correlation with growth rate due to measurement noise.
+To illustrate, in the extreme case of measuring only two conditions, every protein (unless presenting exactly the same amount under the two conditions) will have either a perfect positive correlation with the growth rate, or a perfect negative correlation with the growth rate, depending on whether it is highly expressed under the second condition or the first one.
+Unfortunately, both of these data sets use relatively small number of measurements.
+
+The data sets from \cite{Hui_2015} use different titration methods to modify the growth rate under different limitations.
+It is unclear how the regulatory network of the cells responds to these titration methods as they use artificial constructs or antibiotics, both of which are signals the regulatory network likely did not evolve to respond to.
+
+The range of growth rate spanned by the data set from \cite{Hui_2015} is relatively narrow.
+From our analysis of the other data sets, it follows that the predicted changes in fraction due to passive effects under such a range are small, making it hard to distinguish between actual changes and measurement noise.
+
+Finally, the data set from \cite{Hui_2015} does not report absolute protein quantities but rather the ratio of protein change to a standard condition of growth.
+It therefore does not allow us to estimate the magnitude of changes in terms of mass and total fractions of the proteome as is needed by our analysis.
+
+\begin{thebibliography}{10}
+\bibitem{Valgepea2013}
+Valgepea K, Adamberg K, Seiman A, Vilu R.
+\newblock {Escherichia coli achieves faster growth by increasing catalytic and
+  translation rates of proteins.}
+\newblock Molecular BioSystems. 2013 sep;9(9):2344--58.
+
+\bibitem{Hui_2015}
+Hui S, Silverman JM, Chen SS, Erickson DW, Basan M, Wang J, et~al.
+\newblock {Quantitative proteomic analysis reveals a simple strategy of global
+  resource allocation in bacteria}.
+\newblock Molecular Systems Biology. 2015 feb;11(2):e784--e784.
+\newblock Available from: \url{http://dx.doi.org/10.15252/msb.20145697}.
+\end{thebibliography}
+\end{document}

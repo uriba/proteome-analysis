@@ -1,0 +1,159 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{cite}
+\usepackage{nameref,hyperref}
+% Use the PLoS provided BiBTeX style
+\bibliographystyle{plos2015}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+% Leave date blank
+\date{}
+
+\usepackage{latexsym}
+\usepackage{amsfonts}
+\usepackage{pgfplotstable}
+\usepackage{url}
+\usepackage[nomessages]{fp}
+\newcommand{\hConds}{$20$}
+\newcommand{\hCondsLBnum}{22}
+\newcommand{\hCondsLB}{$\hCondsLBnum$}
+\newcommand{\voConds}{$5$}
+\newcommand{\vnCondsnum}{23}
+\newcommand{\vnConds}{$\vnCondsnum$}
+\newcommand{\vConds}{\vnConds{}}
+\FPeval{\totConds}{clip(\hCondsLBnum+\vnCondsnum+2)}
+\FPeval{\tothConds}{clip(\hCondsLBnum+2)}
+\newcommand{\hTotal}{$1442$}
+\newcommand{\hGlobal}{$473$}
+\newcommand{\hGlobalLB}{$352$}
+\newcommand{\hGlobalShuff}{$12$}
+
+\newcommand{\hHorizIntercept}{$-0.36$}
+\newcommand{\hHalflife}{$1.9$}
+
+\newcommand{\vnTotal}{$1142$}
+\newcommand{\voTotal}{$919$}
+\newcommand{\vTotal}{\vnTotal{}}
+
+\newcommand{\voGlobalShuff}{$152$}
+\newcommand{\vnGlobalShuff}{$5$}
+\newcommand{\vGlobalShuff}{\vnGlobalShuff{}}
+
+\newcommand{\vnGlobal}{$305$}
+\newcommand{\voGlobal}{$378$}
+\newcommand{\vGlobal}{\vnGlobal{}}
+
+\newcommand{\vnIntercept}{$-0.54$}
+\newcommand{\voIntercept}{$-0.54$}
+\newcommand{\vHalflife}{$1.29$}
+\newcommand{\hProtsInRange}{$414$}
+\newcommand{\vProtsInRange}{$221$}
+
+\newcommand{\hMeanSlope}{$1.32$}
+\newcommand{\hMeanSlopeStdDev}{$0.57$}
+\newcommand{\hSlopeStdErrMean}{$0.34$}
+\newcommand{\hRibsMeanSlope}{$1.41$}
+\newcommand{\hRibsSlopeStdDev}{$0.32$}
+\newcommand{\hRibsSlopeStdErrMean}{$0.23$}
+\newcommand{\hGlobalSumSlope}{$1.24$}
+\newcommand{\hGlobalSumRsq}{0.91}
+\newcommand{\hRibsSumSlope}{$1.37$}
+\newcommand{\hRibsSumRsq}{0.89}
+
+\newcommand{\hRibs}{$53$}
+\newcommand{\hCorrRibs}{$47$}
+
+\newcommand{\vnRibs}{$53$}
+\newcommand{\voRibs}{$54$}
+\newcommand{\vRibs}{\vnRibs{}}
+\newcommand{\vnCorrRibs}{$52$}
+\newcommand{\voCorrRibs}{$52$}
+\newcommand{\vCorrRibs}{\vnCorrRibs{}}
+
+\newcommand{\vnMeanSlope}{$1.06$}
+\newcommand{\voMeanSlope}{$1.39$}
+\newcommand{\vMeanSlope}{\vnMeanSlope{}}
+
+\newcommand{\vMeanSlopeStdDev}{$0.60$}
+\newcommand{\vSlopeStdErrMean}{$0.14$}
+\newcommand{\vRibsMeanSlope}{$1.48$}
+\newcommand{\vRibsSlopeStdDev}{$0.08$}
+\newcommand{\vRibsSlopeStdErrMean}{$0.06$}
+
+\newcommand{\vnGlobalSumSlope}{$1.0$}
+\newcommand{\voGlobalSumSlope}{$1.39$}
+\newcommand{\vGlobalSumSlope}{\vnGlobalSumSlope{}}
+
+\newcommand{\vnGlobalSumRsq}{0.97}
+\newcommand{\voGlobalSumRsq}{1.0}
+\newcommand{\vGlobalSumRsq}{\vnGlobalSumRsq{}}
+
+\newcommand{\vnRibsSumSlope}{$1.49$}
+\newcommand{\voRibsSumSlope}{$1.49$}
+\newcommand{\vRibsSumSlope}{\vnRibsSumSlope{}}
+
+\newcommand{\vnRibsSumRsq}{0.97}
+\newcommand{\voRibsSumRsq}{0.97}
+\newcommand{\vRibsSumRsq}{\vnRibsSumRsq{}}
+
+\newcommand{\hMaxExpVar}{0.082}
+\newcommand{\vnMaxExpVar}{0.035}
+\newcommand{\voMaxExpVar}{0.04}
+\newcommand{\vMaxExpVar}{\vnMaxExpVar{}}
+
+\begin{document}
+
+\paragraph{Threshold choice for defining strong correlation with growth rate}
+The data we use includes the fractions of proteins under different growth conditions, and the growth rate for every condition.
+We select a threshold correlation with growth rate to define the group of highly positively correlated with growth rate proteins.
+
+We calculate the explained variability by the growth rate, given a threshold, by taking the difference between the total variability of the group of proteins with a correlation higher than the threshold, and the variability remaining, when assuming these proteins scale with the growth rate according to the calculated linear response.
+Dividing the explained variability by the total variability of the entire data set quantifies what fraction of the total variability in the proteome is explained by considering a coordinated linear scaling with growth rate for all the proteins with a correlation with growth rate higher than the threshold.
+
+The choice of threshold is thus influenced by two contradicting factors.
+Choosing a low threshold results in defining many proteins as being highly positively correlated with growth rate.
+In this case, the correlation with growth rate of these proteins spans a large range.
+Therefore, applying a linear regression trend to the sum of these proteins only accounts for a small fraction of the variability of them and, as a consequence, only accounts for a small fraction of the total variability of the proteome.
+
+On the other hand, choosing a high correlation threshold results in defining only a small number of proteins as being highly positively correlated with growth rate.
+A common linear regression line may thus explain a large fraction of the variability for the chosen proteins but, as their number is small, will only account for a small fraction of the total variability of the proteome.
+
+For simplicity, we chose a threshold value of $0.5$ for the two data sets analyzed in this study.
+S4 Fig. shows how the choice of threshold affects the fraction of explained variability in the proteome by the linear dependence on growth rate of the proteins that have a correlation with growth rate that is higher than the threshold (blue line).
+The figure also shows the fraction of proteins that have a correlation with growth rate that is higher than the threshold out of the proteome (red line), and the fraction of explained variability by linear regression for these proteins (green line).
+
+The optimal threshold is defined as the threshold maximizing the fraction of total variability explained (maximum of the blue line).
+As can be seen in S4 Fig., our choice of threshold of $0.5$ is relatively close to the optimum value that is $0.25$ for the data set from \cite{Schmidt2015}, and $0.2$ for the data set from \cite{Peebo_2015}.
+Moreover, as S4 Fig. illustrates, the different plotted statistics do not change markedly due to this sub-optimal choice of threshold and thus this choice does not affect our results significantly.
+
+As different proteins have very different average fractions, the aforementioned calculation may be biased towards proteins with higher average fractions.
+To avoid this effect, the analysis presented was performed on the normalized fractions as defined in the Methods section.
+
+The noise in current whole proteome measurement techniques makes it difficult to distinguish between proteins that scale coordinately, as is predicted by our model, and proteins that scale differentially, but within measurement uncertainty.
+Thus, it is unclear to what extent the effect we predict affects actual protein fractions versus their possible individual up regulation with growth rate.
+We expect future improvements in the accuracy of whole proteome measurements to quantitatively reveal the importance of passive coordinated scaling with growth rate in shaping the proteome composition. These coming improvements in accuracy will enable better testing of the scope and validity of the model presented here.
+\begin{thebibliography}{10}
+
+\bibitem{Schmidt2015}
+Schmidt A, Kochanowski K, Vedelaar S, Ahrne E, Volkmer B, Callipo L, et~al.
+\newblock {The quantitative and condition-dependent Escherichia coli proteome}.
+\newblock Nat Biotech. 2015 dec;advance on.
+\newblock Available from: \url{http://dx.doi.org/10.1038/nbt.3418
+  10.1038/nbt.3418
+  http://www.nature.com/nbt/journal/vaop/ncurrent/abs/nbt.3418.html{\#}supplementary-information}.
+
+\bibitem{Peebo_2015}
+Peebo K, Valgepea K, Maser A, Nahku R, Adamberg K, Vilu R.
+\newblock {Proteome reallocation in Escherichia coli with increasing specific
+  growth rate}.
+\newblock Mol {BioSyst}. 2015;11(4):1184--1193.
+\newblock Available from: \url{http://dx.doi.org/10.1039/c4mb00721b}.
+
+\end{thebibliography}
+
+
+\end{document}
