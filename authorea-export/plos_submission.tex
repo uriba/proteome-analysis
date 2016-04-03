@@ -1007,6 +1007,10 @@ Hunter JD.
 \end{thebibliography}
 
 \section*{Supporting Information}
+\clearpage
+
+\setcounter{equation}{0}
+\renewcommand\theequation{S\arabic{equation}}
 \subsection*{S1 Text}
 \label{theoreticalintercep}
 \paragraph{Effects of degradation and varying synthesis rate on model predictions}
@@ -1030,6 +1034,7 @@ p_i(c)=\frac{w_i(c)}{W_B}\frac{T_B^0(1+\frac{g_m}{g(c)})}{\ln(2)}g(c) = \frac{w_
 \end{equation}
 Surprisingly, this equation also describes the fraction as being linearly dependent on the growth rate, with the kinetic parameters implying a non-zero fraction at zero growth rate as is shown by the red dots in \nameref{fig:theoreticalpred}.
 
+\clearpage
 \subsection*{S1 Fig}
 \label{fig:theoreticalpred}
 %\begin{figure}[h]
@@ -1042,6 +1047,8 @@ For non-constant bio-synthesis rate, a growth rate of 0.2 was selected as the gr
 %}
 %\end{center}
 %\end{figure}
+
+\clearpage
 
 \subsection*{S2 Text}
 \label{furtherdatasetanalysis}
@@ -1064,6 +1071,8 @@ From our analysis of the other data sets, it follows that the predicted changes 
 Finally, the data set from \cite{Hui_2015} does not report absolute protein quantities but rather the ratio of protein change to a standard condition of growth.
 It therefore does not allow us to estimate the magnitude of changes in terms of mass and total fractions of the proteome as is needed by our analysis.
 
+\clearpage
+
 \subsection*{S2 Fig}
 \label{fig:grcorr_dbs}
 %\begin{figure}[h]
@@ -1081,6 +1090,8 @@ Such data sets make it hard to distinguish between specific regulation mechanism
 %\end{center}
 %\end{figure}
 
+
+\clearpage
 
 \subsection*{S3 Text}
 \label{dbscorr}
@@ -1102,6 +1113,8 @@ These results imply that indeed the different limitations imposed in \cite{Hui_2
 They also highlight the fact that different data sets, despite being measured under similar growth conditions, present large differences.
 This analysis emphasizes the importance of analyzing each data set separately as consistency between data sets from different labs is not very high.
 
+\clearpage
+
 \subsection*{S3 Fig}
 \label{fig:chemcorrcomp}
 %\begin{figure}[h]
@@ -1114,6 +1127,8 @@ The conditions used from each data set utilize similar growth conditions, except
 %}
 %\end{center}
 %\end{figure}
+
+\clearpage
 
 \subsection*{S4 Text}
 \label{corrthreshold}
@@ -1147,6 +1162,8 @@ The noise in current whole proteome measurement techniques makes it difficult to
 Thus, it is unclear to what extent the effect we predict affects actual protein fractions versus their possible individual up regulation with growth rate.
 We expect future improvements in the accuracy of whole proteome measurements to quantitatively reveal the importance of passive coordinated scaling with growth rate in shaping the proteome composition. These coming improvements in accuracy will enable better testing of the scope and validity of the model presented here.
 
+\clearpage
+
 \subsection*{S4 Fig}
 \label{fig:threshold}
 %\begin{figure}[h]
@@ -1160,6 +1177,8 @@ We expect future improvements in the accuracy of whole proteome measurements to 
 %}
 %\end{center}
 %\end{figure}
+
+\clearpage
 
 \subsection*{S5 Text}
 \label{slopedistexp}
@@ -1186,6 +1205,8 @@ With this, the average observed slope is expected to be higher than the real one
 The calculated expected distribution does not take these effects into account as it only presents the expected distribution of slopes, while not subtracting proteins that present a correlation with growth rate that is smaller then the threshold defined.
 It therefore presents a symmetric distribution with a mean value that appears to be higher than the one observed due to the difference in symmetries between the two distributions.
 
+\clearpage
+
 \subsection*{S6 Text}
 \label{lbanalysis}
 \paragraph{Analysis of the data set from Schmidt et. al. including fast growth conditions}
@@ -1199,6 +1220,8 @@ growth rate of -0.12 when the faster conditions are included in the analysis vs.
 As can be seen, many proteins are now less correlated with growth rate due to down regulation under the fast conditions.
 However, despite having fewer proteins being strongly positively correlated with growth (\hGlobalLB{} vs. \hGlobal{}) and despite the accumulated fraction of these proteins being lower under the slower growth conditions ($\approx30\%$ vs. $\approx40\%$), these proteins do occupy $>50\%$ out of the proteome under fast growth in LB.
 
+\clearpage
+
 \subsection*{S5 Fig}
 \label{fig:LB}
 %\begin{figure}[h]
@@ -1210,6 +1233,8 @@ Fewer proteins are strongly positively correlated with growth but these proteins
 %}
 %\end{center}
 %\end{figure}
+
+\clearpage
 
 \subsection*{S7 Text}
 \label{ribosomeconc}
@@ -1224,6 +1249,8 @@ Differences in ribosome concentration  across growth rates as reported in differ
 In our study, in contrast, ribosomal proteins are used as a proxy for estimating ribosomes concentration and, moreover, the RNA to Protein ratio is assumed to be constant.
 Therefore, and as it is known that ribosomes can operate even in the absence of some ribosomal proteins, such differences in manner of inference can account for some of the differences encountered.
 \end{enumerate}
+
+\clearpage
 
 \subsection*{S6 Fig}
 \label{fig:randpred}
@@ -1240,6 +1267,8 @@ Therefore, and as it is known that ribosomes can operate even in the absence of 
 %\end{center}
 %\end{figure}
 
+\clearpage
+
 \subsection*{S1 Table}
 \bf Breakdown by function of strongly positively correlated with growth rate proteins in the data set from \cite{Schmidt2015}.
 \label{tab:corrbreakdownh}
@@ -1252,6 +1281,8 @@ columns/corPrctP/.style={column name={Correlated $\%$ of proteome}},
 ]{funcsHeinemann.csv}
 }
 
+\clearpage
+
 \subsection*{S2 Table}
 \bf Breakdown by function of strongly positively correlated with growth rate proteins in the data set from \cite{Peebo_2015}.
 \label{tab:corrbreakdownv}
@@ -1263,6 +1294,8 @@ columns/totPrctP/.style={column name={$\%$ of proteome}},
 columns/corPrctP/.style={column name={Correlated $\%$ of proteome}},
 ]{funcsPeebo.csv}
 }
+
+\clearpage
 
 \subsection*{S7 Fig}
 \label{fig:ribsnonribs}
@@ -1278,6 +1311,8 @@ Trend lines for the two groups of proteins are plotted.
 %}
 %\end{center}
 %\end{figure}
+
+\clearpage
 
 \subsection*{S8 Text}
 \label{scottcompare}
@@ -1296,6 +1331,8 @@ Our model then suggests that all of the proteins in group $A$, despite not being
 
 To summarize, where the models from \cite{Scott2010,Scott2011,Scott2014} and \cite{Hui_2015} focus on what classes of proteins exist, what are the master regulators, and how are they used to achieve optimal growth, the model presented here focuses on global patterns that passively emerge due to specific regulation on specific genes (be it regulation that is targeted at only a small number of genes, or a large group of genes), exposing the fact that positive correlation of protein fraction with growth rate can be an emerging property, not requiring active regulation of the positively correlated proteins.
 
+\clearpage
+
 \subsection*{S8 Fig}
 \label{fig:shuffledexpvar}
 %\begin{figure}[h]
@@ -1308,6 +1345,8 @@ The maximal explained variability in these data sets is significantly smaller th
 %}
 %\end{center}
 %\end{figure}
+
+\clearpage
 
 \subsection*{S9 Fig}
 \label{fig:simulated}
@@ -1323,6 +1362,8 @@ The results are similar to those obtained for the real data set, showing that, g
 %\end{center}
 %\end{figure}
 
+
+\clearpage
 
 \end{document}
 
