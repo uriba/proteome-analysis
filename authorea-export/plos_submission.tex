@@ -204,7 +204,6 @@ Ron Milo\textsuperscript{1,*}
 Most proteins show changes in level across growth conditions.
 Many of these changes seem to be coordinated with the specific growth rate rather than the growth environment or the protein function.
 Although cellular growth rates, gene expression levels and gene regulation have been at the center of biological research for decades, there are only a few models giving a base line prediction of the dependence of the proteome fraction occupied by a gene with the specific growth rate.
-
 We present a simple model that predicts a widely coordinated increase in the fraction of many proteins out of the proteome, proportionally with the growth rate.
 The model reveals how passive redistribution of resources, due to active regulation of only a few proteins, can have proteome wide effects that are quantitatively predictable.
 Our model provides a potential explanation for why and how such a coordinated response of a large fraction of the proteome to the specific growth rate arises under different environmental conditions.
@@ -1008,77 +1007,17 @@ Hunter JD.
 
 \section*{Supporting Information}
 \clearpage
-
-\setcounter{equation}{0}
-\renewcommand\theequation{S\arabic{equation}}
 \subsection*{S1 Text}
 \label{theoreticalintercep}
-\paragraph{Effects of degradation and varying synthesis rate on model predictions}
-The predicted fraction of an unregulated protein as a function of the growth rate is to follow a linear trend crossing at the origin (\nameref{fig:theoreticalpred}, blue dots).
-Degradation can be interpreted as implying that the observed growth rate is the combination of the bio-synthesis rate minus the degradation rate, implying that the predicted fraction of an unregulated protein is linear increase with growth rate, but with a horizontal intercept at minus the degradation rate as is shown by the green dots in \nameref{fig:theoreticalpred}.
-
-Non constant bio-synthesis rate can be modeled as a Michaelis-Menten kinetic like interdependence with growth rate following the formula:
-\begin{equation}
-\eta(g(c))=\frac{\eta_0}{1+\frac{g_m}{g(c)}}
-\end{equation}
-where $g(c)$ is the growth rate, $\eta(g(c))$ is the bio-synthesis rate at growth rate $g(c)$, $\eta_0$ is the maximal bio-synthesis rate and $g_m$ the growth rate at which the bio-synthesis rate is $\frac{1}{2}$ the maximal rate (\nameref{fig:theoreticalpred}, red line).
-Under this assumption, the doubling time of the bio-synthesis machinery itself, $T_B$ becomes:
-\begin{equation}
-\label{eq:varrate}
-T_B=T_B^0\frac{\eta(g(c))}{\eta_0}=T_B^0(1+\frac{g_m}{g(c)})
-\end{equation}
-where $T_B^0$ is the minimal theoretical doubling time when all the proteins are bio-synthesis proteins operating at maximal rate.
-Substituting Eq.(\ref{eq:varrate}) into Eq.(\ref{eq:default-response}) results in a predicted fraction of:
-\begin{equation}
-p_i(c)=\frac{w_i(c)}{W_B}\frac{T_B^0(1+\frac{g_m}{g(c)})}{\ln(2)}g(c) = \frac{w_i(c)}{W_B}\frac{T_B^0}{\ln(2)}(g(c)+g_m)
-\end{equation}
-Surprisingly, this equation also describes the fraction as being linearly dependent on the growth rate, with the kinetic parameters implying a non-zero fraction at zero growth rate as is shown by the red dots in \nameref{fig:theoreticalpred}.
-
-\clearpage
 \subsection*{S1 Fig}
 \label{fig:theoreticalpred}
-%\begin{figure}[h]
-%\begin{center}
-%\includegraphics[width=1\columnwidth]{../TheoreticalModelEffects.pdf}
-%\caption{
-    {\bf The predictions of the model for the fraction of unregulated proteins as a function of the growth rate.}
+{\bf The predictions of the model for the fraction of unregulated proteins as a function of the growth rate.}
 The effects of accounting for protein degradation (green) and Michaelis-Menten like dependence of bio-synthesis rates on growth rate (red) are shown.
 For non-constant bio-synthesis rate, a growth rate of 0.2 was selected as the growth rate at which the bio-synthesis rate is half of its maximal value.%
-%}
-%\end{center}
-%\end{figure}
-
-\clearpage
-
 \subsection*{S2 Text}
 \label{furtherdatasetanalysis}
-\paragraph{Datasets omitted from the main analysis}
-Two published whole proteome \emph{E.coli} data sets were omitted from our analysis (\cite{Valgepea2013} and \cite{Hui_2015}).
-Both of these data sets present gradual modulation of the growth rate by a single factor (the data set from \cite{Hui_2015} uses 3 different factors, each independently).
-Such modulations yield very typical distributions of correlation with growth rate of proteins roughly dividing the proteome to 3 groups, proteins the fraction of which increases with growth rate, proteins the fraction of which decreases with growth rate, and proteins that show no evident correlation with growth rate (\nameref{fig:grcorr_dbs}).
-
-Under such conditions it is evident that one cannot distinguish between proteins that are actively up-regulated, and proteins that are passively regulated, as in either case (by our predictions) such proteins will increase in fraction with growth rate.
-Furthermore, smaller number of conditions increases the probability of proteins to yield extremely high or low correlation with growth rate due to measurement noise.
-To illustrate, in the extreme case of measuring only two conditions, every protein (unless presenting exactly the same amount under the two conditions) will have either a perfect positive correlation with the growth rate, or a perfect negative correlation with the growth rate, depending on whether it is highly expressed under the second condition or the first one.
-Unfortunately, both of these data sets use relatively small number of measurements.
-
-The data sets from \cite{Hui_2015} use different titration methods to modify the growth rate under different limitations.
-It is unclear how the regulatory network of the cells responds to these titration methods as they use artificial constructs or antibiotics, both of which are signals the regulatory network likely did not evolve to respond to.
-
-The range of growth rate spanned by the data set from \cite{Hui_2015} is relatively narrow.
-From our analysis of the other data sets, it follows that the predicted changes in fraction due to passive effects under such a range are small, making it hard to distinguish between actual changes and measurement noise.
-
-Finally, the data set from \cite{Hui_2015} does not report absolute protein quantities but rather the ratio of protein change to a standard condition of growth.
-It therefore does not allow us to estimate the magnitude of changes in terms of mass and total fractions of the proteome as is needed by our analysis.
-
-\clearpage
-
 \subsection*{S2 Fig}
 \label{fig:grcorr_dbs}
-%\begin{figure}[h]
-%\begin{center}
-%\includegraphics[width=1\columnwidth]{../AllDbsGrowthRateCorrelation.pdf}
-%\caption{
     {\bf Histograms of the correlation with growth rate of proteins in data sets obtained by gradually modifying the growth rate with constant input media.}
 All such data sets present similar characteristics with very high correlation or anti correlation of protein fraction out of the proteome with the growth rate.
 Such data sets make it hard to distinguish between specific regulation mechanisms and passive effects and are therefore inadequate for testing the passive resource allocation model.
@@ -1086,284 +1025,60 @@ Such data sets make it hard to distinguish between specific regulation mechanism
 (B) 9 glucose accelerostat conditions from \cite{Peebo_2015}.
 (C) 5 glucose accelerostat conditions from \cite{Valgepea2013}.
 (D-F) different growth rate modification methods from \cite{Hui_2015}.
-%}
-%\end{center}
-%\end{figure}
-
-
-\clearpage
-
 \subsection*{S3 Text}
 \label{dbscorr}
-\paragraph{Correlation between the different proteomics data sets}
-To assess the agreement between the different data sets we used, as well as those we omitted, we compared the correlation with growth rate of each protein under similar conditions between every two of these data sets.
-
-In the data set from \cite{Schmidt2015} we used the 4 glucose limited chemostat growth conditions.
-In the data set from \cite{Peebo_2015} we used the 9 glucose accelerostat growth conditions.
-In the data set from \cite{Valgepea2013} we used all 5 glucose accelerostat growth conditions.
-In the data set from \cite{Hui_2015} we used each limiting set separately.
-\nameref{fig:chemcorrcomp} shows the relations between all of these data sets.
-
-The glucose limited continuous growth sets show a covariance of $\approx 0.4-0.5$ between each other.
-A slightly lower covariance of $\approx 0.3-0.4$ is observed when comparing each of the glucose limited continuous cultures to the carbon limited data from \cite{Hui_2015}
-Moving on to nitrogen limiting conditions compared with continuous growth, the covariance drops to $\approx 0.2$.
-Finally, the translation limiting conditions from \cite{Hui_2015} present a small negative covariance with all of the other conditions.
-
-These results imply that indeed the different limitations imposed in \cite{Hui_2015} expose different regulatory mechanisms than the ones at play under standard carbon limited growth.
-They also highlight the fact that different data sets, despite being measured under similar growth conditions, present large differences.
-This analysis emphasizes the importance of analyzing each data set separately as consistency between data sets from different labs is not very high.
-
-\clearpage
-
 \subsection*{S3 Fig}
 \label{fig:chemcorrcomp}
-%\begin{figure}[h]
-%\begin{center}
-%\includegraphics[width=1\columnwidth]{../AllDbsCorrelation.pdf}
-%\caption{
     {\bf Pair-wise comparison of the data sets used in this work.}
 Each panel compares the correlation with growth rate of all proteins between two data sets.
 The conditions used from each data set utilize similar growth conditions, except for the data sets from \cite{Hui_2015} (see text).
-%}
-%\end{center}
-%\end{figure}
-
-\clearpage
-
 \subsection*{S4 Text}
 \label{corrthreshold}
-\paragraph{Threshold choice for defining strong correlation with growth rate}
-The data we use includes the fractions of proteins under different growth conditions, and the growth rate for every condition.
-We select a threshold correlation with growth rate to define the group of highly positively correlated with growth rate proteins.
-
-We calculate the explained variability by the growth rate, given a threshold, by taking the difference between the total variability of the group of proteins with a correlation higher than the threshold, and the variability remaining, when assuming these proteins scale with the growth rate according to the calculated linear response.
-Dividing the explained variability by the total variability of the entire data set quantifies what fraction of the total variability in the proteome is explained by considering a coordinated linear scaling with growth rate for all the proteins with a correlation with growth rate higher than the threshold.
-
-The choice of threshold is thus influenced by two contradicting factors.
-Choosing a low threshold results in defining many proteins as being highly positively correlated with growth rate.
-In this case, the correlation with growth rate of these proteins spans a large range.
-Therefore, applying a linear regression trend to the sum of these proteins only accounts for a small fraction of the variability of them and, as a consequence, only accounts for a small fraction of the total variability of the proteome.
-
-On the other hand, choosing a high correlation threshold results in defining only a small number of proteins as being highly positively correlated with growth rate.
-A common linear regression line may thus explain a large fraction of the variability for the chosen proteins but, as their number is small, will only account for a small fraction of the total variability of the proteome.
-
-For simplicity, we chose a threshold value of $0.5$ for the two data sets analyzed in this study.
-\nameref{fig:threshold} shows how the choice of threshold affects the fraction of explained variability in the proteome by the linear dependence on growth rate of the proteins that have a correlation with growth rate that is higher than the threshold (blue line).
-The figure also shows the fraction of proteins that have a correlation with growth rate that is higher than the threshold out of the proteome (red line), and the fraction of explained variability by linear regression for these proteins (green line).
-
-The optimal threshold is defined as the threshold maximizing the fraction of total variability explained (maximum of the blue line).
-As can be seen in \nameref{fig:threshold}, our choice of threshold of $0.5$ is relatively close to the optimum value that is $0.25$ for the data set from \cite{Schmidt2015}, and $0.2$ for the data set from \cite{Peebo_2015}.
-Moreover, as \nameref{fig:threshold} illustrates, the different plotted statistics do not change markedly due to this sub-optimal choice of threshold and thus this choice does not affect our results significantly.
-
-As different proteins have very different average fractions, the aforementioned calculation may be biased towards proteins with higher average fractions.
-To avoid this effect, the analysis presented was performed on the normalized fractions as defined in the Methods section.
-
-The noise in current whole proteome measurement techniques makes it difficult to distinguish between proteins that scale coordinately, as is predicted by our model, and proteins that scale differentially, but within measurement uncertainty.
-Thus, it is unclear to what extent the effect we predict affects actual protein fractions versus their possible individual up regulation with growth rate.
-We expect future improvements in the accuracy of whole proteome measurements to quantitatively reveal the importance of passive coordinated scaling with growth rate in shaping the proteome composition. These coming improvements in accuracy will enable better testing of the scope and validity of the model presented here.
-
-\clearpage
-
 \subsection*{S4 Fig}
 \label{fig:threshold}
-%\begin{figure}[h]
-%\begin{center}
-%\includegraphics[width=1\columnwidth]{../ExpVar3.pdf}
-%\caption{
     {\bf Statistics on the explained variability in the normalized data set as a function of the threshold used for defining strong correlation with growth rate.}
   An optimal threshold is a threshold that maximizes the fraction of explained variability in the proteome by linear regression on proteins that have a correlation with growth rate that exceeds the threshold (blue line).
   The maximal fraction of explained variability in each data set is marked as a horizontal dashed line and is $\hMaxExpVar{}$ (obtained given a threshold of $0.25$) for the data set from \cite{Schmidt2015}, and $\vMaxExpVar{}$ (obtained given a threshold of $0.2$) in the data from \cite{Peebo_2015}.
-%
-%}
-%\end{center}
-%\end{figure}
-
-\clearpage
-
 \subsection*{S5 Text}
 \label{slopedistexp}
-\paragraph{Calculation of expected distribution given experimental noise and deviation of maximum between between the expected distribution and the observed one}
-The expected distribution of slopes was calculated as follows:
-For every protein that was identified as being strongly positively correlated with growth rate, a linear regression with growth rate was performed, and the normalized slope and standard error of the regression line were calculated.
-The average standard error and average slope across all proteins that were identified as being strongly positively correlated with growth rate were calculated.
-Denoting by $n$ the number of conditions, we note that each slope is a statistical variable calculated based on $n$ samples, with $n-2$ degrees of freedom.
-The calculated slopes of the different proteins are therefore expected to follow a student-t distribution with $n-2$ degrees of freedom, a standard deviation that is the average of the standard errors calculated for the regression of each protein, and an average value that is equal to the average taken over all of the calculated slopes.
-The average slope, average standard error and $n-2$ degrees of freedom were therefore used to calculate the expected student-t distribution of slopes that would emerge, should all proteins share the same average slope with the given average standard error in measurements.
-
-While the expected distributions of slopes are symmetric, the observed ones are asymmetric, with a longer distribution tail at higher slopes.
-This is a side effect of the way by which proteins were identified to be strongly positively correlated with growth rate, given an experimental noise.
-To understand why, one must consider the effect of noise on proteins with shallow slopes versus proteins with steep slopes.
-Proteins with shallow slopes present small change in level across growth rates.
-Thus, when experimental noise is present, its effect on variability of protein levels is large compared with the changes in level resulting from the dependence on growth rate.
-Therefore, the Pearson correlation with growth rate of such proteins is more severely affected by noise, compared with proteins with a steep slope.
-As a result, proteins with shallow slopes face a higher chance of presenting low correlation with growth rate, resulting in them not being identified as proteins with high correlation with growth rate.
-Such mis-classification, in turn, causes such proteins to be under-represented in the set of proteins which are highly correlated with growth rate.
-
-To conclude, the proteins identified as strongly positively correlated with growth rate are most of the proteins with steep slopes, but only the proteins with shallow slopes that suffered small experimental noise, resulting in an enrichment of higher slopes and an asymmetric distribution of observed slopes.
-With this, the average observed slope is expected to be higher than the real one.
-
-The calculated expected distribution does not take these effects into account as it only presents the expected distribution of slopes, while not subtracting proteins that present a correlation with growth rate that is smaller then the threshold defined.
-It therefore presents a symmetric distribution with a mean value that appears to be higher than the one observed due to the difference in symmetries between the two distributions.
-
-\clearpage
-
 \subsection*{S6 Text}
 \label{lbanalysis}
-\paragraph{Analysis of the data set from Schmidt et. al. including fast growth conditions}
-Due to the fast growth rate under LB and AA supplemented glycerol, compared with the other conditions measured in the data set from \cite{Schmidt2015} these conditions were not included in our primary analysis as was noted in the Methods section.
-Including these conditions result in a much smaller set of proteins with a strong positive correlation with growth, as many of the proteins in that group in the slower conditions get down-regulated when AA are added to the media, significantly reducing their Pearson correlation with growth rate.
-For example, the Pearson correlation with growth rate of gapA, involved in glycolysis, drops from 0.73 to 0.35 when these conditions are included.
-Another such example is glyA, involved in Serine and Threonine metabolism, that has a correlation with
-growth rate of -0.12 when the faster conditions are included in the analysis vs. a correlation of 0.7 when they are excluded.
-
-\nameref{fig:LB} shows the implications of including the fast growth conditions in the analysis.
-As can be seen, many proteins are now less correlated with growth rate due to down regulation under the fast conditions.
-However, despite having fewer proteins being strongly positively correlated with growth (\hGlobalLB{} vs. \hGlobal{}) and despite the accumulated fraction of these proteins being lower under the slower growth conditions ($\approx30\%$ vs. $\approx40\%$), these proteins do occupy $>50\%$ out of the proteome under fast growth in LB.
-
-\clearpage
-
 \subsection*{S5 Fig}
 \label{fig:LB}
-%\begin{figure}[h]
-%\begin{center}
-%\includegraphics[width=1\columnwidth]{../HeinemannLBsummaryHistAndGr.pdf}
-%\caption{
     {\bf Including growth in LB and AA supplemented glycerol media in the analysis of the data set from \cite{Schmidt2015}.}
 Fewer proteins are strongly positively correlated with growth but these proteins form more than $50\%$ of the proteome in fast growth.%
-%}
-%\end{center}
-%\end{figure}
-
-\clearpage
-
 \subsection*{S7 Text}
 \label{ribosomeconc}
-\paragraph{Discussion of reasons for differing ribosome concentration relation to growth rate}
-
-Differences in ribosome concentration  across growth rates as reported in different studies can result from a few factors:
-\begin{enumerate}
-\item Different growth rates and conditions monitored.
-\item Inaccuracies and differences in the proteomic analysis procedures.
-\item Usage of different strains.
-\item In many studies the amount of ribosomes is deduced by measuring the RNA to protein ratio, assuming a relatively fixed portion of the RNA is rRNA.
-In our study, in contrast, ribosomal proteins are used as a proxy for estimating ribosomes concentration and, moreover, the RNA to Protein ratio is assumed to be constant.
-Therefore, and as it is known that ribosomes can operate even in the absence of some ribosomal proteins, such differences in manner of inference can account for some of the differences encountered.
-\end{enumerate}
-
-\clearpage
-
 \subsection*{S6 Fig}
 \label{fig:randpred}
-%\begin{figure}[h]
-%\begin{center}
-%\includegraphics[width=1\columnwidth]{../RandEstimateHeinemann.pdf}
-%\caption{
     {\bf The fraction out of the proteome of proteins that are not differentially regulated between conditions can be predicted by referencing other such proteins.}
   A selection of random predictions of protein fractions from the highly correlated with growth rate group, taken from the data set of \cite{Schmidt2015}.
   Each panel shows the average fraction of 10 random proteins that are highly correlated with growth (blue dots), a regression line that best fits the data, and the fraction of a different random protein (green dots).
   The $R^2$ value for the trend line and the different protein is given.
-%
-%}
-%\end{center}
-%\end{figure}
-
-\clearpage
-
 \subsection*{S1 Table}
 \bf Breakdown by function of strongly positively correlated with growth rate proteins in the data set from \cite{Schmidt2015}.
 \label{tab:corrbreakdownh}
-\resizebox{\textwidth}{!}{
-\pgfplotstabletypeset[
-col sep=semicolon,
-columns/Function/.style={string type,column type=l},
-columns/totPrctP/.style={column name={$\%$ of proteome}},
-columns/corPrctP/.style={column name={Correlated $\%$ of proteome}},
-]{funcsHeinemann.csv}
-}
-
-\clearpage
-
 \subsection*{S2 Table}
 \bf Breakdown by function of strongly positively correlated with growth rate proteins in the data set from \cite{Peebo_2015}.
 \label{tab:corrbreakdownv}
-\resizebox{\textwidth}{!}{
-\pgfplotstabletypeset[
-col sep=semicolon,
-columns/Function/.style={string type,column type=l},
-columns/totPrctP/.style={column name={$\%$ of proteome}},
-columns/corPrctP/.style={column name={Correlated $\%$ of proteome}},
-]{funcsPeebo.csv}
-}
-
-\clearpage
-
 \subsection*{S7 Fig}
 \label{fig:ribsnonribs}
-%\begin{figure}[h]
-%\begin{center}
-%\includegraphics[width=1\columnwidth]{../RibsVsGlob.pdf}
-%\caption{
     {\bf Ribosomal proteins scale similarly to non-ribosomal proteins that are strongly positively correlated with growth rate.}
  The scaling with growth rate of ribosomal proteins and non-ribosomal, but highly correlated with growth rate proteins is shown.
 Comparing the normalized sum of ribosomal proteins to the normalized sum of the positively correlated with growth rate proteins that are non-ribosomal shows that these two groups scale in a similar way with the growth rate.
 Trend lines for the two groups of proteins are plotted.
-%
-%}
-%\end{center}
-%\end{figure}
-
-\clearpage
-
 \subsection*{S8 Text}
 \label{scottcompare}
-\paragraph{Comparison of the passive resource allocation model to other recent models}
-In \cite{Scott2010,Scott2011,Scott2014} and \cite{Hui_2015}, a sectioning model of the proteome is presented.
-According to these models, the proteome is roughly divided to sectors with the main sectors being a $Q$ sector that is unaffected by growth rate, an $R$ sector composed of ribosomal proteins and translation related proteins, and a $P$ sector composed of metabolic proteins including catabolic and anabolic enzymes (the $P$ sector can be further sub-divided according to the specific metabolic tasks groups of proteins perform).
-In this model, a specific protein may belong to more than one sector, where, for example, if protein $P_i$ has a minimal value $P_i^{\min}$, then that fraction can be accounted for in sector $Q$, and only the changing fraction will be accounted for in sector $R$ or sector $P$, according to $P_i$'s function.
-The main point of the model is that different triggers may increase or decrease the expression of entire sectors, thus serving as global, or master, regulators.
-The model thus allows one to get an overview of the entire proteome as a result of the state of a few master regulators.
-
-The model presented here takes a different approach.
-It does not classify proteins according to major classes, though it does not assume such classification does not exist.
-It mainly focuses on the consequences of actively regulating some proteins (be it a small number of highly expressed proteins, or a large number of proteins) on the proteins that are not being actively regulated.
-Our model therefore aggregates all non-actively regulated proteins between two specific conditions into one group, $A$, and all the regulated proteins between these two conditions into another group, $B$ (where the inclusion of each protein in any of these groups depends on the specific pair of conditions considered).
-Our model then suggests that all of the proteins in group $A$, despite not being actively regulated, may still occupy different fractions out of the proteome between the two conditions, if the active regulation of the proteins in $B$ changes the overall expression of $B$ (noting that proteins in $B$ may either be up regulated or down regulated, so their total sum may either increase, decrease, or remain the same between the two conditions observed).
-
-To summarize, where the models from \cite{Scott2010,Scott2011,Scott2014} and \cite{Hui_2015} focus on what classes of proteins exist, what are the master regulators, and how are they used to achieve optimal growth, the model presented here focuses on global patterns that passively emerge due to specific regulation on specific genes (be it regulation that is targeted at only a small number of genes, or a large group of genes), exposing the fact that positive correlation of protein fraction with growth rate can be an emerging property, not requiring active regulation of the positively correlated proteins.
-
-\clearpage
-
 \subsection*{S8 Fig}
 \label{fig:shuffledexpvar}
-%\begin{figure}[h]
-%\begin{center}
-%\includegraphics[width=1\columnwidth]{../shuffleExpVar3.pdf}
-%\caption{
     {\bf Fraction of explained variability by linear regression on the group of strongly positively correlated with growth rate proteins for the shuffled data sets.}
 The maximal explained variability in these data sets is significantly smaller than in the real data sets
-%
-%}
-%\end{center}
-%\end{figure}
-
-\clearpage
-
 \subsection*{S9 Fig}
 \label{fig:simulated}
-%\begin{figure}[h]
-%\begin{center}
-%\includegraphics[width=1\columnwidth]{../HeinemannsimulatedsummaryHistAndGr.pdf}
-%\caption{
     {\bf A simulated data set, assuming half of the proteins are perfectly correlated with growth rate and half are fixed, with simulated noise level of $25\%$.}
 Average protein fractions, growth rates and normalized slope of the correlated proteins are based on the data set from \cite{Schmidt2015}.
 The normalized intercept of the correlated proteins was set to $0.5$ in accordance with the intercept found in the original data analysis.
 The results are similar to those obtained for the real data set, showing that, given the experimental noise, identical coordination with growth rate of half of the proteins would result in similar outcomes to those observed in the data sets we use.%
-%}
-%\end{center}
-%\end{figure}
-
-
-\clearpage
 
 \end{document}
 
